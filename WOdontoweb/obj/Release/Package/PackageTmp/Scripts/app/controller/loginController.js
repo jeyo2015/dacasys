@@ -1,0 +1,172 @@
+﻿app.controller("loginController", function (loginService, $scope, $rootScope) {
+    init();
+
+    function init() {
+        $scope.loginEmpresa = "";
+        $scope.usuario = "";
+        $scope.pass = "";
+        $scope.isAdmin = true;
+        $scope.isUser = -1;
+        $scope.newPass = "";
+        $scope.ConfirmPass = "";
+        $scope.message = "";
+        // $('#modal-login').modal('show');
+        loginService.getSessionDto().then(function (result) {
+            $rootScope.sessionDto = result;
+            if ($rootScope.sessionDto.ChangePass) {
+                $scope.showMessage = false;
+                $('#modal-renovar').modal('show');
+            }
+
+        });
+    };
+    $rootScope.cerrarSesion = function (e) {
+        e.preventDefault();
+        loginService.cerrarSesion().then(function (result) {
+            $rootScope.sessionDto = result;
+
+        });
+    }
+    $rootScope.showModal = function (e) {
+        e.preventDefault();
+        $scope.loginEmpresa = "";
+        $scope.usuario = "";
+        $scope.pass = "";
+        $scope.isAdmin = true;
+        $scope.isUser = -1;
+        $scope.message = "";
+        if ($rootScope.sessionDto.loginUsuario == "")
+            $('#modal-login').modal('show');
+    }
+
+    $scope.ingresar = function () {
+        var verificar = loginService.logIn($scope.loginEmpresa, $scope.usuario, $scope.pass);
+
+        verificar.then(function (result) {
+            $rootScope.sessionDto = result.Data;
+            $scope.message = result.Message;
+
+            switch ($rootScope.sessionDto.Verificar) {
+                case 1:
+                    $("#consultorioID").focus();
+                    $scope.loginEmpresa = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+                case 0:
+                    $("#consultorioID").focus();
+                    $scope.loginEmpresa = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+                case 2:
+                    $("#usuarioID").focus();
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+                case 4:
+                    $("#passwordID").focus();
+
+                    $scope.pass = "";
+                    break;
+                case 3:
+                    $('#modal-login').modal('hide');
+                    if ($rootScope.sessionDto.ChangePass) {
+                        $('#modal-renovar').modal('show');
+                        $scope.showMessage = false;
+                    }
+                    break;
+            }
+
+        });
+
+    };
+
+    $scope.renovarContrasena = function () {
+        if ($scope.isAdmin) {
+            if ($scope.loginEmpresa.length == 0) {
+                $scope.message = "Ingrese consultorio por favor";
+                $rootScope.sessionDto.Verificar = 1;
+                $("#consultorioID").focus();
+                return;
+            }
+        }
+        if ($scope.usuario.length == 0) {
+            $scope.message = "Ingrese su login de usuario por favor";
+            $rootScope.sessionDto.Verificar = 2;
+            $("#usuarioID").focus();
+            return;
+        }
+
+        loginService.forgotPass($scope.loginEmpresa, $scope.usuario).then(function (result) {
+            $scope.message = result.Message;
+
+            switch (result.Data) {
+                case 3:
+                    toastr.success(result.Message);
+                    $scope.loginEmpresa = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    $('#modal-login').modal('hide');
+                    break;
+                case 2:
+                    toastr.error(result.Message);
+                    $scope.loginEmpresa = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+                case 1:
+                    $scope.sessionDto.Verificar = 2;
+
+                    $("#usuarioID").focus();
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+                case 0:
+                    $scope.sessionDto.Verificar = 1;
+                    $("#consultorioID").focus();
+                    $scope.loginEmpresa = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
+                    break;
+
+            }
+        });
+    }
+    $scope.changePassUser = function () {
+        if ($scope.newPass != $scope.ConfirmPass) {
+            $scope.message = "Las contrasenas no coinciden";
+            $scope.newPass = "";
+            $scope.ConfirmPass = "";
+            $scope.showMessage = true;
+            $("#newPasswordID").focus();
+            return;
+        }
+        if ($scope.newPass.length <= 3) {
+            $scope.message = "Contrasena muy corta, debe ser mayor a 4 caracteres";
+            $scope.newPass = "";
+            $scope.ConfirmPass = "";
+            $scope.showMessage = true;
+            $("#newPasswordID").focus();
+            return;
+        }
+
+        loginService.renovarContrasena($scope.isAdmin, $scope.usuario, $scope.newPass, $scope.loginEmpresa).then(function (result) {
+            if (result.Data == 1) {
+                toastr.success(result.Message);
+            } else {
+                toastr.error(result.Message);
+            }
+            $('#modal-renovar').modal('hide');
+            $scope.newPass = "";
+            $scope.ConfirmPass = "";
+        });
+
+
+    }
+    $scope.validarCampos = function () {
+        if ($scope.isAdmin) {
+            return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa == 0;
+        } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
+    }
+});

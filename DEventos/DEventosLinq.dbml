@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db_dentista" Class="DEventosLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True" SettingsObjectName="DEventos.Properties.Settings" SettingsPropertyName="db_dentistaConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.LogErrores" Member="LogErrores">
+    <Type Name="LogErrores">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FechaHora" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Bitacora" Member="Bitacora">
+    <Type Name="Bitacora">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FechaHora" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IDUsuario" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ParametroSistemas" Member="ParametroSistemas">
+    <Type Name="ParametroSistemas">
+      <Column Name="IDParametro" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Elemento" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ValorS" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="ValorI" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

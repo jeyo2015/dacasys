@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DFacturacionLinq">
+  <DataContextMoniker Name="/DFacturacionLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="6ee9c811-0390-41b1-bb1b-6af089e55d39" absoluteBounds="2.125, 0.5, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/DFacturacionLinqDataContext/factura_odontoweb" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ab044125-6aad-474e-b973-4bfcf4a397c8" absoluteBounds="2.1399999999999997, 0.96, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7e333877-4b9f-4481-82ab-b15f1d2b6300" absoluteBounds="5.25, 1.125, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DFacturacionLinqDataContext/Dosificacion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d687fa5a-3195-4089-bf88-2393dc17eaa1" absoluteBounds="5.265, 1.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="802eb21a-488b-4b56-ad5d-395407b493dc" absoluteBounds="4.375, 3.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/DFacturacionLinqDataContext/ParametroSistemas" />
+      <nestedChildShapes>
+        <elementListCompartment Id="48bb851b-5b93-4f58-b68d-963c1430b47f" absoluteBounds="4.39, 4.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

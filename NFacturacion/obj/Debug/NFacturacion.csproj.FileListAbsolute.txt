@@ -1,0 +1,60 @@
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NFacturacion.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NFacturacion.pdb
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DataTableConverter.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DFacturacion.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NEventos.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DEventos.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DFacturacion.pdb
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NEventos.pdb
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DEventos.pdb
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\ResolveAssemblyReference.cache
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\NFacturacion.dll
+E:\DACASYS\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NFacturacion.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DataTableConverter.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NEventos.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DEventos.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\NEventos.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\bin\Debug\DEventos.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\NFacturacion.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\NFacturacion\obj\Debug\NFacturacion.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\NFacturacion.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\NFacturacion.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\DataTableConverter.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\DFacturacion.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\NEventos.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\DEventos.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\DFacturacion.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\NEventos.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\bin\Debug\DEventos.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\obj\Debug\NFacturacion.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\NFacturacion\obj\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\NFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\DataTableConverter.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\NEventos.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\DEventos.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\NEventos.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\bin\Debug\DEventos.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\obj\Debug\NFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\NFacturacion\obj\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\NFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\NFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\DataTableConverter.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\NEventos.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\DEventos.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\NEventos.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\bin\Debug\DEventos.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\obj\Debug\NFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NFacturacion\obj\Debug\NFacturacion.pdb

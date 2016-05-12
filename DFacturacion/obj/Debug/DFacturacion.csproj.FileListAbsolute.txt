@@ -1,0 +1,28 @@
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.dll.config
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.dll
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.pdb
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\obj\Debug\ResolveAssemblyReference.cache
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\obj\Debug\DFacturacion.dll
+E:\DACASYS\Dentista_bk_2013.08.12\DFacturacion\obj\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.dll.config
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\DFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\DFacturacion\obj\Debug\DFacturacion.dll
+C:\Users\Geovanna\Downloads\Dentista_bk_2013.08.12\Dentista_bk_2013.08.12\DFacturacion\obj\Debug\DFacturacion.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\DFacturacion\bin\Debug\DFacturacion.dll.config
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\DFacturacion\bin\Debug\DFacturacion.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\DFacturacion\bin\Debug\DFacturacion.pdb
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\DFacturacion\obj\Debug\DFacturacion.dll
+E:\DACASYS\MediWeb\Dentista_bk_2016.02.05\DFacturacion\obj\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\bin\Debug\DFacturacion.dll.config
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\obj\Debug\DFacturacion.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\obj\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\obj\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.dll.config
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.pdb

@@ -1,0 +1,84 @@
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+ 
+    <div class="col-md-4 col-md-offset-1">
+        <div class="row">
+            <div class="form-group">
+                <label for="buscarRolID">Buscar:</label>
+                <input ng-model="subString" type="text" class="form-control" id="buscarRolID" placeholder="Buscar">
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-hover tableStyle">
+                <thead>
+                    <tr>
+                        <th>Roles del consultorio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="rol in allRoles  " ng-click="selectRol(rol)">
+                        <td>{{rol.Nombre}}
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <button class="btn btn-primary" ng-click="openModalNewRol()">Nuevo Rol</button>
+              <button class="btn btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="rolSelected==null">Eliminar Rol</button>
+        </div>
+
+    </div>
+    <div class="col-md-7">
+        {{rolSelected.Nombre}}
+
+    </div>
+
+    <div class="modal fade" id="new-rol" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Crear nuevo rol</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="consultorioID">Nombre del rol:</label>
+                                <input ng-model="nombrerol" type="text" class="form-control" id="consultorioID" placeholder="Consultorio">
+                                <span style="color: red; font-size: 10px" ng-show="message.length>0" >{{message}} </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="crearNewRol()" ng-disabled="nombrerol.length==0">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal fade" id="confirm-delete" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar Rol</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Esta seguro que quiere eliminar el rol {{ rolSelected.Nombre }}?</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="EliminarRol()">Si</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig()" >No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
