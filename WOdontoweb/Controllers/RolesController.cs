@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Herramientas;
 using NLogin;
 using RMTools.UI.Models;
 namespace WOdontoweb.Controllers
@@ -72,5 +73,16 @@ namespace WOdontoweb.Controllers
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ModificarPermisos(List<ModulosTree> modulos, int pIDRol)
+        {
+            var insert = gABMRol.ModificarPermisos(modulos, pIDRol);
+            var result = new ResponseModel()
+            {
+                Message = insert? "Se guardaron los cambios" : "Hubo un error, por favor intente mas tarde",
+                Data = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

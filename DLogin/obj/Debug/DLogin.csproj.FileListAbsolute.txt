@@ -714,4 +714,3 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DLogin\
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DLogin\bin\Debug\DLogin.pdb
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DLogin\obj\Debug\DLogin.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DLogin\obj\Debug\DLogin.pdb
-C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DLogin\obj\Debug\DLogin.csprojResolveAssemblyReference.cache

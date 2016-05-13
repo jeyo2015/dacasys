@@ -13,6 +13,13 @@
         });
         return d.promise;
     };
+    this.modificarPermisos = function (modulosTree, pIdrol) {
+        var d = $q.defer();
+        $http.post('Roles/ModificarPermisos', { modulos: modulosTree, pIDRol: pIdrol }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.eliminarRol = function (idRol) {
         var d = $q.defer();
         $http.post('Roles/EliminarRol', { idRol: idRol }).success(function (data) {

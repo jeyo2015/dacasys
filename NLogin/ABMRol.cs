@@ -613,7 +613,7 @@ namespace NLogin
                     new ModulosTree()
                     {
                         ID = x.ID,
-                        IsChecked = isComponenteChecked(x.ID,pRolID),
+                        IsChecked = isComponenteChecked(x.ID, pRolID),
                         Nombre = x.Nombre,
                         Hijos = new List<ModulosTree>(),
                         IsCollapsed = false
@@ -639,7 +639,128 @@ namespace NLogin
                             }).ToList();
         }
 
-        public bool isModuloChecked(int pModuloId, int pRolId) {
+        public bool ModificarPermisos(List<ModulosTree> modulos, int pIDRol)
+        {
+            //  var isDone = true;
+            foreach (var modulo in modulos)
+            {
+                if (modulo.IsChecked)
+                    InsertarModulo(modulo, pIDRol);
+                else
+                    DeleteModulo(modulo, pIDRol);
+                if (modulo.Hijos != null)
+                    foreach (var formulario in modulo.Hijos)
+                    {
+                        if (formulario.IsChecked)
+                            Insertarformulario(formulario, pIDRol);
+                        else
+                            Deleteformulario(formulario, pIDRol);
+                        if (formulario.Hijos != null)
+                            foreach (var componente in formulario.Hijos)
+                            {
+                                if (componente.IsChecked)
+                                    InsertarComponente(componente, pIDRol);
+                                else
+                                    DeleteComponente(componente, pIDRol);
+                            }
+                    }
+            }
+            try
+            {
+                gDc.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                gCe.Insertar("NLogin", "ABMRol", "ModificarPermisos", ex);
+                return false;
+            }
+        }
+
+        private void DeleteComponente(ModulosTree componente, int pIDRol)
+        {
+            var rc = (from cr in gDc.Rol_Componente
+                      where cr.ID_Componente == componente.ID
+                          && cr.ID_Rol == pIDRol
+                      select cr).FirstOrDefault();
+            if (rc != null)
+            {
+                gDc.Rol_Componente.DeleteOnSubmit(rc);
+            }
+        }
+
+        private void InsertarComponente(ModulosTree componente, int pIDRol)
+        {
+            var rc = (from cr in gDc.Rol_Componente
+                      where cr.ID_Componente == componente.ID
+                          && cr.ID_Rol == pIDRol
+                      select cr).FirstOrDefault();
+            if (rc == null)
+            {
+                Rol_Componente rfor = new Rol_Componente();
+                rfor.ID_Rol = pIDRol;
+                rfor.ID_Componente = componente.ID;
+                gDc.Rol_Componente.InsertOnSubmit(rfor);
+            }
+        }
+
+        private void Deleteformulario(ModulosTree formulario, int pIDRol)
+        {
+            var rf = (from fr in gDc.Rol_Formulario
+                      where fr.IDFormulario == formulario.ID
+                      && fr.IDRol == pIDRol
+                      select fr).FirstOrDefault();
+            if (rf != null)
+            {
+                gDc.Rol_Formulario.DeleteOnSubmit(rf);
+            }
+        }
+
+        private void Insertarformulario(ModulosTree formulario, int pIDRol)
+        {
+            var rf = (from fr in gDc.Rol_Formulario
+                      where fr.IDFormulario == formulario.ID
+                      && fr.IDRol == pIDRol
+                      select fr).FirstOrDefault();
+            if (rf == null)
+            {
+                Rol_Formulario rfor = new Rol_Formulario();
+                rfor.IDRol = pIDRol;
+                rfor.IDFormulario = formulario.ID;
+                gDc.Rol_Formulario.InsertOnSubmit(rfor);
+            }
+        }
+
+        private void DeleteModulo(ModulosTree modulo, int pIDRol)
+        {
+            var rm = (from mr in gDc.Rol_Modulo
+                      where mr.IDRol == pIDRol &&
+                      mr.IDModulo == modulo.ID
+                      select mr).FirstOrDefault();
+            if (rm != null)
+            {
+
+                gDc.Rol_Modulo.DeleteOnSubmit(rm);
+            }
+        }
+
+        private void InsertarModulo(ModulosTree modulo, int pIDRol)
+        {
+            var query = (from mr in gDc.Rol_Modulo
+                         where mr.IDRol == pIDRol &&
+                         mr.IDModulo == modulo.ID
+                         select mr).FirstOrDefault();
+            if (query == null)
+            {
+                Rol_Modulo mr = new Rol_Modulo();
+                mr.IDModulo = modulo.ID;
+                mr.IDRol = pIDRol;
+                gDc.Rol_Modulo.InsertOnSubmit(mr);
+            }
+
+        }
+        public bool isModuloChecked(int pModuloId, int pRolId)
+        {
 
             return (from mr in gDc.Rol_Modulo
                     where mr.IDModulo == pModuloId
@@ -675,7 +796,7 @@ namespace NLogin
                         new ModulosTree()
                         {
                             ID = x.ID,
-                            IsChecked =  isModuloChecked(x.ID, pRolID),
+                            IsChecked = isModuloChecked(x.ID, pRolID),
                             Nombre = x.Nombre,
                             Hijos = getFormularios(pRolID, x.ID),
                             IsCollapsed = false

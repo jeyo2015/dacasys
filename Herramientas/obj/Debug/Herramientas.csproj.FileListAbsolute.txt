@@ -309,4 +309,3 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herrami
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\bin\Debug\Herramientas.pdb
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Debug\Herramientas.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Debug\Herramientas.pdb
-C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache

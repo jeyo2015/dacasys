@@ -34,36 +34,43 @@
 
     </div>
     <div class="col-md-7 ">
-        {{rolSelected.Nombre}}
-         <ul class="nav nav-list" style="max-height: 380px; overflow-y: auto;padding-left: 20px;">
-             <li ng-repeat=" modulo in modulosAsignados ">
-                 <i class=" fa fa-plus-square" data-ng-show="modulo.Hijos.length && modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
-                 <i class="fa fa-minus-square" data-ng-show="modulo.Hijos.length && !modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
+        <div class="row">
+            {{rolSelected.Nombre}}
+        </div>
+        <div class="row col-md-10 " style="height: 370px">
 
-                 <label style="padding-left:10px">
-                     <input ng-model="modulo.IsChecked" type="checkbox"><span class="check"></span> {{modulo.Nombre}}
-                 </label>
 
-                 <ul data-ng-hide="modulo.IsCollapsed" class="nav nav-list tree">
-                     <li style="padding-left: 15px;" ng-repeat=" formulario in modulo.Hijos ">
-                         <i class=" fa fa-plus-square" data-ng-show="formulario.Hijos.length && formulario.IsCollapsed " data-ng-click="selectNodeHead(formulario)"></i>
-                         <i class="fa fa-minus-square " data-ng-show="formulario.Hijos.length && !formulario.IsCollapsed " data-ng-click="selectNodeHead(formulario)"></i>
-                         <label style="padding-left:15px">
-                             <input ng-model="formulario.IsChecked" type="checkbox"><span class="check"></span> {{formulario.Nombre}}
-                         </label>
-                         <ul data-ng-hide="formulario.IsCollapsed">
-                             <li class="nav nav-list tree" style="padding-left: 10px;" ng-repeat=" componente in formulario.Hijos ">
-                                 <label style="padding-left:10px">
-                                     <input ng-model="componente.IsChecked" type="checkbox"><span class="check"></span> {{componente.Nombre}}
-                                 </label>
-                             </li>
-                         </ul>
-                     </li>
-                 </ul>
-             </li>
 
-         </ul>
+            <ul class="nav nav-list" style="max-height: 380px; overflow-y: auto; padding-left: 20px;">
+                <li ng-repeat=" modulo in modulosAsignados ">
+                    <i class=" fa fa-plus-square" data-ng-show="modulo.Hijos.length && modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
+                    <i class="fa fa-minus-square" data-ng-show="modulo.Hijos.length && !modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
 
+                    <label style="padding-left: 10px">
+                        <input ng-model="modulo.IsChecked" type="checkbox"><span class="check"></span> {{modulo.Nombre}}
+                    </label>
+
+                    <ul data-ng-hide="modulo.IsCollapsed" class="nav nav-list tree">
+                        <li style="padding-left: 15px;" ng-repeat=" formulario in modulo.Hijos ">
+                            <i class=" fa fa-plus-square" data-ng-show="formulario.Hijos.length && formulario.IsCollapsed " data-ng-click="selectNodeHead(formulario)"></i>
+                            <i class="fa fa-minus-square " data-ng-show="formulario.Hijos.length && !formulario.IsCollapsed " data-ng-click="selectNodeHead(formulario)"></i>
+                            <label style="padding-left: 15px">
+                                <input ng-model="formulario.IsChecked" type="checkbox"><span class="check"></span> {{formulario.Nombre}}
+                            </label>
+                            <ul data-ng-hide="formulario.IsCollapsed">
+                                <li class="nav nav-list tree" style="padding-left: 10px;" ng-repeat=" componente in formulario.Hijos ">
+                                    <label style="padding-left: 10px">
+                                        <input ng-model="componente.IsChecked" type="checkbox"><span class="check"></span> {{componente.Nombre}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <button class="btn btn-raised btn-primary" ng-disabled="rolSelected==null" ng-click="modificarPermisos()">Guardar Cambios</button>
     </div>
 
     <div class="modal fade" id="new-rol" role="dialog">

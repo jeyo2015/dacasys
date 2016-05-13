@@ -753,29 +753,6 @@ namespace NLogin
 
 
         /// <summary>
-        /// Devuelve en un STRING todos los telefonos de un consultorio (NUMERO - NOMBRE)
-        /// </summary>
-        /// <param name="pIdEmpresa">ID del consultorio</param>
-        /// <returns>String </returns>
-        //public String Get_TelefonosStringp(int pIdEmpresa)
-        //{
-        //    String vStelefonos = "";
-        //    DataTable vTelefonos = this.Get_Telefonosp(pIdEmpresa);
-        //    for (int i = 0; i < vTelefonos.Rows.Count; i++)
-        //    {
-        //        vStelefonos = vStelefonos + vTelefonos.Rows[i][0].ToString();
-        //        if (i < (vTelefonos.Rows.Count - 1))
-        //        {
-        //            vStelefonos = vStelefonos + " - ";
-        //        }
-        //    }
-        //    if (vStelefonos.Length == 0)
-        //        return "Sin Numero  ";
-        //    else
-        //        return vStelefonos + "  ";
-
-        //}
-        /// <summary>
         /// Proceso que verifica si la licencia de un consultorio esta vencida
         /// </summary>
         /// <param name="pIDEmpresa">ID del consultorio</param>
@@ -929,71 +906,9 @@ namespace NLogin
                 gCe.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
             }
         }
-        /// <summary>
-        /// Modifica los telefonos de un consultorio
-        /// </summary>
-        /// <param name="pIDEmpresa">ID del consultorio</param>
-        /// <param name="pTelefonos">Array con los telefonos</param>
-        /// <param name="pIDUsuario">ID del usuario</param>
-        //private void Modificar_Telefonos(int pIDEmpresa, string[] pTelefonos, string pIDUsuario)
-        //{
-        //    var telefonos = from tel in gDc.Telefono
-        //                    where tel.IDConsultorio == pIDEmpresa && tel.Estado == true
-        //                    select tel;
-        //    if (telefonos.Count() > 0)
-        //    {
-        //        foreach (var tel in telefonos)
-        //        {
-        //            gDc.Telefono.DeleteOnSubmit(tel);
-        //            try
-        //            {
-        //                gDc.SubmitChanges();
-        //            }
-        //            catch
-        //            {
+        
 
-        //            }
-        //        }
-
-        //    }
-
-        //    foreach (String vTelnew in pTelefonos)
-        //    {
-        //        string[] vNumName = vTelnew.Split('-');
-        //        Telefono vtel = new Telefono();
-        //        vtel.Estado = true;
-        //        vtel.IDConsultorio = pIDEmpresa;
-        //        vtel.Telefono1 = vNumName[0].Trim();
-        //        vtel.Nombre = vNumName[1].Trim();
-        //        gDc.Telefono.InsertOnSubmit(vtel);
-        //        try
-        //        {
-        //            gDc.SubmitChanges();
-        //            gCb.Insertar("Se inserto un nuevo telefono", pIDUsuario);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            gCe.Insertar("NLogin", "ABMEmpresa", "Modificar_Tefonos", ex);
-        //        }
-        //    }
-
-        //}
-
-        /// <summary>
-        /// Elimina los telefonos de ua empresa
-        /// </summary>
-        /// <param name="pID">ID de la empresa</param>
-        //private void Delete_telefonos(int pID)
-        //{
-        //    var telefonos = from t in gDc.Telefono
-        //                    where t.IDConsultorio == pID
-        //                    select t;
-        //    foreach (Telefono t in telefonos)
-        //    {
-        //        gDc.Telefono.DeleteOnSubmit(t);
-        //        gDc.SubmitChanges();
-        //    }
-        //}
+       
         /// <summary>
         /// Amplia Licencia de una empresa
         /// </summary>

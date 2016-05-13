@@ -60,6 +60,18 @@
 
         });
     }
+    $scope.modificarPermisos = function () {
+        rolesService.modificarPermisos($scope.modulosAsignados, $scope.rolSelected.ID).then(function (result) {
+            if (result.Data ) {
+             
+                toastr.success(result.Message);
+                cargar_todos_los_roles();
+            } else {
+                toastr.error(result.Message);
+            }
+
+        });
+    }
     $scope.selectNodeHead = function (tree) {
         tree.IsCollapsed = !tree.IsCollapsed;
     }

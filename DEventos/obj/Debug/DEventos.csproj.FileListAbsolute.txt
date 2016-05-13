@@ -732,4 +732,3 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DEvento
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DEventos\bin\Debug\DEventos.pdb
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DEventos\obj\Debug\DEventos.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DEventos\obj\Debug\DEventos.pdb
-C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DEventos\obj\Debug\DEventos.csprojResolveAssemblyReference.cache
