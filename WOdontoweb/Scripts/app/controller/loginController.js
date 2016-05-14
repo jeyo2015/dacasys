@@ -1,4 +1,4 @@
-﻿app.controller("loginController", function (loginService, $scope, $rootScope, $location, usuariosService) {
+﻿app.controller("loginController", function (loginService, $scope, $rootScope, $location, usuariosService, notificacionesConsultorioService) {
     init();
 
     function init() {
@@ -18,9 +18,17 @@
                 $('#modal-renovar').modal('show');
                 prepararNuevoUsuario();
             }
+            getNotificaciones();
 
         });
     };
+
+    function getNotificaciones() {
+        if ($rootScope.sessionDto.IDConsultorio != -1)
+            notificacionesConsultorioService.getSolicitudesPacientes($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
+                $rootScope.NotificacionesConsultorio = result;
+            });
+    }
     $rootScope.cerrarSesion = function (e) {
         e.preventDefault();
         loginService.cerrarSesion().then(function (result) {
@@ -40,7 +48,7 @@
             $('#modal-login').modal('show');
     }
     function prepararNuevoUsuario() {
-    $scope.userToSave = {
+        $scope.userToSave = {
             Nombre: angular.copy($rootScope.sessionDto.Nombre),
             Login: angular.copy($rootScope.sessionDto.Login),
             Password: "",
@@ -58,7 +66,7 @@
             console.log($scope.userToSave);
             $('#modal-mi-perfil').modal('show');
         });
-        
+
     }
     $scope.ingresar = function () {
         var verificar = loginService.logIn($scope.loginEmpresa, $scope.usuario, $scope.pass);
@@ -96,6 +104,7 @@
                         $('#modal-renovar').modal('show');
                         $scope.showMessage = false;
                     }
+                    getNotificaciones();
                     break;
             }
 
@@ -225,8 +234,8 @@
         if ($scope.userToSave) {
             return $scope.userToSave.Nombre.length == 0 || $scope.userToSave.Password.length == 0 || $scope.userToSave.ConfirmPass.length == 0;
         } else return false;
-       
-       
+
+
     }
     $scope.closeModal = function (nameModal) {
         $(nameModal).modal('hide');

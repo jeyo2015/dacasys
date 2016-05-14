@@ -100,8 +100,19 @@ namespace Herramientas
         public bool IsCollapsed { get; set; }
     }
 
-    public class ListModulesTree{
-       public List<ModulosTree> Modules { get; set; }
+    public class NotificacionesConsultorioDto {
+        public int IDNotificacion { get; set; }
+        public int IDConsultorio { get; set; }
+        public string NombreUsuario { get; set; }
+        public int TipoNotificacion { get; set; }
+        public string LoginUsuario { get; set; }
+        public DateTime FechaNotificacion { get; set; }
+        public int EstadoNotificacion { get; set; }
+
+    }
+    public class NotificacionesConsultorioNewDto {
+        public List<NotificacionesConsultorioDto> Notificaciones { get; set; }
+        public int CantidadNuevasNotificaciones { get; set; }
     }
     
 }

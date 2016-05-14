@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\NotificacionConsultorioController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -214,6 +215,8 @@
     <Content Include="Content\fontAwesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
+    <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
+    <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\app\app.js" />
@@ -243,6 +246,7 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\snackbar.min.js" />
     <Content Include="Scripts\toastr.css" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Web.config" />

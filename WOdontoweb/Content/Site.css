@@ -336,7 +336,7 @@ header
                 font-size: 16px;
             }
 
-    .top-bar span
+/*.top-bar span
     {
         font-weight: 400;
         font-size: 16px;
@@ -344,8 +344,29 @@ header
         color: #fff;
         margin: 14px 0 0 0;
         float: left;
-    }
+    }*/
 
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 2px 5px;
+   
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+.badgePosition
+{
+    background-color: red;
+    font-size: 10px;
+    margin-left: -17px;
+    margin-top: -21px;
+}
 .iconStyle
 {
     font-size: 18px;

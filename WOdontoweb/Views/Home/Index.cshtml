@@ -37,7 +37,7 @@
                     <div class="row">
 
                         <div class="col-xs-3 col-md-3">
-                            <span>.:: ODONTOWEB ::.</span>
+                            
                         </div>
 
                         <div class="col-xs-9 col-md-9">
@@ -49,13 +49,21 @@
                                     <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            @*<li style="border:none"> <a " href="#"  style="color: #000;padding-top: 7px;padding-bottom: 7px;">{{sessionDto.Nombre}}</a></li>*@
-                                            <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#" >{{sessionDto.Nombre}}</a></li>
-                                            @* <li class="divider"></li>*@
-                                            <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#" >Cerrar Sesion</a></li>
+                                            <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
+                                            <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>
                                         </ul>
 
                                     </li>
+                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
+                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                            <li ng-repeat =" noti in NotificacionesConsultorio.Notificaciones" class="withoutborder"><a href="#">
+                                                {{noti.NombreUsuario}} </a></li>
+                                         
+                                        </ul>
+
+                                    </li>
+                                    @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
+
                                 </ul>
 
                                 @*  <ul class="social-icons">
@@ -181,8 +189,11 @@
 
                                     </div>
                                     <div class="checkbox" style="margin-top: 20px">
-                                        <label>
-                                            <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Administrador
+                                        <label  ng-show="isAdmin">
+                                            <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Paciente
+                                        </label>
+                                        <label  ng-show="!isAdmin">
+                                            <input  ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Doctor
                                         </label>
 
                                     </div>
@@ -299,7 +310,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="confirmPasswordPerfilID"  class="col-md-3 control-label">Repita Contrasena</label>
+                                        <label for="confirmPasswordPerfilID" class="col-md-3 control-label">Repita Contrasena</label>
 
                                         <div class="col-md-9">
                                             <input type="password" ng-model="userToSave.ConfirmPass" class="form-control col-md-12" id="confirmPasswordPerfilID">
@@ -324,10 +335,10 @@
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
-    <script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
+    <script src=" @Url.Content("~/Scripts/snackbar.min.js")"></script>
+    <script src=" @Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
 
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
+   
     <script src=" @Url.Content("~/Scripts/angular.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/app.js")"></script>
     <script src=" @Url.Content("~/Content/Wodonto.js")"></script>
@@ -343,6 +354,7 @@
     <script src=" @Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/services/clinicaService.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
+    <script src=" @Url.Content("~/Scripts/app/services/notificacionesConsultorioService.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
         type="text/javascript"></script>
 
