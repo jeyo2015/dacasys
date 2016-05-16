@@ -45,6 +45,81 @@ namespace NLogin
             };
         }
 
+        public bool DeshabilitarNuevasNotificaciones(int pIDConsultorio, int pIDTipoNotificacion)
+        {
+            var query = (from no in gDc.NotificacionConsultorio
+                         where no.IDConsultorio == pIDConsultorio
+                         && no.TipoNotificacion == pIDTipoNotificacion
+                         && no.Estado == 1
+                         select no).ToList();
+
+
+            foreach (var notificacion in query)
+            {
+                notificacion.Estado = 2;
+
+            }
+            try
+            {
+                gDc.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "DeshabilitarNuevasNotificaciones", ex);
+                return false;
+            }
+        }
+        public bool AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+        {
+            var query = (from cp in gDc.Empresa_Cliente
+                         where cp.id_empresa == pNotificacionPaciente.IDConsultorio
+                         && cp.id_usuariocliente == pNotificacionPaciente.LoginUsuario
+                         select cp).FirstOrDefault();
+            if (query == null)
+            {
+                Empresa_Cliente ep = new Empresa_Cliente();
+                ep.id_usuariocliente = pNotificacionPaciente.LoginUsuario;
+                ep.id_empresa = pNotificacionPaciente.IDConsultorio;
+                gDc.Empresa_Cliente.InsertOnSubmit(ep);
+                var notificacion = (from no in gDc.NotificacionConsultorio
+                                    where no.ID == pNotificacionPaciente.IDNotificacion
+                                    select no).FirstOrDefault();
+                if (notificacion != null)
+                    notificacion.Estado = 0;
+            }
+
+            try
+            {
+                gDc.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                return false;
+            }
+        }
+        public bool CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+        {
+
+            var notificacion = (from no in gDc.NotificacionConsultorio
+                                where no.ID == pNotificacionPaciente.IDNotificacion
+                                select no).FirstOrDefault();
+            if (notificacion != null)
+                notificacion.Estado = 0;
+
+            try
+            {
+                gDc.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                return false;
+            }
+        }
         #endregion
     }
 }

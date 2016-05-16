@@ -30,7 +30,40 @@ namespace WOdontoweb.Controllers
             var result = gABMNotificacionesConsultorio.GetNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-       
 
+        public JsonResult DeshabilitarNuevasNotificaciones(int pIdConsultorio, int pIDTipoNotificacion)
+        {
+            var success = gABMNotificacionesConsultorio.DeshabilitarNuevasNotificaciones(pIdConsultorio, pIDTipoNotificacion);
+            var result = new ResponseModel()
+            {
+                Message = "",
+                Data = success?gABMNotificacionesConsultorio.GetNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion):null,
+                Success = success
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacion)
+        {
+            var success = gABMNotificacionesConsultorio.AceptarSolicitudPaciente(pNotificacion);
+            var result = new ResponseModel()
+            {
+                Message = "",
+                Data = success ? gABMNotificacionesConsultorio.GetNotificacionesPendientes(pNotificacion.IDConsultorio,pNotificacion.IDNotificacion)  : null,
+                Success = success
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacion)
+        {
+            var success = gABMNotificacionesConsultorio.CancelarSolicitudPaciente(pNotificacion);
+            var result = new ResponseModel()
+            {
+                Message = "",
+                Data = success ? gABMNotificacionesConsultorio.GetNotificacionesPendientes(pNotificacion.IDConsultorio, pNotificacion.IDNotificacion) : null,
+                Success = success
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

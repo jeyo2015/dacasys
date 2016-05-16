@@ -725,6 +725,5 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DAgenda\obj\D
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\bin\Debug\DAgenda.dll.config
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\bin\Debug\DAgenda.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\bin\Debug\DAgenda.pdb
-C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\obj\Debug\DAgenda.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\obj\Debug\DAgenda.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DAgenda\obj\Debug\DAgenda.pdb

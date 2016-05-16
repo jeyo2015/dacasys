@@ -183,6 +183,42 @@ input[type="checkbox"].input-validation-error
     font-weight: 400;
 }
 
+.withoutborder
+{
+    width: 100% !important;
+    border: none !important;
+}
+
+    .withoutborder a
+    {
+        color: #000 !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    .withoutborder:hover
+    {
+        cursor: pointer !important;
+        background-color: #f5f5f5 !important;
+    }
+    .withoutborderNS
+{
+    width: 100% !important;
+    border: none !important;
+}
+
+    .withoutborderNS a
+    {
+        color: #000 !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    /*.withoutborderNS:hover
+    {
+        cursor: pointer !important;
+        background-color: #f5f5f5 !important;
+    }*/
 table.scroll
 {
     width: 100%;
@@ -317,7 +353,7 @@ header
                 font-size: 16px;
             }
 
-    .top-bar span
+/*.top-bar span
     {
         font-weight: 400;
         font-size: 16px;
@@ -325,8 +361,29 @@ header
         color: #fff;
         margin: 14px 0 0 0;
         float: left;
-    }
+    }*/
 
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 2px 5px;
+   
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+.badgePosition
+{
+    background-color: red;
+    font-size: 10px;
+    margin-left: -17px;
+    margin-top: -21px;
+}
 .iconStyle
 {
     font-size: 18px;
@@ -342,12 +399,10 @@ header
 .linkForgotPass
 {
     text-align: right;
-    
 }
 
     .linkForgotPass a:hover
     {
-       
     }
 
     .linkForgotPass a:hover
@@ -355,3 +410,81 @@ header
         text-decoration: underline;
         cursor: pointer;
     }
+
+.navbar-toggle
+{
+    position: relative;
+    float: left;
+    padding: 9px 10px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+{
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/*.tree
+{
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    border: 1px solid #999;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+    .tree li
+    {
+        list-style-type: none;
+        margin: 0;
+        padding: 10px 5px 0 5px;
+        position: relative;
+    }
+
+        .tree li::before, .tree li::after
+        {
+            content: '';
+            left: -20px;
+            position: absolute;
+            right: auto;
+        }
+
+        .tree li::before
+        {
+            border-left: 1px solid #999;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px;
+        }
+
+        .tree li::after
+        {
+            border-top: 1px solid #999;
+            height: 20px;
+            top: 25px;
+            width: 25px;
+        }*/
+.buttonNotificacion
+{
+    font-size: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

@@ -1,4 +1,4 @@
-﻿app.controller("loginController", function (loginService, $scope, $rootScope) {
+﻿app.controller("loginController", function (loginService, $scope, $rootScope, $location, usuariosService, notificacionesConsultorioService) {
     init();
 
     function init() {
@@ -16,15 +16,24 @@
             if ($rootScope.sessionDto.ChangePass) {
                 $scope.showMessage = false;
                 $('#modal-renovar').modal('show');
+                prepararNuevoUsuario();
             }
+            getNotificaciones();
 
         });
     };
+
+    function getNotificaciones() {
+        if ($rootScope.sessionDto.IDConsultorio != -1)
+            notificacionesConsultorioService.getSolicitudesPacientes($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
+                $rootScope.NotificacionesConsultorio = result;
+            });
+    }
     $rootScope.cerrarSesion = function (e) {
         e.preventDefault();
         loginService.cerrarSesion().then(function (result) {
             $rootScope.sessionDto = result;
-
+            $location.path('/inicioCliente');
         });
     }
     $rootScope.showModal = function (e) {
@@ -38,7 +47,27 @@
         if ($rootScope.sessionDto.loginUsuario == "")
             $('#modal-login').modal('show');
     }
+    function prepararNuevoUsuario() {
+        $scope.userToSave = {
+            Nombre: angular.copy($rootScope.sessionDto.Nombre),
+            Login: angular.copy($rootScope.sessionDto.Login),
+            Password: "",
+            ConfirmPass: "",
+            IDEmpresa: angular.copy($rootScope.sessionDto.IDConsultorio),
+            IDRol: angular.copy($rootScope.sessionDto.IDRol),
+            Estado: true
+        };
+    }
+    $rootScope.openModalChangePass = function (e) {
+        e.preventDefault();
+        prepararNuevoUsuario();
+        usuariosService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $scope.userToSave = result;
+           
+            $('#modal-mi-perfil').modal('show');
+        });
 
+    }
     $scope.ingresar = function () {
         var verificar = loginService.logIn($scope.loginEmpresa, $scope.usuario, $scope.pass);
 
@@ -75,6 +104,7 @@
                         $('#modal-renovar').modal('show');
                         $scope.showMessage = false;
                     }
+                    getNotificaciones();
                     break;
             }
 
@@ -164,9 +194,75 @@
 
 
     }
+    $scope.updateUser = function () {
+        if ($scope.userToSave.ConfirmPass != $scope.userToSave.Password) {
+            $scope.message = "Las contrasenas no coinciden";
+            $scope.userToSave.Password = "";
+            $scope.userToSave.ConfirmPass = "";
+            $scope.showMessage = true;
+            $("#newPasswordID").focus();
+            return;
+        }
+        if ($scope.userToSave.Password.length <= 3) {
+            $scope.message = "Contrasena muy corta, debe ser mayor a 4 caracteres";
+            $scope.userToSave.Password = "";
+            $scope.userToSave.ConfirmPass = "";
+            $scope.showMessage = true;
+            $("#newPasswordID").focus();
+            return;
+        }
+
+        usuariosService.modificarUsuario($scope.userToSave).then(function (result) {
+            if (result.Data == 1) {
+                toastr.success(result.Message);
+                $rootScope.sessionDto.Nombre = angular.copy($scope.userToSave.Nombre);
+            } else {
+                toastr.error(result.Message);
+            }
+            $('#modal-mi-perfil').modal('hide');
+            prepararNuevoUsuario();
+        });
+
+
+    }
     $scope.validarCampos = function () {
         if ($scope.isAdmin) {
             return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa == 0;
         } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
     }
+    $scope.validarCamposPerfil = function () {
+        if ($scope.userToSave) {
+            return $scope.userToSave.Nombre.length == 0 || $scope.userToSave.Password.length == 0 || $scope.userToSave.ConfirmPass.length == 0;
+        } else return false;
+
+
+    }
+
+  
+    $scope.closeModal = function (nameModal) {
+        $(nameModal).modal('hide');
+    }
+    $rootScope.desabilitarNuevasNotificaciones = function (e) {
+        e.preventDefault();
+        notificacionesConsultorioService.deshabilitarNuevasNotificaciones($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
+            if(result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+
+    $rootScope.confirmarSolicitud = function (notificacion, e) {
+        e.preventDefault();
+        notificacionesConsultorioService.aceptarSolicitudPaciente(notificacion).then(function (result) {
+            if (result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+    $rootScope.cancelarSolicitud = function (notificacion, e) {
+        e.preventDefault();
+        notificacionesConsultorioService.cancelarSolicitudPaciente(notificacion).then(function (result) {
+            if (result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+
 });

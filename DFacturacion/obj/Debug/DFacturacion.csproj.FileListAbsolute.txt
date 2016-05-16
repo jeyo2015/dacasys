@@ -23,6 +23,6 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\DFacturacion\
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.dll.config
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\bin\Debug\DFacturacion.pdb
-C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DFacturacion\obj\Debug\DFacturacion.csprojResolveAssemblyReference.cache

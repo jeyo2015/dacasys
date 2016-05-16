@@ -3,3 +3,8 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\Herramientas\
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\Herramientas\obj\Release\Herramientas.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\Herramientas\obj\Release\Herramientas.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb\Herramientas\obj\Release\Herramientas.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\bin\Release\Herramientas.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\bin\Release\Herramientas.pdb
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Release\Herramientas.csprojResolveAssemblyReference.cache
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Release\Herramientas.dll
+C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\Herramientas\obj\Release\Herramientas.pdb

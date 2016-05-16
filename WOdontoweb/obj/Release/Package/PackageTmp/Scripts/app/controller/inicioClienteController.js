@@ -1,7 +1,12 @@
 ﻿app.controller("inicioClienteController", function (clinicaService, $scope, $rootScope) {
     init();
     var map;
+    function baseUrl() {
+        var href = window.location.href.split('/');
+        return href[0] + '//' + href[2] + '/';
+    }
     function init() {
+        $rootScope.path = baseUrl();
         InicializarMapa();
         cargar_clinicas();
     };
@@ -35,7 +40,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
-       // infoWindow = new google.maps.InfoWindow();
+        // infoWindow = new google.maps.InfoWindow();
         //google.maps.event.addListener(map, 'click', function () {
         //    closeInfoWindow();
         //    Cambiar_Imagenes();

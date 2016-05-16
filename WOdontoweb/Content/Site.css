@@ -201,7 +201,24 @@ input[type="checkbox"].input-validation-error
         cursor: pointer !important;
         background-color: #f5f5f5 !important;
     }
+    .withoutborderNS
+{
+    width: 100% !important;
+    border: none !important;
+}
 
+    .withoutborderNS a
+    {
+        color: #000 !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    /*.withoutborderNS:hover
+    {
+        cursor: pointer !important;
+        background-color: #f5f5f5 !important;
+    }*/
 table.scroll
 {
     width: 100%;
@@ -463,3 +480,11 @@ input:-webkit-autofill:active
             top: 25px;
             width: 25px;
         }*/
+.buttonNotificacion
+{
+    font-size: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

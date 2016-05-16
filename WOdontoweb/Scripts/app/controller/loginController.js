@@ -63,7 +63,7 @@
         prepararNuevoUsuario();
         usuariosService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.userToSave = result;
-            console.log($scope.userToSave);
+           
             $('#modal-mi-perfil').modal('show');
         });
 
@@ -237,7 +237,32 @@
 
 
     }
+
+  
     $scope.closeModal = function (nameModal) {
         $(nameModal).modal('hide');
     }
+    $rootScope.desabilitarNuevasNotificaciones = function (e) {
+        e.preventDefault();
+        notificacionesConsultorioService.deshabilitarNuevasNotificaciones($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
+            if(result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+
+    $rootScope.confirmarSolicitud = function (notificacion, e) {
+        e.preventDefault();
+        notificacionesConsultorioService.aceptarSolicitudPaciente(notificacion).then(function (result) {
+            if (result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+    $rootScope.cancelarSolicitud = function (notificacion, e) {
+        e.preventDefault();
+        notificacionesConsultorioService.cancelarSolicitudPaciente(notificacion).then(function (result) {
+            if (result.Success)
+                $rootScope.NotificacionesConsultorio = result.Data;
+        });
+    }
+
 });

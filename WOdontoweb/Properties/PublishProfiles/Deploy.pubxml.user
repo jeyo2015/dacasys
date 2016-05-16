@@ -12,10 +12,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/12/2011 19:56:56</publishTime>
     </File>
     <File Include="bin/DEventos.dll">
-      <publishTime>04/20/2016 21:11:25</publishTime>
+      <publishTime>05/15/2016 19:14:52</publishTime>
     </File>
     <File Include="bin/DLogin.dll">
-      <publishTime>04/20/2016 21:11:25</publishTime>
+      <publishTime>05/15/2016 19:14:52</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>02/21/2016 14:29:31</publishTime>
@@ -27,16 +27,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/21/2016 14:29:54</publishTime>
     </File>
     <File Include="bin/Herramientas.dll">
-      <publishTime>04/20/2016 21:40:47</publishTime>
+      <publishTime>05/15/2016 19:16:44</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>02/21/2016 14:29:44</publishTime>
     </File>
     <File Include="bin/NEventos.dll">
-      <publishTime>04/20/2016 21:11:26</publishTime>
+      <publishTime>05/15/2016 19:14:53</publishTime>
     </File>
     <File Include="bin/NLogin.dll">
-      <publishTime>04/20/2016 21:11:28</publishTime>
+      <publishTime>05/15/2016 19:14:53</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>02/21/2016 14:29:45</publishTime>
@@ -60,7 +60,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/21/2016 14:29:45</publishTime>
     </File>
     <File Include="bin/WOdontoweb.dll">
-      <publishTime>04/20/2016 21:40:48</publishTime>
+      <publishTime>05/15/2016 19:16:44</publishTime>
     </File>
     <File Include="Content/fontAwesome/css/font-awesome.css">
       <publishTime>03/10/2016 13:47:38</publishTime>
@@ -99,7 +99,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/31/2014 10:25:24</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>04/18/2016 19:26:38</publishTime>
+      <publishTime>05/15/2016 19:04:45</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
       <publishTime>02/21/2016 14:29:53</publishTime>
@@ -273,25 +273,25 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/21/2016 14:29:55</publishTime>
     </File>
     <File Include="Scripts/angular.js">
-      <publishTime>09/27/2013 17:32:29</publishTime>
+      <publishTime>04/28/2016 21:03:21</publishTime>
     </File>
     <File Include="Scripts/app/app.js">
-      <publishTime>04/13/2016 22:25:37</publishTime>
+      <publishTime>05/02/2016 14:47:04</publishTime>
     </File>
     <File Include="Scripts/app/controller/consultoriosController.js">
       <publishTime>04/19/2016 21:53:53</publishTime>
     </File>
     <File Include="Scripts/app/controller/inicioClienteController.js">
-      <publishTime>04/13/2016 23:02:51</publishTime>
+      <publishTime>04/25/2016 21:02:10</publishTime>
     </File>
     <File Include="Scripts/app/controller/loginController.js">
-      <publishTime>04/19/2016 21:40:03</publishTime>
+      <publishTime>05/15/2016 18:32:08</publishTime>
     </File>
     <File Include="Scripts/app/controller/miconsultorioController.js">
       <publishTime>02/27/2016 10:18:22</publishTime>
     </File>
     <File Include="Scripts/app/controller/rolesController.js">
-      <publishTime>03/02/2016 21:57:33</publishTime>
+      <publishTime>05/12/2016 22:40:12</publishTime>
     </File>
     <File Include="Scripts/app/controller/usuariosController.js">
       <publishTime>03/20/2016 23:07:00</publishTime>
@@ -396,7 +396,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>04/19/2016 22:09:31</publishTime>
     </File>
     <File Include="Scripts/app/partials/inicioCliente.html">
-      <publishTime>04/16/2016 12:09:33</publishTime>
+      <publishTime>04/26/2016 20:40:21</publishTime>
     </File>
     <File Include="Scripts/app/partials/login.html">
       <publishTime>04/18/2016 19:57:38</publishTime>
@@ -408,22 +408,25 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/27/2016 09:46:54</publishTime>
     </File>
     <File Include="Scripts/app/partials/roles.html">
-      <publishTime>04/19/2016 22:15:21</publishTime>
+      <publishTime>05/12/2016 22:55:43</publishTime>
     </File>
     <File Include="Scripts/app/partials/usuarios.html">
       <publishTime>04/19/2016 22:13:35</publishTime>
     </File>
     <File Include="Scripts/app/services/clinicaService.js">
-      <publishTime>04/19/2016 21:51:51</publishTime>
+      <publishTime>04/28/2016 21:40:04</publishTime>
     </File>
     <File Include="Scripts/app/services/loginService.js">
-      <publishTime>04/19/2016 19:20:39</publishTime>
+      <publishTime>04/28/2016 21:39:16</publishTime>
+    </File>
+    <File Include="Scripts/app/services/notificacionesConsultorioService.js">
+      <publishTime>05/15/2016 18:53:31</publishTime>
     </File>
     <File Include="Scripts/app/services/rolesService.js">
-      <publishTime>02/27/2016 22:53:28</publishTime>
+      <publishTime>05/12/2016 22:38:43</publishTime>
     </File>
     <File Include="Scripts/app/services/usuariosService.js">
-      <publishTime>03/01/2016 23:24:14</publishTime>
+      <publishTime>05/02/2016 20:44:09</publishTime>
     </File>
     <File Include="Scripts/jquery-1.7.1.js">
       <publishTime>03/10/2016 21:50:29</publishTime>
@@ -436,6 +439,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     </File>
     <File Include="Scripts/jquery-ui-1.8.20.min.js">
       <publishTime>02/21/2016 14:29:52</publishTime>
+    </File>
+    <File Include="Scripts/jquery.nouislider.min.js">
+      <publishTime>05/13/2016 23:02:18</publishTime>
     </File>
     <File Include="Scripts/jquery.unobtrusive-ajax.js">
       <publishTime>02/21/2016 14:29:20</publishTime>
@@ -476,6 +482,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Scripts/modernizr-2.5.3.js">
       <publishTime>02/21/2016 14:29:53</publishTime>
     </File>
+    <File Include="Scripts/snackbar.min.js">
+      <publishTime>05/13/2016 23:04:20</publishTime>
+    </File>
     <File Include="Scripts/toastr.css">
       <publishTime>02/22/2016 08:15:37</publishTime>
     </File>
@@ -498,7 +507,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/21/2016 14:29:20</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/19/2016 20:52:17</publishTime>
+      <publishTime>05/15/2016 19:10:16</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>02/21/2016 14:29:20</publishTime>
@@ -516,7 +525,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/21/2016 14:29:20</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/20/2016 21:40:54</publishTime>
+      <publishTime>05/15/2016 19:16:46</publishTime>
     </File>
   </ItemGroup>
 </Project>

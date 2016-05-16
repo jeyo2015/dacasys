@@ -37,7 +37,6 @@
                     <div class="row">
 
                         <div class="col-xs-3 col-md-3">
-                            
                         </div>
 
                         <div class="col-xs-9 col-md-9">
@@ -47,6 +46,16 @@
                                     <li><a><i class="fa fa-phone"></i>76643214</a></li>
                                     <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>
                                     <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
+                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
+                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                            <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
+                                            <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS"><a href="#">{{noti.NombreUsuario}} 
+                                                <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
+                                                <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button></a></li>
+
+                                        </ul>
+
+                                    </li>
                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
                                             <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
@@ -54,14 +63,7 @@
                                         </ul>
 
                                     </li>
-                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
-                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li ng-repeat =" noti in NotificacionesConsultorio.Notificaciones" class="withoutborder"><a href="#">
-                                                {{noti.NombreUsuario}} </a></li>
-                                         
-                                        </ul>
 
-                                    </li>
                                     @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
 
                                 </ul>
@@ -189,11 +191,11 @@
 
                                     </div>
                                     <div class="checkbox" style="margin-top: 20px">
-                                        <label  ng-show="isAdmin">
+                                        <label ng-show="isAdmin">
                                             <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Paciente
                                         </label>
-                                        <label  ng-show="!isAdmin">
-                                            <input  ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Doctor
+                                        <label ng-show="!isAdmin">
+                                            <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Doctor
                                         </label>
 
                                     </div>
@@ -338,7 +340,7 @@
     <script src=" @Url.Content("~/Scripts/snackbar.min.js")"></script>
     <script src=" @Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
 
-   
+
     <script src=" @Url.Content("~/Scripts/angular.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/app.js")"></script>
     <script src=" @Url.Content("~/Content/Wodonto.js")"></script>
