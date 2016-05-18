@@ -184,6 +184,7 @@
     <Content Include="Scripts\app\controller\rolesController.js" />
     <Content Include="Scripts\app\controller\miconsultorioController.js" />
     <Content Include="Scripts\app\controller\loginController.js" />
+    <Content Include="Scripts\app\directives\loader.js" />
     <Content Include="Scripts\app\directives\filterList.js" />
     <Content Include="Scripts\app\libs\Bootstrap\css\bootstrap-material-design.css" />
     <Content Include="Scripts\app\libs\Bootstrap\css\bootstrap-material-design.min.css" />

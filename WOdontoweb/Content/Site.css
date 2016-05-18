@@ -290,7 +290,7 @@ table.scroll tbody
 .header
 {
     border-bottom: 1px solid #ECEFF5;
-    tab;
+  
 }
 
 header
@@ -488,3 +488,33 @@ input:-webkit-autofill:active
     padding-top: 5px;
     padding-bottom: 5px;
 }
+.loader {
+    background: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+    .loader div {
+        display: block;
+        left: 45%;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+    }
+
+        .loader div > span {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            background-color: #525252;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 15px 20px 15px 20px;
+        }
+
+            .loader div > span img {
+                padding-right: 15px;
+            }
