@@ -41,21 +41,25 @@ app.config(['$routeProvider',
 
 app.factory('injectorDacasys', ['$rootScope','$q', function ($rootScope, $q) {
     var numLoadings = 0;
-    $rootScope.countRequest = 0;
+    // $rootScope.countRequest = 0;
     var sessionInjector = {
         request: function (config) {
+            $("#divLoaderfull").show();
             numLoadings++;
-            $rootScope.countRequest++;
+            // $rootScope.countRequest++;
             config.url = $("#basePath").attr("href") + config.url;
             return config;
         },
         response: function(response) {
-            $rootScope.countRequest--;
-            if ((--numLoadings) === 0) {
+            if ((--numLoadings) === 0)
+                $("#divLoaderfull").hide();
+            return response;
+            // $rootScope.countRequest--;
+            {
                 // Hide loader
 
-                //$rootScope.$broadcast("loader_hide");
-               // $rootScope.lastResponse = 0;
+                //  $rootScope.$broadcast("loader_hide");
+                // $rootScope.lastResponse = 0;
                 //$(document).ready(function() {
                 //    window.setTimeout(function() {
                 //        if ($rootScope.countRequest === 0) {
@@ -69,6 +73,7 @@ app.factory('injectorDacasys', ['$rootScope','$q', function ($rootScope, $q) {
                 //        }
                 //    }, 2000);
                 //});
+                //   }
             }
         }
     };
