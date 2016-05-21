@@ -31,6 +31,10 @@ app.config(['$routeProvider',
                templateUrl: 'Scripts/app/partials/usuarios.html',
                controller: 'usuariosController'
            }).
+           when('/consultas', {
+               templateUrl: 'Scripts/app/partials/consultas.html',
+               controller: 'consultasController'
+           }).
         otherwise({
             redirectTo: 'inicioCliente'
         });

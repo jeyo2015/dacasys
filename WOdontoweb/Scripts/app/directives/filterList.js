@@ -178,3 +178,16 @@ app.filter('orderByScenario', function () {
         return array;
     };
 });
+
+app.filter('filterDeleted', function () {
+    return function (items, expression) {
+        var listFiltered = [];
+
+        angular.forEach(items, function (value) {
+            if (value.State !== 3) {
+                listFiltered.push(value);
+            }
+        });
+        return listFiltered;
+    };
+});

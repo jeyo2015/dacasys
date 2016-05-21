@@ -96,7 +96,7 @@
                                     </tr>
                                 </thead>-->
                             <tbody id="tablaTrabajosClinicaId">
-                                <tr ng-repeat="trabajo in clinicToSave.Trabajos  " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
                                     <td>{{trabajo.Descripcion}}
                                     </td>
                                 </tr>

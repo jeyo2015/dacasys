@@ -33,6 +33,7 @@ namespace WOdontoweb.Controllers
             sessionDto.IDConsultorio = Session["IDConsultorio"] == null ? -1 : Convert.ToInt32(Session["IDConsultorio"].ToString());
             sessionDto.IDClinica = Session["IDClinica"] == null ? -1 : Convert.ToInt32(Session["IDClinica"].ToString());
             sessionDto.Nombre = Session["NombreUser"] == null ? "" : Session["NombreUser"].ToString();
+            sessionDto.IDRol = Session["IDRol"] == null ? -1: Convert.ToInt32( Session["IDRol"].ToString());
             sessionDto.IsDacasys = Session["IsDacasys"] == null ? false : Convert.ToBoolean(Session["IsDacasys"].ToString());
             sessionDto.ChangePass = Session["changePass"] == null ? false : Convert.ToBoolean(Session["changePass"].ToString());
             return Json(sessionDto, JsonRequestBehavior.AllowGet);
@@ -56,6 +57,7 @@ namespace WOdontoweb.Controllers
             Session["NombreUser"] = null;
             Session["IsDacasys"] = null;
             Session["changePass"] = null;
+            Session["IDRol"] = null;
             return GetSessionDto();
         }
 
@@ -143,6 +145,7 @@ namespace WOdontoweb.Controllers
                         Session["NombreUser"] = sessionDto.Nombre;
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
                         Session["changePass"] = sessionDto.ChangePass;
+                        Session["IDRol"] = sessionDto.ChangePass;
                         break;
                     case 4:
                         message = "Contrasena incorrecta";

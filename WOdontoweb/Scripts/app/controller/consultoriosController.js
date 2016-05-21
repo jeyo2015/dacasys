@@ -173,7 +173,7 @@
 
     $scope.deleteTrabajoClinica = function () {
         $scope.trabajoClinicaSelected.State = 3;
-        $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 1);
+        //$scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 1);
         $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 0, angular.copy($scope.trabajoClinicaSelected));
         $scope.trabajoClinicaSelected = null;
     };

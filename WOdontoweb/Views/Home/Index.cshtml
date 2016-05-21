@@ -30,12 +30,12 @@
 <body>
 
     <div class="row">
-         <div id="divLoaderfull" class="loader" loader>
-        <div>
-            <span>
-                <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
+        <div id="divLoaderfull" class="loader" loader>
+            <div>
+                <span>
+                    <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
+            </div>
         </div>
-    </div>
         <div id="header-1">
             <!--Start Top Bar-->
             <div class="top-bar">
@@ -115,13 +115,13 @@
                                     </div>
                                     <div class="navbar-collapse collapse navbar-responsive-collapse">
                                         <ul class="nav navbar-nav">
-                                            <li class="active"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
-                                            @*<li><a ng-hide="sessionDto.IDConsultorio==-1" href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>*@
+                                            <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1" ><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
+                                            <li ng-class="getClass('/consultas')"><a ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin" href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
 
-                                            <li><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
-                                            <li><a ng-hide="sessionDto.IDConsultorio==-1" href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
-                                            <li><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
-                                            <li><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
+                                            <li ng-class="getClass('/usuarios')" ><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                            <li ng-class="getClass('/roles')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
+                                            <li ng-class="getClass('/consultorios')"><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
+                                            <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
                                             @*<li><a ng-hide="sessionDto.IDConsultorio==-1" href="#miperfil">Mi perfil</a></li>*@
                                             @*<li class="pull-right"><a ng-hide="sessionDto.loginUsuario.length>0" ng-click=" showModal($event)" href="#">Ingresar</a></li>
                                             <li class="pull-right"><a ng-hide="!sessionDto.loginUsuario.length>0" ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>*@
@@ -165,7 +165,7 @@
                                         <label for="consultorioID" class="col-md-2 control-label">Consultorio</label>
 
                                         <div class="col-md-12">
-                                            <input type="text" ng-model="loginEmpresa" class="form-control" id="consultorioID">
+                                            <input type="text" ng-model="loginEmpresa" class="form-control" id="consultorioID" autocomplete="off">
                                         </div>
                                         <div class="col-md-10">
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==0 || sessionDto.Verificar==1">{{message}} </span>
@@ -176,7 +176,7 @@
                                         <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
 
                                         <div class="col-md-12">
-                                            <input type="text" ng-model="usuario" class="form-control" id="usuarioID">
+                                            <input type="text" ng-model="usuario" class="form-control" id="usuarioID" autocomplete="off">
                                         </div>
                                         <div class="col-md-10">
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==2 ">{{message}} </span>
@@ -186,7 +186,7 @@
                                         <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
 
                                         <div class="col-md-12">
-                                            <input type="password" ng-model="pass" class="form-control" id="passwordID">
+                                            <input type="password" ng-model="pass" class="form-control" id="passwordID"  ng-keypress="enterLogIn($event)">
                                         </div>
                                         <div class="col-md-10">
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==4">{{message}} </span>
@@ -356,7 +356,8 @@
     <script src=" @Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/services/rolesService.js")"></script>
     <script src=" @Url.Content("~/Scripts/toastr.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/consultasController.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/directives/filterList.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>

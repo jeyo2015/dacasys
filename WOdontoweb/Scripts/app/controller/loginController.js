@@ -22,16 +22,26 @@
         });
     };
 
+    $rootScope.enterLogIn = function(keyEvent) {
+        if (keyEvent.which === 13)
+            $scope.ingresar();
+    };
+    $rootScope.getClass = function(path) {
+        return ($location.path().substr(0, path.length) === path) ? 'active' : '';
+    };
     function getNotificaciones() {
         if ($rootScope.sessionDto.IDConsultorio != -1)
             notificacionesConsultorioService.getSolicitudesPacientes($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
                 $rootScope.NotificacionesConsultorio = result;
+                if ($rootScope.sessionDto.IDRol!= null) {
+                    $location.path('/consultas');
+                }
             });
     }
 
-    $rootScope.cerrarSesion = function (e) {
+    $rootScope.cerrarSesion = function(e) {
         e.preventDefault();
-        loginService.cerrarSesion().then(function (result) {
+        loginService.cerrarSesion().then(function(result) {
             $rootScope.sessionDto = result;
             $location.path('/inicioCliente');
         });
@@ -61,10 +71,10 @@
         };
     }
 
-    $rootScope.openModalChangePass = function (e) {
+    $rootScope.openModalChangePass = function(e) {
         e.preventDefault();
         prepararNuevoPerfil();
-        usuariosService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
+        usuariosService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function(result) {
             $scope.userToSave = result;
 
             $('#modal-mi-perfil').modal('show');
