@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DLogin;
 using Herramientas;
 namespace NLogin
@@ -56,7 +54,7 @@ namespace NLogin
         }
 
 
-        public void InsertarClinica(int pIDClinica, string pTelefono, string pNombre)
+        public void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
         {
             int newIDTelefono = GetNextIDTelefono();
             var newTelefono = new Telefono();

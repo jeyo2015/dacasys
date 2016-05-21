@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DLogin;
 using System.Data;
 using DataTableConverter;
@@ -17,7 +16,6 @@ namespace NLogin
         ControlBitacora gCb = new ControlBitacora();
         ControlLogErrores gCe = new ControlLogErrores();
         ABMUsuarioEmpleado gabmUsuario = new ABMUsuarioEmpleado();
-        ABMRol gABMRol = new ABMRol();
         Encriptador gEncriptador = new Encriptador();
         ABMTelefono gABMTelefono = new ABMTelefono();
         #endregion
@@ -27,25 +25,16 @@ namespace NLogin
         /// <summary>
         /// Permite Insertar una nueva Empresa
         /// </summary>
-        /// <param name="pLogin">Login de la Empresa</param>
-        /// <param name="pNombre">Nombre de la Empresa</param>
-        /// <param name="pDireccion">Direccion de la Empresa</param>
-        /// <param name="pLatitud">Latitud de la empresa</param>
-        /// <param name="pLongitud">Longitud de la Empresa</param>
-        /// <param name="pimageLog">Imagen del logo</param>
-        /// <param name="pimagemapa">Imagen para el Mapa</param>
-        /// <param name="pNIT">Nit de la empresa</param>
-        /// <param name="pmes">Numero de meses de la licencia de la empresa</param>
+        /// <param name="pClinica">Datos Empresa</param>
         /// <param name="pIDUsuario">ID del usuario que realiza la accion</param>
         /// <returns>  0 - No inserto la empresa
         ///            1 - Inserto la Empresa 
         ///          </returns>
         public int InsertarClinica(ClinicaDto pClinica, string pIDUsuario)
         {
-
-            int newIDClinica = GetNextIDClinica();
+            
             Clinica vClinicaDefault = new Clinica();
-            vClinicaDefault.ID = newIDClinica;
+         //   vClinicaDefault.ID = newIDClinica;
             vClinicaDefault.Nombre = pClinica.Nombre;
             vClinicaDefault.IDUsuarioCreacion = pIDUsuario;
             vClinicaDefault.Login = pClinica.Login;
@@ -70,6 +59,9 @@ namespace NLogin
             {
                 gDc.Clinica.InsertOnSubmit(vClinicaDefault);
                 gDc.SubmitChanges();
+
+                int newIDClinica = GetNextIDClinica();
+
                 gCb.Insertar("Se inserto una Clinica", pIDUsuario);
                 activar_licencia(newIDClinica, 12, pIDUsuario);
                 InsertarTelefonosClinica(pClinica.Telefonos, pIDUsuario, newIDClinica);
@@ -223,7 +215,7 @@ namespace NLogin
         {
             var clinicas = (from c in gDc.Clinica
                             select c);
-            return clinicas == null ? 1 : clinicas.Max(x => x.ID) + 1;
+            return clinicas == null ? 1 : clinicas.Max(x => x.ID);
         }
 
 
@@ -1221,7 +1213,7 @@ namespace NLogin
                 switch (ptelefono.State)
                 {
                     case 1:
-                        gABMTelefono.InsertarClinica(pIDClinica, ptelefono.Telefono, ptelefono.Nombre);
+                        gABMTelefono.InsertarTelefonosDeLaClinica(pIDClinica, ptelefono.Telefono, ptelefono.Nombre);
                         gCb.Insertar("Se inserto un Telefono", IdUsuarioCreador);
                         break;
                     case 2:
