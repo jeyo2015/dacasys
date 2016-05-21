@@ -177,10 +177,10 @@
         $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 0, angular.copy($scope.trabajoClinicaSelected));
         $scope.trabajoClinicaSelected = null;
         $("#updateTrabajoClinicaId").remove();
-    }
+    };
     $scope.deleteTrabajoClinica = function () {
         $scope.trabajoClinicaSelected.State = 3;
-        $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 1);
+        //$scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 1);
         $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 0, angular.copy($scope.trabajoClinicaSelected));
         $scope.trabajoClinicaSelected = null;
     }
@@ -318,7 +318,7 @@
         clinicaService.eliminarClinica($scope.clinicaSelected.IDClinica).then(function (result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
-               
+                cargar_todas_clinicas();
             } else {
                 toastr.error(result.Message);
             }

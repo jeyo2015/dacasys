@@ -266,19 +266,19 @@ table.scroll tbody
 }
 
     /*Button Styles*/
-    .navbar .navbar-nav > li > a:hover
+    .navbar .navbar-nav > li:hover
+    {
+        /*background: #12024C;*/
+        /*color: white;*/
+        border-bottom: 3px solid #18114F;
+    }
+    .navbar .navbar-nav > li.active
     {
         /*background: #12024C;*/
         /*color: white;*/
         border-bottom: 3px solid #18114F;
     }
 
-.active
-{
-    /*background: #12024C;*/
-    /*color: white;*/
-    border-bottom: 3px solid #18114F;
-}
 
 .navbar .navbar-nav > li > a
 {
@@ -425,12 +425,9 @@ header
     border-radius: 4px;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active
-{
-    transition: background-color 5000s ease-in-out 0s;
+input:-webkit-autofill {
+    color: #2a2a2a !important;
+    background-color: red !important;
 }
 
 /*.tree

@@ -179,6 +179,7 @@
     <Content Include="Content\Wodonto.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
+    <Content Include="Scripts\app\controller\consultasController.js" />
     <Content Include="Scripts\app\controller\inicioClienteController.js" />
     <Content Include="Scripts\app\controller\usuariosController.js" />
     <Content Include="Scripts\app\controller\rolesController.js" />
@@ -216,6 +217,7 @@
     <Content Include="Content\fontAwesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
+    <Content Include="Scripts\app\partials\consultas.html" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
