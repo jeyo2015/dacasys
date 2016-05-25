@@ -1,6 +1,102 @@
 ﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-   
 
+    <div class="col-md-4 col-md-offset-1">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div id="datepicker"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="mostrarModalClientes()">Cancelar cita</button>
+            <!--<button class="btn btn-raised btn-primary" ng-click="mostrarModalClientes()">Atender cita</button>-->
+        </div>
+    </div>
+    <div class="col-md-7">
+        <!--<div class="row">
+            <div class="col-md-6">
+                <h3>{{dateSelected}} </h3>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <table class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>{{dateSelected}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
+                            <td><span class="label " ng-class="{'label-info':!cita.estaOcupada, 'label-danger':cita.estaOcupada}">{{cita.HoraInicioString}}</span>
+                            </td>
+                            <td>{{cita.Paciente.NombrePaciente}}
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-seleccionar-cliente" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Agendar cita a horas  {{citaSeleccionada.HoraInicioString}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="form-group label-floating">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Buscar</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="subString" class="form-control" id="buscarPacienteID">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row" class="col-md-10" style="max-height: 200px; overflow-y: auto; padding-right: 0px;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Ced. Id. </th>
+                                            <th>Nombre paciente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-class="{selectElement:pacienteSeleccionado.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesConsultorio |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-click="seleccionarPaciente(paciente)">
+                                            <td>{{paciente.Ci}}
+                                            </td>
+                                            <td>{{paciente.NombrePaciente}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="agendarCita()" >Agendar</button>
+                 <button class="btn btn-primary" ng-click="closeModal('modal-seleccionar-cliente')" ng-disabled="validarCampos()">Cancelar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

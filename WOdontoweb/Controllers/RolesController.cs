@@ -63,9 +63,9 @@ namespace WOdontoweb.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarNuevoRol(string nombreRol)
+        public JsonResult InsertarNuevoRol(string nombreRol, int pIdConsultorio)
         {
-            var insert = gABMRol.Insertar(nombreRol, 1, Session["loginusuario"].ToString(), 0);
+            var insert = gABMRol.Insertar(nombreRol, pIdConsultorio, Session["loginusuario"].ToString(), 0);
             var result = new ResponseModel()
             {
                 Message = insert == 2 ? "No se pudo insertar el rol" : "Se inserto correctamente el Rol",

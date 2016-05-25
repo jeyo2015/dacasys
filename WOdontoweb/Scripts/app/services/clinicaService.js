@@ -14,7 +14,13 @@
         });
         return d.promise;
     };
-
+    this.getConsultorioByID = function (pIdConsultorio) {
+        var d = $q.defer();
+        $http.get('Empresa/GetConsultorioByID?pIdConsultorio=' + pIdConsultorio).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.getIntervalosTiempo = function (idEmpresa) {
         var d = $q.defer();
         $http.get('Empresa/GetIntervalosTiempo').success(function (data) {

@@ -26,8 +26,7 @@ namespace DConsulta.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=s09.winhost.com;Initial Catalog=DB_53538_desarrollo;User ID=DB_53538_" +
-            "desarrollo_user;Password=Dacasys123;Pooling=False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True")]
         public string db_dentistaConnectionString {
             get {
                 return ((string)(this["db_dentistaConnectionString"]));

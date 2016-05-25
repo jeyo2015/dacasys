@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Herramientas
 {
-    public class SessionDto {
+    public class SessionDto
+    {
         public string Nombre { get; set; }
         public string loginUsuario { get; set; }
         public int IDConsultorio { get; set; }
@@ -31,6 +32,7 @@ namespace Herramientas
     public class ConsultorioDto
     {
         public int IDConsultorio { get; set; }
+        public int TiempoCita { get; set; }
         public string Login { get; set; }
         public string NombreClinica { get; set; }
         public string NIT { get; set; }
@@ -55,6 +57,24 @@ namespace Herramientas
         public string Telefono { get; set; }
         public string Nombre { get; set; }
         public int State { get; set; }
+    }
+    public class AgendaDto
+    {
+        public int IDHorario { get; set; }
+        public int IDConsultorio { get; set; }
+        public string LoginCliente { get; set; }
+        public string NombreCliente { get; set; }
+        public string IdCita { get; set; }
+        public TimeSpan HoraFin { get; set; }
+        public TimeSpan HoraInicio { get; set; }
+        public string HoraInicioString { get; set; }
+        public string HoraFinString { get; set; }
+        public bool EstaOcupada { get; set; }
+        public bool Estalibre { get; set; }
+        public bool EstaAtendida { get; set; }
+        public PacienteDto Paciente { get; set; }
+        public int NumeroCita { get; set; }
+
     }
     public class TrabajosConsultorioDto
     {
@@ -92,7 +112,8 @@ namespace Herramientas
         public List<TelefonoDto> Telefonos { get; set; }
         public int Status { get; set; }
     }
-    public class ModulosTree {
+    public class ModulosTree
+    {
         public int ID { get; set; }
         public string Nombre { get; set; }
         public bool IsChecked { get; set; }
@@ -100,7 +121,8 @@ namespace Herramientas
         public bool IsCollapsed { get; set; }
     }
 
-    public class NotificacionesConsultorioDto {
+    public class NotificacionesConsultorioDto
+    {
         public int IDNotificacion { get; set; }
         public int IDConsultorio { get; set; }
         public string NombreUsuario { get; set; }
@@ -110,9 +132,23 @@ namespace Herramientas
         public int EstadoNotificacion { get; set; }
 
     }
-    public class NotificacionesConsultorioNewDto {
+    public class NotificacionesConsultorioNewDto
+    {
         public List<NotificacionesConsultorioDto> Notificaciones { get; set; }
         public int CantidadNuevasNotificaciones { get; set; }
     }
-    
+
+    public class PacienteDto
+    {
+        public string LoginCliente { get; set; }
+        public string NombrePaciente { get; set; }
+        public string Ci { get; set; }
+        public string Telefono { get; set; }
+        public string Email { get; set; }
+        public string Direccion { get; set; }
+        public string TipoSangre { get; set; }
+        public bool Estado { get; set; }
+        public string Antecedentes { get; set; }
+    }
+
 }

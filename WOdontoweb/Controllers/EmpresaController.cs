@@ -30,7 +30,11 @@ namespace WOdontoweb.Controllers
             var result = gABMEmpresa.GetTodasClinicas();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult GetConsultorioByID(int pIdConsultorio)
+        {
+            var result = gABMEmpresa.GetConsultorioByID(pIdConsultorio);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetAllClinicasHabilitadas()
         {
             var result = gABMEmpresa.GetTodasClinicasHabilitadas();

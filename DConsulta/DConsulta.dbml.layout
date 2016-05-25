@@ -2,12 +2,6 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DConsulta">
   <DataContextMoniker Name="/DConsultaDataContext" />
   <nestedChildShapes>
-    <classShape Id="64307f3a-7c52-47c6-9d58-376c224c3322" absoluteBounds="5, 0.5, 2, 1.1939925130208333">
-      <DataClassMoniker Name="/DConsultaDataContext/Cliente_Paciente" />
-      <nestedChildShapes>
-        <elementListCompartment Id="18764734-c970-4cc1-9754-aa4e6e8e3bbe" absoluteBounds="5.015, 0.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="d5ecab6b-3cf5-4395-b4b3-6c9af3d165e1" absoluteBounds="5.75, 2.375, 2, 1.1939925130208333">
       <DataClassMoniker Name="/DConsultaDataContext/Empresa_Cliente" />
       <nestedChildShapes>
@@ -42,6 +36,12 @@
       <DataClassMoniker Name="/DConsultaDataContext/Paciente" />
       <nestedChildShapes>
         <elementListCompartment Id="e237e1f0-c99e-49e9-9838-1cb212c678ca" absoluteBounds="5.64, 4.835, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e918c077-44cd-4e8d-b654-2045faf36f86" absoluteBounds="6.875, 1.25, 2, 1.3862939453125">
+      <DataClassMoniker Name="/DConsultaDataContext/Cliente_Paciente" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bda9b14e-d3fa-4605-9b9f-232907133f97" absoluteBounds="6.89, 1.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

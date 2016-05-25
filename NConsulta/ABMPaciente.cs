@@ -620,6 +620,29 @@ namespace NConsulta
                 }
            
         }
+        //desde aqui es lo que uso
+        public List<PacienteDto> GetPacientesEmpresa(int pIDConsultorio) {
+
+          return (from uc in gDc.Cliente_Paciente
+                         from p in gDc.Paciente
+                         from cc in gDc.Empresa_Cliente
+                         where cc.id_empresa == pIDConsultorio
+                         && cc.id_usuariocliente == uc.id_usuariocliente
+                         && uc.id_paciente == p.id_paciente
+                         && uc.IsPrincipal == true
+                         select new PacienteDto()
+                         {
+                             Antecedentes = p.antecedente,
+                             Ci = p.ci,
+                             Direccion = p.direccion,
+                             Email = p.email,
+                             Estado = p.estado,
+                             LoginCliente = cc.id_usuariocliente,
+                             NombrePaciente = p.nombre + " " + p.apellido,
+                             Telefono = p.nro_telefono,
+                             TipoSangre = p.tipo_sangre
+                         }).ToList();
+        }
 
        
     }

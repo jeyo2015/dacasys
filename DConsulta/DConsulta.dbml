@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db_dentista" Class="DConsultaDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True;Pooling=False" SettingsObjectName="DConsulta.Properties.Settings" SettingsPropertyName="db_dentistaConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Cliente_Paciente" Member="Cliente_Paciente">
-    <Type Name="Cliente_Paciente">
-      <Column Name="id_usuariocliente" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="id_paciente" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-    </Type>
-  </Table>
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True" SettingsObjectName="DConsulta.Properties.Settings" SettingsPropertyName="db_dentistaConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Empresa_Cliente" Member="Empresa_Cliente">
     <Type Name="Empresa_Cliente">
       <Column Name="id_empresa" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -65,6 +59,13 @@
       <Column Name="sexo" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
       <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="antecedente" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cliente_Paciente" Member="Cliente_Paciente">
+    <Type Name="Cliente_Paciente">
+      <Column Name="id_usuariocliente" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_paciente" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsPrincipal" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="dbo.BuscarCliente" Method="BuscarCliente">

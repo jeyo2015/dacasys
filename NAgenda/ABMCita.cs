@@ -8,6 +8,7 @@ using DConsulta;
 using DataTableConverter;
 using System.Data;
 using NLogin;
+using Herramientas;
 namespace NAgenda
 {
     public class ABMCita
@@ -55,7 +56,8 @@ namespace NAgenda
                     return 0;
                 }
             }
-            else {// Se crea una cita normal.
+            else
+            {// Se crea una cita normal.
                 Cita vCita = new Cita();
                 vCita.estado = true;
                 vCita.fecha = pFecha;
@@ -78,9 +80,9 @@ namespace NAgenda
                     gLe.Insertar("NAgenda", "ABMCita", "Insertar", ex);
                     return 0;
                 }
-            
+
             }
-           
+
         }
 
         /// <summary>
@@ -144,25 +146,26 @@ namespace NAgenda
                     Enviar_Correo_Cancelacion(sql.First().id_cliente, pIDUsuario, pMotivo);
                     sql.First().estado = false;
                     sql.First().libre = plibre;
-                   
+
 
                 }
-                else {
+                else
+                {
                     gDc.Cita.DeleteOnSubmit(sql.First());
                 }
                 try
-                    { 
-                       
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se elimino la cita", pIDUsuario);
+                {
 
-                        return 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        gLe.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
-                        return 0;
-                    }
+                    gDc.SubmitChanges();
+                    gCb.Insertar("Se elimino la cita", pIDUsuario);
+
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    gLe.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    return 0;
+                }
 
             }
             else
@@ -190,8 +193,8 @@ namespace NAgenda
         {
             return gDc.get_miscitasclient(pLoginClient);
 
-                        
-                   
+
+
         }
         /// <summary>
         /// Devuelve todas las citas de un cliente, no atendidas y a partir de la fecha actual
@@ -200,7 +203,7 @@ namespace NAgenda
         /// <returns></returns>
         public DataTable Get_CitasClientp(string pLoginClient)
         {
-            return Converter<get_miscitasclientResult>.Convert(Get_CitasClient(pLoginClient) .ToList());
+            return Converter<get_miscitasclientResult>.Convert(Get_CitasClient(pLoginClient).ToList());
         }
 
         /// <summary>
@@ -322,6 +325,115 @@ namespace NAgenda
                 codigo = codigo + Convert.ToString(pNro_cita);
             return codigo;
         }
+
+        public bool InsertarCita(AgendaDto cita, string pLogingCliente, DateTime pfechaCita, string pIDUsuario)
+        {
+            Cita vCita = new Cita();
+            vCita.idcita = Obtener_Codigo(cita.NumeroCita, pfechaCita, cita.IDConsultorio);
+            vCita.idempresa = cita.IDConsultorio;
+            vCita.libre = false;
+            vCita.id_cliente = pLogingCliente;
+            var auxHora = cita.HoraInicioString.Split(':');
+            vCita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+            auxHora = cita.HoraFinString.Split(':');
+            vCita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+            vCita.fecha = pfechaCita;
+            vCita.estado = true;
+            vCita.atendido = false;
+            try
+            {
+                gDc.Cita.InsertOnSubmit(vCita);
+                gDc.SubmitChanges();
+                gCb.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                gLe.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                return false;
+            }
+        }
+
+
+        public List<AgendaDto> GetAgendaDelDia(DateTime pFecha, int pIDConsultorio, int tiempoConsulta)
+        {
+
+            var query = (from c in gDc.Cita
+                         from cp in gDc.Cliente_Paciente
+                         from p in gDc.Paciente
+                         where c.idempresa == pIDConsultorio &&
+                         c.fecha == pFecha
+                         && cp.id_usuariocliente == c.id_cliente
+                         && cp.IsPrincipal == true
+                         && p.id_paciente == cp.id_paciente
+                         select new AgendaDto()
+                         {
+                             NombreCliente = p.nombre + " " + p.apellido,
+                             IdCita = c.idcita,
+                             IDConsultorio = c.idempresa,
+                             HoraFin = c.hora_fin,
+                             HoraInicio = c.hora_inicio,
+                             LoginCliente = c.id_cliente
+                         });
+            var vDia = (int)pFecha.DayOfWeek - 1;
+            if (vDia == -1)
+                vDia = 6;
+            var vHorarioConsultorio = (from h in gDc.Horario
+                                       where h.iddia == vDia
+                                       && h.idempresa == pIDConsultorio
+                                       select h).OrderBy(o => o.hora_inicio);
+            var listaRetorno = new List<AgendaDto>();
+            var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);
+            var numeroCita = 1;
+            foreach (var horario in vHorarioConsultorio)
+            {
+                var aux = horario.hora_inicio;
+                while (aux < horario.hora_fin)
+                {
+                    var cita = query.Where(x => x.HoraInicio == aux).FirstOrDefault();
+                    listaRetorno.Add(new AgendaDto()
+                    {
+                        HoraInicio = aux,
+                        LoginCliente = cita != null ? cita.LoginCliente : "",
+                        HoraFin = aux.Add(tiempoCita),
+                        IDHorario = horario.idhorario,
+                        IdCita = cita != null ? cita.IdCita : "",
+                        IDConsultorio = pIDConsultorio,
+                        EstaOcupada = cita != null,
+                        HoraInicioString = aux.ToString(),
+                        HoraFinString = aux.Add(tiempoCita).ToString(),
+                        Paciente = cita != null ? GetPacienteCita(cita.LoginCliente) : null,
+                        NumeroCita = numeroCita
+                    });
+                    aux = aux.Add(tiempoCita);
+                    numeroCita++;
+                }
+            }
+
+            return listaRetorno;
+
+        }
+
+        private PacienteDto GetPacienteCita(string pIDCliente)
+        {
+            return (from uc in gDc.Cliente_Paciente
+                    from p in gDc.Paciente
+                    where uc.id_usuariocliente == pIDCliente
+                    && uc.id_paciente == p.id_paciente
+                     && uc.IsPrincipal == true
+                    select new PacienteDto()
+                    {
+                        Antecedentes = p.antecedente,
+                        Ci = p.ci,
+                        Direccion = p.direccion,
+                        Email = p.email,
+                        Estado = p.estado,
+                        LoginCliente = pIDCliente,
+                        NombrePaciente = p.nombre + " " + p.apellido,
+                        Telefono = p.nro_telefono,
+                        TipoSangre = p.tipo_sangre
+                    }).FirstOrDefault();
+        }
         #endregion
         #region Metodos_Auxiliares
         /// <summary>
@@ -414,7 +526,7 @@ namespace NAgenda
             if (aux.ToShortDateString().CompareTo(pfecha.ToShortDateString()) == 0)
             {
                 TimeSpan vHoraf = new TimeSpan(phorai.Hours + 1, phorai.Minutes, 00);
-               
+
                 return true;
             }
             return false;

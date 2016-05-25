@@ -1008,6 +1008,27 @@ namespace NLogin
             }
             return 0;
         }
+        public ConsultorioDto GetConsultorioByID(int idConsultorio)
+        {
+            return (from c in gDc.Empresa
+                    from tc in gDc.Tiempo_Consulta
+                    where c.ID == idConsultorio
+                    select new ConsultorioDto()
+                    {
+                        Email = c.Email,
+                        Estado = c.Estado,
+                        TiempoCita = tc.Value,
+                        FechaCreacion = c.FechaCreacion,
+                        FechaModificacion = c.FechaModificacion,
+                        IDClinica = c.IDClinica,
+                        IDConsultorio = c.ID,
+                        IDIntervalo = c.IDIntervalo,
+                        IDUsuarioCreador = c.IDUsuarioCreador,
+                        Login = c.Login,
+                        NIT = c.NIT,
+                        Telefonos = GetTelefonosConsultorios(c.ID, c.IDClinica)
+                    }).FirstOrDefault();
+        }
 
         public int Get_IntervaloConsulta(int pIDEmpresa)
         {

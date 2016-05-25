@@ -6,9 +6,9 @@
         });
         return d.promise;
     };//InsertarNuevoRol(string nombreRol) 
-    this.insertarRol = function (nombreRol) {
+    this.insertarRol = function (nombreRol, IdConsultorio) {
         var d = $q.defer();// GetAllRolOfClinic(int idClinic)
-        $http.post('Roles/InsertarNuevoRol', { nombreRol: nombreRol }).success(function (data) {
+        $http.post('Roles/InsertarNuevoRol', { nombreRol: nombreRol, pIdConsultorio: IdConsultorio }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

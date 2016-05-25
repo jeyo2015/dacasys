@@ -49,7 +49,7 @@
         });
     }
     $scope.crearNewRol = function () {
-        rolesService.insertarRol($scope.nombrerol).then(function (result) {
+        rolesService.insertarRol($scope.nombrerol, $rootScope.sessionDto.IDConsultorio).then(function (result) {
             if (result.Data != 2) {
                 $('#new-rol').modal('hide');
                 toastr.success(result.Message);

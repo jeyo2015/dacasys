@@ -33,7 +33,7 @@ namespace WOdontoweb.Controllers
             sessionDto.IDConsultorio = Session["IDConsultorio"] == null ? -1 : Convert.ToInt32(Session["IDConsultorio"].ToString());
             sessionDto.IDClinica = Session["IDClinica"] == null ? -1 : Convert.ToInt32(Session["IDClinica"].ToString());
             sessionDto.Nombre = Session["NombreUser"] == null ? "" : Session["NombreUser"].ToString();
-            sessionDto.IDRol = Session["IDRol"] == null ? -1: Convert.ToInt32( Session["IDRol"].ToString());
+            sessionDto.IDRol = Session["IDRol"] == null ? -1 : Convert.ToInt32(Session["IDRol"].ToString());
             sessionDto.IsDacasys = Session["IsDacasys"] == null ? false : Convert.ToBoolean(Session["IsDacasys"].ToString());
             sessionDto.ChangePass = Session["changePass"] == null ? false : Convert.ToBoolean(Session["changePass"].ToString());
             return Json(sessionDto, JsonRequestBehavior.AllowGet);
@@ -43,7 +43,7 @@ namespace WOdontoweb.Controllers
             var renew = pIsAdmin ? _gABMUsuarioEmpleado.Cambiar_pass(loginUsuario, pPass, ploginConsultorio) : _gABMUsuarioCliente.Cambiar_pass(loginUsuario, pPass);
             var result = new ResponseModel()
             {
-                Message = renew == 1? "Se actualizo su contrasena": "No se pudo actualizar su contrasena",
+                Message = renew == 1 ? "Se actualizo su contrasena" : "No se pudo actualizar su contrasena",
                 Data = renew
             };
             Session["changePass"] = renew == 0;
@@ -145,7 +145,7 @@ namespace WOdontoweb.Controllers
                         Session["NombreUser"] = sessionDto.Nombre;
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
                         Session["changePass"] = sessionDto.ChangePass;
-                        Session["IDRol"] = sessionDto.ChangePass;
+                        Session["IDRol"] = sessionDto.IDRol;
                         break;
                     case 4:
                         message = "Contrasena incorrecta";

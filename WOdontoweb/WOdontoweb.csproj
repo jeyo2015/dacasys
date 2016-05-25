@@ -101,6 +101,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ConsultasController.cs" />
+    <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\NotificacionConsultorioController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -218,6 +220,8 @@
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
+    <Content Include="Scripts\app\services\consultasService.js" />
+    <Content Include="Scripts\app\services\pacienteService.js" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
@@ -292,6 +296,14 @@
     <ProjectReference Include="..\Herramientas\Herramientas.csproj">
       <Project>{0398367d-0762-41fc-9e40-b62a53b50977}</Project>
       <Name>Herramientas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NAgenda\NAgenda.csproj">
+      <Project>{27e0b2c0-4021-4e82-8cfd-72caaba8eb9d}</Project>
+      <Name>NAgenda</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NConsulta\NConsulta.csproj">
+      <Project>{d4d0b6e5-7aac-4262-882e-28e9f4c48225}</Project>
+      <Name>NConsulta</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -48,15 +48,15 @@ app.factory('injectorDacasys', ['$rootScope','$q', function ($rootScope, $q) {
     // $rootScope.countRequest = 0;
     var sessionInjector = {
         request: function (config) {
-            $("#divLoaderfull").show();
-            numLoadings++;
+           // $("#divLoaderfull").show();
+           // numLoadings++;
             // $rootScope.countRequest++;
             config.url = $("#basePath").attr("href") + config.url;
             return config;
         },
         response: function(response) {
-            if ((--numLoadings) === 0)
-                $("#divLoaderfull").hide();
+           // if ((--numLoadings) === 0)
+            //    $("#divLoaderfull").hide();
             return response;
             // $rootScope.countRequest--;
             {

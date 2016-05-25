@@ -24,18 +24,20 @@
     <link href="@Url.Content("~")" id="basePath" rel="stylesheet" />
     <link href="@Url.Content("~/Content/fontAwesome/css/font-awesome.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
 
 </head>
 
 <body>
 
     <div class="row">
-        <div id="divLoaderfull" class="loader" loader>
+        @*<div id="divLoaderfull" class="loader" loader>
             <div>
                 <span>
                     <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
             </div>
-        </div>
+        </div>*@
         <div id="header-1">
             <!--Start Top Bar-->
             <div class="top-bar">
@@ -115,10 +117,10 @@
                                     </div>
                                     <div class="navbar-collapse collapse navbar-responsive-collapse">
                                         <ul class="nav navbar-nav">
-                                            <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1" ><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
+                                            <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                             <li ng-class="getClass('/consultas')"><a ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin" href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
 
-                                            <li ng-class="getClass('/usuarios')" ><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                            <li ng-class="getClass('/usuarios')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                             <li ng-class="getClass('/roles')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                             <li ng-class="getClass('/consultorios')"><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                             <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
@@ -186,7 +188,7 @@
                                         <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
 
                                         <div class="col-md-12">
-                                            <input type="password" ng-model="pass" class="form-control" id="passwordID"  ng-keypress="enterLogIn($event)">
+                                            <input type="password" ng-model="pass" class="form-control" id="passwordID" ng-keypress="enterLogIn($event)">
                                         </div>
                                         <div class="col-md-10">
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==4">{{message}} </span>
@@ -340,6 +342,7 @@
         </div>
     </div>
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
+    <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
@@ -363,7 +366,9 @@
     <script src=" @Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/services/clinicaService.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
+    <script src=" @Url.Content("~/Scripts/app/services/consultasService.js")"></script>
     <script src=" @Url.Content("~/Scripts/app/services/notificacionesConsultorioService.js")"></script>
+    <script src=" @Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
         type="text/javascript"></script>
 
