@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="mostrarModalClientes()">Cancelar cita</button>
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
             <!--<button class="btn btn-raised btn-primary" ng-click="mostrarModalClientes()">Atender cita</button>-->
         </div>
     </div>
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
-                            <td><span class="label " ng-class="{'label-info':!cita.estaOcupada, 'label-danger':cita.estaOcupada}">{{cita.HoraInicioString}}</span>
+                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada, 'label-danger':cita.EstaOcupada}">{{cita.HoraInicioString}}</span>
                             </td>
                             <td>{{cita.Paciente.NombrePaciente}}
                             </td>
@@ -92,8 +92,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="agendarCita()" >Agendar</button>
-                 <button class="btn btn-primary" ng-click="closeModal('modal-seleccionar-cliente')" ng-disabled="validarCampos()">Cancelar</button>
+                <button class="btn btn-primary" ng-click="agendarCita()">Agendar</button>
+                <button class="btn btn-primary" ng-click="closeModal('modal-seleccionar-cliente')" ng-disabled="validarCampos()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -101,3 +101,46 @@
 
 
 
+<div class="modal fade" id="modal-cancelar-cita" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Cancelar cita del cliente {{citaSeleccionada.Paciente.NombrePaciente}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="form-group ">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Motivo </label>
+                                    <div class="col-md-10">
+                                        <textarea ng-model="motivoCancelacion" class="form-control col-md-10" id="txtMotivoId"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-offset-2 col-md-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input ng-model="horaLibre" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Poner ocupada la hora
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="eliminarCitaPaciente()">Aceptar</button>
+                <button class="btn btn-primary" ng-click="closeModal('modal-cancelar-cita')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

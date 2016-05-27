@@ -21,92 +21,20 @@ namespace NAgenda
 
         #region ABM_Cita
 
-        /// <summary>
-        /// Inserta una Cita en la Agenda
-        /// </summary>
-        /// <param name="pIDcita">ID de la cita</param>
-        /// <param name="pFecha">Fecha de la cita</param>
-        /// <param name="pHoraIni">Hora inicio de la cita</param>
-        /// <param name="pHoraFin">Hora fin de la cita</param>
-        /// <param name="pIDClienteEmpresa">ID del Cliente</param>
-        /// <param name="pIDEmpresa">Id de la empresa</param>
-        /// <param name="pIDUsuario">ID del usuario que realiza la accion</param>
-        public int Insertar(string pIDcita, DateTime pFecha, TimeSpan pHoraIni, TimeSpan pHoraFin,
-                                string pIDClienteEmpresa, int pIDEmpresa, string pIDUsuario)
+
+        public void ModificarCita(AgendaDto pCita, string pIDUsuario)
         {
-            var sql = from c in gDc.Cita
-                      where c.idcita == pIDcita
-                      && c.id_cliente == pIDClienteEmpresa
-                      select c;
-            if (sql.Count() > 0)
-            { //true== Se elimino la cita anteriormente del mismo cliente(por error talves)
-                ///entonces se cambia el estado y libre
-                sql.First().estado = true;
-                sql.First().libre = false;
-                try
-                {
-                    gDc.SubmitChanges();
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se inserto una cita, ya eliminada", pIDUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    gLe.Insertar("NAgenda", "ABMCita", "Insertar", ex);
-                    return 0;
-                }
-            }
-            else
-            {// Se crea una cita normal.
-                Cita vCita = new Cita();
-                vCita.estado = true;
-                vCita.fecha = pFecha;
-                vCita.hora_fin = pHoraFin;
-                vCita.hora_inicio = pHoraIni;
-                vCita.id_cliente = pIDClienteEmpresa;
-                vCita.idempresa = pIDEmpresa;
-                vCita.idcita = pIDcita;
-                vCita.libre = false;
-                vCita.atendido = false;
-                try
-                {
-                    gDc.Cita.InsertOnSubmit(vCita);
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se inserto una cita", pIDUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    gLe.Insertar("NAgenda", "ABMCita", "Insertar", ex);
-                    return 0;
-                }
-
-            }
-
-        }
-
-        /// <summary>
-        /// Modifica una Cita especifica
-        /// </summary>
-        /// <param name="pIDcita">ID de la cita</param>
-        /// <param name="pFecha">Fecha de la cita</param>
-        /// <param name="pHoraIni">Hora inicio de la cita</param>
-        /// <param name="pHoraFin">Hora fin de la cita</param>
-        /// <param name="pIDClienteEmpresa">ID del Cliente</param>
-        /// <param name="pIDEmpresa">Id de la empresa</param>
-        /// <param name="pIDUsuario">ID del usuario que realiza la accion</param>
-        public void Modificar(string pIDcita, DateTime pFecha, TimeSpan pHoraIni, TimeSpan pHoraFin,
-                               string pIDClienteEmpresa, int pIDEmpresa, string pIDUsuario)
-        {
-            var sql = from c in gDc.Cita
-                      where c.idcita == pIDcita
-                      select c;
-            if (sql.Count() > 0)
+            var vCita = (from c in gDc.Cita
+                         where c.idcita == pCita.IdCita
+                         select c).FirstOrDefault();
+            if (vCita != null)
             {
-                sql.First().hora_fin = pHoraFin;
-                sql.First().hora_inicio = pHoraIni;
-                sql.First().id_cliente = pIDClienteEmpresa;
-                sql.First().idempresa = pIDEmpresa;
+                var auxHora = pCita.HoraInicioString.Split(':');
+                vCita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+                auxHora = pCita.HoraFinString.Split(':');
+                vCita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+                vCita.id_cliente = pCita.Paciente.LoginCliente;
+                vCita.idempresa = pCita.IDConsultorio;
                 try
                 {
                     gDc.SubmitChanges();
@@ -124,34 +52,26 @@ namespace NAgenda
             }
 
         }
-        /// <summary>
-        /// Elimina una cita
-        /// </summary>
-        /// <param name="pIDCita">ID de la cita</param>
-        /// <param name="pIDUsuario">ID del Usuario</param>
-        /// <param name="plibre">True, queda libre la hora False, queda ocupado</param>
-        /// <returns> 1 - Se Elimino cita
-        ///           0 - No se elimino cita
-        ///           2 - No exite cita </returns>
-        public int Eliminar(string pIDCita, string pIDUsuario, bool plibre, String pMotivo)
+
+        public int EliminarCita(AgendaDto pCita, string pIDUsuario, bool plibre, String pMotivo)
         {
-            var sql = from c in gDc.Cita
-                      where c.idcita == pIDCita
-                      select c;
-            if (sql.Count() > 0)
+            var vCita = (from c in gDc.Cita
+                         where c.idcita == pCita.IdCita
+                         select c).FirstOrDefault();
+            if (vCita != null)
             {
 
                 if (!pMotivo.Equals(""))
                 {
-                    Enviar_Correo_Cancelacion(sql.First().id_cliente, pIDUsuario, pMotivo);
-                    sql.First().estado = false;
-                    sql.First().libre = plibre;
+                    Enviar_Correo_Cancelacion(pCita.Paciente, pIDUsuario, pMotivo);
+                    vCita.estado = false;
+                    vCita.libre = plibre;
 
 
                 }
                 else
                 {
-                    gDc.Cita.DeleteOnSubmit(sql.First());
+                    gDc.Cita.DeleteOnSubmit(vCita);
                 }
                 try
                 {
@@ -174,131 +94,6 @@ namespace NAgenda
 
         #endregion
         #region Getter_Citas
-        /// <summary>
-        /// Retorna un List con las citas de un cliente, no atendidas a partir de la fecha actul
-        /// </summary>
-        /// <param name="pLoginUsuario">Login del Cliente</param>
-        /// <returns></returns>
-        public List<get_miscitasclientResult> Get_CitasClientpList(String pLoginUsuario)
-        {
-            return Get_CitasClient(pLoginUsuario).ToList();
-        }
-
-        /// <summary>
-        /// Metodo privado que obtiene todas las citas de un cliente, no atendidas y a partir de la fecha actual
-        /// </summary>
-        /// <param name="pLoginClient">ID Login del Cliente</param>
-        /// <returns></returns>
-        private IEnumerable<get_miscitasclientResult> Get_CitasClient(string pLoginClient)
-        {
-            return gDc.get_miscitasclient(pLoginClient);
-
-
-
-        }
-        /// <summary>
-        /// Devuelve todas las citas de un cliente, no atendidas y a partir de la fecha actual
-        /// </summary>
-        /// <param name="pLoginClient">ID Login del cliente</param>
-        /// <returns></returns>
-        public DataTable Get_CitasClientp(string pLoginClient)
-        {
-            return Converter<get_miscitasclientResult>.Convert(Get_CitasClient(pLoginClient).ToList());
-        }
-
-        /// <summary>
-        /// Metodo primado que obiente citas de una empresa segun la fecha
-        /// </summary>
-        /// <param name="pFecha">Fecha de las citas</param>
-        /// <param name="pidEmpresa">ID de la citas</param>
-        /// <returns>IEnumerble de CITA</returns>
-        private IEnumerable<Cita> Get_Citas(DateTime pFecha, int pidEmpresa)
-        {
-            return from h in gDc.Cita
-                   where h.idempresa == pidEmpresa && h.fecha == pFecha
-                   select h;
-        }
-
-        /// <summary>
-        /// Devuelve las citas de la Fecha especificada
-        /// </summary>
-        /// <param name="pFecha">Fecha de las Citas</param>
-        /// <param name="ipdEmpresa">ID de la empresa</param>
-        /// <returns> Un DataTable que contiene las citas</returns>
-        public DataTable Get_Citasp(DateTime pFecha, int ipdEmpresa)
-        {
-            return Converter<Cita>.Convert(Get_Citas(pFecha, ipdEmpresa).ToList());
-        }
-
-        /// <summary>
-        /// Metodo privado que retorna una cita de una empresa segun la fecha y hora de inicio
-        /// </summary>
-        /// <param name="pFecha">Fecha </param>
-        /// <param name="phoraini">Hora incio de la cita</param>
-        /// <param name="pidEmpresa">ID de la empresa</param>
-        /// <returns>IEnumerable<Cita></returns>
-        private IEnumerable<Cita> Get_Cita(DateTime pFecha, TimeSpan phoraini, int pidEmpresa)
-        {
-            return from h in gDc.Cita
-                   where h.idempresa == pidEmpresa && h.fecha == pFecha
-                         && h.hora_inicio == phoraini && h.libre == false
-                   select h;
-        }
-
-        /// <summary>
-        /// Devuelve una cita especifica, segun fecha y Horainicio
-        /// </summary>
-        /// <param name="pFecha"> Fecha de las Citas</param>
-        /// <param name="pHoraini"> Hora de inicio de la Cita</param>
-        /// <param name="ipdEmpresa">ID de la empresa</param>
-        /// <returns> Un DataTable que contiene la cita</returns>
-        public DataTable Get_Citap(DateTime pFecha, TimeSpan pHoraini, int ipdEmpresa)
-        {
-            return Converter<Cita>.Convert(Get_Cita(pFecha, pHoraini, ipdEmpresa).ToList());
-        }
-
-        /// <summary>
-        /// Metodo privado que retorna una cita segun su codigo
-        /// </summary>
-        /// <param name="pIDcita">Codigo de la cita</param>
-        /// <returns>IEnumerable<Cita> </returns>
-        private IEnumerable<Cita> Get_Cita_Codigo(String pIDcita)
-        {
-            return from h in gDc.Cita
-                   where h.idcita == pIDcita && h.estado == true
-                   select h;
-        }
-
-        /// <summary>
-        /// Devuelve Cita segun su codigo
-        /// </summary>
-        /// <param name="pIDCita">ID de la cita a buscar</param>
-        /// <returns>un DataTable con la cita</returns>
-        public DataTable Get_Cita_Codigop(String pIDCita)
-        {
-            return Converter<Cita>.Convert(Get_Cita_Codigo(pIDCita).ToList());
-        }
-
-
-
-        /// <summary>
-        /// Obtiene el Id del cliente de una cita programada
-        /// </summary>
-        /// <param name="pcodigocita">ID de la cita</param>
-        /// <returns>El codigo de la cita</returns>
-        public String Obtener_id_cliente(string pcodigocita)
-        {
-            var sql = from c in gDc.Cita
-                      where c.idcita == pcodigocita
-                      select c;
-            String id_cliente = "";
-            if (sql.Count() > 0)
-            {
-                id_cliente = sql.First().id_cliente;
-            }
-
-            return id_cliente;
-        }
 
         /// <summary>
         /// Genera el codigo de la cita a reservar
@@ -309,6 +104,8 @@ namespace NAgenda
         /// <returns>Codigo Generado segun los parametros recibidos</returns>
         public string Obtener_Codigo(int pNro_cita, DateTime pFechaCita, int pIDEmpresa)
         {
+            Random rnd = new Random();
+            string ran = rnd.Next(1, 100).ToString(); 
             string codigo = pFechaCita.Year.ToString().Substring(2);
             if (pFechaCita.Month < 10)
                 codigo = codigo + "0" + pFechaCita.Month.ToString();
@@ -323,7 +120,7 @@ namespace NAgenda
                 codigo = codigo + "0" + Convert.ToString(pNro_cita);
             else
                 codigo = codigo + Convert.ToString(pNro_cita);
-            return codigo;
+            return codigo + ran;
         }
 
         public bool InsertarCita(AgendaDto cita, string pLogingCliente, DateTime pfechaCita, string pIDUsuario)
@@ -366,9 +163,10 @@ namespace NAgenda
                          && cp.id_usuariocliente == c.id_cliente
                          && cp.IsPrincipal == true
                          && p.id_paciente == cp.id_paciente
+                         && c.estado == true
                          select new AgendaDto()
                          {
-                             NombreCliente = p.nombre + " " + p.apellido,
+                            
                              IdCita = c.idcita,
                              IDConsultorio = c.idempresa,
                              HoraFin = c.hora_fin,
@@ -442,21 +240,11 @@ namespace NAgenda
         /// <param name="pIDcliente">ID del cliente</param>
         /// <param name="pIDUsuario">ID del usuario que cancela cita</param>
         /// <param name="pMotivo">Motivo de la anulacion de cita</param>
-        private void Enviar_Correo_Cancelacion(string pIDcliente, string pIDUsuario, String pMotivo)
+        private void Enviar_Correo_Cancelacion(PacienteDto pPaciente, string pIDUsuario, String pMotivo)
         {
-            var paciente = from pac in gDc.Paciente
-                           join cliente in gDc.UsuarioCliente on
-                           pac.ci equals cliente.Login
-                           where cliente.Login == pIDcliente && cliente.Estado == true
-                           select pac;
-            if (paciente.Count() > 0)
-            {
-
-                SMTP vSMTP = new SMTP();
-                vSMTP.Datos_Mensaje(paciente.First().email, pMotivo, "Cita Cancelada - MEDIWEB");
-                vSMTP.Enviar_Mail();
-
-            }
+            SMTP vSMTP = new SMTP();
+            vSMTP.Datos_Mensaje(pPaciente.Email, pMotivo, "Cita Cancelada -  ODONTOWEB");
+            vSMTP.Enviar_Mail();
 
 
         }

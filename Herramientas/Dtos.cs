@@ -63,8 +63,7 @@ namespace Herramientas
         public int IDHorario { get; set; }
         public int IDConsultorio { get; set; }
         public string LoginCliente { get; set; }
-        public string NombreCliente { get; set; }
-        public string IdCita { get; set; }
+         public string IdCita { get; set; }
         public TimeSpan HoraFin { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public string HoraInicioString { get; set; }

@@ -64,6 +64,13 @@
                                         </ul>
 
                                     </li>
+                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
+                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                            <li class="withoutborderNS" ><a><span>Configurar horarios</span> </a></li>
+                                            
+                                        </ul>
+
+                                    </li>
                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
                                             <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
@@ -341,6 +348,61 @@
             </div>
         </div>
     </div>
+
+     <div class="modal fade" id="configurar-horarios" role="dialog">
+            <div class="modal-dialog ">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Configurar horarios del consultorio</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <div class="form-group ">
+                                        <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
+
+                                        <div class="col-md-12">
+                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="loginID">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label for="newPasswordID" class="col-md-2 control-label">Contrasena</label>
+
+                                        <div class="col-md-12">
+                                            <input type="password" ng-model="newPass" class="form-control" id="newPasswordID">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <span style="color: #D82756; font-size: 11px" ng-show="showMessage">{{message}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label for="confirmPasswordID" style="text-align: left;" class="col-md-8 control-label">Repita Contrasena</label>
+
+                                        <div class="col-md-12">
+                                            <input type="password" ng-model="ConfirmPass" class="form-control" id="confirmPasswordID">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
     <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
