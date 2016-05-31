@@ -92,9 +92,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLogin\DLogin.csproj">
+    <ProjectReference Include="..\DLogin\Datos.csproj">
       <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
-      <Name>DLogin</Name>
+      <Name>Datos</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

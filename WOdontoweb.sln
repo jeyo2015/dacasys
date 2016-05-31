@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFacturacion", "NFacturacio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLogin", "NLogin\NLogin.csproj", "{92581E05-BDF7-4D4A-B188-785FF46EF5CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogin", "DLogin\DLogin.csproj", "{8A23C7AD-52D5-4C7F-9B9C-191A2EBCC305}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datos", "DLogin\Datos.csproj", "{8A23C7AD-52D5-4C7F-9B9C-191A2EBCC305}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
