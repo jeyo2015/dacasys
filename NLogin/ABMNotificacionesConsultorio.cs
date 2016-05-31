@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataTableConverter;
-using DLogin;
-using System.Data;
-using NEventos;
-using Herramientas;
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+    using System.Linq;
+    using Datos;
+    using NEventos;
+    using Herramientas;
+
     public class ABMNotificacionesConsultorio
     {
         #region VariablesGlobales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+
         #endregion
 
         #region MetodosPublicos
 
         public NotificacionesConsultorioNewDto GetNotificacionesPendientes(int pIDConsultorio, int pIDTipoNotificacion)
         {
-            var query = (from no in gDc.NotificacionConsultorio
-                         from cp in gDc.Cliente_Paciente
-                         from p in gDc.Paciente
+            var query = (from no in dataContext.NotificacionConsultorio
+                         from cp in dataContext.Cliente_Paciente
+                         from p in dataContext.Paciente
                          where no.Estado != 0 &&
                          no.TipoNotificacion == 1
                          && cp.id_usuariocliente == no.LoginUsuario
@@ -47,7 +45,7 @@ namespace NLogin
 
         public bool DeshabilitarNuevasNotificaciones(int pIDConsultorio, int pIDTipoNotificacion)
         {
-            var query = (from no in gDc.NotificacionConsultorio
+            var query = (from no in dataContext.NotificacionConsultorio
                          where no.IDConsultorio == pIDConsultorio
                          && no.TipoNotificacion == pIDTipoNotificacion
                          && no.Estado == 1
@@ -61,18 +59,18 @@ namespace NLogin
             }
             try
             {
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "DeshabilitarNuevasNotificaciones", ex);
+                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "DeshabilitarNuevasNotificaciones", ex);
                 return false;
             }
         }
         public bool AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
         {
-            var query = (from cp in gDc.Empresa_Cliente
+            var query = (from cp in dataContext.Empresa_Cliente
                          where cp.id_empresa == pNotificacionPaciente.IDConsultorio
                          && cp.id_usuariocliente == pNotificacionPaciente.LoginUsuario
                          select cp).FirstOrDefault();
@@ -81,8 +79,8 @@ namespace NLogin
                 Empresa_Cliente ep = new Empresa_Cliente();
                 ep.id_usuariocliente = pNotificacionPaciente.LoginUsuario;
                 ep.id_empresa = pNotificacionPaciente.IDConsultorio;
-                gDc.Empresa_Cliente.InsertOnSubmit(ep);
-                var notificacion = (from no in gDc.NotificacionConsultorio
+                dataContext.Empresa_Cliente.InsertOnSubmit(ep);
+                var notificacion = (from no in dataContext.NotificacionConsultorio
                                     where no.ID == pNotificacionPaciente.IDNotificacion
                                     select no).FirstOrDefault();
                 if (notificacion != null)
@@ -91,19 +89,19 @@ namespace NLogin
 
             try
             {
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
                 return false;
             }
         }
         public bool CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
         {
 
-            var notificacion = (from no in gDc.NotificacionConsultorio
+            var notificacion = (from no in dataContext.NotificacionConsultorio
                                 where no.ID == pNotificacionPaciente.IDNotificacion
                                 select no).FirstOrDefault();
             if (notificacion != null)
@@ -111,12 +109,12 @@ namespace NLogin
 
             try
             {
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
                 return false;
             }
         }

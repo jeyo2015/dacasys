@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DLogin;
-using NEventos;
-using System.Data;
-using DataTableConverter;
-using Herramientas;
-
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Datos;
+    using NEventos;
+    using System.Data;
+    using DataTableConverter;
+    using Herramientas;
+
     public class ABMUsuarioCliente
     {
         #region VariablesGlogales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
-        Encriptador gEncriptador = new Encriptador();
-       
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+        readonly Encriptador abmEncriptador = new Encriptador();
+
         #endregion
 
         #region ABM_UsuarioCliente
@@ -30,15 +30,16 @@ namespace NLogin
         /// <param name="pFechaCreacion">Fecha de Creación del UsuarioCliente</param>
         public int Insertar(string pLogin, string pPassword, string pIDUsuario)
         {
-            var sql = from us in gDc.UsuarioCliente
+            var sql = from us in dataContext.UsuarioCliente
                       where us.Login == pLogin
                       select us;
-            if (sql.Count() > 0) {
+            if (sql.Count() > 0)
+            {
                 return 2;
             }
             else
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPassword);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
                 UsuarioCliente vUsuarioCliente = new UsuarioCliente();
                 vUsuarioCliente.Login = pLogin;
                 vUsuarioCliente.Password = vPassEncriptada;
@@ -47,22 +48,20 @@ namespace NLogin
                 vUsuarioCliente.changepass = true;
                 try
                 {
-                    gDc.UsuarioCliente.InsertOnSubmit(vUsuarioCliente);
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se Inserto un nuevo cliente", pIDUsuario);
+                    dataContext.UsuarioCliente.InsertOnSubmit(vUsuarioCliente);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se Inserto un nuevo cliente", pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMCliente", "ABMUsuarioCliente", ex);
+                    controlErrores.Insertar("NLogin", "ABMCliente", "ABMUsuarioCliente", ex);
                     return 0;
                 }
             }
-            
-        }
 
-       
+        }
 
         /// <summary>
         /// Modifica los datos del UsuarioCliente especificado por su ID
@@ -71,15 +70,15 @@ namespace NLogin
         /// <param name="pPassword">Password del UsuarioCliente a modificar</param>
         public void Modificar(string pLogin, string pPassword)
         {
-            var sql = from e in gDc.UsuarioCliente
+            var sql = from e in dataContext.UsuarioCliente
                       where e.Login == pLogin
                       select e;
 
             if (sql.Count() > 0)
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPassword);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
                 sql.First().Password = vPassEncriptada;
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
             }
         }
 
@@ -89,29 +88,32 @@ namespace NLogin
         /// <param name="pID">Es el ID del UsuarioCliente a eliminar</param>
         public void Eliminar(string pLogin)
         {
-            var sql = from e in gDc.UsuarioCliente
+            var sql = from e in dataContext.UsuarioCliente
                       where e.Login == pLogin
                       select e;
 
             if (sql.Count() > 0)
             {
                 sql.First().Estado = false;
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
             }
         }
+
         #endregion
 
-        public SessionDto verificar_cliente(String pUsuario, String pass) {
+        public SessionDto verificar_cliente(String pUsuario, String pass)
+        {
             var sessionReturn = new SessionDto();
-            var cliente = from cli in gDc.UsuarioCliente
+            var cliente = from cli in dataContext.UsuarioCliente
                           where cli.Login == pUsuario
                           select cli;
             if (cliente.Count() > 0)
             {
-                
-                String vPassEncriptada = gEncriptador.Encriptar(pass);
-                if (cliente.First().Password == vPassEncriptada) {
-                   
+
+                String vPassEncriptada = abmEncriptador.Encriptar(pass);
+                if (cliente.First().Password == vPassEncriptada)
+                {
+
                     sessionReturn.loginUsuario = pUsuario;
                     sessionReturn.IDConsultorio = -1;
                     //sessionReturn.Nombre = cliente.First().
@@ -127,7 +129,8 @@ namespace NLogin
                     sessionReturn.Verificar = 4;
                 return sessionReturn;
             }
-            else {
+            else
+            {
 
                 sessionReturn.Verificar = 2;
                 return sessionReturn;
@@ -142,7 +145,7 @@ namespace NLogin
 
         private IEnumerable<UsuarioCliente> Get_Gliente(string pLogin)
         {
-            return from c in gDc.UsuarioCliente
+            return from c in dataContext.UsuarioCliente
                    where c.Login == pLogin
                    select c;
 
@@ -158,24 +161,24 @@ namespace NLogin
         /// -6 - No se Pudo Modificar Pass</returns>
         public int Cambiar_pass(string pLogin, string pPass)
         {
-          
-            var user = from u in gDc.UsuarioCliente
-                       where u.Login == pLogin 
+
+            var user = from u in dataContext.UsuarioCliente
+                       where u.Login == pLogin
                        select u;
             if (user.Count() > 0)
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPass);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPass);
                 user.First().changepass = false;
                 user.First().Password = vPassEncriptada;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modifico un Usuario", pLogin);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modifico un Usuario", pLogin);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMUsuarioCliente", "Cambiar_Pass", ex);
+                    controlErrores.Insertar("NLogin", "ABMUsuarioCliente", "Cambiar_Pass", ex);
                     return 0;
                 }
             }
@@ -184,69 +187,76 @@ namespace NLogin
 
         public int ResetearPass(string pLogin)
         {
-            var user =(from u in gDc.UsuarioCliente
-                       where u.Login == pLogin
-                       select u).FirstOrDefault();
+            var user = (from u in dataContext.UsuarioCliente
+                        where u.Login == pLogin
+                        select u).FirstOrDefault();
             if (user != null)
             {
-                String vPassNew = gEncriptador.Generar_Aleatoriamente();
-                String vPassNewEncriptada = gEncriptador.Encriptar(vPassNew);
+                String vPassNew = abmEncriptador.Generar_Aleatoriamente();
+                String vPassNewEncriptada = abmEncriptador.Encriptar(vPassNew);
                 user.changepass = true;
                 user.Password = vPassNewEncriptada;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se reseteo password de Usuario " + pLogin, "0000");
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se reseteo password de Usuario " + pLogin, "0000");
                     Enviar_ReseteoDePass(pLogin, vPassNew);
                     return 3;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMUsuarioCliente", "ResetearPass", ex);
+                    controlErrores.Insertar("NLogin", "ABMUsuarioCliente", "ResetearPass", ex);
                     return 2;
                 }
             }
-            else {
+            else
+            {
                 return 1;
             }
         }
 
         private void Enviar_ReseteoDePass(string pLogin, string pNewPass)
         {
-            var pac = from p in gDc.Paciente
-                      join cp in gDc.Cliente_Paciente
-                      on p.id_paciente equals cp.id_paciente join
-                      c in gDc.UsuarioCliente on
-                      cp.id_usuariocliente equals c.Login  
+            var pac = from p in dataContext.Paciente
+                      join cp in dataContext.Cliente_Paciente
+                      on p.id_paciente equals cp.id_paciente
+                      join
+                          c in dataContext.UsuarioCliente on
+                          cp.id_usuariocliente equals c.Login
                       where c.Login == pLogin
                       select p;
-            if(pac.Count() > 0){
+            if (pac.Count() > 0)
+            {
                 SMTP vSMTP = new SMTP();
                 String vMensaje = "Estimado Cliente su contrasena ha sido reseteada, por lo tanto su nueva " +
-                    "\nconstrasena es: " + pNewPass +". \nSaludos,\nMediweb";
+                    "\nconstrasena es: " + pNewPass + ". \nSaludos,\nMediweb";
                 vSMTP.Datos_Mensaje(pac.First().email, vMensaje, "Reseteo de Constrasena");
                 vSMTP.Enviar_Mail();
-            }   
+            }
         }
 
         public void Enviar_Bienvenida(int pIDClinica, string pemail, string vPass, string pcodigo_cliente)
         {
-              var em = from e in gDc.Clinica
-                       where e.ID==pIDClinica && e.Estado==true
-                       select e;
-            if(em.Count()>0){
-            SMTP vSMTP = new SMTP();
-            String vMensaje = "";
-                if(vPass.Equals("")){//Solo se asigna nueva empresa
+            var em = from e in dataContext.Clinica
+                     where e.ID == pIDClinica && e.Estado == true
+                     select e;
+            if (em.Count() > 0)
+            {
+                SMTP vSMTP = new SMTP();
+                String vMensaje = "";
+                if (vPass.Equals(""))
+                {//Solo se asigna nueva empresa
                     vMensaje = "Estimado Cliente ha sido suscrito a " + em.First().Nombre.ToUpper() + ". \nIngrese a la pagina " +
                         "para poder informarse acerca de este consultorio. Sus datos de acceso son los mismos." +
                         "\nSaludos,\nMediweb";
-                     vSMTP.Datos_Mensaje(pemail,vMensaje,"Nuevo Consultorio");
-                } else{
-                 vMensaje = "Bienvenido a Odontoweb.\n Ha sido suscrito a " + em.First().Nombre.ToUpper() +
-                    " sus datos para ingresar al sistema son: \n" + "Usuario: " + pcodigo_cliente +
-                    "\nContraseña: " + vPass + "\nSaludos,\nOdontoweb.";
-                vSMTP.Datos_Mensaje(pemail,vMensaje,"Bienvenido a Odontoweb");
+                    vSMTP.Datos_Mensaje(pemail, vMensaje, "Nuevo Consultorio");
+                }
+                else
+                {
+                    vMensaje = "Bienvenido a Odontoweb.\n Ha sido suscrito a " + em.First().Nombre.ToUpper() +
+                       " sus datos para ingresar al sistema son: \n" + "Usuario: " + pcodigo_cliente +
+                       "\nContraseña: " + vPass + "\nSaludos,\nOdontoweb.";
+                    vSMTP.Datos_Mensaje(pemail, vMensaje, "Bienvenido a Odontoweb");
                 }
                 vSMTP.Enviar_Mail();
             }

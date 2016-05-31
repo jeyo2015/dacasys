@@ -1,48 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DLogin;
-using NEventos;
-namespace NLogin
+﻿namespace NLogin
 {
-   public class ABMModulo
-   {
-       #region VariablesGlobales
-       DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-       ControlBitacora gCb = new ControlBitacora();
-       ControlLogErrores gCe = new ControlLogErrores();
-       #endregion
+    using System;
+    using Datos;
+    using NEventos;
 
-       #region ABM_Modulo
+    public class ABMModulo
+    {
+        #region VariablesGlobales
 
-       /// <summary>
-       /// Inserta un nuevo Modulo
-       /// </summary>
-       /// <param name="pNombre"></param>
-       /// <param name="pTexto"></param>
-       /// <param name="pIDUsuario"></param>
-       /// <returns></returns>
-       public int Insertar(String pNombre, String pTexto, string pIDUsuario) { 
-          Modulo vModulo = new Modulo();
-          vModulo.Nombre = pNombre;
-          vModulo.Texto = pTexto;
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
-          try{
-                  gDc.Modulo.InsertOnSubmit(vModulo);
-                  gDc.SubmitChanges();
-                  gCb.Insertar("Se inserto un Modulo", pIDUsuario);
-                  return 1;
+        #endregion
+
+        #region ABM_Modulo
+
+        /// <summary>
+        /// Inserta un nuevo Modulo
+        /// </summary>
+        /// <param name="pNombre"></param>
+        /// <param name="pTexto"></param>
+        /// <param name="pIDUsuario"></param>
+        /// <returns></returns>
+        public int Insertar(String pNombre, String pTexto, string pIDUsuario)
+        {
+            Modulo vModulo = new Modulo();
+            vModulo.Nombre = pNombre;
+            vModulo.Texto = pTexto;
+
+            try
+            {
+                dataContext.Modulo.InsertOnSubmit(vModulo);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se inserto un Modulo", pIDUsuario);
+                return 1;
             }
-              catch (Exception ex)
-             {
-                 gCe.Insertar("NLogin", "ABMModulo", "Insertar", ex);
-                 return 2;
-             }
-       
-       }
+            catch (Exception ex)
+            {
+                controlErrores.Insertar("NLogin", "ABMModulo", "Insertar", ex);
+                return 2;
+            }
 
-       #endregion
+        }
 
-   }
+        #endregion
+    }
 }

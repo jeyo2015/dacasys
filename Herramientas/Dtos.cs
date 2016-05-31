@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Herramientas
+﻿namespace Herramientas
 {
+    using System;
+    using System.Collections.Generic;
+
     public class SessionDto
     {
         public string Nombre { get; set; }
@@ -58,6 +56,7 @@ namespace Herramientas
         public string Nombre { get; set; }
         public int State { get; set; }
     }
+
     public class AgendaDto
     {
         public int IDHorario { get; set; }
@@ -75,12 +74,14 @@ namespace Herramientas
         public int NumeroCita { get; set; }
 
     }
+
     public class TrabajosConsultorioDto
     {
         public int ID { get; set; }
         public int IDConsultorio { get; set; }
         public int State { get; set; }
     }
+
     public class TrabajosClinicaDto
     {
         public int IDClinica { get; set; }
@@ -89,7 +90,6 @@ namespace Herramientas
         public string Descripcion { get; set; }
         public int State { get; set; }
     }
-
 
     public class ClinicaDto
     {
@@ -111,6 +111,7 @@ namespace Herramientas
         public List<TelefonoDto> Telefonos { get; set; }
         public int Status { get; set; }
     }
+
     public class ModulosTree
     {
         public int ID { get; set; }
@@ -131,6 +132,7 @@ namespace Herramientas
         public int EstadoNotificacion { get; set; }
 
     }
+
     public class NotificacionesConsultorioNewDto
     {
         public List<NotificacionesConsultorioDto> Notificaciones { get; set; }
@@ -163,6 +165,7 @@ namespace Herramientas
         public string TituloHistorico { get; set; }
         public int EstadoABM { get; set; }
     }
+
     public class HistoricoDetallePacienteDto
     {
         public int IdConsultorio { get; set; }
@@ -175,7 +178,8 @@ namespace Herramientas
         public string IdCita { get; set; }
         public bool CerrarHistorico { get; set; }
     }
-      public class HorarioDto
+
+    public class HorarioDto
     {
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
@@ -187,5 +191,4 @@ namespace Herramientas
         public string NombreDia { get; set; }
         public List<string> ListIDHorario { get; set; }
     }
-
 }

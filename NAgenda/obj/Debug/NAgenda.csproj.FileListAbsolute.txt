@@ -2320,19 +2320,17 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NAgenda
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NAgenda\obj\Debug\NAgenda.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NAgenda\obj\Debug\NAgenda.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NAgenda\obj\Debug\NAgenda.pdb
+D:\Geovi\Dacasys2705\dacasys\NAgenda\obj\Debug\NAgenda.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NAgenda.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NAgenda.pdb
-D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DAgenda.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DataTableConverter.dll
+D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DLogin.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\Herramientas.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NEventos.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NLogin.dll
-D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DLogin.dll
+D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DLogin.pdb
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\Herramientas.pdb
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NEventos.pdb
 D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\NLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DAgenda.pdb
-D:\Geovi\Dacasys2705\dacasys\NAgenda\bin\Debug\DLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NAgenda\obj\Debug\NAgenda.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\NAgenda\obj\Debug\NAgenda.dll
 D:\Geovi\Dacasys2705\dacasys\NAgenda\obj\Debug\NAgenda.pdb

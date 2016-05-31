@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataTableConverter;
-using DLogin;
-using System.Data;
-using NEventos;
-using Herramientas;
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using DataTableConverter;
+    using Datos;
+    using System.Data;
+    using NEventos;
+    using Herramientas;
+
     public class ABMRol
     {
         #region VariablesGlobales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+
         #endregion
+
         #region ABM_Rol
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace NLogin
         public int Insertar(String pNombre, int pIDEmpresa, string pIDUsuario, int pDACASYS)
         {
 
-            var rol = from r in gDc.Rol
+            var rol = from r in dataContext.Rol
                       where r.Nombre.ToUpper() == pNombre.ToUpper() &&
                       r.IDEmpresa == pIDEmpresa
                       select r;
@@ -42,15 +45,15 @@ namespace NLogin
             vRol.Nombre = pNombre;
             try
             {
-                gDc.Rol.InsertOnSubmit(vRol);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se inserto un Rol", pIDUsuario);
+                dataContext.Rol.InsertOnSubmit(vRol);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se inserto un Rol", pIDUsuario);
                 return Insertar_Rol(vRol, pIDUsuario, pDACASYS);
 
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMRol", "Insertar", ex);
+                controlErrores.Insertar("NLogin", "ABMRol", "Insertar", ex);
                 return 2;
             }
         }
@@ -64,7 +67,7 @@ namespace NLogin
         /// <returns>-1 algo anda mal</returns>
         private int Insertar_Rol(Rol pRol, string pIDUsuario, int pDACASYS)
         {
-            var vRol = from rol in gDc.Rol
+            var vRol = from rol in dataContext.Rol
                        where rol.IDEmpresa == pRol.IDEmpresa && rol.Nombre == pRol.Nombre
                        select rol;
 
@@ -87,12 +90,12 @@ namespace NLogin
         private void Insertar_Componentes(int pIDRol, string pIDUsuario, int pDACASYS)
         {
             bool vDacasys = Convert.ToBoolean(pDACASYS);
-            var vComponentes = from componentes in gDc.Componente
+            var vComponentes = from componentes in dataContext.Componente
                                where componentes.dacasys == vDacasys
                                select componentes;
             if (vDacasys)
 
-                vComponentes = from componentes in gDc.Componente
+                vComponentes = from componentes in dataContext.Componente
                                select componentes;
 
             foreach (var componente in vComponentes)
@@ -107,12 +110,12 @@ namespace NLogin
         private void Insertar_Formularios(int pIDRol, string pIDUsuario, int pDACASYS)
         {
             bool vDacasys = Convert.ToBoolean(pDACASYS);
-            var vFormularios = from formularios in gDc.Fomulario
+            var vFormularios = from formularios in dataContext.Fomulario
                                where formularios.dacasys == vDacasys
                                select formularios;
             if (vDacasys)
 
-                vFormularios = from formularios in gDc.Fomulario
+                vFormularios = from formularios in dataContext.Fomulario
                                select formularios;
 
             foreach (var formulario in vFormularios)
@@ -127,12 +130,12 @@ namespace NLogin
         private void Insertar_Modulos(int pIDRol, string pIDUsuario, int pDACASYS)
         {
             bool vDacasys = Convert.ToBoolean(pDACASYS);
-            var vModulos = from modulos in gDc.Modulo
+            var vModulos = from modulos in dataContext.Modulo
                            where modulos.dacasys == vDacasys
                            select modulos;
             if (vDacasys)
 
-                vModulos = from modulos in gDc.Modulo
+                vModulos = from modulos in dataContext.Modulo
                            select modulos;
 
             foreach (var modulo in vModulos)
@@ -150,7 +153,7 @@ namespace NLogin
         public void Insertar_EliminarModulo(int pIDRol, int pIDModulo, bool pinsert, string pIDUsuario,
                                               int pDACASYS)
         {
-            var sql = from m in gDc.Rol_Modulo
+            var sql = from m in dataContext.Rol_Modulo
                       where m.IDRol == pIDRol && m.IDModulo == pIDModulo
                       select m;
             if (pinsert)
@@ -162,9 +165,9 @@ namespace NLogin
                     vrol_modulo.IDRol = pIDRol;
                     try
                     {
-                        gDc.Rol_Modulo.InsertOnSubmit(vrol_modulo);
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se inserto un nuevo Rol_Modulo", pIDUsuario);
+                        dataContext.Rol_Modulo.InsertOnSubmit(vrol_modulo);
+                        dataContext.SubmitChanges();
+                        controlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", pIDUsuario);
                     }
                     catch (Exception ex)
                     {
@@ -177,8 +180,8 @@ namespace NLogin
             {//elimina
                 if (sql.Count() > 0)
                 {
-                    gDc.Rol_Modulo.DeleteOnSubmit(sql.First());
-                    gDc.SubmitChanges();
+                    dataContext.Rol_Modulo.DeleteOnSubmit(sql.First());
+                    dataContext.SubmitChanges();
                 }
 
             }
@@ -199,7 +202,7 @@ namespace NLogin
         /// <param name="pinsert">True insertar, False Elimina</param>
         public void Insertar_EliminarFormulario(int pIDRol, int pIDFormulario, string pIDUsuario, bool pinsert, int pDACASYS)
         {
-            var sql = from f in gDc.Rol_Formulario
+            var sql = from f in dataContext.Rol_Formulario
                       where f.IDRol == pIDRol && f.IDFormulario == pIDFormulario
                       select f;
             if (pinsert)
@@ -211,8 +214,8 @@ namespace NLogin
                     vrol_formulario.IDRol = pIDRol;
                     try
                     {
-                        gDc.Rol_Formulario.InsertOnSubmit(vrol_formulario);
-                        gDc.SubmitChanges();
+                        dataContext.Rol_Formulario.InsertOnSubmit(vrol_formulario);
+                        dataContext.SubmitChanges();
                     }
                     catch (Exception ex)
                     {
@@ -226,8 +229,8 @@ namespace NLogin
 
                 if (sql.Count() > 0)
                 {
-                    gDc.Rol_Formulario.DeleteOnSubmit(sql.First());
-                    gDc.SubmitChanges();
+                    dataContext.Rol_Formulario.DeleteOnSubmit(sql.First());
+                    dataContext.SubmitChanges();
                 }
             }
 
@@ -243,7 +246,7 @@ namespace NLogin
         /// <param name="pinsert">True insertar, False eliminar</param>
         public void Insertar_EliminarComponente(int pIDRol, int pIDComponente, string pIDUsuario, bool pinsert)
         {
-            var sql = from c in gDc.Rol_Componente
+            var sql = from c in dataContext.Rol_Componente
                       where c.ID_Rol == pIDRol && c.ID_Componente == pIDComponente
                       select c;
             if (pinsert)
@@ -255,8 +258,8 @@ namespace NLogin
                     vrol_componente.ID_Rol = pIDRol;
                     try
                     {
-                        gDc.Rol_Componente.InsertOnSubmit(vrol_componente);
-                        gDc.SubmitChanges();
+                        dataContext.Rol_Componente.InsertOnSubmit(vrol_componente);
+                        dataContext.SubmitChanges();
                     }
                     catch (Exception ex)
                     {
@@ -271,8 +274,8 @@ namespace NLogin
 
                 if (sql.Count() > 0)
                 {
-                    gDc.Rol_Componente.DeleteOnSubmit(sql.First());
-                    gDc.SubmitChanges();
+                    dataContext.Rol_Componente.DeleteOnSubmit(sql.First());
+                    dataContext.SubmitChanges();
                 }
 
 
@@ -293,7 +296,7 @@ namespace NLogin
         ///           3 - No existe el Rol</returns>
         public int Modificar(int pIDRol, String pNombre, int pIDEmpresa, string pIDUsuario)
         {
-            var sql = from r in gDc.Rol
+            var sql = from r in dataContext.Rol
                       where r.ID == pIDRol
                       select r;
 
@@ -304,18 +307,18 @@ namespace NLogin
 
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modifico un rol", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modifico un rol", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMRol", "Modificar", ex);
+                    controlErrores.Insertar("NLogin", "ABMRol", "Modificar", ex);
                     return 2;
                 }
 
             }
-            gCe.Insertar("NLogin", "ABMRol", "Modificar, no existe rol", null);
+            controlErrores.Insertar("NLogin", "ABMRol", "Modificar, no existe rol", null);
             return 3;
         }
 
@@ -332,13 +335,13 @@ namespace NLogin
         public int Eliminar(int pIDRol, string pIDUsuario)
         {
 
-            var sql = from r in gDc.Rol
+            var sql = from r in dataContext.Rol
                       where r.ID == pIDRol
                       select r;
 
             if (sql.Count() > 0)
             {
-                var vUs = from us in gDc.UsuarioEmpleado
+                var vUs = from us in dataContext.UsuarioEmpleado
                           where us.IDRol == pIDRol
                           select us;
                 if (vUs.Count() > 0)
@@ -350,14 +353,14 @@ namespace NLogin
 
                 try
                 {
-                    gDc.Rol.DeleteOnSubmit(sql.First());
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se elimino Rol", pIDUsuario);
+                    dataContext.Rol.DeleteOnSubmit(sql.First());
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se elimino Rol", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMRol", "Eliminar", ex);
+                    controlErrores.Insertar("NLogin", "ABMRol", "Eliminar", ex);
                     return 2;
                 }
             }
@@ -375,7 +378,7 @@ namespace NLogin
         public List<Rol> Get_Roles(int pIDempresa)
         {
 
-            return (from r in gDc.Rol
+            return (from r in dataContext.Rol
                     where r.IDEmpresa == pIDempresa
                     orderby r.Nombre
                     select r).ToList();
@@ -395,7 +398,7 @@ namespace NLogin
         private IEnumerable<Rol> Get_Rolesn(int pIDempresa, String pNombreRol)
         {
 
-            return from r in gDc.Rol
+            return from r in dataContext.Rol
                    where r.IDEmpresa == pIDempresa
                             && r.Nombre.Contains(pNombreRol)
                    orderby r.Nombre
@@ -422,7 +425,7 @@ namespace NLogin
         private IEnumerable<Rol> Get_Rol(int pIDRol)
         {
 
-            return from r in gDc.Rol
+            return from r in dataContext.Rol
                    where r.ID == pIDRol
                    select r;
         }
@@ -446,7 +449,7 @@ namespace NLogin
         private IEnumerable<getModulosResult> Get_Modulos(int pIDRol, int pDACASYS)
         {
 
-            return gDc.getModulos(pIDRol, pDACASYS);
+            return dataContext.getModulos(pIDRol, pDACASYS);
         }
 
         /// <summary>
@@ -462,7 +465,7 @@ namespace NLogin
 
         private IEnumerable<getFormulariosResult> Get_Formularios(int pIDRol, int pIDModulo, int pDACASYS)
         {
-            return gDc.getFormularios(pIDModulo, pIDRol, pDACASYS);
+            return dataContext.getFormularios(pIDModulo, pIDRol, pDACASYS);
 
         }
 
@@ -480,7 +483,7 @@ namespace NLogin
 
         private IEnumerable<getComponentesResult> Get_Componentes(int pIDRol, int pIDFormulario, int pDACASYS)
         {
-            return gDc.getComponentes(pIDFormulario, pIDRol, pDACASYS);
+            return dataContext.getComponentes(pIDFormulario, pIDRol, pDACASYS);
 
         }
 
@@ -495,20 +498,22 @@ namespace NLogin
             return Converter<getComponentesResult>.Convert(Get_Componentes(pIDRol, pIDFormulario, pDACASYS).ToList());
         }
         #endregion
+
         #region Metodos_auxiliares
+
         /// <summary>
         /// Desabilita las funciones de una empresa, por vencimiento de licencia
         /// </summary>
         /// <param name="pIDEmpresa">ID de la Empresa</param>
         public void Desahabilitar_Por_Licencia(int pIDEmpresa)
         {
-            var vRoles = from r in gDc.Rol
+            var vRoles = from r in dataContext.Rol
                          where r.IDEmpresa == pIDEmpresa
                          select r;
             int vIDVerCi = this.Get_CodigoFormulario("frmCitas");
             foreach (Rol r in vRoles)
             {
-                var vformularios = from f in gDc.Rol_Formulario
+                var vformularios = from f in dataContext.Rol_Formulario
                                    where f.IDRol == r.ID
                                    select f;
 
@@ -529,7 +534,7 @@ namespace NLogin
         /// <returns></returns>
         public int Get_CodigoFormulario(string pNombreForm)
         {
-            var form = from f in gDc.Fomulario
+            var form = from f in dataContext.Fomulario
                        where f.Nombre == pNombreForm
                        select f;
             if (form.Count() > 0)
@@ -545,8 +550,8 @@ namespace NLogin
         /// <returns></returns>
         private IEnumerable<Fomulario> Get_AllFormularios(int pIDRol)
         {
-            return from f in gDc.Fomulario
-                   join rf in gDc.Rol_Formulario on f.ID equals rf.IDFormulario
+            return from f in dataContext.Fomulario
+                   join rf in dataContext.Rol_Formulario on f.ID equals rf.IDFormulario
                    where rf.IDRol == pIDRol
                    select f;
 
@@ -604,10 +609,10 @@ namespace NLogin
 
         public List<ModulosTree> getComponenentes(int pRolID, int pIDFormulario)
         {
-            var componenteOfRol = (from cr in gDc.Rol_Componente
+            var componenteOfRol = (from cr in dataContext.Rol_Componente
                                    where cr.ID_Rol == pRolID
                                    select cr).ToList();
-            return (from c in gDc.Componente
+            return (from c in dataContext.Componente
                     where c.IDFormulario == pIDFormulario
                     select c).Select(x =>
                     new ModulosTree()
@@ -622,11 +627,11 @@ namespace NLogin
         }
         public List<ModulosTree> getFormularios(int pRolID, int pIDModulo)
         {
-            var formulariosOfRol = (from fr in gDc.Rol_Formulario
+            var formulariosOfRol = (from fr in dataContext.Rol_Formulario
                                     where fr.IDRol == pRolID
                                     select fr).ToList();
 
-            return (from f in gDc.Fomulario
+            return (from f in dataContext.Fomulario
                     where f.IDModulo == pIDModulo
                     select f).Select(x =>
                             new ModulosTree()
@@ -667,31 +672,31 @@ namespace NLogin
             }
             try
             {
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMRol", "ModificarPermisos", ex);
+                controlErrores.Insertar("NLogin", "ABMRol", "ModificarPermisos", ex);
                 return false;
             }
         }
 
         private void DeleteComponente(ModulosTree componente, int pIDRol)
         {
-            var rc = (from cr in gDc.Rol_Componente
+            var rc = (from cr in dataContext.Rol_Componente
                       where cr.ID_Componente == componente.ID
                           && cr.ID_Rol == pIDRol
                       select cr).FirstOrDefault();
             if (rc != null)
             {
-                gDc.Rol_Componente.DeleteOnSubmit(rc);
+                dataContext.Rol_Componente.DeleteOnSubmit(rc);
             }
         }
 
         private void InsertarComponente(ModulosTree componente, int pIDRol)
         {
-            var rc = (from cr in gDc.Rol_Componente
+            var rc = (from cr in dataContext.Rol_Componente
                       where cr.ID_Componente == componente.ID
                           && cr.ID_Rol == pIDRol
                       select cr).FirstOrDefault();
@@ -700,25 +705,25 @@ namespace NLogin
                 Rol_Componente rfor = new Rol_Componente();
                 rfor.ID_Rol = pIDRol;
                 rfor.ID_Componente = componente.ID;
-                gDc.Rol_Componente.InsertOnSubmit(rfor);
+                dataContext.Rol_Componente.InsertOnSubmit(rfor);
             }
         }
 
         private void Deleteformulario(ModulosTree formulario, int pIDRol)
         {
-            var rf = (from fr in gDc.Rol_Formulario
+            var rf = (from fr in dataContext.Rol_Formulario
                       where fr.IDFormulario == formulario.ID
                       && fr.IDRol == pIDRol
                       select fr).FirstOrDefault();
             if (rf != null)
             {
-                gDc.Rol_Formulario.DeleteOnSubmit(rf);
+                dataContext.Rol_Formulario.DeleteOnSubmit(rf);
             }
         }
 
         private void Insertarformulario(ModulosTree formulario, int pIDRol)
         {
-            var rf = (from fr in gDc.Rol_Formulario
+            var rf = (from fr in dataContext.Rol_Formulario
                       where fr.IDFormulario == formulario.ID
                       && fr.IDRol == pIDRol
                       select fr).FirstOrDefault();
@@ -727,26 +732,26 @@ namespace NLogin
                 Rol_Formulario rfor = new Rol_Formulario();
                 rfor.IDRol = pIDRol;
                 rfor.IDFormulario = formulario.ID;
-                gDc.Rol_Formulario.InsertOnSubmit(rfor);
+                dataContext.Rol_Formulario.InsertOnSubmit(rfor);
             }
         }
 
         private void DeleteModulo(ModulosTree modulo, int pIDRol)
         {
-            var rm = (from mr in gDc.Rol_Modulo
+            var rm = (from mr in dataContext.Rol_Modulo
                       where mr.IDRol == pIDRol &&
                       mr.IDModulo == modulo.ID
                       select mr).FirstOrDefault();
             if (rm != null)
             {
 
-                gDc.Rol_Modulo.DeleteOnSubmit(rm);
+                dataContext.Rol_Modulo.DeleteOnSubmit(rm);
             }
         }
 
         private void InsertarModulo(ModulosTree modulo, int pIDRol)
         {
-            var query = (from mr in gDc.Rol_Modulo
+            var query = (from mr in dataContext.Rol_Modulo
                          where mr.IDRol == pIDRol &&
                          mr.IDModulo == modulo.ID
                          select mr).FirstOrDefault();
@@ -755,14 +760,14 @@ namespace NLogin
                 Rol_Modulo mr = new Rol_Modulo();
                 mr.IDModulo = modulo.ID;
                 mr.IDRol = pIDRol;
-                gDc.Rol_Modulo.InsertOnSubmit(mr);
+                dataContext.Rol_Modulo.InsertOnSubmit(mr);
             }
 
         }
         public bool isModuloChecked(int pModuloId, int pRolId)
         {
 
-            return (from mr in gDc.Rol_Modulo
+            return (from mr in dataContext.Rol_Modulo
                     where mr.IDModulo == pModuloId
                     && mr.IDRol == pRolId
                     select mr).Count() > 0;
@@ -770,7 +775,7 @@ namespace NLogin
         public bool isFormularioChecked(int pFormularioId, int pRolId)
         {
 
-            return (from fr in gDc.Rol_Formulario
+            return (from fr in dataContext.Rol_Formulario
                     where fr.IDFormulario == pFormularioId
                     && fr.IDRol == pRolId
                     select fr).Count() > 0;
@@ -779,7 +784,7 @@ namespace NLogin
         public bool isComponenteChecked(int pComponenteId, int pRolId)
         {
 
-            return (from cr in gDc.Rol_Componente
+            return (from cr in dataContext.Rol_Componente
                     where cr.ID_Componente == pComponenteId
                     && cr.ID_Rol == pRolId
                     select cr).Count() > 0;
@@ -788,10 +793,10 @@ namespace NLogin
         {
 
 
-            //var moduloOfRol = (from mr in gDc.Rol_Modulo
+            //var moduloOfRol = (from mr in dataContext.Rol_Modulo
             //                   where mr.IDRol == pRolID
             //                   select mr).ToList();
-            return (from m in gDc.Modulo
+            return (from m in dataContext.Modulo
                     select m).Select(x =>
                         new ModulosTree()
                         {

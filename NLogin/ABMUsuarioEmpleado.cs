@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DLogin;
-using DataTableConverter;
-using System.Data;
-using NEventos;
-using System.Diagnostics;
-using Herramientas;
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Datos;
+    using DataTableConverter;
+    using System.Data;
+    using NEventos;
+    using Herramientas;
+
     public class ABMUsuarioEmpleado
     {
         #region VariablesGlogales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
-        Encriptador gEncriptador = new Encriptador();
-        ABMEmpresa gABMEmpresa;// = new ABMEmpresa();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+        readonly Encriptador abmEncriptador = new Encriptador();
+        ABMEmpresa abmEmpresa;
+
         #endregion
 
         #region ABM_UsuarioEmpleado
@@ -47,7 +48,7 @@ namespace NLogin
             //int v = ValidarCampos(pnombre, pLogin,pIDEmpresa,pIDRol, pPassword,pPass2,pChangepass);
             //if (v != 0)
             //    return v;
-            String vPassEncriptada = gEncriptador.Encriptar(pPassword);
+            String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
             UsuarioEmpleado vUsuarioEmpleado = new UsuarioEmpleado();
             vUsuarioEmpleado.Login = pLogin;
             vUsuarioEmpleado.IDEmpresa = pIDEmpresa;
@@ -59,14 +60,14 @@ namespace NLogin
             vUsuarioEmpleado.changepass = pChangepass;
             try
             {
-                gDc.UsuarioEmpleado.InsertOnSubmit(vUsuarioEmpleado);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se inserto un nuevo Usuario", pIDUsuario);
+                dataContext.UsuarioEmpleado.InsertOnSubmit(vUsuarioEmpleado);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se inserto un nuevo Usuario", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMUsuarioEmpleado", "Insertar", ex);
+                controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Insertar", ex);
                 return 0;
             }
 
@@ -123,26 +124,26 @@ namespace NLogin
             //int v = ValidarCampos(pNombre, pLogin, pIDEmpresa, pIDRol, pPassword, pPass2, pChangepass);
             //if (v != 0)
             //    return v;
-            var sql = from e in gDc.UsuarioEmpleado
+            var sql = from e in dataContext.UsuarioEmpleado
                       where e.Login == pLogin && e.IDEmpresa == pIDEmpresa
                       select e;
 
             if (sql.Count() > 0)
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPassword);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
                 sql.First().IDRol = pIDRol;
                 sql.First().Password = vPassEncriptada;
                 sql.First().changepass = pChangepass;
                 sql.First().Nombre = pNombre;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modifico un Usuario", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modifico un Usuario", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar", ex);
+                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar", ex);
                     return 8;
                 }
             }
@@ -159,7 +160,7 @@ namespace NLogin
         ///                    2 - No se pudo eliminar</returns>
         public int Eliminar(string pLogin, int pIdEmpresa, string pUsuario)
         {
-            var sql = from e in gDc.UsuarioEmpleado
+            var sql = from e in dataContext.UsuarioEmpleado
                       where e.Login == pLogin && e.IDEmpresa == pIdEmpresa
                       select e;
 
@@ -168,13 +169,13 @@ namespace NLogin
                 sql.First().Estado = false;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se elimino un Usuario, login: " + pLogin, pUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se elimino un Usuario, login: " + pLogin, pUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMUsuarioEmpleado", "Eliminar", ex);
+                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Eliminar", ex);
                     return 2;
 
                 }
@@ -184,20 +185,19 @@ namespace NLogin
         }
         #endregion
 
-
         public SessionDto verificar_empleado(String pUsuario, String pPass, String pEmpresa)
         {
             var sessionReturn = new SessionDto();
-            var empresa = (from emp in gDc.Empresa
+            var empresa = (from emp in dataContext.Empresa
                            where emp.Login == pEmpresa && emp.Estado == true
                            select emp).FirstOrDefault();
             if (empresa != null)
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPass);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPass);
                 int vIdEmpresa = empresa.ID;
                 int lic = Verificar_licencia(empresa.IDClinica); //0Desa 1 habi
 
-                var empleado = (from empl in gDc.UsuarioEmpleado
+                var empleado = (from empl in dataContext.UsuarioEmpleado
                                 where empl.Login == pUsuario && empl.IDEmpresa == vIdEmpresa
                                 select empl).FirstOrDefault();
                 if (empleado != null)
@@ -233,9 +233,10 @@ namespace NLogin
             sessionReturn.Verificar = 0; ///esta desahabilitada 
             return sessionReturn;
         }
+
         public int Get_DirefenciaHora()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
             if (sql.Count() > 0)
@@ -244,9 +245,10 @@ namespace NLogin
             }
             return 0;
         }
+
         public void verificar_todas_licencias()
         {
-            var Laste = from e in gDc.Envio
+            var Laste = from e in dataContext.Envio
                         select e;
             if (Laste.Count() > 0)
             {
@@ -256,7 +258,7 @@ namespace NLogin
                 {
                     Laste.First().Fecha = DateTime.Now.AddHours(Get_DirefenciaHora());
 
-                    gDc.SubmitChanges();
+                    dataContext.SubmitChanges();
                 }
             }
             else
@@ -264,21 +266,19 @@ namespace NLogin
                 Envio vEnvio = new Envio();
                 vEnvio.id = 1;
                 vEnvio.Fecha = DateTime.Now.AddHours(Get_DirefenciaHora());
-                gDc.Envio.InsertOnSubmit(vEnvio);
-                gDc.SubmitChanges();
+                dataContext.Envio.InsertOnSubmit(vEnvio);
+                dataContext.SubmitChanges();
             }
             EnviarCorreo ec = new EnviarCorreo();
-            gABMEmpresa = new ABMEmpresa();
-            ec.Iniciar(gABMEmpresa.Get_IDempresasp());
+            abmEmpresa = new ABMEmpresa();
+            ec.Iniciar(abmEmpresa.Get_IDempresasp());
 
         }
-
-
 
         private int Verificar_licencia(int pIdClinica)
         {
 
-            var lic = from l in gDc.Licencia
+            var lic = from l in dataContext.Licencia
                       where l.IDClinica == pIdClinica
                       orderby l.FechaInicio descending
                       select l;
@@ -297,12 +297,11 @@ namespace NLogin
 
         }
 
-
         private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, string pLoginEmpresa)
         {
 
-            return from e in gDc.UsuarioEmpleado
-                   join em in gDc.Empresa on e.IDEmpresa equals em.ID
+            return from e in dataContext.UsuarioEmpleado
+                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
                    where e.Estado == true && e.Login == pLoginUsuario &&
                    em.Login == pLoginEmpresa
                    select e;
@@ -320,12 +319,11 @@ namespace NLogin
             return Converter<UsuarioEmpleado>.Convert(Get_Empleado(pLoginUsuario, pLoginEmpresa).ToList());
         }
 
-
         private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, int pIDEmpresa)
         {
 
-            return from e in gDc.UsuarioEmpleado
-                   join em in gDc.Empresa on e.IDEmpresa equals em.ID
+            return from e in dataContext.UsuarioEmpleado
+                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
                    where e.Estado == true && e.Login == pLoginUsuario &&
                    em.ID == pIDEmpresa
                    select e;
@@ -343,11 +341,10 @@ namespace NLogin
             return Converter<UsuarioEmpleado>.Convert(Get_Empleado(pLoginUsuario, pIDEmpresa).ToList());
         }
 
-
         private IEnumerable<UsuarioEmpleado> Buscar_Usuarios(String pLoginUsuario, int pIDEmpresa)
         {
 
-            return from e in gDc.UsuarioEmpleado
+            return from e in dataContext.UsuarioEmpleado
                    where e.Estado == true && (e.Login.Contains(pLoginUsuario) || e.Nombre.Contains(pLoginUsuario))
                    && e.IDEmpresa == pIDEmpresa
                    select e;
@@ -358,23 +355,25 @@ namespace NLogin
         {
             return Converter<UsuarioEmpleado>.Convert(Buscar_Usuarios(pLogin, pIDEmpresa).ToList());
         }
+
         public List<UsuarioDto> Get_Usuarios(int pIDEmpresa)
         {
-            return (from e in gDc.UsuarioEmpleado
+            return (from e in dataContext.UsuarioEmpleado
                     where e.Estado == true
                     && e.IDEmpresa == pIDEmpresa
                     select e).Select(x => new UsuarioDto()
                     {
                         changepass = x.changepass,
-                        ConfirmPass = gEncriptador.Desencriptar(x.Password),
+                        ConfirmPass = abmEncriptador.Desencriptar(x.Password),
                         Estado = x.Estado,
                         IDEmpresa = x.IDEmpresa,
                         IDRol = x.IDRol,
                         Login = x.Login,
                         Nombre = x.Nombre,
-                        Password = gEncriptador.Desencriptar(x.Password)
+                        Password = abmEncriptador.Desencriptar(x.Password)
                     }).ToList();
         }
+
         //public DataTable Get_Usuariop(string pLogin, int pIDEmpresa)
         //{
         //    return Converter<UsuarioEmpleado>.Convert(Get_Usuarios(pLogin, pIDEmpresa).ToList());
@@ -382,19 +381,19 @@ namespace NLogin
 
         public UsuarioDto Get_Usuario(string pLogin, int pIDEmpresa)
         {
-            return (from e in gDc.UsuarioEmpleado
+            return (from e in dataContext.UsuarioEmpleado
                     where e.Estado == true && e.Login == pLogin
                     && e.IDEmpresa == pIDEmpresa
                     select new UsuarioDto
                     {
                         changepass = e.changepass,
-                        ConfirmPass = gEncriptador.Desencriptar(e.Password),
+                        ConfirmPass = abmEncriptador.Desencriptar(e.Password),
                         Estado = e.Estado,
                         IDEmpresa = e.IDEmpresa,
                         IDRol = e.IDRol,
                         Login = e.Login,
                         Nombre = e.Nombre,
-                        Password = gEncriptador.Desencriptar(e.Password)
+                        Password = abmEncriptador.Desencriptar(e.Password)
                     }).FirstOrDefault();
         }
 
@@ -420,7 +419,7 @@ namespace NLogin
 
             if (Buscar_Usuariosp(pLogin, pIDempresa).Rows.Count == 0)
             {
-                var vUserD = from u in gDc.UsuarioEmpleado
+                var vUserD = from u in dataContext.UsuarioEmpleado
                              where u.Login == "admin" && u.IDEmpresa == pIDempresa
                              select u;
                 if (vUserD.Count() > 0)
@@ -428,25 +427,25 @@ namespace NLogin
                     UsuarioEmpleado vNewUser = new UsuarioEmpleado();
                     vNewUser.Login = pLogin;
                     vNewUser.Nombre = pNombre;
-                    string vnewp = gEncriptador.Encriptar(pPass);
+                    string vnewp = abmEncriptador.Encriptar(pPass);
                     vNewUser.Password = vnewp;
                     vNewUser.IDRol = vUserD.First().IDRol;
                     vNewUser.IDEmpresa = pIDempresa;
                     vNewUser.Estado = true;
                     vNewUser.FechaCreacion = vUserD.First().FechaCreacion;
                     vNewUser.changepass = false;
-                    gDc.UsuarioEmpleado.InsertOnSubmit(vNewUser);
-                    gDc.UsuarioEmpleado.DeleteOnSubmit(vUserD.First());
+                    dataContext.UsuarioEmpleado.InsertOnSubmit(vNewUser);
+                    dataContext.UsuarioEmpleado.DeleteOnSubmit(vUserD.First());
 
                     try
                     {
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se modifico un Usuario Default", pLogin);
+                        dataContext.SubmitChanges();
+                        controlBitacora.Insertar("Se modifico un Usuario Default", pLogin);
                         return 0;
                     }
                     catch (Exception ex)
                     {
-                        gCe.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar_UserDefault", ex);
+                        controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar_UserDefault", ex);
                         return -6;
                     }
                 }
@@ -494,26 +493,26 @@ namespace NLogin
         public int Cambiar_pass(string pLogin, string pPass, string loginEmpresa)
         {
 
-            var user = from u in gDc.UsuarioEmpleado
-                       from c in gDc.Empresa
+            var user = from u in dataContext.UsuarioEmpleado
+                       from c in dataContext.Empresa
                        where u.Login == pLogin &&
                        c.Login.ToUpper() == loginEmpresa.ToUpper()
                        && c.ID == u.IDEmpresa
                        select u;
             if (user.Count() > 0)
             {
-                String vPassEncriptada = gEncriptador.Encriptar(pPass);
+                String vPassEncriptada = abmEncriptador.Encriptar(pPass);
                 user.First().changepass = false;
                 user.First().Password = vPassEncriptada;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modifico un Usuario", pLogin);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modifico un Usuario", pLogin);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMUsuarioEmpleado", "Cambiar_Pass", ex);
+                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Cambiar_Pass", ex);
                     return 0;
                 }
 
@@ -523,27 +522,27 @@ namespace NLogin
 
         public int Resetear_Contrasena(string pLogin, String pLEmpresa)
         {
-            var empresa = (from e in gDc.Empresa
+            var empresa = (from e in dataContext.Empresa
                            where e.Login == pLEmpresa
                            select e).FirstOrDefault();
             if (empresa != null)
             {
-                var usuario = (from u in gDc.UsuarioEmpleado
+                var usuario = (from u in dataContext.UsuarioEmpleado
                                where u.Login == pLogin &&
                                u.IDEmpresa == empresa.ID && u.Estado == true
                                select u).FirstOrDefault();
                 if (usuario != null)
                 {
-                    String vNewPass = gEncriptador.Generar_Aleatoriamente();
-                    String vNewPassEncriptada = gEncriptador.Encriptar(vNewPass);
+                    String vNewPass = abmEncriptador.Generar_Aleatoriamente();
+                    String vNewPassEncriptada = abmEncriptador.Encriptar(vNewPass);
                     usuario.Password = vNewPassEncriptada;
-                    gABMEmpresa = new ABMEmpresa();
-                    Clinica vclinica = gABMEmpresa.Get_ClinicaByID(empresa.IDClinica);
+                    abmEmpresa = new ABMEmpresa();
+                    Clinica vclinica = abmEmpresa.Get_ClinicaByID(empresa.IDClinica);
                     usuario.changepass = true;
                     try
                     {
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se reseteo contraseña de usuario " + pLogin + " Consultorio " + vclinica.Nombre, "0000");
+                        dataContext.SubmitChanges();
+                        controlBitacora.Insertar("Se reseteo contraseña de usuario " + pLogin + " Consultorio " + vclinica.Nombre, "0000");
                         SMTP vSMTP = new SMTP();
                         String vMensaje = "Consultorio " + vclinica.Nombre + " se solicito el reseteo de contrasena del \n" +
                                          " usuario : " + pLogin + ", con nombre " + usuario.Nombre +
@@ -558,7 +557,7 @@ namespace NLogin
                     }
                     catch (Exception ex)
                     {
-                        gCe.Insertar("Nlogin", "ABMUsuarioEmpleado", "Reseto_Constrasena", ex);
+                        controlErrores.Insertar("Nlogin", "ABMUsuarioEmpleado", "Reseto_Constrasena", ex);
                         return 2;
                     }
                 }
@@ -570,15 +569,16 @@ namespace NLogin
         private IEnumerable<Planilla_Vendedores> Get_PlanillaUser(DateTime pfechaaux, string pIDUsuario)
         {
 
-            return from pv in gDc.Planilla_Vendedores
+            return from pv in dataContext.Planilla_Vendedores
                    where pv.Fecha == pfechaaux && pv.IDUsuario == pIDUsuario
                    select pv;
 
         }
+
         private IEnumerable<Planilla_Vendedores> Get_PlanillaL(DateTime pfechaaux)
         {
 
-            return from pv in gDc.Planilla_Vendedores
+            return from pv in dataContext.Planilla_Vendedores
                    where pv.Fecha == pfechaaux
                    select pv;
 
@@ -586,7 +586,7 @@ namespace NLogin
 
         public DataTable Get_Planilla(DateTime pfechaaux, int pIDRol, string pIDUsuario)
         {
-            var sql = from r in gDc.Rol
+            var sql = from r in dataContext.Rol
                       where r.ID == pIDRol
                       select r;
             if (sql.First().Nombre == "Administrador DACASYS")
@@ -597,7 +597,7 @@ namespace NLogin
 
         public void clean_logs()
         {
-            gDc.CleanLog();
+            dataContext.CleanLog();
         }
     }
 }

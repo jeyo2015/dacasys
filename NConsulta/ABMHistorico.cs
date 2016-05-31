@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NEventos;
-using DataTableConverter;
-using System.Data;
-using NLogin;
-using DLogin;
-using Herramientas;
-
-namespace NConsulta
+﻿namespace NConsulta
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NEventos;
+    using DataTableConverter;
+    using System.Data;
+    using Datos;
+    using Herramientas;
+
     public class ABMHistorico
     {
         #region VariableGlobales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
 
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gLe = new ControlLogErrores();
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -58,14 +56,14 @@ namespace NConsulta
             vHistorico.titulo_numero = pHistoricoPaciente.TituloHistorico;
             try
             {
-                gDc.Historico_Paciente.InsertOnSubmit(vHistorico);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se insertó un nuevo histórico", pIDusuario);
+                dataContext.Historico_Paciente.InsertOnSubmit(vHistorico);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
                 return true;
             }
             catch (Exception ex)
             {
-                gLe.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
+                controlErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
                 return false;
             }
 
@@ -80,7 +78,7 @@ namespace NConsulta
         /// <param name="pnumero">Numro de historico</param>
         public void Eliminar(int pIDPaciente, int pIDEmpresa, int pnumero)
         {
-            var sql = from e in gDc.Historico_Paciente
+            var sql = from e in dataContext.Historico_Paciente
                       where e.id_paciente == pIDPaciente && e.id_empresa == pIDEmpresa
                       && e.numero == pnumero
                       select e;
@@ -90,7 +88,7 @@ namespace NConsulta
 
                 sql.First().estado = false;
 
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
 
             }
 
@@ -111,7 +109,7 @@ namespace NConsulta
                             int pcitas_estimadas, int pcitas_realizasadas)
         {
 
-            var sql = from e in gDc.Historico_Paciente
+            var sql = from e in dataContext.Historico_Paciente
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
                       select e;
 
@@ -124,13 +122,14 @@ namespace NConsulta
 
                 sql.First().numero = ticket;
                 sql.First().titulo_numero = ticket_titulo;
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
             }
 
 
 
         }
         #endregion
+
         #region Getter_Historicos
         /// <summary>
         /// Metodo privado que retorna historicos de un paciente
@@ -140,7 +139,7 @@ namespace NConsulta
         /// <returns>IEnumerable<Historico_Paciente></returns>
         public List<HistoricoPacienteDto> GetHistoricoPaciente(int pIDpaciente, int pIDEmpresa)
         {
-            return (from p in gDc.Historico_Paciente
+            return (from p in dataContext.Historico_Paciente
                     where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
                     p.estado == true
                     select new HistoricoPacienteDto()
@@ -167,7 +166,7 @@ namespace NConsulta
         /// <returns>IEnumerable<Historico_Paciente></returns>
         private IEnumerable<Historico_Paciente> Get_HistoricoNro(int pIDpaciente, int pIDEmpresa, int pNroHistorico)
         {
-            return from p in gDc.Historico_Paciente
+            return from p in dataContext.Historico_Paciente
                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
                    p.estado == true && p.numero == pNroHistorico
                    select p;
@@ -184,6 +183,7 @@ namespace NConsulta
             return Converter<Historico_Paciente>.Convert(Get_HistoricoNro(pIDPaciente, pIDEmpresa, pNroHistorico).ToList());
         }
         #endregion
+
         #region Metodos_Auxiliares
         /// <summary>
         /// Retorna el numero del ultimo historico de un paciente
@@ -194,7 +194,7 @@ namespace NConsulta
         /// <returns>un INT , retorna 0 en caso de que no haya ningun historico</returns>
         public int Get_Nro_Historico(int pIDempresa, int pIDPaciente, string pIDUsuario)
         {
-            var sql = from h in gDc.Historico_Paciente
+            var sql = from h in dataContext.Historico_Paciente
                       where h.id_empresa == pIDempresa &&
                         h.id_paciente == pIDPaciente
                       orderby h.numero descending
@@ -206,6 +206,5 @@ namespace NConsulta
             return 0;
         }
         #endregion
-
     }
 }

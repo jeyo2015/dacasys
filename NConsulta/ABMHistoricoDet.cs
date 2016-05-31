@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NEventos;
-using DataTableConverter;
-using System.Data;
-using NLogin;
-using NAgenda;
-using DLogin;
-using Herramientas;
-
-namespace NConsulta
+﻿namespace NConsulta
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NEventos;
+    using NAgenda;
+    using Datos;
+    using Herramientas;
+
     public class ABMHistoricoDet
     {
         #region VariableGlobales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
 
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -54,20 +50,20 @@ namespace NConsulta
             try
             {
 
-                gDc.Historico_Paciente_det.InsertOnSubmit(vHistoricoDet);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se inserto Nuevo detalle de Historico", pIDUsuario);
-                
-                if(pFinalizado)
+                dataContext.Historico_Paciente_det.InsertOnSubmit(vHistoricoDet);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se inserto Nuevo detalle de Historico", pIDUsuario);
+
+                if (pFinalizado)
                     Actualizar_citas_realizadas(pIDEmpresa, pIDpaciente, ticket, pIDUsuario);
-            
-                   int vAux = Actualizar_Cita_Atendido(pIDCita, pIDUsuario);
-          
+
+                int vAux = Actualizar_Cita_Atendido(pIDCita, pIDUsuario);
+
                 return vAux;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NConsulta", "ABMHistoricoDet", "Insertar", ex);
+                controlErrores.Insertar("NConsulta", "ABMHistoricoDet", "Insertar", ex);
                 return 2;
             }
 
@@ -75,7 +71,7 @@ namespace NConsulta
 
         public void Eliminar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle)
         {
-            var sql = from e in gDc.Historico_Paciente_det
+            var sql = from e in dataContext.Historico_Paciente_det
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
                       && e.numero == ticket && e.nro_detalle == pNro_detalle
                       select e;
@@ -98,7 +94,7 @@ namespace NConsulta
                             string pTrabajo_a_realizar, DateTime pFecha, String pIDCita)
         {
 
-            var sql = from e in gDc.Historico_Paciente_det
+            var sql = from e in dataContext.Historico_Paciente_det
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
                       && e.numero == ticket && e.nro_detalle == pNro_detalle
                       select e;
@@ -110,7 +106,7 @@ namespace NConsulta
 
                 sql.First().trabajo_a_realizar = pTrabajo_a_realizar;
                 sql.First().trabajo_realizado = trabajo_realizado;
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
             }
 
 
@@ -118,6 +114,7 @@ namespace NConsulta
         }
 
         #endregion
+
         #region Getter_HistoricoDET
         /// <summary>
         /// Metodo Privado que Retorna los detalles de un historico
@@ -128,23 +125,24 @@ namespace NConsulta
         /// <returns>IEnumerable Historico_Paciente_det</returns>
         public List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
         {
-            return (from p in gDc.Historico_Paciente_det
-                   where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
-                   && p.numero == ticket
-                   select new HistoricoDetallePacienteDto(){
-                   FechaCreacion = p.fecha,
-                   IdCita = p.id_cita,
-                   IdConsultorio = p.id_empresa,
-                   IdPaciente = p.id_paciente,
-                   NumeroDetalle = p.nro_detalle,
-                   NumeroHistorico = p.numero,
-                   TrabajoARealizar = p.trabajo_a_realizar,
-                   TrabajoRealizado = p.trabajo_realizado,
-                   CerrarHistorico = false
-                   }).ToList();
+            return (from p in dataContext.Historico_Paciente_det
+                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
+                    && p.numero == ticket
+                    select new HistoricoDetallePacienteDto()
+                    {
+                        FechaCreacion = p.fecha,
+                        IdCita = p.id_cita,
+                        IdConsultorio = p.id_empresa,
+                        IdPaciente = p.id_paciente,
+                        NumeroDetalle = p.nro_detalle,
+                        NumeroHistorico = p.numero,
+                        TrabajoARealizar = p.trabajo_a_realizar,
+                        TrabajoRealizado = p.trabajo_realizado,
+                        CerrarHistorico = false
+                    }).ToList();
         }
 
-       
+
         #endregion
 
         #region Metodos_Auxiliares
@@ -174,7 +172,7 @@ namespace NConsulta
         private int Actualizar_citas_realizadas(int pIDEmpresa, int pIDpaciente, int pTicket,
                                             string pIDUsuario)
         {
-            var sql = from e in gDc.Historico_Paciente
+            var sql = from e in dataContext.Historico_Paciente
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
                       && e.numero == pTicket
                       select e;
@@ -185,22 +183,17 @@ namespace NConsulta
                 sql.First().estado = false;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se cerró un historico", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se cerró un historico", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
+                    controlErrores.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
                     return 2;
                 }
             } return 0;
         }
         #endregion
-
-
-
-
-
     }
 }

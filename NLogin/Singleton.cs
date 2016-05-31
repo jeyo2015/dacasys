@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+
     public class Singleton
     {
         static private Singleton singleton = null;
@@ -32,6 +29,7 @@ namespace NLogin
         public void setgSW(bool value) {
             gSW = value;
         }
+
         public String getDatos()
         {
             return gDatos;
@@ -40,6 +38,7 @@ namespace NLogin
         public void setDatos(string pDatos) {
             gDatos = pDatos;
         }
+
         public String getResponse()
         {
             return gResponse;

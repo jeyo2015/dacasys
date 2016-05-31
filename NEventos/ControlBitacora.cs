@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DLogin;
-namespace NEventos
+﻿namespace NEventos
 {
-   public class ControlBitacora
+    using System;
+    using System.Linq;
+    using Datos;
+
+    public class ControlBitacora
     {
         #region VariablesGlobales
-       DLoginLinqDataContext gDc = new DLoginLinqDataContext();
+
+        readonly DataContext dataContext = new DataContext();
+
         #endregion
 
         #region ABM_LogErrores
@@ -25,8 +26,8 @@ namespace NEventos
                 vBitacora.FechaHora = DateTime.Now.AddHours(Get_DirefenciaHora());
                 vBitacora.Descripcion = pDescripcion;
                 vBitacora.IDUsuario = pIDUsuario;
-                gDc.Bitacora.InsertOnSubmit(vBitacora);
-                gDc.SubmitChanges();
+                dataContext.Bitacora.InsertOnSubmit(vBitacora);
+                dataContext.SubmitChanges();
             }
             catch (Exception ex)
             {
@@ -37,7 +38,7 @@ namespace NEventos
 
         public int Get_DirefenciaHora()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
             if (sql.Count() > 0)

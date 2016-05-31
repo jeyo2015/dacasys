@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DLogin;
-namespace NEventos
+﻿namespace NEventos
 {
-  public  class ControlLogErrores
+    using System;
+    using System.Linq;
+    using Datos;
+
+    public class ControlLogErrores
     {
         #region VariablesGlobales
-      DLoginLinqDataContext gDc = new DLoginLinqDataContext();
+
+        readonly DataContext dataContext = new DataContext();
+
         #endregion
-
-
 
         #region ABM_LogErrores
 
@@ -31,8 +30,8 @@ namespace NEventos
                 LogErrores vLogErrores = new LogErrores();
                 vLogErrores.FechaHora = DateTime.Now.AddHours(Get_DirefenciaHora());
                 vLogErrores.Descripcion = vDescripcion;
-                gDc.LogErrores.InsertOnSubmit(vLogErrores);
-                gDc.SubmitChanges();
+                dataContext.LogErrores.InsertOnSubmit(vLogErrores);
+                dataContext.SubmitChanges();
             }
             catch (Exception ex)
             {
@@ -42,7 +41,7 @@ namespace NEventos
         }
         public int Get_DirefenciaHora()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
             if (sql.Count() > 0)

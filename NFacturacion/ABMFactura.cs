@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NEventos;
-using DLogin;
-using System.Data;
-using DataTableConverter;
-
-namespace NFacturacion
+﻿namespace NFacturacion
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NEventos;
+    using Datos;
+    using System.Data;
+    using DataTableConverter;
+
     public class ABMFactura
     {
         #region VariablesGlogales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
-        ABMDosificacion gABMDosificacion = new ABMDosificacion();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+        readonly ABMDosificacion abmDosificacion = new ABMDosificacion();
+
         #endregion
 
         #region ABMFactura
@@ -31,13 +32,13 @@ namespace NFacturacion
         /// <param name="pIDUsuario">ID usuario del que realiza accion</param>
         /// <returns>1 -  Se inserto correctamente
         ///         2 - No se inserto</returns>
-        public int Insertar(int pnrofact,string pNombre_Cliente,DateTime pFecha_emision, string pNit_clliente, string pCodigo_control, int pDetalle_cantidad, string pIDUsuario)
+        public int Insertar(int pnrofact, string pNombre_Cliente, DateTime pFecha_emision, string pNit_clliente, string pCodigo_control, int pDetalle_cantidad, string pIDUsuario)
         {
             factura_odontoweb vNewFac = new factura_odontoweb();
             DataTable vDTDosificacion_activa = Get_DosificacionActiva();
             vNewFac.codigo_control = pCodigo_control;
             vNewFac.detalle_cantidad = pDetalle_cantidad;
-            vNewFac.fecha_emision =pFecha_emision;
+            vNewFac.fecha_emision = pFecha_emision;
             vNewFac.fecha_limite = (DateTime)vDTDosificacion_activa.Rows[0][5];
             vNewFac.nit_cliente = pNit_clliente;
             vNewFac.Nit_dacasys = Get_NitDacasys();
@@ -45,18 +46,18 @@ namespace NFacturacion
             vNewFac.nro_autorizacion = vDTDosificacion_activa.Rows[0][1].ToString();
             vNewFac.nro_factura = pnrofact;
             vNewFac.precio_unitario = Get_PrecioLic();
-            vNewFac.total = pDetalle_cantidad*Get_PrecioLic();
-            gDc.factura_odontoweb.InsertOnSubmit(vNewFac);
+            vNewFac.total = pDetalle_cantidad * Get_PrecioLic();
+            dataContext.factura_odontoweb.InsertOnSubmit(vNewFac);
 
             try
             {
-                gDc.SubmitChanges();
-                gCb.Insertar("Se inserto una nueva factura", pIDUsuario);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se inserto una nueva factura", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NFacturacion", "ABMFactura", "Insertar", ex);
+                controlErrores.Insertar("NFacturacion", "ABMFactura", "Insertar", ex);
                 return 2;
             }
 
@@ -78,11 +79,12 @@ namespace NFacturacion
         public int Modificar(int pnrofact, string pNombre_Cliente, DateTime pFecha_emision, string pNit_clliente, string pCodigo_control, int pDetalle_cantidad, string pIDUsuario)
         {
 
-            var sql = from f in gDc.factura_odontoweb
+            var sql = from f in dataContext.factura_odontoweb
                       where f.nro_factura == pnrofact
                       select f;
-            if (sql.Count() > 0) {
-               
+            if (sql.Count() > 0)
+            {
+
                 DataTable vDTDosificacion_activa = Get_DosificacionActiva();
                 sql.First().codigo_control = pCodigo_control;
                 sql.First().detalle_cantidad = pDetalle_cantidad;
@@ -95,22 +97,22 @@ namespace NFacturacion
                 sql.First().nro_factura = pnrofact;
                 sql.First().precio_unitario = Get_PrecioLic();
                 sql.First().total = pDetalle_cantidad * Get_PrecioLic();
-                
+
 
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modificó una nueva factura", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modificó una nueva factura", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NFacturacion", "ABMFactura", "Modificar", ex);
+                    controlErrores.Insertar("NFacturacion", "ABMFactura", "Modificar", ex);
                     return 2;
                 }
             }
             return 0;
-            
+
 
 
         }
@@ -124,21 +126,21 @@ namespace NFacturacion
         ///             2 - No se pudo eliminar</returns>
         public int Eliminar(int pnrofact, string pIDUsuario)
         {
-            var sql = from f in gDc.factura_odontoweb
+            var sql = from f in dataContext.factura_odontoweb
                       where f.nro_factura == pnrofact
                       select f;
             if (sql.Count() > 0)
             {
-                gDc.factura_odontoweb.DeleteOnSubmit(sql.First());
-              try
+                dataContext.factura_odontoweb.DeleteOnSubmit(sql.First());
+                try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se eliminó una nueva factura ", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se eliminó una nueva factura ", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NFacturacion", "ABMFactura", "Eliminar", ex);
+                    controlErrores.Insertar("NFacturacion", "ABMFactura", "Eliminar", ex);
                     return 2;
                 }
             }
@@ -151,7 +153,7 @@ namespace NFacturacion
         /// </returns>
         private int Get_PrecioLic()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "Licencia"
                       select p;
             if (sql.Count() > 0)
@@ -167,7 +169,7 @@ namespace NFacturacion
         /// <returns></returns>
         private DataTable Get_DosificacionActiva()
         {
-          return  gABMDosificacion.Get_DosificacionHabilitadap();
+            return abmDosificacion.Get_DosificacionHabilitadap();
         }
 
         /// <summary>
@@ -176,11 +178,12 @@ namespace NFacturacion
         /// <returns></returns>
         public int Get_NumeroFactura()
         {
-            var sql = from f in gDc.factura_odontoweb
+            var sql = from f in dataContext.factura_odontoweb
                       orderby f.nro_factura descending
                       select f;
-            if(sql.Count()>0){
-                return (int)sql.First().nro_factura+1;
+            if (sql.Count() > 0)
+            {
+                return (int)sql.First().nro_factura + 1;
             }
             return 1;
 
@@ -192,18 +195,19 @@ namespace NFacturacion
         /// <returns></returns>
         private string Get_NitDacasys()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "NitDacasys"
                       select p;
-            if (sql.Count() > 0) {
+            if (sql.Count() > 0)
+            {
                 return sql.First().ValorS;
             }
             return "";
-                
+
         }
-       
-        
-      
+
+
+
 
         #endregion
 
@@ -215,7 +219,7 @@ namespace NFacturacion
         private IEnumerable<factura_odontoweb> Get_Facturas()
         {
 
-            return from d in gDc.factura_odontoweb
+            return from d in dataContext.factura_odontoweb
                    select d;
         }
 
@@ -234,9 +238,9 @@ namespace NFacturacion
         private IEnumerable<factura_odontoweb> Get_FacturaLast()
         {
 
-            return (from d in gDc.factura_odontoweb
-                  orderby d.nro_factura descending
-                   select d).Take(1);
+            return (from d in dataContext.factura_odontoweb
+                    orderby d.nro_factura descending
+                    select d).Take(1);
         }
 
         public DataTable Get_FacturaLastp()
@@ -247,9 +251,5 @@ namespace NFacturacion
 
 
         #endregion
-
-
-
-       
     }
 }

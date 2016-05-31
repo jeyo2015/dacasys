@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DLogin;
-using System.Data;
-using DataTableConverter;
-using NEventos;
-using System.Data.Linq;
-using Herramientas;
-namespace NLogin
+﻿namespace NLogin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Datos;
+    using System.Data;
+    using DataTableConverter;
+    using NEventos;
+    using System.Data.Linq;
+    using Herramientas;
+    using DataContext = Datos.DataContext;
+
     public class ABMEmpresa
     {
         #region VariablesGlogales
-        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gCe = new ControlLogErrores();
-        ABMUsuarioEmpleado gabmUsuario = new ABMUsuarioEmpleado();
-        Encriptador gEncriptador = new Encriptador();
-        ABMTelefono gABMTelefono = new ABMTelefono();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+        readonly ABMUsuarioEmpleado abmUsuario = new ABMUsuarioEmpleado();
+        readonly Encriptador abmEncriptador = new Encriptador();
+        readonly ABMTelefono abmTelefono = new ABMTelefono();
+
         #endregion
 
         #region ABM_Empresa
@@ -32,9 +36,7 @@ namespace NLogin
         ///          </returns>
         public int InsertarClinica(ClinicaDto pClinica, string pIDUsuario)
         {
-            
             Clinica vClinicaDefault = new Clinica();
-         //   vClinicaDefault.ID = newIDClinica;
             vClinicaDefault.Nombre = pClinica.Nombre;
             vClinicaDefault.IDUsuarioCreacion = pIDUsuario;
             vClinicaDefault.Login = pClinica.Login;
@@ -57,12 +59,12 @@ namespace NLogin
             vClinicaDefault.FechaDeModificacion = DateTime.Today;
             try
             {
-                gDc.Clinica.InsertOnSubmit(vClinicaDefault);
-                gDc.SubmitChanges();
+                dataContext.Clinica.InsertOnSubmit(vClinicaDefault);
+                dataContext.SubmitChanges();
 
                 int newIDClinica = GetNextIDClinica();
 
-                gCb.Insertar("Se inserto una Clinica", pIDUsuario);
+                controlBitacora.Insertar("Se inserto una Clinica", pIDUsuario);
                 activar_licencia(newIDClinica, 12, pIDUsuario);
                 InsertarTelefonosClinica(pClinica.Telefonos, pIDUsuario, newIDClinica);
                 InsertarTrabajosClinica(pClinica.Trabajos, pIDUsuario, newIDClinica);
@@ -71,20 +73,17 @@ namespace NLogin
                 pClinica.Consultorios[0].IDUsuarioCreador = pIDUsuario;
                 pClinica.Consultorios[0].NombreClinica = pClinica.Nombre;
                 return InsertarConsultorio(pClinica.Consultorios[0]);
-
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMEmpresa", "Insertar", ex);
+                controlErrores.Insertar("NLogin", "ABMEmpresa", "Insertar", ex);
                 return 0;
             }
-
-
         }
 
         public int ModificarClinica(ClinicaDto pClinica, string pIDUsuario)
         {
-            var clinicaCurrent = (from c in gDc.Clinica
+            var clinicaCurrent = (from c in dataContext.Clinica
                                   where c.ID == pClinica.IDClinica
                                   select c).FirstOrDefault();
             if (clinicaCurrent != null)
@@ -112,10 +111,10 @@ namespace NLogin
                 try
                 {
 
-                    gCb.Insertar("Se modifico una Clinica", pIDUsuario);
+                    controlBitacora.Insertar("Se modifico una Clinica", pIDUsuario);
                     InsertarTelefonosClinica(pClinica.Telefonos, pIDUsuario, pClinica.IDClinica);
                     InsertarTrabajosClinica(pClinica.Trabajos, pIDUsuario, pClinica.IDClinica);
-                    gDc.SubmitChanges();
+                    dataContext.SubmitChanges();
                     //pClinica.Consultorios[0].IDClinica = pClinica.IDClinica;
                     // pClinica.Consultorios[0].Login = pClinica.Login + "1";
                     // pClinica.Consultorios[0].IDUsuarioCreador = pIDUsuario;
@@ -126,15 +125,13 @@ namespace NLogin
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                     return 0;
                 }
             }
             else
 
                 return 0;
-
-
         }
 
         private void InsertarTrabajosClinica(List<TrabajosClinicaDto> pTrabajos, string pIDUsuario, int pIDClinica)
@@ -151,17 +148,17 @@ namespace NLogin
                         vTrabajo.IDClinica = pIDClinica;
                         try
                         {
-                            gDc.Trabajos.InsertOnSubmit(vTrabajo);
-                            gCb.Insertar("Se inserto un Trabajo", pIDUsuario);
+                            dataContext.Trabajos.InsertOnSubmit(vTrabajo);
+                            controlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
                         }
                         catch (Exception ex)
                         {
-                            gCe.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                            controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                         }
 
                         break;
                     case 2:
-                        vTrabajo = (from t in gDc.Trabajos
+                        vTrabajo = (from t in dataContext.Trabajos
                                     where t.ID == ptrabajo.ID
                                     select t).FirstOrDefault();
                         if (vTrabajo != null)
@@ -169,39 +166,39 @@ namespace NLogin
                             try
                             {
                                 vTrabajo.Descripcion = ptrabajo.Descripcion;
-                                gDc.SubmitChanges();
-                                gCb.Insertar("Se inserto un Trabajo", pIDUsuario);
+                                dataContext.SubmitChanges();
+                                controlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
                             }
                             catch (Exception ex)
                             {
-                                gCe.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                             }
 
                         }
 
                         break;
                     case 3:
-                        vTrabajo = (from t in gDc.Trabajos
+                        vTrabajo = (from t in dataContext.Trabajos
                                     where t.ID == ptrabajo.ID
                                     select t).FirstOrDefault();
                         if (vTrabajo != null)
                         {
                             try
                             {
-                                gDc.Trabajos.DeleteOnSubmit(vTrabajo);
-                                var trabajosConsultorio = (from tc in gDc.TrabajosConsultorio
+                                dataContext.Trabajos.DeleteOnSubmit(vTrabajo);
+                                var trabajosConsultorio = (from tc in dataContext.TrabajosConsultorio
                                                            where tc.IDTrabajo == ptrabajo.ID
                                                            select tc);
                                 foreach (var tc in trabajosConsultorio)
                                 {
-                                    gDc.TrabajosConsultorio.DeleteOnSubmit(tc);
+                                    dataContext.TrabajosConsultorio.DeleteOnSubmit(tc);
                                 }
-                                gDc.SubmitChanges();
-                                gCb.Insertar("Se elimino un Trabajo", pIDUsuario);
+                                dataContext.SubmitChanges();
+                                controlBitacora.Insertar("Se elimino un Trabajo", pIDUsuario);
                             }
                             catch (Exception ex)
                             {
-                                gCe.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                             }
 
                         }
@@ -213,7 +210,7 @@ namespace NLogin
 
         private int GetNextIDClinica()
         {
-            var clinicas = (from c in gDc.Clinica
+            var clinicas = (from c in dataContext.Clinica
                             select c);
             return clinicas == null ? 1 : clinicas.Max(x => x.ID);
         }
@@ -250,13 +247,13 @@ namespace NLogin
                              string pLatitud, string pLongitud, string pemail, byte[] pimageLog,
                             string pDescripcion, string pTrabajos, string pNIT, int pmes, string pIDUsuario, String[] pTelefonos, int pIDIntervalo)
         {
-            var sqlClinica = from c in gDc.Clinica
+            var sqlClinica = from c in dataContext.Clinica
                              where c.ID == pIDClinica
                              select c;
 
             if (sqlClinica.Count() > 0)
             {
-                var sqlEmpresa = from e in gDc.Empresa
+                var sqlEmpresa = from e in dataContext.Empresa
                                  where e.ID == pID
                                  select e;
 
@@ -289,8 +286,8 @@ namespace NLogin
                     empresaMod.NIT = pNIT;
                     try
                     {
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se modifico un Consultorio", pIDUsuario);
+                        dataContext.SubmitChanges();
+                        controlBitacora.Insertar("Se modifico un Consultorio", pIDUsuario);
                         //Modificar_Telefonos(pID, pTelefonos, pIDUsuario);
                         if (Convert.ToInt32(pmes) > 0)
                         {
@@ -301,7 +298,7 @@ namespace NLogin
                     }
                     catch (Exception ex)
                     {
-                        gCe.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                        controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                         return 0;
                     }
 
@@ -326,7 +323,7 @@ namespace NLogin
         ///           2 - No existe empresa </returns>
         private int Habilitar_Empresa(int pID, string pIDUsuario)
         {
-            var vEmpresa = from e in gDc.Empresa
+            var vEmpresa = from e in dataContext.Empresa
                            where e.ID == pID
                            select e;
             if (vEmpresa.Count() > 0)
@@ -334,14 +331,14 @@ namespace NLogin
                 vEmpresa.First().Estado = true;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se Habilito una empresa: " + pID, pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se Habilito una empresa: " + pID, pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMEmpresa", "Habilitar_Empresa", ex);
+                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Habilitar_Empresa", ex);
                     return 0;
                 }
             }
@@ -352,13 +349,13 @@ namespace NLogin
 
         public int EliminarClinica(int pIDClinica, string pIDUsuario)
         {
-            var sqlClinica = (from c in gDc.Clinica
+            var sqlClinica = (from c in dataContext.Clinica
                               where c.ID == pIDClinica
                               select c).FirstOrDefault();
             if (sqlClinica != null)
             {
                 sqlClinica.Estado = false;
-                var sqlConsultorio = (from c in gDc.Empresa
+                var sqlConsultorio = (from c in dataContext.Empresa
                                       where c.IDClinica == pIDClinica
                                       select c).ToList();
                 foreach (var consul in sqlConsultorio)
@@ -369,13 +366,13 @@ namespace NLogin
 
             try
             {
-                gDc.SubmitChanges();
-                gCb.Insertar("Se Desactivo una clinica: " + pIDClinica, pIDUsuario);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se Desactivo una clinica: " + pIDClinica, pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
+                controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
                 return 0;
             }
 
@@ -392,14 +389,14 @@ namespace NLogin
         ///         2 - No Existe la Empresa  </returns>
         public int Eliminar(int pID, string pIDUsuario)
         {
-            var sql = from e in gDc.Empresa
+            var sql = from e in dataContext.Empresa
                       where e.ID == pID
                       select e;
 
             if (sql.Count() > 0)
             {
                 sql.First().Estado = !sql.First().Estado;
-                var empresas = (from e in gDc.Empresa
+                var empresas = (from e in dataContext.Empresa
                                 where e.IDClinica == sql.First().IDClinica
                                 && e.Estado == true
                                 select e);
@@ -409,13 +406,13 @@ namespace NLogin
                     {
                         EliminarClinica(empresas.FirstOrDefault().ID, pIDUsuario);
                     }
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se Desactivo una empresa: " + pID, pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se Desactivo una empresa: " + pID, pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
+                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
                     return 0;
                 }
             }
@@ -431,27 +428,28 @@ namespace NLogin
         ///     2 - No existe esa empresa</returns>
         public int Eliminar_fisicamente(int pIDEmpresa, string PIDUsuario)
         {
-            var sql = from e in gDc.Empresa
+            var sql = from e in dataContext.Empresa
                       where e.ID == pIDEmpresa
                       select e;
             if (sql.Count() > 0)
             {
-                gDc.Empresa.DeleteOnSubmit(sql.First());
+                dataContext.Empresa.DeleteOnSubmit(sql.First());
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se elimino fisicamente un consultorio, sin confirmacion", PIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se elimino fisicamente un consultorio, sin confirmacion", PIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMEmpresa", "Eliminar_fisicamente", ex);
+                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar_fisicamente", ex);
                     return 0;
                 }
             }
             return 2;
         }
         #endregion
+
         #region Getter
         /// <summary>
         /// Metodo privado que retorna los consultorios en los que esta inscrito un paciente
@@ -461,8 +459,8 @@ namespace NLogin
         private IEnumerable<Empresa> Get_Empresas(String pLoginUsuario)
         {
 
-            return from e in gDc.Empresa
-                   join ec in gDc.Empresa_Cliente on e.ID equals ec.id_empresa
+            return from e in dataContext.Empresa
+                   join ec in dataContext.Empresa_Cliente on e.ID equals ec.id_empresa
                    where e.Estado == true && e.ID != 1 && ec.id_usuariocliente == pLoginUsuario
                    select e;
 
@@ -491,7 +489,7 @@ namespace NLogin
         //private IEnumerable<Empresa> Buscar_Empresas(String pLogin)
         //{
 
-        //    return from e in gDc.Empresa
+        //    return from e in dataContext.Empresa
         //           where (e.Login.Contains(pLogin) || e.Nombre.Contains(pLogin)) && e.Estado == true
         //           && e.ID != 1
         //           orderby e.Nombre
@@ -517,7 +515,7 @@ namespace NLogin
         //private IEnumerable<Empresa> Buscar_EmpresasT(String pLogin)
         //{
 
-        //    return from e in gDc.Empresa
+        //    return from e in dataContext.Empresa
         //           where (e.Login.Contains(pLogin) || e.Nombre.Contains(pLogin)) &&
         //           !e.Login.Equals("DEFAULT")
 
@@ -540,7 +538,7 @@ namespace NLogin
         private IEnumerable<Licencia> Get_Licencia(int pIDClinica)
         {
 
-            return from l in gDc.Licencia
+            return from l in dataContext.Licencia
                    where l.IDClinica == pIDClinica
                    select l;
 
@@ -563,7 +561,7 @@ namespace NLogin
         //private IEnumerable<Telefono> Get_Telefono(int pIDEmpresa)
         //{
 
-        //    return from t in gDc.Telefono
+        //    return from t in dataContext.Telefono
         //           where t.IDConsultorio == pIDEmpresa && t.Estado == true
         //           select t;
 
@@ -601,7 +599,7 @@ namespace NLogin
         private IEnumerable<Empresa> Get_Empresa(int pIDEmpresa)
         {
 
-            return from e in gDc.Empresa
+            return from e in dataContext.Empresa
                    where e.ID == pIDEmpresa
                    select e;
 
@@ -626,7 +624,7 @@ namespace NLogin
         private IEnumerable<Empresa> Get_Empresa(string pLogin)
         {
 
-            return from e in gDc.Empresa
+            return from e in dataContext.Empresa
                    where e.Login == pLogin
                    select e;
 
@@ -653,7 +651,7 @@ namespace NLogin
         private IEnumerable<Buscar_Empresa_HorarioResult> Buscar_Empresa_Horario(DateTime pFecha, TimeSpan vHorai,
                                                             int pNrodia, string pUsuario)
         {
-            return gDc.Buscar_Empresa_Horario(pFecha, vHorai, pNrodia, pUsuario);
+            return dataContext.Buscar_Empresa_Horario(pFecha, vHorai, pNrodia, pUsuario);
         }
         /// <summary>
         ///Devuelve los consultorios que esten disponibles segun fecha y hora
@@ -675,7 +673,7 @@ namespace NLogin
         /// <returns>IEnumerable</returns>
         private IEnumerable<Licencia> Get_Licencia()
         {
-            return from l in gDc.Licencia
+            return from l in dataContext.Licencia
                    select l;
         }
         /// <summary>
@@ -692,7 +690,7 @@ namespace NLogin
         /// <returns>IEnumerable</returns>
         private IEnumerable<Empresa> Buscar_defaultI()
         {
-            return from e in gDc.Empresa
+            return from e in dataContext.Empresa
                    where e.Login == "DEFAULT"
                    select e;
         }
@@ -711,7 +709,7 @@ namespace NLogin
         /// <returns>IEnumerable</returns>
         private IEnumerable<getIDEmpresasResult> Get_IDmpresas()
         {
-            return gDc.getIDEmpresas();
+            return dataContext.getIDEmpresas();
         }
         /// <summary>
         /// Devuelve los ID's de todos los consultorios
@@ -732,14 +730,14 @@ namespace NLogin
         /// <param name="pLong">Longitud</param>
         public void Modificar_lnglat(int pIDClinica, decimal pLat, decimal pLong)
         {
-            var sql = from c in gDc.Clinica
+            var sql = from c in dataContext.Clinica
                       where c.ID == pIDClinica
                       select c;
             if (sql.Count() > 0)
             {
                 sql.First().Latitud = pLat;
                 sql.First().Longitud = pLong;
-                gDc.SubmitChanges();
+                dataContext.SubmitChanges();
             }
         }
 
@@ -828,7 +826,7 @@ namespace NLogin
             {
                 if (pIDEmpresa == -1)
                 {
-                    var emp = from e in gDc.Empresa
+                    var emp = from e in dataContext.Empresa
                               where e.Login == pLogin
                               select e;
                     if (emp.Count() > 0)
@@ -848,7 +846,7 @@ namespace NLogin
             {
                 if (pIDEmpresa == -1)
                 {
-                    var emp = from e in gDc.Empresa
+                    var emp = from e in dataContext.Empresa
                               where e.NIT == pNIT
                               select e;
                     if (emp.Count() > 0)
@@ -889,18 +887,18 @@ namespace NLogin
             vlicencia.FechaFin = DateTime.Now.AddHours(Get_DirefenciaHora()).AddMonths(pmes);
             try
             {
-                gDc.Licencia.InsertOnSubmit(vlicencia);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se activo una licencia para el consultorio " + pIDClinica, pIDUsuario);
+                dataContext.Licencia.InsertOnSubmit(vlicencia);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se activo una licencia para el consultorio " + pIDClinica, pIDUsuario);
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
+                controlErrores.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
             }
         }
-        
 
-       
+
+
         /// <summary>
         /// Amplia Licencia de una empresa
         /// </summary>
@@ -912,7 +910,7 @@ namespace NLogin
         ///           1 - Se modifico correctamente la licencia</returns>
         private int Ampliar_Licencia(int pIDClinica, int pmes, string pIDUsuario)
         {
-            var licencia = from l in gDc.Licencia
+            var licencia = from l in dataContext.Licencia
                            where l.IDClinica == pIDClinica
                            orderby l.FechaInicio descending
                            select l;
@@ -941,16 +939,16 @@ namespace NLogin
                 {
 
 
-                    gDc.Licencia.InsertOnSubmit(pNewLicencia);
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se Amplio o renovo una licencia", pIDUsuario);
+                    dataContext.Licencia.InsertOnSubmit(pNewLicencia);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se Amplio o renovo una licencia", pIDUsuario);
                     Enviar_Notificacion_LicenciaAmpliada(pIDClinica, pmes);
                     return Habilitar_Empresa(pIDClinica, pIDUsuario);
 
                 }
                 catch (Exception ex)
                 {
-                    gCe.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                     return 3;
                 }
             }
@@ -961,14 +959,14 @@ namespace NLogin
 
         public Clinica Get_ClinicaByID(int idClinica)
         {
-            return (from c in gDc.Clinica
+            return (from c in dataContext.Clinica
                     where c.ID == idClinica
                     select c).FirstOrDefault();
         }
 
         public Empresa Get_Empresa_By_ID(int pIDEmpresa)
         {
-            return (from e in gDc.Empresa
+            return (from e in dataContext.Empresa
                     where e.ID == pIDEmpresa
                     select e).FirstOrDefault();
         }
@@ -996,10 +994,9 @@ namespace NLogin
 
         #endregion
 
-
         public int Get_DirefenciaHora()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
             if (sql.Count() > 0)
@@ -1010,8 +1007,8 @@ namespace NLogin
         }
         public ConsultorioDto GetConsultorioByID(int idConsultorio)
         {
-            return (from c in gDc.Empresa
-                    from tc in gDc.Tiempo_Consulta
+            return (from c in dataContext.Empresa
+                    from tc in dataContext.Tiempo_Consulta
                     where c.ID == idConsultorio
                     select new ConsultorioDto()
                     {
@@ -1032,8 +1029,8 @@ namespace NLogin
 
         public int Get_IntervaloConsulta(int pIDEmpresa)
         {
-            var sql = from tc in gDc.Tiempo_Consulta
-                      join e in gDc.Empresa on tc.ID equals e.IDIntervalo
+            var sql = from tc in dataContext.Tiempo_Consulta
+                      join e in dataContext.Empresa on tc.ID equals e.IDIntervalo
                       where e.ID == pIDEmpresa
                       select tc;
             if (sql.Count() > 0)
@@ -1045,14 +1042,13 @@ namespace NLogin
 
         public IEnumerable<Tiempo_Consulta> Get_Intervalosp()
         {
-            return from inte in gDc.Tiempo_Consulta
+            return from inte in dataContext.Tiempo_Consulta
                    select inte;
         }
 
-
         public List<ConsultorioDto> GetConsultorios(int IDClinica)
         {
-            return (from e in gDc.Empresa
+            return (from e in dataContext.Empresa
                     where e.IDClinica == IDClinica
                     select e).Select(x => new ConsultorioDto()
                     {
@@ -1072,8 +1068,8 @@ namespace NLogin
 
         public List<TelefonoDto> GetTelefonosConsultorios(int idEmpresa, int idClinica)
         {
-            return (from t in gDc.Telefono
-                    join tc in gDc.TelefonoConsultorio on t.ID equals tc.IDTelefono
+            return (from t in dataContext.Telefono
+                    join tc in dataContext.TelefonoConsultorio on t.ID equals tc.IDTelefono
                     where t.Estado == true
                     select t).Select(x => new TelefonoDto()
         {
@@ -1084,10 +1080,11 @@ namespace NLogin
             ID = x.ID
         }).ToList();
         }
+
         public List<TelefonoDto> GetTelefonosClinica(int idClinica)
         {
-            return (from t in gDc.Telefono
-                    join tc in gDc.TefonosClinica on t.ID equals tc.IDTelefono
+            return (from t in dataContext.Telefono
+                    join tc in dataContext.TefonosClinica on t.ID equals tc.IDTelefono
                     where t.Estado == true
                     && tc.IDClinica == idClinica
                     select t).Select(x => new TelefonoDto()
@@ -1103,7 +1100,7 @@ namespace NLogin
 
         public int InsertarConsultorio(ConsultorioDto pConsultorio)
         {
-            var idEmpresa = (from e in gDc.Empresa
+            var idEmpresa = (from e in dataContext.Empresa
                              select e);
             int newID = idEmpresa == null ? 1 : idEmpresa.Max(x => x.ID) + 1;
             var consultorioToSave = new Empresa()
@@ -1121,24 +1118,24 @@ namespace NLogin
             };
             try
             {
-                gDc.Empresa.InsertOnSubmit(consultorioToSave);
+                dataContext.Empresa.InsertOnSubmit(consultorioToSave);
 
 
-                gCb.Insertar("Se inserto un Consultorio", pConsultorio.IDUsuarioCreador);
+                controlBitacora.Insertar("Se inserto un Consultorio", pConsultorio.IDUsuarioCreador);
 
                 //activar_licencia(pConsultorio.IDClinica, 12, pConsultorio.IDUsuarioCreador);
                 // int vRD = Crear_Roles_default(sql.First().ID, pIDUsuario);
-                var IDrol = from r in gDc.Rol
+                var IDrol = from r in dataContext.Rol
                             where r.Nombre == "Administrador Dentista"
                             && r.IDEmpresa == newID
                             select r;
                 InsertarTelefonosConsultorio(pConsultorio.Telefonos, pConsultorio.IDUsuarioCreador);
                 InsertarTrabajos(pConsultorio.Trabajos, newID, pConsultorio.IDUsuarioCreador);
                 SMTP vSMTP = new SMTP();
-                string vPass = gEncriptador.Generar_Aleatoriamente();
+                string vPass = abmEncriptador.Generar_Aleatoriamente();
 
-                gabmUsuario.Insertar("Administrador", "admin", newID, IDrol.First().ID, vPass, vPass, true, pConsultorio.IDUsuarioCreador);
-                gDc.SubmitChanges();
+                abmUsuario.Insertar("Administrador", "admin", newID, IDrol.First().ID, vPass, vPass, true, pConsultorio.IDUsuarioCreador);
+                dataContext.SubmitChanges();
 
                 String vMensaje = "Bienvenido a Odontoweb, usted pertenece a la clinica" + pConsultorio.NombreClinica + " sus datos para ingresar\nal" +
                                     " sistema son:\nConsultorio : " + pConsultorio.Login + " \nUsuario:admin \nPassword: " + vPass + "." +
@@ -1150,7 +1147,7 @@ namespace NLogin
             }
             catch (Exception ex)
             {
-                gCe.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
+                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
                 return 0;
             }
         }
@@ -1168,20 +1165,20 @@ namespace NLogin
                         vTrabajoConsultorio.IDConsultorio = pConsultorioID;
                         vTrabajoConsultorio.IDTrabajo = pTrabajo.ID;
 
-                        gDc.TrabajosConsultorio.InsertOnSubmit(vTrabajoConsultorio);
-                        gDc.SubmitChanges();
-                        gCb.Insertar("Se inserto un TrabajoConsultorio", pIDUsuarioCreador);
+                        dataContext.TrabajosConsultorio.InsertOnSubmit(vTrabajoConsultorio);
+                        dataContext.SubmitChanges();
+                        controlBitacora.Insertar("Se inserto un TrabajoConsultorio", pIDUsuarioCreador);
                         break;
 
                     case 3:
-                        vTrabajoConsultorio = (from t in gDc.TrabajosConsultorio
+                        vTrabajoConsultorio = (from t in dataContext.TrabajosConsultorio
                                                where t.IDTrabajo == pTrabajo.ID && t.IDConsultorio == pConsultorioID
                                                select t).FirstOrDefault();
                         if (vTrabajoConsultorio != null)
                         {
-                            gDc.TrabajosConsultorio.DeleteOnSubmit(vTrabajoConsultorio);
-                            gDc.SubmitChanges();
-                            gCb.Insertar("Se dio de baja un Trabajo consultorio", pIDUsuarioCreador);
+                            dataContext.TrabajosConsultorio.DeleteOnSubmit(vTrabajoConsultorio);
+                            dataContext.SubmitChanges();
+                            controlBitacora.Insertar("Se dio de baja un Trabajo consultorio", pIDUsuarioCreador);
                         }
                         break;
                 }
@@ -1200,22 +1197,22 @@ namespace NLogin
                 switch (ptelefono.State)
                 {
                     case 1:
-                        gABMTelefono.InsertarConsultorio(ptelefono);
-                        gCb.Insertar("Se inserto un Telefono", IdUsuarioCreador);
+                        abmTelefono.InsertarConsultorio(ptelefono);
+                        controlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
                         break;
                     case 2:
-                        gABMTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
-                        gCb.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
+                        abmTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
+                        controlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
                         break;
                     case 3:
-                        vTelefono = (from t in gDc.Telefono
+                        vTelefono = (from t in dataContext.Telefono
                                      where t.ID == ptelefono.ID
                                      select t).FirstOrDefault();
                         if (vTelefono != null)
                         {
-                            gDc.Telefono.DeleteOnSubmit(vTelefono);
-                            gDc.SubmitChanges();
-                            gCb.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
+                            dataContext.Telefono.DeleteOnSubmit(vTelefono);
+                            dataContext.SubmitChanges();
+                            controlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
                         }
                         break;
                 }
@@ -1234,29 +1231,29 @@ namespace NLogin
                 switch (ptelefono.State)
                 {
                     case 1:
-                        gABMTelefono.InsertarTelefonosDeLaClinica(pIDClinica, ptelefono.Telefono, ptelefono.Nombre);
-                        gCb.Insertar("Se inserto un Telefono", IdUsuarioCreador);
+                        abmTelefono.InsertarTelefonosDeLaClinica(pIDClinica, ptelefono.Telefono, ptelefono.Nombre);
+                        controlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
                         break;
                     case 2:
-                        gABMTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
-                        gCb.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
+                        abmTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
+                        controlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
                         break;
                     case 3:
-                        vTelefono = (from t in gDc.Telefono
+                        vTelefono = (from t in dataContext.Telefono
                                      where t.ID == ptelefono.ID
                                      select t).FirstOrDefault();
                         if (vTelefono != null)
                         {
-                            gDc.Telefono.DeleteOnSubmit(vTelefono);
-                            var tesConsultorio = (from tec in gDc.TelefonoConsultorio
+                            dataContext.Telefono.DeleteOnSubmit(vTelefono);
+                            var tesConsultorio = (from tec in dataContext.TelefonoConsultorio
                                                   where tec.IDTelefono == ptelefono.ID
                                                   select tec);
                             foreach (var tec in tesConsultorio)
                             {
-                                gDc.TelefonoConsultorio.DeleteOnSubmit(tec);
+                                dataContext.TelefonoConsultorio.DeleteOnSubmit(tec);
                             }
-                            gDc.SubmitChanges();
-                            gCb.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
+                            dataContext.SubmitChanges();
+                            controlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
                         }
                         break;
                 }
@@ -1264,14 +1261,15 @@ namespace NLogin
             }
 
         }
+
         public List<TrabajosClinicaDto> GetTrabajosClinica(int idClinica)
         {
-            var trabajosClinica = (from t in gDc.Trabajos
+            var trabajosClinica = (from t in dataContext.Trabajos
                                    where t.IDClinica == idClinica
                                    select t);
             if (trabajosClinica.Count() > 0)
             {
-                var trabajosConsul = (from tc in gDc.TrabajosConsultorio
+                var trabajosConsul = (from tc in dataContext.TrabajosConsultorio
                                       where tc.IDConsultorio == idClinica
                                       select tc);
                 return trabajosClinica.Select(trabajo => new TrabajosClinicaDto()
@@ -1285,10 +1283,9 @@ namespace NLogin
             return new List<TrabajosClinicaDto>();
         }
 
-
         public List<ClinicaDto> GetTodasClinicas()
         {
-            return (from c in gDc.Clinica
+            return (from c in dataContext.Clinica
                     where !c.Login.ToUpper().Equals("DACASYS")
                     && !c.Login.ToUpper().Equals("DEFAULT")
                     select c).Select(x => new ClinicaDto()
@@ -1312,7 +1309,7 @@ namespace NLogin
 
         public List<ClinicaDto> GetTodasClinicasHabilitadas()
         {
-            return (from c in gDc.Clinica
+            return (from c in dataContext.Clinica
                     where !c.Login.ToUpper().Equals("DACASYS")
                     && !c.Login.ToUpper().Equals("DEFAULT")
                     && c.Estado == true

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-
- namespace Herramientas
+﻿namespace Herramientas
 {
+    using System;
+    using System.Text;
+    using System.Security.Cryptography;
+
     public class Encriptador
     {
         /// <summary>
@@ -19,14 +17,12 @@ using System.Security.Cryptography;
             byte[] keyArray;
             //arreglo de bytes donde guardaremos el texto
             //que vamos a encriptar
-            byte[] Arreglo_a_Cifrar =
-            UTF8Encoding.UTF8.GetBytes(texto);
+            byte[] Arreglo_a_Cifrar = UTF8Encoding.UTF8.GetBytes(texto);
 
             //se utilizan las clases de encriptación
             //provistas por el Framework
             //Algoritmo MD5
-            MD5CryptoServiceProvider hashmd5 =
-            new MD5CryptoServiceProvider();
+            var hashmd5 = new MD5CryptoServiceProvider();
             //se guarda la llave para que se le realice
             //hashing
             keyArray = hashmd5.ComputeHash(
@@ -35,28 +31,22 @@ using System.Security.Cryptography;
             hashmd5.Clear();
 
             //Algoritmo 3DAS
-            TripleDESCryptoServiceProvider tdes =
-            new TripleDESCryptoServiceProvider();
+            var tdes = new TripleDESCryptoServiceProvider();
 
             tdes.Key = keyArray;
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.PKCS7;
 
             //se empieza con la transformación de la cadena
-            ICryptoTransform cTransform =
-            tdes.CreateEncryptor();
+            var cTransform = tdes.CreateEncryptor();
 
             //arreglo de bytes donde se guarda la
             //cadena cifrada
-            byte[] ArrayResultado =
-            cTransform.TransformFinalBlock(Arreglo_a_Cifrar,
-            0, Arreglo_a_Cifrar.Length);
-
+            byte[] ArrayResultado = cTransform.TransformFinalBlock(Arreglo_a_Cifrar, 0, Arreglo_a_Cifrar.Length);
             tdes.Clear();
 
             //se regresa el resultado en forma de una cadena
-            return Convert.ToBase64String(ArrayResultado,
-            0, ArrayResultado.Length);
+            return Convert.ToBase64String(ArrayResultado, 0, ArrayResultado.Length);
         }
         /// <summary>
         /// Funcion que desencripta Texto
@@ -67,54 +57,49 @@ using System.Security.Cryptography;
         {
             byte[] keyArray;
             //convierte el texto en una secuencia de bytes
-            byte[] Array_a_Descifrar =
-            Convert.FromBase64String(textoEncriptado);
+            byte[] Array_a_Descifrar = Convert.FromBase64String(textoEncriptado);
 
             //se llama a las clases que tienen los algoritmos
             //de encriptación se le aplica hashing
             //algoritmo MD5
-            MD5CryptoServiceProvider hashmd5 =
-            new MD5CryptoServiceProvider();
+            var hashmd5 = new MD5CryptoServiceProvider();
 
-            keyArray = hashmd5.ComputeHash(
-            UTF8Encoding.UTF8.GetBytes("dacasys"));
+            keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes("dacasys"));
 
             hashmd5.Clear();
-
-            TripleDESCryptoServiceProvider tdes =
-            new TripleDESCryptoServiceProvider();
+            var tdes = new TripleDESCryptoServiceProvider();
 
             tdes.Key = keyArray;
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.PKCS7;
 
-            ICryptoTransform cTransform =
-            tdes.CreateDecryptor();
+            var cTransform = tdes.CreateDecryptor();
 
-            byte[] resultArray =
-            cTransform.TransformFinalBlock(Array_a_Descifrar,
-            0, Array_a_Descifrar.Length);
+            byte[] resultArray = cTransform.TransformFinalBlock(Array_a_Descifrar, 0, Array_a_Descifrar.Length);
 
             tdes.Clear();
             //se regresa en forma de cadena
             return UTF8Encoding.UTF8.GetString(resultArray);
         }
 
-        public String Generar_Aleatoriamente() { 
-        Random obj = new Random();
-        string posibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        int longitud = posibles.Length;
-        char letra;
-        int longitudnuevacadena = 8;
-        string nuevacadena = "";
-        for (int i = 0; i < longitudnuevacadena; i++)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public String Generar_Aleatoriamente()
         {
-           letra = posibles[obj.Next(longitud)];
-             nuevacadena += letra.ToString();
-        }
-        return nuevacadena;
-
-
+            var obj = new Random();
+            var posibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var longitud = posibles.Length;
+            char letra;
+            var longitudnuevacadena = 8;
+            var nuevacadena = "";
+            for (var i = 0; i < longitudnuevacadena; i++)
+            {
+                letra = posibles[obj.Next(longitud)];
+                nuevacadena += letra.ToString();
+            }
+            return nuevacadena;
         }
     }
 }

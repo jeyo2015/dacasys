@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Mail;
-using NEventos;
-namespace NLogin
+﻿namespace NLogin
 {
-   public class SMTP
+    using System;
+    using System.Net.Mail;
+    using NEventos;
+
+    public class SMTP
     {
         string From;
         string To;
@@ -14,10 +12,10 @@ namespace NLogin
         string Subject;
         string Host;
         int Puerto;//puerto = 587(local) - puerto= 25(servidor)
-       /// string smtpServer;
         System.Net.Mail.MailMessage Email;
 
-        public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject) {
+        public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject)
+        {
             From = pFrom;
             To = pTo;
             Message = pMessage;
@@ -25,6 +23,7 @@ namespace NLogin
             Host = "64.79.170.155";
             Puerto = 25;
         }
+
         public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject, string pHost, int pPuerto)
         {
             From = pFrom;
@@ -34,45 +33,44 @@ namespace NLogin
             Host = pHost;
             Puerto = pPuerto;
         }
-       public int Enviar_Mail(){
 
-      
-           Email = new System.Net.Mail.MailMessage(From, To, Subject, Message);
-           System.Net.Mail.SmtpClient smtpMail = new System.Net.Mail.SmtpClient();
-           Email.Priority = MailPriority.Normal;
-           Email.IsBodyHtml = false;
+        public int Enviar_Mail()
+        {
 
-          smtpMail.EnableSsl = false;
-          smtpMail.Port = Puerto;
-          smtpMail.Host = Host;
-          smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
-        
-          try
-         {
-               smtpMail.Send(Email);
-               new ControlBitacora().Insertar("Se envio correctamente correo", To);
-               return 1;
-         }
-           catch (Exception ex)
-         {
-               System.Console.WriteLine("No se pudo :" + ex.Data);
-               new ControlLogErrores().Insertar("NLongin", "SMTP", "enviarmail", ex);
-               return 0;
 
-          }
+            Email = new System.Net.Mail.MailMessage(From, To, Subject, Message);
+            System.Net.Mail.SmtpClient smtpMail = new System.Net.Mail.SmtpClient();
+            Email.Priority = MailPriority.Normal;
+            Email.IsBodyHtml = false;
+
+            smtpMail.EnableSsl = false;
+            smtpMail.Port = Puerto;
+            smtpMail.Host = Host;
+            smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
+
+            try
+            {
+                smtpMail.Send(Email);
+                new ControlBitacora().Insertar("Se envio correctamente correo", To);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("No se pudo :" + ex.Data);
+                new ControlLogErrores().Insertar("NLongin", "SMTP", "enviarmail", ex);
+                return 0;
+
+            }
         }
 
-
-
-
-       public void Datos_Mensaje(string pTo, string pMensaje, string pAsunto)
-       {
-           To = pTo;
-           Message = pMensaje;
-           Subject = pAsunto;
-           Host = "64.79.170.155";
-           Puerto = 25;
-           From = "mwediweb@dacasys.com";
-       }
+        public void Datos_Mensaje(string pTo, string pMensaje, string pAsunto)
+        {
+            To = pTo;
+            Message = pMensaje;
+            Subject = pAsunto;
+            Host = "64.79.170.155";
+            Puerto = 25;
+            From = "mwediweb@dacasys.com";
+        }
     }
 }

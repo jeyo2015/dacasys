@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DAgenda;
-using NEventos;
-using DataTableConverter;
-using System.Data;
-using NLogin;
-using Herramientas;
-namespace NAgenda
+﻿namespace NAgenda
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NEventos;
+    using NLogin;
+    using Herramientas;
+    using Datos;
+
     public class ABMCita
     {
         #region VariableGlobales
-        DAgendaDataContext gDc = new DAgendaDataContext();
-        ControlBitacora gCb = new ControlBitacora();
-        ControlLogErrores gLe = new ControlLogErrores();
+
+        readonly DataContext dataContext = new DataContext();
+        readonly ControlBitacora controlBitacora = new ControlBitacora();
+        readonly ControlLogErrores controlErrores = new ControlLogErrores();
+
         #endregion
 
         #region ABM_Cita
@@ -23,7 +23,7 @@ namespace NAgenda
 
         public void ModificarCita(AgendaDto pCita, string pIDUsuario)
         {
-            var vCita = (from c in gDc.Cita
+            var vCita = (from c in dataContext.Cita
                          where c.idcita == pCita.IdCita
                          select c).FirstOrDefault();
             if (vCita != null)
@@ -36,25 +36,25 @@ namespace NAgenda
                 vCita.idempresa = pCita.IDConsultorio;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se modifico la cita", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se modifico la cita", pIDUsuario);
                 }
                 catch (Exception ex)
                 {
-                    gLe.Insertar("NAgenda", "ABMCita", "Modificar", ex);
+                    controlErrores.Insertar("NAgenda", "ABMCita", "Modificar", ex);
                 }
 
             }
             else
             {
-                gLe.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
+                controlErrores.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
             }
 
         }
 
         public int EliminarCita(AgendaDto pCita, string pIDUsuario, bool plibre, String pMotivo)
         {
-            var vCita = (from c in gDc.Cita
+            var vCita = (from c in dataContext.Cita
                          where c.idcita == pCita.IdCita
                          select c).FirstOrDefault();
             if (vCita != null)
@@ -70,19 +70,19 @@ namespace NAgenda
                 }
                 else
                 {
-                    gDc.Cita.DeleteOnSubmit(vCita);
+                    dataContext.Cita.DeleteOnSubmit(vCita);
                 }
                 try
                 {
 
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se elimino la cita", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se elimino la cita", pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gLe.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    controlErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
                     return 0;
                 }
 
@@ -92,6 +92,7 @@ namespace NAgenda
         }
 
         #endregion
+
         #region Getter_Citas
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace NAgenda
         public string Obtener_Codigo(int pNro_cita, DateTime pFechaCita, int pIDEmpresa)
         {
             Random rnd = new Random();
-            string ran = rnd.Next(1, 100).ToString(); 
+            string ran = rnd.Next(1, 100).ToString();
             string codigo = pFechaCita.Year.ToString().Substring(2);
             if (pFechaCita.Month < 10)
                 codigo = codigo + "0" + pFechaCita.Month.ToString();
@@ -138,14 +139,14 @@ namespace NAgenda
             vCita.atendido = false;
             try
             {
-                gDc.Cita.InsertOnSubmit(vCita);
-                gDc.SubmitChanges();
-                gCb.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                dataContext.Cita.InsertOnSubmit(vCita);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                gLe.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                 return false;
             }
         }
@@ -154,9 +155,9 @@ namespace NAgenda
         public List<AgendaDto> GetAgendaDelDia(DateTime pFecha, int pIDConsultorio, int tiempoConsulta)
         {
 
-            var query = (from c in gDc.Cita
-                         from cp in gDc.Cliente_Paciente
-                         from p in gDc.Paciente
+            var query = (from c in dataContext.Cita
+                         from cp in dataContext.Cliente_Paciente
+                         from p in dataContext.Paciente
                          where c.idempresa == pIDConsultorio &&
                          c.fecha == pFecha
                          && cp.id_usuariocliente == c.id_cliente
@@ -165,7 +166,7 @@ namespace NAgenda
                          && c.estado == true
                          select new AgendaDto()
                          {
-                            
+
                              IdCita = c.idcita,
                              IDConsultorio = c.idempresa,
                              HoraFin = c.hora_fin,
@@ -175,7 +176,7 @@ namespace NAgenda
             var vDia = (int)pFecha.DayOfWeek - 1;
             if (vDia == -1)
                 vDia = 6;
-            var vHorarioConsultorio = (from h in gDc.Horario
+            var vHorarioConsultorio = (from h in dataContext.Horario
                                        where h.iddia == vDia
                                        && h.idempresa == pIDConsultorio
                                        select h).OrderBy(o => o.hora_inicio);
@@ -213,8 +214,8 @@ namespace NAgenda
 
         private PacienteDto GetPacienteCita(string pIDCliente)
         {
-            return (from uc in gDc.Cliente_Paciente
-                    from p in gDc.Paciente
+            return (from uc in dataContext.Cliente_Paciente
+                    from p in dataContext.Paciente
                     where uc.id_usuariocliente == pIDCliente
                     && uc.id_paciente == p.id_paciente
                      && uc.IsPrincipal == true
@@ -233,6 +234,7 @@ namespace NAgenda
                     }).FirstOrDefault();
         }
         #endregion
+
         #region Metodos_Auxiliares
         /// <summary>
         /// Envia un correo al cliente explicando el motivo de cita cancelada
@@ -254,7 +256,7 @@ namespace NAgenda
         /// <returns></returns>
         public int Get_DirefenciaHora()
         {
-            var sql = from p in gDc.ParametroSistemas
+            var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
             if (sql.Count() > 0)
@@ -330,7 +332,7 @@ namespace NAgenda
         /// 2 - No se pudo actualizar</returns>
         public int Actualizar_Atendido(string pIDCita, string pIDUsuario)
         {
-            var cita = from c in gDc.Cita
+            var cita = from c in dataContext.Cita
                        where c.idcita == pIDCita
                        select c;
             if (cita.Count() > 0)
@@ -338,13 +340,13 @@ namespace NAgenda
                 cita.First().atendido = true;
                 try
                 {
-                    gDc.SubmitChanges();
-                    gCb.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                    dataContext.SubmitChanges();
+                    controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    gLe.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                    controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                     return 2;
                 }
             } return 0;
@@ -359,7 +361,7 @@ namespace NAgenda
         public bool No_es_Atendido(string pIDCita)
         {
 
-            var sql = from c in gDc.Cita
+            var sql = from c in dataContext.Cita
                       where c.idcita == pIDCita
                       select c;
             if (sql.Count() > 0)
