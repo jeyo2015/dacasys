@@ -7,6 +7,7 @@ using DataTableConverter;
 using System.Data;
 using NLogin;
 using DConsulta;
+using Herramientas;
 
 namespace NConsulta
 {
@@ -22,6 +23,18 @@ namespace NConsulta
 
         #region ABM_Paciente
 
+        public bool ABMHistoricoMetodo(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
+        {
+            switch (pHistoricoPaciente.EstadoABM)
+            {
+                case 1:
+                    return InsertarHistorico(pHistoricoPaciente, pIDusuario);
+            }
+            return false;
+        }
+
+
+
         /// <summary>
         /// Inserta un Historico de un Paciente
         /// </summary>
@@ -32,29 +45,28 @@ namespace NConsulta
         /// <param name="fecha_creacion">Fecha de la creacion del historico</param>
         /// <param name="pcitas_estimadas">Citas estimadas</param>
         /// <param name="pcitas_realizasadas">Citas realizadas</param>
-        public int Insertar(int pIDEmpresa, int pIDpaciente, int ticket, string ticket_titulo, DateTime fecha_creacion,
-                            int pcitas_estimadas, int pcitas_realizasadas, string pIDusuario)
+        public bool InsertarHistorico(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
         {
             Historico_Paciente vHistorico = new Historico_Paciente();
-            vHistorico.citas_realizadas = pcitas_realizasadas;
+            vHistorico.citas_realizadas = pHistoricoPaciente.CitasRealizadas;
             vHistorico.estado = true;
-            vHistorico.estimacion_citas = pcitas_estimadas;
-            vHistorico.fecha_creacion = fecha_creacion;
-            vHistorico.id_empresa = pIDEmpresa;
-            vHistorico.id_paciente = pIDpaciente;
-            vHistorico.numero = ticket;
-            vHistorico.titulo_numero = ticket_titulo;
+            vHistorico.estimacion_citas = pHistoricoPaciente.EstimacionCitas;
+            vHistorico.fecha_creacion = pHistoricoPaciente.FechaCreacion;
+            vHistorico.id_empresa = pHistoricoPaciente.IdConsultorio;
+            vHistorico.id_paciente = pHistoricoPaciente.IdPaciente;
+            vHistorico.numero = pHistoricoPaciente.NumeroHistorico;
+            vHistorico.titulo_numero = pHistoricoPaciente.TituloHistorico;
             try
             {
                 gDc.Historico_Paciente.InsertOnSubmit(vHistorico);
                 gDc.SubmitChanges();
                 gCb.Insertar("Se insertó un nuevo histórico", pIDusuario);
-                return 1;
+                return true;
             }
             catch (Exception ex)
             {
                 gLe.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
-                return 0;
+                return false;
             }
 
 
@@ -126,24 +138,26 @@ namespace NConsulta
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="pIDEmpresa">ID del consultorio</param>
         /// <returns>IEnumerable<Historico_Paciente></returns>
-        private IEnumerable<Historico_Paciente> Get_Historico(int pIDpaciente, int pIDEmpresa)
+        public List<HistoricoPacienteDto> GetHistoricoPaciente(int pIDpaciente, int pIDEmpresa)
         {
-            return from p in gDc.Historico_Paciente
-                   where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
-                   p.estado == true
-                   select p;
+            return (from p in gDc.Historico_Paciente
+                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
+                    p.estado == true
+                    select new HistoricoPacienteDto()
+                    {
+                        CitasRealizadas = p.citas_realizadas,
+                        Estado = p.estado,
+                        EstimacionCitas = p.estimacion_citas,
+                        FechaCreacion = p.fecha_creacion,
+                        IdConsultorio = p.id_empresa,
+                        IdPaciente = p.id_paciente,
+                        NumeroHistorico = p.numero,
+                        TituloHistorico = p.titulo_numero,
+                        EstadoABM = 0
+                    }).ToList();
         }
 
-        /// <summary>
-        /// Devuelve los historicos de un paciente
-        /// </summary>
-        /// <param name="pIDpaciente">ID del paciente</param>
-        /// <param name="pIDEmpresa">ID de la empresa</param>
-        /// <returns></returns>
-        public DataTable Get_Historicosp(int pIDpaciente, int pIDEmpresa)
-        {
-            return Converter<Historico_Paciente>.Convert(Get_Historico(pIDpaciente, pIDEmpresa).ToList());
-        }
+
         /// <summary>
         /// Metodo privado que retorna historicos del paciente segun el numero de historico
         /// </summary>

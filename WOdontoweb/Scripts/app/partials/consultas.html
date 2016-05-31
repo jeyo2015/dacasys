@@ -10,7 +10,7 @@
         <div class="row">
             <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
             <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
-            <!--<button class="btn btn-raised btn-primary" ng-click="mostrarModalClientes()">Atender cita</button>-->
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
         </div>
     </div>
     <div class="col-md-7">
@@ -101,6 +101,211 @@
 
 
 
+
+<div class="modal fade" id="modal-seleccionar-paciente" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Atender paciente - Seleccione Paciente</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="form-group label-floating">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Buscar</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="subStringPaciente" class="form-control" id="Text1">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row" class="col-md-10" style="max-height: 200px; overflow-y: auto; padding-right: 0px;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Ced. Id. </th>
+                                            <th>Nombre paciente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-class="{selectElement:pacienteSeleccionado.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesClienteSeleccionado |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-dblclick="mostrarHistorico(paciente)">
+                                            <td>{{paciente.Ci}}
+                                            </td>
+                                            <td>{{paciente.NombrePaciente}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button class="btn btn-primary" ng-click="agendarCita()">Agendar</button>-->
+                <button class="btn btn-primary" ng-click="closeModal('modal-seleccionar-paciente')" ng-disabled="validarCampos()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-historico-paciente" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Historico del paciente {{pacienteParaAtender.NombrePaciente}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="form-group label-floating">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Buscar</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="subStringPaciente" class="form-control" id="Text2">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row" class="col-md-10" style="max-height: 200px; overflow-y: auto; padding-right: 0px;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha creacion </th>
+                                            <th>Titulo historico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="historico in historicosPaciente |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-dblclick="mostrarDetalleHistorico(paciente)">
+                                            <td>{{historico.FechaCreacion}}
+                                            </td>
+                                            <td>{{historico.TituloHistorico}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="mostrarModalNuevoHistorico()">Crear nuevo historico</button>
+                <button class="btn btn-danger" ng-click="closeModal('modal-historico-paciente')" ng-disabled="validarCampos()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-detalle-historico" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Historico del paciente {{pacienteParaAtender.NombrePaciente}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="form-group label-floating">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Buscar</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="subStringPaciente" class="form-control" id="Text3">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row" class="col-md-10" style="max-height: 200px; overflow-y: auto; padding-right: 0px;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha creacion </th>
+                                            <th>Titulo historico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="historico in historicosPaciente |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-dblclick="mostrarDetalleHistorico(paciente)">
+                                            <td>{{historico.FechaCreacion}}
+                                            </td>
+                                            <td>{{historico.TituloHistorico}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="mostrarModalNuevoHistorico()">Crear nuevo historico</button>
+                <button class="btn btn-danger" ng-click="closeModal('modal-historico-paciente')" ng-disabled="validarCampos()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-nuevo-historico" role="dialog">
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Nuevo historico para el paciente {{pacienteParaAtender.NombrePaciente}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <label for="titutoHistoricoID" class="col-md-2 control-label">Titulo historico</label>
+
+                            <div class="col-md-10">
+                                <input type="text" ng-model="historicoNuevo.TituloHistorico" class="form-control" id="titutoHistoricoID">
+                            </div>
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="citasEstimadasID" class="col-md-2 control-label">Citas estimadas</label>
+
+                            <div class="col-md-10">
+                                <input type="text" ng-model="historicoNuevo.EstimacionCitas" class="form-control" id="citasEstimadasID">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="crearNuevoHistorico()">Aceptar</button>
+                <button class="btn btn-danger" ng-click="closeModal('modal-nuevo-historico')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modal-cancelar-cita" role="dialog">
     <div class="modal-dialog ">
 

@@ -321,44 +321,7 @@ namespace NConsulta
             return 0;
         }
 
-
-        private IEnumerable<BuscarClienteResult> Buscar_Cliente(string pParametro, int pIDEmpresa)
-        {
-            return gDc.BuscarCliente(pParametro, pIDEmpresa);
-
-        }
-
-        /// <summary>
-        /// Busca Clientes segun el parametro, 
-        /// 
-        /// </summary>
-        /// <param name="pNombrePaciente">Parametro codigo, nombre o apellido </param>
-        /// <returns>Retorna los clientes que tengan alguna coincidencia con el parametro recibido</returns>
-        public DataTable Buscar_Clientep(string pParametro, int pIDEmpresa)
-        {
-
-            return Converter<BuscarClienteResult>.Convert(Buscar_Cliente(pParametro, pIDEmpresa).ToList());
-        }
-
-
-        private IEnumerable<getPacientesResult> Get_PacientesClient(string pCodigoCliente, int pIDEmpresa)
-        {
-            return gDc.getPacientes(pCodigoCliente, pIDEmpresa);
-
-        }
-
-        /// <summary>
-        /// Busca Pacientes segun su codigo de cliente
-        /// </summary>
-        /// <param name="pCodigoCliente">Codigo completo/parcial del Paciente/Cliente </param>
-        /// /// <param name="pIDEmpresa">ID de la empresa </param>
-        /// <returns>Retorna todos lo clientes que coincidan con el codigo recibido</returns>
-        public DataTable Get_PacientespClient(string pCodigoCliente, int pIDEmpresa)
-        {
-
-            return Converter<getPacientesResult>.Convert(Get_PacientesClient(pCodigoCliente, pIDEmpresa).ToList());
-        }
-
+            
         /// <summary>
         /// Asigna un paciente a un cliente existente
         /// </summary>
@@ -451,56 +414,30 @@ namespace NConsulta
         /// </summary>
         /// <param name="pIdPaciente">ID del Paciente a obtener </param>
         /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
-        public DataTable Get_PacientespID(int pIdPaciente)
+        public List<PacienteDto> GetPacientesByCliente(String pCodigoCliente)
         {
-
-            return Converter<Paciente>.Convert(Get_PacientesID(pIdPaciente).ToList());
-        }
-
-
-        private IEnumerable<Paciente> Get_ClientePaciente(String pCodigoCliente)
-        {
-            return from paciente in gDc.Paciente
-                   join cliente in gDc.UsuarioCliente
-                   on paciente.ci equals cliente.Login
-                   where cliente.Login == pCodigoCliente
-                   select paciente;
-
-        }
-
-        /// <summary>
-        /// Devuelve los datos de un cliente
-        /// </summary>
-        /// <param name="pCodigoCliente">Login del Cliente </param>
-        /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
-        public DataTable Get_ClientePacientep(String pCodigoCliente)
-        {
-
-            return Converter<Paciente>.Convert(Get_ClientePaciente(pCodigoCliente).ToList());
-        }
-
-        private IEnumerable<Paciente> Get_ClientePacienteCoin(String pCodigoCliente, int pIDEmpresa)
-        {
-            return from paciente in gDc.Paciente
-                   join empre in gDc.Empresa_Cliente on
-                   paciente.ci equals empre.id_usuariocliente
-                   where paciente.ci.Contains(pCodigoCliente)
-                   && empre.id_empresa == pIDEmpresa
-                   select paciente;
+            return (from paciente in gDc.Paciente
+                    from paciente_cliente in gDc.Cliente_Paciente
+                    where paciente_cliente.id_usuariocliente == pCodigoCliente
+                    && paciente.id_paciente == paciente_cliente.id_paciente
+                    select new PacienteDto() { 
+                    Email = paciente.email,
+                    Estado = paciente.estado,
+                    LoginCliente = pCodigoCliente,
+                    NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                    Telefono = paciente.nro_telefono,
+                    TipoSangre = paciente.tipo_sangre,
+                    Direccion = paciente.direccion,
+                    Ci = paciente.ci,
+                    Antecedentes = paciente.antecedente,
+                    IdPaciente = paciente.id_paciente
+                    }).ToList();
 
         }
 
-        /// <summary>
-        /// Devuelve los datos de un cliente, que coincidan con el parametro
-        /// </summary>
-        /// <param name="pCodigoCliente">Login del Cliente </param>
-        /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
-        public DataTable Get_ClientePacienteCoinp(String pCodigoCliente, int pIDEmpresa)
-        {
+        
 
-            return Converter<Paciente>.Convert(Get_ClientePacienteCoin(pCodigoCliente, pIDEmpresa).ToList());
-        }
-
+        
         private IEnumerable<Paciente> Get_PacienteCI(String pCi)
         {
             return from paciente in gDc.Paciente
@@ -640,7 +577,8 @@ namespace NConsulta
                              LoginCliente = cc.id_usuariocliente,
                              NombrePaciente = p.nombre + " " + p.apellido,
                              Telefono = p.nro_telefono,
-                             TipoSangre = p.tipo_sangre
+                             TipoSangre = p.tipo_sangre,
+                             IdPaciente = p.id_paciente
                          }).ToList();
         }
 
