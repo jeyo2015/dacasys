@@ -8,6 +8,7 @@ using System.Data;
 using NLogin;
 using NAgenda;
 using DConsulta;
+using Herramientas;
 
 namespace NConsulta
 {
@@ -125,25 +126,25 @@ namespace NConsulta
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="ticket">Numero de Historico</param>
         /// <returns>IEnumerable Historico_Paciente_det</returns>
-        private IEnumerable<Historico_Paciente_det> Get_Historico_Det(int pIDEmpresa, int pIDpaciente, int ticket)
+        public List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
         {
-            return from p in gDc.Historico_Paciente_det
+            return (from p in gDc.Historico_Paciente_det
                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
                    && p.numero == ticket
-                   select p;
+                   select new HistoricoDetallePacienteDto(){
+                   FechaCreacion = p.fecha,
+                   IdCita = p.id_cita,
+                   IdConsultorio = p.id_empresa,
+                   IdPaciente = p.id_paciente,
+                   NumeroDetalle = p.nro_detalle,
+                   NumeroHistorico = p.numero,
+                   TrabajoARealizar = p.trabajo_a_realizar,
+                   TrabajoRealizado = p.trabajo_realizado,
+                   CerrarHistorico = false
+                   }).ToList();
         }
 
-        /// <summary>
-        /// Retorna los detalles de un historico
-        /// </summary>
-        /// <param name="pIDEmpresa">ID del consultorio</param>
-        /// <param name="pIDpaciente">ID del paciente</param>
-        /// <param name="ticket">Numero de Historico</param>
-        /// <returns>DataTable Historico_Paciente_det</returns>
-        public DataTable Get_HistoricosDetp(int pIDEmpresa, int pIDpaciente, int ticket)
-        {
-            return Converter<Historico_Paciente_det>.Convert(Get_Historico_Det(pIDEmpresa, pIDpaciente, ticket).ToList());
-        }
+       
         #endregion
 
         #region Metodos_Auxiliares

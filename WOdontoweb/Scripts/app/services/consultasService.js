@@ -6,9 +6,29 @@
         });
         return d.promise;
     };
-
-    this.insertarCitaPaciente = function (cita, fecha, idCliente) {
+    this.getHistoricoPaciente = function (idPaciente, idConsultorio) {
         var d = $q.defer();
+        $http.post('Consultas/GetHistoricoPaciente', { pIdPaciente: idPaciente, pIdConsultorio: idConsultorio }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.getHistoricoDetalle = function (historicoPaciente) {
+        var d = $q.defer();
+        $http.post('Consultas/GetHistoricoDetalle', { pHistorico: historicoPaciente }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.aBMHistorico = function (pHistorico) {
+        var d = $q.defer();
+        $http.post('Consultas/ABMHistorico', { pHistorico: pHistorico }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+     this.insertarCitaPaciente = function (cita, fecha, idCliente) {
+        var d = $q.defer();//
         $http.post('Consultas/InsertarCitaPaciente', { pcita: cita,pFecha:fecha,pIdCliente:idCliente  }).success(function (data) {
             d.resolve(data);
         });

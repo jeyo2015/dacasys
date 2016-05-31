@@ -63,7 +63,7 @@ namespace Herramientas
         public int IDHorario { get; set; }
         public int IDConsultorio { get; set; }
         public string LoginCliente { get; set; }
-         public string IdCita { get; set; }
+        public string IdCita { get; set; }
         public TimeSpan HoraFin { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public string HoraInicioString { get; set; }
@@ -148,9 +148,34 @@ namespace Herramientas
         public string TipoSangre { get; set; }
         public bool Estado { get; set; }
         public string Antecedentes { get; set; }
+        public int IdPaciente { get; set; }
     }
 
-    public class HorarioDto
+    public class HistoricoPacienteDto
+    {
+        public int IdConsultorio { get; set; }
+        public int IdPaciente { get; set; }
+        public int NumeroHistorico { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public int EstimacionCitas { get; set; }
+        public int CitasRealizadas { get; set; }
+        public bool Estado { get; set; }
+        public string TituloHistorico { get; set; }
+        public int EstadoABM { get; set; }
+    }
+    public class HistoricoDetallePacienteDto
+    {
+        public int IdConsultorio { get; set; }
+        public int IdPaciente { get; set; }
+        public int NumeroHistorico { get; set; }
+        public int NumeroDetalle { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string TrabajoRealizado { get; set; }
+        public string TrabajoARealizar { get; set; }
+        public string IdCita { get; set; }
+        public bool CerrarHistorico { get; set; }
+    }
+      public class HorarioDto
     {
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
@@ -162,4 +187,5 @@ namespace Herramientas
         public string NombreDia { get; set; }
         public List<string> ListIDHorario { get; set; }
     }
+
 }

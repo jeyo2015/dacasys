@@ -229,7 +229,8 @@ namespace NAgenda
                         LoginCliente = pIDCliente,
                         NombrePaciente = p.nombre + " " + p.apellido,
                         Telefono = p.nro_telefono,
-                        TipoSangre = p.tipo_sangre
+                        TipoSangre = p.tipo_sangre,
+                        IdPaciente = p.id_paciente
                     }).FirstOrDefault();
         }
         #endregion
