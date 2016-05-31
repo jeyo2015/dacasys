@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DConsulta;
+using DLogin;
 using NEventos;
 using DataTableConverter;
 using System.Data;
@@ -14,7 +14,7 @@ namespace NConsulta
     public class ABMPaciente
     {
         #region VariableGlobales
-        DConsultaDataContext gDc = new DConsultaDataContext();
+        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
         ABMUsuarioCliente gADMCliente = new ABMUsuarioCliente();
         ControlBitacora gCb = new ControlBitacora();
         ControlLogErrores gLe = new ControlLogErrores();

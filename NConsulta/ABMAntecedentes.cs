@@ -6,14 +6,14 @@ using NEventos;
 using DataTableConverter;
 using System.Data;
 using NLogin;
-using DConsulta;
+using DLogin;
 
 namespace NConsulta
 {
    public class ABMAntecedentes
     {
         #region VariableGlobales
-        DConsultaDataContext gDc = new DConsultaDataContext();
+       DLoginLinqDataContext gDc = new DLoginLinqDataContext();
        
         // ControlBitacora gCb = new ControlBitacora();
         // ControlLogErrores gLe = new ControlLogErrores();

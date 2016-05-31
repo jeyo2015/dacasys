@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NEventos;
-using DFacturacion;
+using DLogin;
 using System.Data;
 using DataTableConverter;
 
@@ -12,7 +12,7 @@ namespace NFacturacion
     public class ABMFactura
     {
         #region VariablesGlogales
-        DFacturacionLinqDataContext gDc = new DFacturacionLinqDataContext();
+        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
         ControlBitacora gCb = new ControlBitacora();
         ControlLogErrores gCe = new ControlLogErrores();
         ABMDosificacion gABMDosificacion = new ABMDosificacion();

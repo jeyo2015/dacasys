@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DEventos;
+using DLogin;
 namespace NEventos
 {
    public class ControlBitacora
     {
         #region VariablesGlobales
-        private DEventosLinqDataContext gDc = new DEventosLinqDataContext();
+       DLoginLinqDataContext gDc = new DLoginLinqDataContext();
         #endregion
 
         #region ABM_LogErrores

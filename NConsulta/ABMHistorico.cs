@@ -6,7 +6,7 @@ using NEventos;
 using DataTableConverter;
 using System.Data;
 using NLogin;
-using DConsulta;
+using DLogin;
 using Herramientas;
 
 namespace NConsulta
@@ -14,7 +14,7 @@ namespace NConsulta
     public class ABMHistorico
     {
         #region VariableGlobales
-        DConsultaDataContext gDc = new DConsultaDataContext();
+        DLoginLinqDataContext gDc = new DLoginLinqDataContext();
 
         ControlBitacora gCb = new ControlBitacora();
         ControlLogErrores gLe = new ControlLogErrores();

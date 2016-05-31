@@ -726,3 +726,8 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DConsul
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DConsulta\bin\Debug\DConsulta.pdb
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DConsulta\obj\Debug\DConsulta.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\DConsulta\obj\Debug\DConsulta.pdb
+D:\Geovi\Dacasys2705\dacasys\DConsulta\bin\Debug\DConsulta.dll.config
+D:\Geovi\Dacasys2705\dacasys\DConsulta\bin\Debug\DConsulta.dll
+D:\Geovi\Dacasys2705\dacasys\DConsulta\bin\Debug\DConsulta.pdb
+D:\Geovi\Dacasys2705\dacasys\DConsulta\obj\Debug\DConsulta.dll
+D:\Geovi\Dacasys2705\dacasys\DConsulta\obj\Debug\DConsulta.pdb

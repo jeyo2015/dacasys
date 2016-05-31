@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using DAgenda;
 using NEventos;
-using DConsulta;
 using DataTableConverter;
 using System.Data;
 using NLogin;

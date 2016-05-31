@@ -49,9 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DFacturacion\DFacturacion.csproj">
-      <Project>{993EE370-FAA8-48E0-8A50-9AFEDF5BACFF}</Project>
-      <Name>DFacturacion</Name>
+    <ProjectReference Include="..\DLogin\DLogin.csproj">
+      <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
+      <Name>DLogin</Name>
     </ProjectReference>
     <ProjectReference Include="..\NEventos\NEventos.csproj">
       <Project>{D9726D00-827C-40C6-96F4-6CE4024A476E}</Project>

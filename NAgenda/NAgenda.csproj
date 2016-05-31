@@ -84,14 +84,6 @@
       <Project>{8A69FE71-5374-42C8-9F56-E81E4F6DC530}</Project>
       <Name>DAgenda</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DConsulta\DConsulta.csproj">
-      <Project>{96B2DD1D-44BD-4050-BA4B-C3F3C35703D2}</Project>
-      <Name>DConsulta</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DEventos\DEventos.csproj">
-      <Project>{128FD1F7-FF02-4ACF-B567-74612345EF0C}</Project>
-      <Name>DEventos</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Herramientas\Herramientas.csproj">
       <Project>{0398367d-0762-41fc-9e40-b62a53b50977}</Project>
       <Name>Herramientas</Name>
