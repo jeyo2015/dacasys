@@ -20,6 +20,12 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -102,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ConsultasController.cs" />
+    <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\NotificacionConsultorioController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
@@ -182,6 +189,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
     <Content Include="Scripts\app\controller\consultasController.js" />
+    <Content Include="Scripts\app\controller\horarioController.js" />
     <Content Include="Scripts\app\controller\inicioClienteController.js" />
     <Content Include="Scripts\app\controller\usuariosController.js" />
     <Content Include="Scripts\app\controller\rolesController.js" />
@@ -221,6 +229,7 @@
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
     <Content Include="Scripts\app\services\consultasService.js" />
+    <Content Include="Scripts\app\services\horarioService.js" />
     <Content Include="Scripts\app\services\pacienteService.js" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
