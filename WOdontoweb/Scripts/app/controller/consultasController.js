@@ -80,7 +80,10 @@
         $scope.citaSeleccionada = null;
 
     }
-
+    $scope.closeModalDetalle = function () {
+        $("#modal-detalle-historico").modal('hide');
+        $("#modal-historico-paciente").modal('show');
+    }
     $scope.seleccionarPaciente = function (paciente) {
         $scope.pacienteSeleccionado = paciente;
     }
@@ -116,17 +119,24 @@
             EstadoABM: 1
         };
     }
+    $scope.mostrarDetalleHistorico = function (historico) {
+        $scope.historicoPacienteSeleccionado = angular.copy(historico);
+        $scope.historicoDetalleSeleccionado = angular.copy($scope.historicoPacienteSeleccionado.DetalleHistorico);
+         $("#modal-detalle-historico").modal('show');
+    }
+
+
     function prepararNuevoHistoricoDetalleDto() {
         $scope.historicoDetalleNuevo = {
-            IdConsultorio: $rootScope.sessionDto.IDConsultorio,
-            IdPaciente: $scope.pacienteParaAtender.IdPaciente,
-            NumeroHistorico: $scope.historicosPaciente.length + 1,
+            pIdConsultorio: $scope.historicoPacienteSeleccionado.IdConsultorio,
+            IdPaciente: $scope.historicoPacienteSeleccionado.IdPaciente,
+            NumeroHistorico: $scope.historicoPacienteSeleccionado.NumeroHistorico,
+            NumeroDetalle: $scope.historicoDetalleSeleccionado.length + 1,
             FechaCreacion: "",
-            EstimacionCitas: 0,
-            CitasRealizadas: 0,
-            Estado: true,
-            TituloHistorico: "",
-            EstadoABM: 1
+            TrabajoRealizado: "",
+            TrabajoARealizar: "",
+            IdCita: $scope.citaSeleccionada.IdCita,
+            CerrarHistorico: false
         };
     }
     $scope.agendarCita = function () {

@@ -33,7 +33,11 @@ namespace WOdontoweb.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-       
+        public JsonResult GetPacientesByCliente(string pLoginCliente)
+        {
+            var result = gABMPaciente.GetPacientesByCliente(pLoginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         
     }

@@ -19,7 +19,7 @@
 
         #endregion
 
-        #region ABM_Paciente
+        #region ABM_Historico
 
         public bool ABMHistoricoMetodo(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
         {
@@ -69,7 +69,58 @@
 
 
         }
+        /// <summary>
+        /// Inserta un Historico de un Paciente
+        /// </summary>
+        /// <param name="pIDEmpresa">ID de la empresa</param>
+        /// <param name="pIDpaciente">ID del paciente</param>
+        /// <param name="ticket">Numero de Historico</param>
+        /// <param name="ticket_titulo">Titulo de consulta</param>
+        /// <param name="fecha_creacion">Fecha de la creacion del historico</param>
+        /// <param name="pcitas_estimadas">Citas estimadas</param>
+        /// <param name="pcitas_realizasadas">Citas realizadas</param>
+        public bool InsertarHistoricoDetalle(HistoricoDetallePacienteDto pHistoricoDetallePaciente, string pIDusuario)
+        {
+            Historico_Paciente_det vHistoricoDetalle = new Historico_Paciente_det();
+            vHistoricoDetalle.fecha = DateTime.Now;
+            vHistoricoDetalle.id_cita = pHistoricoDetallePaciente.IdCita;
+            vHistoricoDetalle.id_empresa = pHistoricoDetallePaciente.IdConsultorio;
+            vHistoricoDetalle.id_paciente = pHistoricoDetallePaciente.IdPaciente;
+            vHistoricoDetalle.nro_detalle = pHistoricoDetallePaciente.NumeroDetalle;
+            vHistoricoDetalle.numero = pHistoricoDetallePaciente.NumeroHistorico;
+            vHistoricoDetalle.trabajo_a_realizar = pHistoricoDetallePaciente.TrabajoARealizar;
+            vHistoricoDetalle.trabajo_realizado = pHistoricoDetallePaciente.TrabajoRealizado;
+            if (pHistoricoDetallePaciente.CerrarHistorico)
+            {
+                var historico = (from h in dataContext.Historico_Paciente
+                                 where h.numero == pHistoricoDetallePaciente.NumeroHistorico
+                                 && h.id_paciente == pHistoricoDetallePaciente.IdPaciente
+                                 && h.id_empresa == pHistoricoDetallePaciente.IdConsultorio
+                                 select h).FirstOrDefault();
+                if (historico != null)
+                    historico.estado = false;
+            }
 
+            var citaAtendida = (from c in dataContext.Cita
+                                where c.idcita == pHistoricoDetallePaciente.IdCita
+                                select c).FirstOrDefault();
+            if (citaAtendida != null)
+                citaAtendida.atendido = true;
+            try
+            {
+                dataContext.Historico_Paciente_det.InsertOnSubmit(vHistoricoDetalle);
+                dataContext.SubmitChanges();
+                controlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                controlErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
+                return false;
+            }
+
+
+        }
         /// <summary>
         /// Elimina un historico
         /// </summary>
@@ -131,6 +182,32 @@
         #endregion
 
         #region Getter_Historicos
+
+        /// <summary>
+        /// Metodo Privado que Retorna los detalles de un historico
+        /// </summary>
+        /// <param name="pIDEmpresa">ID del consultorio</param>
+        /// <param name="pIDpaciente">ID del paciente</param>
+        /// <param name="ticket">Numero de Historico</param>
+        /// <returns>IEnumerable Historico_Paciente_det</returns>
+        public List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
+        {
+            return (from p in dataContext.Historico_Paciente_det
+                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
+                    && p.numero == ticket
+                    select new HistoricoDetallePacienteDto()
+                    {
+                        FechaCreacion = p.fecha,
+                        IdCita = p.id_cita,
+                        IdConsultorio = p.id_empresa,
+                        IdPaciente = p.id_paciente,
+                        NumeroDetalle = p.nro_detalle,
+                        NumeroHistorico = p.numero,
+                        TrabajoARealizar = p.trabajo_a_realizar,
+                        TrabajoRealizado = p.trabajo_realizado,
+                        CerrarHistorico = false
+                    }).ToList();
+        }
         /// <summary>
         /// Metodo privado que retorna historicos de un paciente
         /// </summary>
@@ -152,7 +229,8 @@
                         IdPaciente = p.id_paciente,
                         NumeroHistorico = p.numero,
                         TituloHistorico = p.titulo_numero,
-                        EstadoABM = 0
+                        EstadoABM = 0,
+                        DetalleHistorico = GetHistoricoDetalle(p.id_empresa, p.id_paciente, p.numero)
                     }).ToList();
         }
 

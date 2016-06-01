@@ -164,6 +164,7 @@
         public bool Estado { get; set; }
         public string TituloHistorico { get; set; }
         public int EstadoABM { get; set; }
+        public List<HistoricoDetallePacienteDto> DetalleHistorico { get; set; }
     }
 
     public class HistoricoDetallePacienteDto
