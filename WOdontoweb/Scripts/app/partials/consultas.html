@@ -8,9 +8,9 @@
 
         </div>
         <div class="row">
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false && citaSeleccionada.EstaAtendida==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaAtendida==false  && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
+            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaAtendida==false && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
         </div>
     </div>
     <div class="col-md-7">
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
-                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada, 'label-danger':cita.EstaOcupada}">{{cita.HoraInicioString}}</span>
+                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EstaAtendida  , 'label-danger':cita.EstaOcupada && !cita.EstaAtendida , 'label-default':cita.EstaAtendida}">{{ cita.HoraInicioString}}{{ cita.EstaAtendida}} </span>
                             </td>
                             <td>{{cita.Paciente.NombrePaciente}}
                             </td>
@@ -281,7 +281,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="mostrarModalNuevoHistorico()">Guardar</button>
+                <button class="btn btn-primary" ng-click="guardarHistoricoDetalle()">Guardar</button>
                 <button class="btn btn-danger" ng-click="closeModalDetalle()">Cancelar</button>
             </div>
         </div>

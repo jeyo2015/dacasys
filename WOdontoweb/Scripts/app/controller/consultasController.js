@@ -122,13 +122,28 @@
     $scope.mostrarDetalleHistorico = function (historico) {
         $scope.historicoPacienteSeleccionado = angular.copy(historico);
         $scope.historicoDetalleSeleccionado = angular.copy($scope.historicoPacienteSeleccionado.DetalleHistorico);
-         $("#modal-detalle-historico").modal('show');
+        prepararNuevoHistoricoDetalleDto();
+        $("#modal-detalle-historico").modal('show');
+        $("#modal-historico-paciente").modal('hide');
     }
 
+    $scope.guardarHistoricoDetalle = function () {
+        consultasService.insertarHistoricoDetalle($scope.historicoDetalleNuevo).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                cargarCitasDelDia();
+                $("#modal-detalle-historico").modal("hide");
+                $scope.pacienteSeleccionado = null;
+                $scope.citaSeleccionada = null;
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    }
 
     function prepararNuevoHistoricoDetalleDto() {
         $scope.historicoDetalleNuevo = {
-            pIdConsultorio: $scope.historicoPacienteSeleccionado.IdConsultorio,
+            IdConsultorio: $rootScope.sessionDto.IDConsultorio,
             IdPaciente: $scope.historicoPacienteSeleccionado.IdPaciente,
             NumeroHistorico: $scope.historicoPacienteSeleccionado.NumeroHistorico,
             NumeroDetalle: $scope.historicoDetalleSeleccionado.length + 1,

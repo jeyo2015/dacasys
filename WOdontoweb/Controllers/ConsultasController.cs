@@ -70,6 +70,18 @@ namespace WOdontoweb.Controllers
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult InsertarHistoricoDetalle(HistoricoDetallePacienteDto pHistoricoDetalle)
+        {
+
+            var insert = gABMHistorico.InsertarHistoricoDetalle(pHistoricoDetalle, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert ? "Se registro el nuevo historico" : "No se pudo registrar el nuevo historico, por favor intente de nuevo",
+                Data = insert,
+                Success = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult EliminarCitaPaciente(AgendaDto pcita, bool pLibre, string pMotivo)
         {
             var insert = gABMCita.EliminarCita(pcita, Session["loginusuario"].ToString(), pLibre, pMotivo);

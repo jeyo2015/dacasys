@@ -27,6 +27,13 @@
         });
         return d.promise;
     };
+    this.insertarHistoricoDetalle = function (pHistoricoDetalle) {
+        var d = $q.defer();
+        $http.post('Consultas/InsertarHistoricoDetalle', { pHistoricoDetalle: pHistoricoDetalle }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
      this.insertarCitaPaciente = function (cita, fecha, idCliente) {
         var d = $q.defer();//
         $http.post('Consultas/InsertarCitaPaciente', { pcita: cita,pFecha:fecha,pIdCliente:idCliente  }).success(function (data) {
