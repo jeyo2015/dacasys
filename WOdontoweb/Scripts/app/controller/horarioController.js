@@ -4,8 +4,7 @@
     function init() {
         $scope.message = "";
         $scope.userSelected = null;
-       // prepararNuevoHorario();
-       
+        // prepararNuevoHorario();
     };
 
     function prepararNuevoHorario() {
@@ -29,7 +28,12 @@
         $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
         e.preventDefault();
         prepararNuevoHorario();
-        $('#configurar-horarios').modal('show');
+        
+        horarioService.obtenerHorariosPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $('#configurar-horarios').modal('show');
+            $scope.ListaHorario = result.Horarios;
+            $scope.ListaDias = Res
+        });
 
         //horarioService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
         //    $scope.userToSave = result;

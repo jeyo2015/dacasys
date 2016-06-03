@@ -360,8 +360,16 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="row">
-                                <div class="col-md-12" id="listDia">
+                            <div class="col-md-12" id="listDia">
+                                
+                                <div ng-repeat="dia in ListaDias" class="checkbox">
+                                    <label>
+                                        <input ng-model="dia.check" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{dia.Nombre}}}
+                                    </label>
+
                                 </div>
+
+                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
@@ -392,10 +400,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                @*<td>{{horario.NombreDia}}</td>
-                                                    <td>{{horario.HoraInicio}}</td>
-                                                    <td>{{horario.HoraFinal}}</td>*@
+                                            <tr ng-repeat="horario in ListaHorario">
+                                                <td>{{horario.NombreDia}}</td>
+                                                <td>{{horario.HoraInicio}}</td>
+                                                <td>{{horario.HoraFinal}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
