@@ -2,7 +2,7 @@
     init();
 
     function init() {
-        $scope.dateSelected = new Date();
+        $scope.dateSelected = moment().format('DD/MM/YYYY');
         $scope.citaSeleccionada = null;
         $("#datepicker").datepicker({
             dateFormat: "yy-mm-dd",

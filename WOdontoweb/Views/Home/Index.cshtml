@@ -66,7 +66,7 @@
                                     </li>
                                     <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li class="withoutborderNS" ><a ng-click="abrirModalHorario($event)" href="#"><span>Configurar horarios</span> </a></li>
+                                            <li class="withoutborderNS"><a ng-click="abrirModalHorario($event)" href="#"><span>Configurar horarios</span> </a></li>
 
                                         </ul>
 
@@ -350,44 +350,44 @@
     </div>
 
     <div ng-controller="horarioController">
-    <div class="modal fade" id="configurar-horarios" role="dialog">
-        <div class="modal-dialog ">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Configurar horarios del consultorio</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="row">
-                            <div class="col-md-12" id="listDia">
-                                
-                                <div ng-repeat="dia in ListaDias" class="checkbox">
-                                    <label>
-                                        <input ng-model="dia.check" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{dia.Nombre}}}
-                                    </label>
+        <div class="modal fade" id="configurar-horarios" role="dialog">
+            <div class="modal-dialog ">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Configurar horarios del consultorio</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12" id="listDia">
+
+                                    <div ng-repeat="dia in ListaDias" class="checkbox">
+                                        <label>
+                                            <input ng-model="dia.check" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{dia.Nombre}}}
+                                        </label>
+
+                                    </div>
 
                                 </div>
-
-                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="col-md-2 control-label">Hora Inicio</label>
-                                    <div class="col-md-12">
+                                        <div class="col-md-12">
                                             <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaInicio">
-                                    </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="col-md-2 control-label">Hora Final</label>
-                                    <div class="col-md-12">
+                                        <div class="col-md-12">
                                             <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaFinal">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
@@ -408,10 +408,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
                         @*<button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>*@
                         <button class="btn btn-primary" ng-click="closeModal('#configurar-horarios')">Cancelar</button>
                     </div>
@@ -424,30 +424,30 @@
     <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
-    <script src=" @Url.Content("~/Scripts/snackbar.min.js")"></script>
-    <script src=" @Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
+    <script src="@Url.Content("~/Scripts/snackbar.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/moment.js")"></script>
 
-
-    <script src=" @Url.Content("~/Scripts/angular.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/app.js")"></script>
-    <script src=" @Url.Content("~/Content/Wodonto.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/loginController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/loginService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/miconsultorioController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/rolesService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/app.js")"></script>
+    <script src="@Url.Content("~/Content/Wodonto.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/loginController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/loginService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/miconsultorioController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/rolesService.js")"></script>
+    <script src="@Url.Content("~/Scripts/toastr.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultasController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/directives/filterList.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/clinicaService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/consultasService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/notificacionesConsultorioService.js")"></script>
-    <script src=" @Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/directives/filterList.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/clinicaService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/consultasService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/notificacionesConsultorioService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/horarioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
