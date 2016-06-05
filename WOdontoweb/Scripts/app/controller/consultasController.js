@@ -3,7 +3,7 @@
 
     function init() {
         $scope.diasDeSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-        $scope.dateSelected = new Date();
+        $scope.dateSelected = moment().format('DD/MM/YYYY');
         $scope.citaSeleccionada = null;
         $("#datepicker").datepicker({
             dateFormat: "dd-mm-yy",
