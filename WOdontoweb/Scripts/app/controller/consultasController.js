@@ -2,18 +2,23 @@
     init();
 
     function init() {
+        $scope.diasDeSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         $scope.dateSelected = new Date();
         $scope.citaSeleccionada = null;
         $("#datepicker").datepicker({
-            dateFormat: "yy-mm-dd",
+            dateFormat: "dd-mm-yy",
             defaultDate: $scope.dateSelected,
             onSelect: function (date) {
-                $scope.dateSelected = $.datepicker.formatDate("yy-mm-dd", $(this).datepicker('getDate'));
+                $scope.dateSelected = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
+                var dateAux = new Date(Date.parse(date));
+                $scope.dateSelectedString = $scope.diasDeSemana[dateAux.getDay()] + " " + $scope.dateSelected;
+                cargarCitasDelDia();
+                $scope.$apply();
             }
         });
         $("#datepicker").datepicker("setDate", $scope.dateSelected);
         cargarConsultorio();
-
+       
 
     };
 
@@ -38,8 +43,17 @@
     $scope.seleccionaCita = function (cita) {
         $scope.pacienteSeleccionado = null;
         $scope.citaSeleccionada = cita;
+        mostrarAdvertenciasEstadoCita();
     }
+    function mostrarAdvertenciasEstadoCita() {
+        if ($scope.citaSeleccionada.EsTarde) 
+            toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
+        else
+            if ($scope.citaSeleccionada.EstaAtendida)
+                toastr.warning("La cita seleccionada ya fue atendida");
 
+
+    }
     $scope.showModalPacientes = function () {
         cargarPacientesEmpresa("#modal-seleccionar-cliente");
     }

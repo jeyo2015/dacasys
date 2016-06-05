@@ -8,9 +8,9 @@
 
         </div>
         <div class="row">
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaOcupada==false && citaSeleccionada.EstaAtendida==false" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaAtendida==false  && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
-            <button ng-show="citaSeleccionada!= null && citaSeleccionada.EstaAtendida==false && citaSeleccionada.EstaOcupada==true" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
+            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
+            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
+            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
         </div>
     </div>
     <div class="col-md-7">
@@ -25,12 +25,12 @@
                     <thead>
                         <tr>
                             <th>Hora</th>
-                            <th>{{dateSelected}}</th>
+                            <th>{{dateSelectedString}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
-                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EstaAtendida  , 'label-danger':cita.EstaOcupada && !cita.EstaAtendida , 'label-default':cita.EstaAtendida}">{{ cita.HoraInicioString}}{{ cita.EstaAtendida}} </span>
+                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
                             </td>
                             <td>{{cita.Paciente.NombrePaciente}}
                             </td>

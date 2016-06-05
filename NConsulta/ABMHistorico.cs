@@ -256,10 +256,10 @@
         /// <param name="pIDEmpresa">ID de la Empresa</param>
         /// <param name="pNroHistorico">Numero de historico</param>
         /// <returns>DataTable</returns>
-        public DataTable Get_HistoricosNrop(int pIDPaciente, int pIDEmpresa, int pNroHistorico)
-        {
-            return Converter<Historico_Paciente>.Convert(Get_HistoricoNro(pIDPaciente, pIDEmpresa, pNroHistorico).ToList());
-        }
+        //public DataTable Get_HistoricosNrop(int pIDPaciente, int pIDEmpresa, int pNroHistorico)
+        //{
+        //    return Converter<Historico_Paciente>.Convert(Get_HistoricoNro(pIDPaciente, pIDEmpresa, pNroHistorico).ToList());
+        //}
         #endregion
 
         #region Metodos_Auxiliares
