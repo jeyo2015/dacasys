@@ -360,20 +360,18 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="row">
-                                <div class="col-md-12" id="listDia">
-
-                                    <div ng-repeat="dia in ListaDias" class="checkbox">
-                                        <label>
-                                            <input ng-model="dia.check" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{dia.Nombre}}}
-                                        </label>
-
-                                    </div>
-
+                                <div class="col-md-1" ng-repeat="dia in ListaDias">
+                                    <input ng-model="dia.IsChecked" type="checkbox">{{dia.NombreCorto}}
                                 </div>
+                                <div class="form-group">
+                                        <div class="col-md-3">
+                                            <button class="btn btn-primary" ng-click="listarHorario()">Buscar</button>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group ">
+                                    <div class="form-group">
                                         <label class="col-md-2 control-label">Hora Inicio</label>
                                         <div class="col-md-12">
                                             <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaInicio">

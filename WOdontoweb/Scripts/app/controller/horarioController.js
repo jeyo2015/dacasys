@@ -24,15 +24,18 @@
         prepararNuevoHorario();
     };
 
+    $scope.closeModal = function (nameModal) {
+        $(nameModal).modal('hide');
+    };
+
     $rootScope.abrirModalHorario = function (e) {
         $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
         e.preventDefault();
         prepararNuevoHorario();
         
-        horarioService.obtenerHorariosPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $('#configurar-horarios').modal('show');
-            $scope.ListaHorario = result.Horarios;
-            $scope.ListaDias = Res
+        horarioService.obtenerDias().then(function (result) {
+            $('#configurar-horarios').modal('show');            
+            $scope.ListaDias = result;
         });
 
         //horarioService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
@@ -42,11 +45,11 @@
         //});
     };
 
-    //function cargar_roles_empresa() {
-    //    rolesService.getAllRols($rootScope.sessionDto.IDConsultorio).then(function (result) {
-    //        $scope.rolesConsultorio = result;
-    //    });
-    //}
+    $scope.listarHorario = function () {
+        horarioService.listarHorarioPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $scope.rolesConsultorio = result;
+        });
+    }
 
     //function cargar_todos_los_usuarios() {
     //    var user = horarioService.getAllUsers($rootScope.sessionDto.IDConsultorio).then(function (result) {

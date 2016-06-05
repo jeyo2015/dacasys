@@ -10,6 +10,7 @@ using RMTools.UI.Models;
         #region Variables
 
         private readonly ABMHorario abmHorario;
+        private readonly ABMDia abmDia;
 
         #endregion
 
@@ -18,13 +19,20 @@ using RMTools.UI.Models;
         public HorarioController()
         {
             abmHorario = new ABMHorario();
+            abmDia = new ABMDia();
         }
 
         #endregion
 
+        public JsonResult ObtenerDias()
+        {
+            var result = abmDia.ObtenerDias();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult ObtenerHorariosPorEmpresa(int idEmpresa)
         {
-            var result = abmHorario.ObtenerHorariosPorEmpresa(idEmpresa);
+            var result = abmHorario.ObtenerHorariosPorEmpresa(idEmpresa);                
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
