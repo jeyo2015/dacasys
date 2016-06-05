@@ -192,4 +192,12 @@
         public string NombreDia { get; set; }
         public List<string> ListIDHorario { get; set; }
     }
+
+    public class DiaDto
+    {
+        public int IDDia { get; set; }
+        public string NombreDia { get; set; }
+        public string NombreCorto { get; set; }
+        public bool IsChecked { get; set; }
+    }
 }

@@ -6,9 +6,16 @@
         });
         return d.promise;
     };
-    this.obtenerHorariosPorDia = function (idDia, idEmpresa) {
+    this.obtenerDias = function () {
         var d = $q.defer();
-        $http.get('Horario/ObtenerHorariosPorDia?idDia=' + idDia + '&idEmpresa=' + idEmpresa).success(function (data) {
+        $http.get('Horario/ObtenerDias').success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };    
+    this.listarHorarioPorEmpresa = function (idEmpresa, listDia) {
+        var d = $q.defer();
+        $http.get('Horario/ObtenerHorariosPorEmpresa?idEmpresa=' + idEmpresa).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

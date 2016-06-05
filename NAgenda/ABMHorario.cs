@@ -165,24 +165,6 @@
         }
 
         /// <summary>
-        /// Devuelve el nombre corto del dia
-        /// </summary>
-        /// <param name="idDia"></param>
-        /// <returns></returns>
-        public string ObtenerNombreCortoDelDia(int idDia)
-        {
-            var sql = from d in dataContext.Dia
-                      where d.iddia == idDia
-                      select d;
-            if (sql.Count() > 0)
-            {
-                return sql.First().nombre_corto;
-            }
-            return "none";
-
-        }
-
-        /// <summary>
         /// Metodo para verificar la entrada
         /// </summary>
         /// <param name="pDTgral"></param>
