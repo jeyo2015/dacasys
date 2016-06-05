@@ -169,7 +169,7 @@
 
                              IdCita = c.idcita,
                              IDConsultorio = c.idempresa,
-                             EstaAtendida = c.atendido??false,
+                             EstaAtendida = c.atendido ?? false,
                              HoraFin = c.hora_fin,
                              HoraInicio = c.hora_inicio,
                              LoginCliente = c.id_cliente
@@ -204,7 +204,8 @@
                         HoraFinString = aux.Add(tiempoCita).ToString(),
                         Paciente = cita != null ? GetPacienteCita(cita.LoginCliente) : null,
                         NumeroCita = numeroCita,
-                        EstaAtendida = cita != null ? cita.EstaAtendida: aux< timeOfDay?true:false
+                        EstaAtendida = cita != null ? cita.EstaAtendida : false,
+                        EsTarde = pFecha <= DateTime.Now ? aux < timeOfDay ? true : false : false
                     });
                     aux = aux.Add(tiempoCita);
                     numeroCita++;

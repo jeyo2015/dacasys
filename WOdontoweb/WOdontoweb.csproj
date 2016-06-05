@@ -187,8 +187,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\Wodonto.js" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\app\controller\consultoriosController.js" />
     <Content Include="Scripts\app\controller\consultasController.js" />
+    <Content Include="Scripts\app\controller\consultoriosController.js" />
     <Content Include="Scripts\app\controller\horarioController.js" />
     <Content Include="Scripts\app\controller\inicioClienteController.js" />
     <Content Include="Scripts\app\controller\usuariosController.js" />
