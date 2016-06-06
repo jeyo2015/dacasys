@@ -72,9 +72,8 @@
         public bool EstaAtendida { get; set; }
         public PacienteDto Paciente { get; set; }
         public int NumeroCita { get; set; }
-
+        public bool EsTarde { get; set; }
     }
-
     public class TrabajosConsultorioDto
     {
         public int ID { get; set; }

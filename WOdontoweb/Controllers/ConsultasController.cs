@@ -76,7 +76,7 @@ namespace WOdontoweb.Controllers
             var insert = gABMHistorico.InsertarHistoricoDetalle(pHistoricoDetalle, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
-                Message = insert ? "Se registro el nuevo historico" : "No se pudo registrar el nuevo historico, por favor intente de nuevo",
+                Message = insert ? "Se registro en historico " : "No se pudo registrar en el historico, por favor intente de nuevo",
                 Data = insert,
                 Success = insert
             };
