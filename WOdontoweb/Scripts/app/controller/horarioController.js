@@ -60,12 +60,10 @@
                             listaHorario.push(item);
                         }
                     });
-                        listaHorario.push(elemento);
-                    })
-                });
-
-                $scope.ListaHorario = listaHorario;
+                    listaHorario.push(elemento);
+                })
             });
+            $scope.ListaHorario = listaHorario;
         }
         else {
             toastr.warning('Selecciones dias para la busqueda');
@@ -119,7 +117,7 @@
         }
     };
 
-    function eliminarRegistro() {        
+    function eliminarRegistro() {
         horarioService.eliminarHorario($scope.horarioParaGuardar).then(function (result) {
             if (result.Data == 1) {
                 $scope.listarHorario();
