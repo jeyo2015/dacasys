@@ -232,6 +232,7 @@
     <Content Include="Scripts\app\services\horarioService.js" />
     <Content Include="Scripts\app\services\pacienteService.js" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\angular.js" />
@@ -259,9 +260,11 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.timeentry.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\snackbar.min.js" />
     <Content Include="Scripts\toastr.css" />

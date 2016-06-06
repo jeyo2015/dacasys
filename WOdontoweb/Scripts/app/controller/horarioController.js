@@ -24,6 +24,10 @@
         prepararNuevoHorario();
     };
 
+    $scope.openModalConfirmDelele = function () {
+        $('#confirm-delete').modal('show');
+    };
+
     $scope.closeModal = function (nameModal) {
         $(nameModal).modal('hide');
     };
@@ -51,10 +55,11 @@
         if (diasCheck.length > 0) {
             horarioService.obtenerHorariosPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
                 $.each(diasCheck, function (index, elemento) {
-                    var listPlanta = result.where(function (item) {
-                        return item.IDDia == elemento;
+                    $.each(result, function (i, item) {
+                        if (item.IDDia == elemento) {
+                            listaHorario.push(item);
+                        }
                     });
-                    listaHorario.push(listPlanta);
                 });
 
                 $scope.ListaHorario = listaHorario;
@@ -63,28 +68,41 @@
         else {
             toastr.warning('Selecciones dias para la busqueda');
         }
+    };
+
+    $scope.nuevoHorario = function () {
+        obtenerHoraActual('horaInicio');
+        obtenerHoraActual('horaFin');
+    };
+
+    function obtenerHoraActual(element, factor) {
+        var fecha = new Date();
+        if (factor) {
+            fecha = adicionarTiempo(factor, 'h', fecha);
+        }
+        var hora = fecha.getHours().toString();
+        var minuto = fecha.getMinutes().toString();
+        $('#' + element).val((hora < 9 ? '0' + hora : hora) + ":" + (minuto < 9 ? '0' + minuto : minuto));
+        $('#' + element).timeEntry();
     }
 
-    //function cargar_todos_los_usuarios() {
-    //    var user = horarioService.getAllUsers($rootScope.sessionDto.IDConsultorio).then(function (result) {
-    //        $scope.allUsers = result;
-    //    });
-    //}
+    $scope.seleccionarHorario = function (horario) {
+        $scope.horarioSelected = horario;
+        $scope.horarioParaGuardar = angular.copy($scope.horarioSelected);
+        $scope.numeroSelected = horario.NumHorario;
+        seleccionarDia();
+    };
 
-    //$scope.selectUser = function (user) {
-    //    $scope.userSelected = user;
-    //    $scope.horarioParaGuardar = angular.copy($scope.userSelected);
-    //    $scope.horarioParaGuardar.State = 2;
-    //    $scope.horarioParaGuardar.ConfirmPass = angular.copy($scope.horarioParaGuardar.Password);
-    //    selectRol();
-    //};
-
-    //function selectRol() {
-    //    var selectRolUser = $scope.rolesConsultorio.where(function (item) {
-    //        return item.ID == $scope.horarioParaGuardar.IDRol;
-    //    });
-    //    $scope.rolSelected = selectRolUser[0];
-    //}
+    function seleccionarDia() {
+        $.each($scope.ListaDias, function (index, elemento) {
+            if (elemento.IDDia == $scope.horarioParaGuardar.IDDia) {
+                elemento.IsChecked = true;
+            }
+            else {
+                elemento.IsChecked = false;
+            }
+        });
+    }
 
     //$scope.validadUsuario = function () {
     //    return $scope.horarioParaGuardar == null || $scope.horarioParaGuardar.Nombre.length < 4 || $scope.horarioParaGuardar.Login.length < 4
@@ -92,26 +110,29 @@
     //        || $scope.rolSelected == null;
     //};
 
-    //$scope.openModalConfirmDelele = function () {
-    //    $('#confirm-delete').modal('show');
-    //};
+    $scope.openModalConfirmDelele = function () {
+        var r = confirm("Esta seguro que desea eliminar el registro?");
+        if (r == true) {
+            eliminarRegistro();
+        }
+    };
+
+    function eliminarRegistro() {        
+        horarioService.eliminarHorario($scope.horarioParaGuardar).then(function (result) {
+            if (result.Data == 1) {
+                $scope.listarHorario();
+                prepararNuevoHorario();
+                toastr.success(result.Message);
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
+
 
     //$scope.closeWarnig = function () {
     //    $scope.userSelected = null;
     //    $('#confirm-delete').modal('hide');
-    //};
-
-    //$scope.eliminarUsuario = function () {
-    //    horarioService.eliminarHorario($scope.horarioParaGuardar).then(function (result) {
-    //        if (result.Data == 1) {
-    //            $('#confirm-delete').modal('hide');
-    //            cargar_todos_los_usuarios();
-    //            prepararNuevoHorario();
-    //            toastr.success(result.Message);
-    //        } else {
-    //            toastr.error(result.Message);
-    //        }
-    //    });
     //};
 
     //$scope.guardarHorario = function () {

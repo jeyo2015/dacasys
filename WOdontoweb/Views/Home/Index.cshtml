@@ -362,8 +362,9 @@
                             <div class="row">
                                 <div class="col-md-1" ng-repeat="dia in ListaDias">
                                     <input ng-model="dia.IsChecked" type="checkbox">{{dia.NombreCorto}}
+                               
                                 </div>
-                                <div  class="col-md-5">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <div class="col-md-3">
                                             <button class="btn btn-primary" ng-click="listarHorario()">Buscar</button>
@@ -372,20 +373,30 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Hora Inicio</label>
-                                        <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" class="form-control" id="horaInicio">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="horaInicio" class="col-md-2 control-label">Hora Inicio:</label>
+                                    <div class="col-md-2">
+                                        <input type="text" ng-model="horarioParaGuardar.HoraInicio" class="form-control" id="horaInicio">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group ">
-                                        <label class="col-md-2 control-label">Hora Final</label>
-                                        <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" class="form-control" id="horaFinal">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="horaFinal" class="col-md-2 control-label">Hora Final:</label>
+                                    <div class="col-md-2">
+                                        <input type="text" ng-model="horarioParaGuardar.HoraFin" class="form-control" id="horaFin">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="horaFinal" class="col-md-2 control-label">Numero:</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" id="selectNumero" ng-model="numeroSelected">
+                                            <option value="1" selected="selected">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <span ng-click="nuevoHorario()"><i class="fa fa-plus-circle iconStyle"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -395,16 +406,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Dia</th>
+                                                <th>Numero</th>
                                                 <th>Hora Inicio</th>
                                                 <th>Hora Final</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="horario in ListaHorario">
+                                            <tr ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario" ng-click="seleccionarHorario(horario)">
                                                 <td>{{horario.NombreDia}}</td>
                                                 <td>{{horario.NumHorario}}</td>
                                                 <td>{{horario.HoraInicio}}</td>
-                                                <td>{{horario.HoraFinal}}</td>
+                                                <td>{{horario.HoraFin}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -413,6 +425,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="horarioSelected==null">Eliminar horario</button>
                         @*<button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>*@
                         <button class="btn btn-primary" ng-click="closeModal('#configurar-horarios')">Cancelar</button>
                     </div>
@@ -423,13 +436,14 @@
 
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
     <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
     <script src="@Url.Content("~/Scripts/snackbar.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
-
+    <script src="@Url.Content("~/Scripts/jquery.timeentry.min.js")"></script>
     <script src="@Url.Content("~/Scripts/angular.js")"></script>
     <script src="@Url.Content("~/Scripts/app/app.js")"></script>
     <script src="@Url.Content("~/Content/Wodonto.js")"></script>

@@ -28,8 +28,8 @@
         public bool Insertar(HorarioDto horarioDto, string idUsuario)
         {
             Horario vHorario = new Horario();
-            vHorario.hora_fin = horarioDto.HoraFin;
-            vHorario.hora_inicio = horarioDto.HoraInicio;
+            vHorario.hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
+            vHorario.hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
             vHorario.iddia = horarioDto.IDDia;
             vHorario.idempresa = horarioDto.IDEmpresa;
             vHorario.num_horario = horarioDto.NumHorario;
@@ -61,8 +61,8 @@
 
             if (sql.Count() > 0)
             {
-                sql.First().hora_fin = horarioDto.HoraFin;
-                sql.First().hora_inicio = horarioDto.HoraInicio;
+                sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
+                sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
                 sql.First().iddia = horarioDto.IDDia;
                 sql.First().idempresa = horarioDto.IDEmpresa;
                 try
@@ -91,7 +91,7 @@
         /// <param name="idUsuario">Id del usuario que realiza la accion</param>
         public bool Eliminar(int idHorario, int numHorario, string idUsuario)
         {
-            var sql = from h in dataContext.Horario                      
+            var sql = from h in dataContext.Horario
                       where h.idhorario == idHorario && h.num_horario == numHorario
                       select h;
 
@@ -120,31 +120,6 @@
 
         #region Getter_Horarios
 
-        /// <summary>
-        /// Metodo privado que retorna los horarios de un consultorio segun el el dia
-        /// </summary>
-        /// <param name="pidDia">ID del dia</param>
-        /// <param name="pidEmpresa">Id del consultorio</param>
-        /// <returns>IEnumerable<Horario></returns>
-        public List<HorarioDto> ObtenerHorariosPorDia(int idDia, int idEmpresa)
-        {
-            return (from h in dataContext.Horario
-                    join d in dataContext.Dia on h.iddia equals d.iddia
-                    where h.iddia == idDia && h.idempresa == idEmpresa && h.estado == true
-                    orderby h.iddia
-                    select new HorarioDto()
-                    {
-                        HoraInicio = h.hora_inicio,
-                        HoraFin = h.hora_fin,
-                        IDHorario = h.idhorario,
-                        IDDia = h.iddia,
-                        IDEmpresa = h.idempresa,
-                        NumHorario = h.num_horario,
-                        Estado = h.estado,
-                        NombreDia = d.nombre_corto
-                    }).ToList();
-        }
-
         public List<HorarioDto> ObtenerHorariosPorEmpresa(int idEmpresa)
         {
             return (from h in dataContext.Horario
@@ -153,8 +128,8 @@
                     orderby h.iddia
                     select new HorarioDto()
                     {
-                        HoraInicio = h.hora_inicio,
-                        HoraFin = h.hora_fin,
+                        HoraInicio = h.hora_inicio.Hours + ":" + h.hora_inicio.Minutes,
+                        HoraFin = h.hora_fin.Hours + ":" + h.hora_fin.Minutes,
                         IDHorario = h.idhorario,
                         IDDia = h.iddia,
                         IDEmpresa = h.idempresa,
