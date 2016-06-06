@@ -54,7 +54,9 @@
                     var listPlanta = result.where(function (item) {
                         return item.IDDia == elemento;
                     });
-                    listaHorario.push(listPlanta);
+                    $.each(listPlanta, function (index, elemento) {
+                        listaHorario.push(elemento);
+                    })
                 });
 
                 $scope.ListaHorario = listaHorario;
