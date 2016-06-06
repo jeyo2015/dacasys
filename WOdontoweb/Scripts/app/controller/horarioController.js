@@ -60,6 +60,8 @@
                             listaHorario.push(item);
                         }
                     });
+                        listaHorario.push(elemento);
+                    })
                 });
 
                 $scope.ListaHorario = listaHorario;

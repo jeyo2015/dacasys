@@ -1,13 +1,58 @@
 ﻿app.controller("consultoriosController", function (clinicaService, $scope, $compile) {
     init();
-
+   // var listaMarcadores = [];
+    var map;
     function init() {
+        $scope.listaMarcadores = [];
         $scope.allClinicas = [];
         cargar_todas_clinicas();
         $scope.clinicaSelected = null;
         prepararNuevaClinica();
+        InicializarMapa();
+
     };
 
+    function CrearMarcador(id, latitud, longitud) {
+        var latlng = new google.maps.LatLng(latitud, longitud);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: latlng,
+            title: '',
+            icon: 'Content/img/marker.png',
+            zIndex: id
+        });
+       // map.setCenter(latlng);
+        map.setZoom(17);
+        $scope.listaMarcadores.push(marker);
+    }
+   
+    $scope.abrirModalDeMapa = function () {
+        $("#modal-mapa-ubicacion").modal('show');
+       
+    }
+    function removerMarcador() {
+        if ($scope.listaMarcadores) {
+            for (var i=0 ; i<  $scope.listaMarcadores.length; i++) {
+                var markerCurrent = $scope.listaMarcadores[i];
+                markerCurrent.setMap(null);
+            }
+        }
+    }
+    function InicializarMapa() {
+        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
+        CrearMarcador(0,latlng.lat(), latlng.lng());
+        google.maps.event.addListener(map, 'click', function (event) {
+            removerMarcador();
+            CrearMarcador(0, event.latLng.lat(), event.latLng.lng())
+        });
+
+    }
     function prepararNuevaClinica() {
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
