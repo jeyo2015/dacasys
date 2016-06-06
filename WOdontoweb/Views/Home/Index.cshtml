@@ -363,18 +363,20 @@
                                 <div class="col-md-1" ng-repeat="dia in ListaDias">
                                     <input ng-model="dia.IsChecked" type="checkbox">{{dia.NombreCorto}}
                                 </div>
-                                <div class="form-group">
+                                <div  class="col-md-5">
+                                    <div class="form-group">
                                         <div class="col-md-3">
                                             <button class="btn btn-primary" ng-click="listarHorario()">Buscar</button>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Hora Inicio</label>
                                         <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaInicio">
+                                            <input type="text" ng-disabled="true" class="form-control" id="horaInicio">
                                         </div>
                                     </div>
                                 </div>
@@ -382,7 +384,7 @@
                                     <div class="form-group ">
                                         <label class="col-md-2 control-label">Hora Final</label>
                                         <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaFinal">
+                                            <input type="text" ng-disabled="true" class="form-control" id="horaFinal">
                                         </div>
                                     </div>
                                 </div>
@@ -400,6 +402,7 @@
                                         <tbody>
                                             <tr ng-repeat="horario in ListaHorario">
                                                 <td>{{horario.NombreDia}}</td>
+                                                <td>{{horario.NumHorario}}</td>
                                                 <td>{{horario.HoraInicio}}</td>
                                                 <td>{{horario.HoraFinal}}</td>
                                             </tr>

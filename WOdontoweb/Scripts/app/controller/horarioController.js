@@ -32,23 +32,37 @@
         $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
         e.preventDefault();
         prepararNuevoHorario();
-        
+
         horarioService.obtenerDias().then(function (result) {
-            $('#configurar-horarios').modal('show');            
+            $('#configurar-horarios').modal('show');
             $scope.ListaDias = result;
         });
-
-        //horarioService.getUsuarioConsultorio($rootScope.sessionDto.loginUsuario, $rootScope.sessionDto.IDConsultorio).then(function (result) {
-        //    $scope.userToSave = result;
-
-        //    $('#configurar-horarios').modal('show');
-        //});
     };
 
     $scope.listarHorario = function () {
-        horarioService.listarHorarioPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $scope.rolesConsultorio = result;
+        var diasCheck = [];
+        var listaHorario = [];
+        $.each($scope.ListaDias, function (index, elemento) {
+            if (elemento.IsChecked) {
+                diasCheck.push(elemento.IDDia);
+            }
         });
+
+        if (diasCheck.length > 0) {
+            horarioService.obtenerHorariosPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
+                $.each(diasCheck, function (index, elemento) {
+                    var listPlanta = result.where(function (item) {
+                        return item.IDDia == elemento;
+                    });
+                    listaHorario.push(listPlanta);
+                });
+
+                $scope.ListaHorario = listaHorario;
+            });
+        }
+        else {
+            toastr.warning('Selecciones dias para la busqueda');
+        }
     }
 
     //function cargar_todos_los_usuarios() {

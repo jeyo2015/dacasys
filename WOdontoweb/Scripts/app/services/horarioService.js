@@ -1,11 +1,4 @@
 ﻿app.service("horarioService", function ($http, $q) {
-    this.obtenerHorariosPorEmpresa = function (idEmpresa) {
-        var d = $q.defer();
-        $http.get('Horario/ObtenerHorariosPorEmpresa?idEmpresa=' + idEmpresa).success(function (data) {
-            d.resolve(data);
-        });
-        return d.promise;
-    };
     this.obtenerDias = function () {
         var d = $q.defer();
         $http.get('Horario/ObtenerDias').success(function (data) {
@@ -13,7 +6,7 @@
         });
         return d.promise;
     };    
-    this.listarHorarioPorEmpresa = function (idEmpresa, listDia) {
+    this.obtenerHorariosPorEmpresa = function (idEmpresa) {
         var d = $q.defer();
         $http.get('Horario/ObtenerHorariosPorEmpresa?idEmpresa=' + idEmpresa).success(function (data) {
             d.resolve(data);
