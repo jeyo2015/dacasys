@@ -1,4 +1,6 @@
-﻿namespace WOdontoweb.Controllers
+﻿using System.Collections.Generic;
+
+namespace WOdontoweb.Controllers
 {
     using System.Web.Mvc;
 using NAgenda;
@@ -33,12 +35,6 @@ using RMTools.UI.Models;
         public JsonResult ObtenerHorariosPorEmpresa(int idEmpresa)
         {
             var result = abmHorario.ObtenerHorariosPorEmpresa(idEmpresa);                
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult ObtenerHorariosPorDia(int idDia, int idEmpresa)
-        {
-            var result = abmHorario.ObtenerHorariosPorDia(idDia, idEmpresa);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

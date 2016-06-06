@@ -31,10 +31,14 @@ app.config(['$routeProvider',
                templateUrl: 'Scripts/app/partials/usuarios.html',
                controller: 'usuariosController'
            }).
-           when('/consultas', {
-               templateUrl: 'Scripts/app/partials/consultas.html',
-               controller: 'consultasController'
+           when('/horario', {
+               templateUrl: 'Scripts/app/partials/horario.html'
+              // controller: 'horarioController'
            }).
+      when('/consultas', {
+          templateUrl: 'Scripts/app/partials/consultas.html',
+          controller: 'consultasController'
+      }).
         otherwise({
             redirectTo: 'inicioCliente'
         });
@@ -43,19 +47,19 @@ app.config(['$routeProvider',
 
 
 
-app.factory('injectorDacasys', ['$rootScope','$q', function ($rootScope, $q) {
+app.factory('injectorDacasys', ['$rootScope', '$q', function ($rootScope, $q) {
     var numLoadings = 0;
     // $rootScope.countRequest = 0;
     var sessionInjector = {
         request: function (config) {
-           // $("#divLoaderfull").show();
-           // numLoadings++;
+            // $("#divLoaderfull").show();
+            // numLoadings++;
             // $rootScope.countRequest++;
             config.url = $("#basePath").attr("href") + config.url;
             return config;
         },
-        response: function(response) {
-           // if ((--numLoadings) === 0)
+        response: function (response) {
+            // if ((--numLoadings) === 0)
             //    $("#divLoaderfull").hide();
             return response;
             // $rootScope.countRequest--;

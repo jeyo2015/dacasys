@@ -228,6 +228,7 @@
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
+    <Content Include="Scripts\app\partials\horario.html" />
     <Content Include="Scripts\app\services\consultasService.js" />
     <Content Include="Scripts\app\services\horarioService.js" />
     <Content Include="Scripts\app\services\pacienteService.js" />
@@ -337,7 +338,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1384/</IISUrl>
+          <IISUrl>http://localhost:3384/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

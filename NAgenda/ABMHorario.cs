@@ -27,15 +27,18 @@
         /// <param name="idUsuario"></param>
         public bool Insertar(HorarioDto horarioDto, string idUsuario)
         {
-            Horario vHorario = new Horario();
-            vHorario.hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
-            vHorario.hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
-            vHorario.iddia = horarioDto.IDDia;
-            vHorario.idempresa = horarioDto.IDEmpresa;
-            vHorario.num_horario = horarioDto.NumHorario;
-            vHorario.estado = true;
             try
             {
+                var vHorario = new Horario
+                {
+                    hora_fin = TimeSpan.Parse(horarioDto.HoraFin),
+                    hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio),
+                    iddia = horarioDto.IDDia,
+                    idempresa = horarioDto.IDEmpresa,
+                    num_horario = horarioDto.NumHorario,
+                    estado = true
+                };
+
                 dataContext.Horario.InsertOnSubmit(vHorario);
                 dataContext.SubmitChanges();
                 controlBitacora.Insertar("Se inserto un horario", idUsuario);
