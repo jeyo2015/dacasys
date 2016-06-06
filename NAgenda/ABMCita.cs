@@ -64,7 +64,7 @@
                 {
                     Enviar_Correo_Cancelacion(pCita.Paciente, pIDUsuario, pMotivo);
                     vCita.estado = false;
-                    vCita.libre = plibre;
+                    vCita.libre = !plibre;
 
 
                 }
@@ -172,7 +172,8 @@
                              EstaAtendida = c.atendido ?? false,
                              HoraFin = c.hora_fin,
                              HoraInicio = c.hora_inicio,
-                             LoginCliente = c.id_cliente
+                             LoginCliente = c.id_cliente,
+                             Estalibre = c.libre
                          });
             var vDia = (int)pFecha.DayOfWeek - 1;
             if (vDia == -1)
@@ -199,10 +200,10 @@
                         IDHorario = horario.idhorario,
                         IdCita = cita != null ? cita.IdCita : "",
                         IDConsultorio = pIDConsultorio,
-                        EstaOcupada = cita != null,
+                        EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
                         HoraInicioString = aux.ToString(),
                         HoraFinString = aux.Add(tiempoCita).ToString(),
-                        Paciente = cita != null ? GetPacienteCita(cita.LoginCliente) : null,
+                        Paciente = cita != null ?  GetPacienteCita(cita.LoginCliente) : null,
                         NumeroCita = numeroCita,
                         EstaAtendida = cita != null ? cita.EstaAtendida : false,
                         EsTarde = pFecha <= DateTime.Now ? aux < timeOfDay ? true : false : false

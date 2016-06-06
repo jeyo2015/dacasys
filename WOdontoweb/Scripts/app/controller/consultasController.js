@@ -4,7 +4,7 @@
     function init() {
         $scope.diasDeSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         $scope.dateSelected = moment().format('DD/MM/YYYY');
-        $scope.dateSelectedString = $scope.dateSelected;
+        $scope.dateSelectedString = $scope.diasDeSemana[(ObtenerFechaDesdeStrint($scope.dateSelected).getDay() % 7)] + " " + $scope.dateSelected;
         $scope.citaSeleccionada = null;
         $("#datepicker").datepicker({
             dateFormat: "dd/mm/yy",
@@ -77,7 +77,10 @@
 
     function cargarHistoricoPaciente(modalOpen) {
         consultasService.getHistoricoPaciente($scope.pacienteParaAtender.IdPaciente, $rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $scope.historicosPaciente = result;
+            $scope.historicosPaciente = result.select(function (his) {
+                his.FechaCreacion = moment(his.FechaCreacion).format('DD/MM/YYYY');
+                return his;
+            });
             $("#modal-seleccionar-paciente").modal("hide");
             if (modalOpen.length > 0) {
                 $(modalOpen).modal('show');
