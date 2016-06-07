@@ -14,8 +14,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
         readonly Encriptador abmEncriptador = new Encriptador();
 
         #endregion
@@ -50,13 +48,13 @@
                 {
                     dataContext.UsuarioCliente.InsertOnSubmit(vUsuarioCliente);
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se Inserto un nuevo cliente", pIDUsuario);
+                    ControlBitacora.Insertar("Se Inserto un nuevo cliente", pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMCliente", "ABMUsuarioCliente", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMCliente", "ABMUsuarioCliente", ex);
                     return 0;
                 }
             }
@@ -109,11 +107,9 @@
                           select cli;
             if (cliente.Count() > 0)
             {
-
                 String vPassEncriptada = abmEncriptador.Encriptar(pass);
                 if (cliente.First().Password == vPassEncriptada)
                 {
-
                     sessionReturn.loginUsuario = pUsuario;
                     sessionReturn.IDConsultorio = -1;
                     //sessionReturn.Nombre = cliente.First().
@@ -124,18 +120,15 @@
                     sessionReturn.IDRol = -1;
                     return sessionReturn;
                 }
-
                 else
                     sessionReturn.Verificar = 4;
                 return sessionReturn;
             }
             else
             {
-
                 sessionReturn.Verificar = 2;
                 return sessionReturn;
             }
-            return sessionReturn;
         }
 
         public DataTable Get_Clientep(string pLogin)
@@ -173,12 +166,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico un Usuario", pLogin);
+                    ControlBitacora.Insertar("Se modifico un Usuario", pLogin);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMUsuarioCliente", "Cambiar_Pass", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioCliente", "Cambiar_Pass", ex);
                     return 0;
                 }
             }
@@ -199,13 +192,13 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se reseteo password de Usuario " + pLogin, "0000");
+                    ControlBitacora.Insertar("Se reseteo password de Usuario " + pLogin, "0000");
                     Enviar_ReseteoDePass(pLogin, vPassNew);
                     return 3;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMUsuarioCliente", "ResetearPass", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioCliente", "ResetearPass", ex);
                     return 2;
                 }
             }

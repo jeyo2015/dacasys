@@ -10,8 +10,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -32,11 +30,11 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Una persona ha ingresado a la portada", "-1");
+                    ControlBitacora.Insertar("Una persona ha ingresado a la portada", "-1");
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
+                    ControlLogErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
                 }
             }
             else
@@ -49,11 +47,11 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Una persona ha ingresado a la portada", "-1");
+                    ControlBitacora.Insertar("Una persona ha ingresado a la portada", "-1");
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
+                    ControlLogErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
                 }
 
             }

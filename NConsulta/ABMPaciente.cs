@@ -16,8 +16,6 @@
 
         readonly DataContext dataContext = new DataContext();
         readonly ABMUsuarioCliente abmCliente = new ABMUsuarioCliente();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -70,7 +68,7 @@
             {
                 dataContext.Paciente.InsertOnSubmit(vPaciente);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se Inserto un nuevo Paciente", pIDUsuario);
+                ControlBitacora.Insertar("Se Inserto un nuevo Paciente", pIDUsuario);
                 if (cliente)
                 {
                     String vPass = new Encriptador().Generar_Aleatoriamente();
@@ -86,7 +84,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMPAciente", "Insertar", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Insertar", ex);
                 return 0;
             }
 
@@ -150,11 +148,11 @@
                     try
                     {
                         dataContext.Cliente_Paciente.DeleteOnSubmit(cp);
-                        controlBitacora.Insertar("Se elimino un Cliente_Paciente", pIDUsuario);
+                        ControlBitacora.Insertar("Se elimino un Cliente_Paciente", pIDUsuario);
                     }
                     catch (Exception ex)
                     {
-                        controlErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
+                        ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
                         return 0;
                     }
                 }
@@ -166,7 +164,7 @@
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
+                    ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
                     return 0;
                 }
             }
@@ -276,12 +274,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se Modifico un paciente " + pIdPaciente, pIDUsuario);
+                    ControlBitacora.Insertar("Se Modifico un paciente " + pIdPaciente, pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NConsulta", "ABMPaciente", "Modificar Paciente", ex);
+                    ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Modificar Paciente", ex);
                     return 0;
                 }
 
@@ -363,12 +361,12 @@
             {
                 dataContext.Cliente_Paciente.InsertOnSubmit(cp);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se Asigno un paciente a un cliente", pIDUsuario);
+                ControlBitacora.Insertar("Se Asigno un paciente a un cliente", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMPaciente", "Asignar_Paciente", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asignar_Paciente", ex);
                 return 0;
             }
         }
@@ -387,14 +385,14 @@
             {
                 dataContext.Empresa_Cliente.InsertOnSubmit(vEmp_Clie);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se Inserto un nuevo Empresa_Cliente", pIDUsuario);
+                ControlBitacora.Insertar("Se Inserto un nuevo Empresa_Cliente", pIDUsuario);
                 if (!pemail.Equals(""))//Si no se ha dado bienvenida
                     abmCliente.Enviar_Bienvenida(pIDempresa, pemail, "", pIDCliente);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMPaciente", "Asiganar_Empresa", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asiganar_Empresa", ex);
                 return 0;
             }
 
@@ -538,11 +536,11 @@
                 try
                 {
                     dataContext.Cliente_Paciente.DeleteOnSubmit(cp);
-                    controlBitacora.Insertar("Se elimino un Cliente_Paciente", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino un Cliente_Paciente", pIDUsuario);
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
+                    ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
                     return 0;
                 }
             }
@@ -554,7 +552,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
                 return 0;
             }
 

@@ -8,7 +8,7 @@
     {
         #region VariablesGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="pDescripcion">Descripcion del evento</param>
         /// <param name="pIDUsuario">Login del Usuario</param>
-        public void Insertar(string pDescripcion, string pIDUsuario)
+        public static void Insertar(string pDescripcion, string pIDUsuario)
         {
             try
             {
@@ -31,12 +31,11 @@
             }
             catch (Exception ex)
             {
-                ControlLogErrores vLogError = new ControlLogErrores();
-                vLogError.Insertar("NEventos", "ControlBitacora", "Insertar", ex);
+                ControlLogErrores.Insertar("NEventos", "ControlBitacora", "Insertar", ex);
             }
         }
 
-        public int Get_DirefenciaHora()
+        public static int Get_DirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
@@ -47,6 +46,7 @@
             }
             return 0;
         }
+
         #endregion
     }
 }
