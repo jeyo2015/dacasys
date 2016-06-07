@@ -60,7 +60,7 @@ using RMTools.UI.Models;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ModificarUsuario(HorarioDto horarioDto)
+        public JsonResult ModificarHorario(HorarioDto horarioDto)
         {
             var insert = abmHorario.Modificar(horarioDto, Session["loginusuario"].ToString());
             var result = new ResponseModel()
