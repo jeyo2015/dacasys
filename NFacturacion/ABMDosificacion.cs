@@ -13,8 +13,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -46,12 +44,12 @@
             try
             {
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto una nueva dosificacion", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto una nueva dosificacion", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NFacturacion", "ABMDosificacion", "Insertar", ex);
+                ControlLogErrores.Insertar("NFacturacion", "ABMDosificacion", "Insertar", ex);
                 return 2;
             }
 
@@ -75,12 +73,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino una dosificacion", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino una dosificacion", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NFacturacion", "ABMDosificacion", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NFacturacion", "ABMDosificacion", "Eliminar", ex);
                     return 2;
                 }
             } return
@@ -117,12 +115,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico la dosificacion con fecha de registro: " + pFecha_Registro.ToString(), pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico la dosificacion con fecha de registro: " + pFecha_Registro.ToString(), pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NFacturacion", "ABMDosificacion", "Modificar", ex);
+                    ControlLogErrores.Insertar("NFacturacion", "ABMDosificacion", "Modificar", ex);
                     return 2;
                 }
             }
@@ -193,12 +191,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico la dosificacion con fecha de registro: " + pFecha_Registro.ToString(), pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico la dosificacion con fecha de registro: " + pFecha_Registro.ToString(), pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NFacturacion", "ABMDosificacion", "Habilitar_deshabilitarDosificacion", ex);
+                    ControlLogErrores.Insertar("NFacturacion", "ABMDosificacion", "Habilitar_deshabilitarDosificacion", ex);
                     return 2;
                 }
             }

@@ -21,6 +21,11 @@
 
         $scope.diaSelected = null;
         $scope.numeroSelected = null;
+        
+        obtenerHoraActual('horaInicio');
+        obtenerHoraActual('horaFin');
+        $scope.horarioParaGuardar.HoraInicio = $('#horaInicio').val();
+        $scope.horarioParaGuardar.HoraFin = $('#horaFin').val();
     }
 
     function cargarHorarios() {
@@ -45,12 +50,6 @@
 
     $scope.nuevoHorario = function () {
         prepararNuevoHorario();
-      
-        obtenerHoraActual('horaInicio');
-        obtenerHoraActual('horaFin');
-        $scope.horarioParaGuardar.HoraInicio = $('#horaInicio').val();
-        $scope.horarioParaGuardar.HoraFin = $('#horaFin').val();
-        
     };
 
     $scope.openModalConfirmDelele = function () {
@@ -63,7 +62,6 @@
         var minuto = fecha.getMinutes().toString();
         $('#' + element).val((hora < 9 ? '0' + hora : hora) + ":" + (minuto < 9 ? '0' + minuto : minuto));
         $('#' + element).timeEntry();
-       
     }
 
     $scope.seleccionarHorario = function (horario) {
@@ -71,8 +69,8 @@
         $scope.horarioParaGuardar = angular.copy($scope.horarioSelected);
         $scope.horarioParaGuardar.State = 2;
         $scope.numeroSelected = horario.NumHorario;
-        $('#horaInicio').timeEntry();
-        $('#horaFin').timeEntry();
+        $('#horaInicio').val($scope.horarioParaGuardar.HoraInicio);
+        $('#horaFin').val($scope.horarioParaGuardar.HoraFin);
         seleccionarDia();
     };
 
@@ -84,7 +82,6 @@
     }
 
     $scope.validarCamposHorario = function () {
-       
         return $scope.horarioParaGuardar == null || $scope.diaSelected == null || $scope.numeroSelected == null
             || $scope.horarioParaGuardar.HoraInicio.length != 5 || $scope.horarioParaGuardar.HoraFin.length != 5;
     };
@@ -113,6 +110,7 @@
 
     $scope.guardarHorario = function() {
         $scope.horarioParaGuardar.IDDia = $scope.diaSelected.IDDia;
+        $scope.horarioParaGuardar.NombreDia = $scope.diaSelected.NombreCorto;
         $scope.horarioParaGuardar.NumHorario = $scope.numeroSelected;
         $scope.horarioParaGuardar.HoraInicio = $('#horaInicio').val();
         $scope.horarioParaGuardar.HoraFin = $('#horaFin').val();

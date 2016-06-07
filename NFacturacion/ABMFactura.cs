@@ -13,8 +13,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
         readonly ABMDosificacion abmDosificacion = new ABMDosificacion();
 
         #endregion
@@ -52,12 +50,12 @@
             try
             {
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto una nueva factura", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto una nueva factura", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NFacturacion", "ABMFactura", "Insertar", ex);
+                ControlLogErrores.Insertar("NFacturacion", "ABMFactura", "Insertar", ex);
                 return 2;
             }
 
@@ -102,12 +100,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modificó una nueva factura", pIDUsuario);
+                    ControlBitacora.Insertar("Se modificó una nueva factura", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NFacturacion", "ABMFactura", "Modificar", ex);
+                    ControlLogErrores.Insertar("NFacturacion", "ABMFactura", "Modificar", ex);
                     return 2;
                 }
             }
@@ -135,12 +133,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se eliminó una nueva factura ", pIDUsuario);
+                    ControlBitacora.Insertar("Se eliminó una nueva factura ", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NFacturacion", "ABMFactura", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NFacturacion", "ABMFactura", "Eliminar", ex);
                     return 2;
                 }
             }

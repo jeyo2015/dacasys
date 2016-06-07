@@ -13,8 +13,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -37,17 +35,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico la cita", pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico la cita", pIDUsuario);
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Modificar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Modificar", ex);
                 }
 
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
             }
 
         }
@@ -76,13 +74,13 @@
                 {
 
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino la cita", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino la cita", pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
                     return 0;
                 }
 
@@ -141,12 +139,12 @@
             {
                 dataContext.Cita.InsertOnSubmit(vCita);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                ControlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                 return false;
             }
         }
@@ -347,12 +345,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                    ControlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                     return 2;
                 }
             } return 0;

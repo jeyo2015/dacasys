@@ -9,8 +9,6 @@
         #region VariablesGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -33,12 +31,12 @@
             {
                 dataContext.Modulo.InsertOnSubmit(vModulo);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto un Modulo", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto un Modulo", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMModulo", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMModulo", "Insertar", ex);
                 return 2;
             }
 

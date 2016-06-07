@@ -51,13 +51,13 @@
             try
             {
                 smtpMail.Send(Email);
-                new ControlBitacora().Insertar("Se envio correctamente correo", To);
+                ControlBitacora.Insertar("Se envio correctamente correo", To);
                 return 1;
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("No se pudo :" + ex.Data);
-                new ControlLogErrores().Insertar("NLongin", "SMTP", "enviarmail", ex);
+                Console.WriteLine("No se pudo :" + ex.Data);
+                ControlLogErrores.Insertar("NLongin", "SMTP", "enviarmail", ex);
                 return 0;
 
             }

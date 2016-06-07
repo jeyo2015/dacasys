@@ -13,8 +13,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -41,12 +39,12 @@
 
                 dataContext.Horario.InsertOnSubmit(vHorario);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto un horario", idUsuario);
+                ControlBitacora.Insertar("Se inserto un horario", idUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Insertar", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Insertar", ex);
                 return false;
             }
         }
@@ -71,17 +69,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico el horario", idUsuario);
+                    ControlBitacora.Insertar("Se modifico el horario", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
                 }
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
             }
             return false;
         }
@@ -104,17 +102,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino el horario", idUsuario);
+                    ControlBitacora.Insertar("Se elimino el horario", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMHorario", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Eliminar", ex);
                 }
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Eliminar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Eliminar, no se pudo obtener el horario", null);
             }
             return false;
         }

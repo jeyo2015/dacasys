@@ -16,8 +16,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
         readonly ABMUsuarioEmpleado abmUsuario = new ABMUsuarioEmpleado();
         readonly Encriptador abmEncriptador = new Encriptador();
         readonly ABMTelefono abmTelefono = new ABMTelefono();
@@ -64,7 +62,7 @@
 
                 int newIDClinica = GetNextIDClinica();
 
-                controlBitacora.Insertar("Se inserto una Clinica", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto una Clinica", pIDUsuario);
                 activar_licencia(newIDClinica, 12, pIDUsuario);
                 InsertarTelefonosClinica(pClinica.Telefonos, pIDUsuario, newIDClinica);
                 InsertarTrabajosClinica(pClinica.Trabajos, pIDUsuario, newIDClinica);
@@ -76,7 +74,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMEmpresa", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Insertar", ex);
                 return 0;
             }
         }
@@ -111,7 +109,7 @@
                 try
                 {
 
-                    controlBitacora.Insertar("Se modifico una Clinica", pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico una Clinica", pIDUsuario);
                     InsertarTelefonosClinica(pClinica.Telefonos, pIDUsuario, pClinica.IDClinica);
                     InsertarTrabajosClinica(pClinica.Trabajos, pIDUsuario, pClinica.IDClinica);
                     dataContext.SubmitChanges();
@@ -125,7 +123,7 @@
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                     return 0;
                 }
             }
@@ -149,11 +147,11 @@
                         try
                         {
                             dataContext.Trabajos.InsertOnSubmit(vTrabajo);
-                            controlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
+                            ControlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
                         }
                         catch (Exception ex)
                         {
-                            controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                            ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                         }
 
                         break;
@@ -167,11 +165,11 @@
                             {
                                 vTrabajo.Descripcion = ptrabajo.Descripcion;
                                 dataContext.SubmitChanges();
-                                controlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
+                                ControlBitacora.Insertar("Se inserto un Trabajo", pIDUsuario);
                             }
                             catch (Exception ex)
                             {
-                                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                             }
 
                         }
@@ -194,11 +192,11 @@
                                     dataContext.TrabajosConsultorio.DeleteOnSubmit(tc);
                                 }
                                 dataContext.SubmitChanges();
-                                controlBitacora.Insertar("Se elimino un Trabajo", pIDUsuario);
+                                ControlBitacora.Insertar("Se elimino un Trabajo", pIDUsuario);
                             }
                             catch (Exception ex)
                             {
-                                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
+                                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosClinica", ex);
                             }
 
                         }
@@ -287,7 +285,7 @@
                     try
                     {
                         dataContext.SubmitChanges();
-                        controlBitacora.Insertar("Se modifico un Consultorio", pIDUsuario);
+                        ControlBitacora.Insertar("Se modifico un Consultorio", pIDUsuario);
                         //Modificar_Telefonos(pID, pTelefonos, pIDUsuario);
                         if (Convert.ToInt32(pmes) > 0)
                         {
@@ -298,7 +296,7 @@
                     }
                     catch (Exception ex)
                     {
-                        controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                        ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                         return 0;
                     }
 
@@ -332,13 +330,13 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se Habilito una empresa: " + pID, pIDUsuario);
+                    ControlBitacora.Insertar("Se Habilito una empresa: " + pID, pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Habilitar_Empresa", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Habilitar_Empresa", ex);
                     return 0;
                 }
             }
@@ -367,12 +365,12 @@
             try
             {
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se Desactivo una clinica: " + pIDClinica, pIDUsuario);
+                ControlBitacora.Insertar("Se Desactivo una clinica: " + pIDClinica, pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
                 return 0;
             }
 
@@ -407,12 +405,12 @@
                         EliminarClinica(empresas.FirstOrDefault().ID, pIDUsuario);
                     }
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se Desactivo una empresa: " + pID, pIDUsuario);
+                    ControlBitacora.Insertar("Se Desactivo una empresa: " + pID, pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
                     return 0;
                 }
             }
@@ -437,12 +435,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino fisicamente un consultorio, sin confirmacion", PIDUsuario);
+                    ControlBitacora.Insertar("Se elimino fisicamente un consultorio, sin confirmacion", PIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar_fisicamente", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar_fisicamente", ex);
                     return 0;
                 }
             }
@@ -889,11 +887,11 @@
             {
                 dataContext.Licencia.InsertOnSubmit(vlicencia);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se activo una licencia para el consultorio " + pIDClinica, pIDUsuario);
+                ControlBitacora.Insertar("Se activo una licencia para el consultorio " + pIDClinica, pIDUsuario);
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
             }
         }
 
@@ -941,14 +939,14 @@
 
                     dataContext.Licencia.InsertOnSubmit(pNewLicencia);
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se Amplio o renovo una licencia", pIDUsuario);
+                    ControlBitacora.Insertar("Se Amplio o renovo una licencia", pIDUsuario);
                     Enviar_Notificacion_LicenciaAmpliada(pIDClinica, pmes);
                     return Habilitar_Empresa(pIDClinica, pIDUsuario);
 
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                     return 3;
                 }
             }
@@ -1121,7 +1119,7 @@
                 dataContext.Empresa.InsertOnSubmit(consultorioToSave);
 
 
-                controlBitacora.Insertar("Se inserto un Consultorio", pConsultorio.IDUsuarioCreador);
+                ControlBitacora.Insertar("Se inserto un Consultorio", pConsultorio.IDUsuarioCreador);
 
                 //activar_licencia(pConsultorio.IDClinica, 12, pConsultorio.IDUsuarioCreador);
                 // int vRD = Crear_Roles_default(sql.First().ID, pIDUsuario);
@@ -1147,7 +1145,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
                 return 0;
             }
         }
@@ -1167,7 +1165,7 @@
 
                         dataContext.TrabajosConsultorio.InsertOnSubmit(vTrabajoConsultorio);
                         dataContext.SubmitChanges();
-                        controlBitacora.Insertar("Se inserto un TrabajoConsultorio", pIDUsuarioCreador);
+                        ControlBitacora.Insertar("Se inserto un TrabajoConsultorio", pIDUsuarioCreador);
                         break;
 
                     case 3:
@@ -1178,7 +1176,7 @@
                         {
                             dataContext.TrabajosConsultorio.DeleteOnSubmit(vTrabajoConsultorio);
                             dataContext.SubmitChanges();
-                            controlBitacora.Insertar("Se dio de baja un Trabajo consultorio", pIDUsuarioCreador);
+                            ControlBitacora.Insertar("Se dio de baja un Trabajo consultorio", pIDUsuarioCreador);
                         }
                         break;
                 }
@@ -1198,11 +1196,11 @@
                 {
                     case 1:
                         abmTelefono.InsertarConsultorio(ptelefono);
-                        controlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
+                        ControlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
                         break;
                     case 2:
                         abmTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
-                        controlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
+                        ControlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
                         break;
                     case 3:
                         vTelefono = (from t in dataContext.Telefono
@@ -1212,7 +1210,7 @@
                         {
                             dataContext.Telefono.DeleteOnSubmit(vTelefono);
                             dataContext.SubmitChanges();
-                            controlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
+                            ControlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
                         }
                         break;
                 }
@@ -1232,11 +1230,11 @@
                 {
                     case 1:
                         abmTelefono.InsertarTelefonosDeLaClinica(pIDClinica, ptelefono.Telefono, ptelefono.Nombre);
-                        controlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
+                        ControlBitacora.Insertar("Se inserto un Telefono", IdUsuarioCreador);
                         break;
                     case 2:
                         abmTelefono.Modificar(ptelefono.IDConsultorio, ptelefono.Telefono, ptelefono.Nombre, ptelefono.ID);
-                        controlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
+                        ControlBitacora.Insertar("Se Modifico un Telefono", IdUsuarioCreador);
                         break;
                     case 3:
                         vTelefono = (from t in dataContext.Telefono
@@ -1253,7 +1251,7 @@
                                 dataContext.TelefonoConsultorio.DeleteOnSubmit(tec);
                             }
                             dataContext.SubmitChanges();
-                            controlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
+                            ControlBitacora.Insertar("Se dio de baja un Telefono", IdUsuarioCreador);
                         }
                         break;
                 }
