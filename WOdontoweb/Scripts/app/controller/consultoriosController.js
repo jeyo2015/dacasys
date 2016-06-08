@@ -27,10 +27,10 @@
     }
 
     $scope.abrirModalDeMapa = function () {
-        debugger;
+     
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
-        CrearMarcador(0, $scope.latlngActual)
+        CrearMarcador(0, $scope.latlngActual);
         map.setCenter($scope.latlngActual);
     }
     function removerMarcador() {
@@ -60,10 +60,10 @@
 
     google.maps.event.addDomListener(window, "resize", resizingMap());
 
-    $('#modal-mapa-ubicacion').on('show.bs.modal', function () {
+    $('#modal-mapa-ubicacion').on('show.bs.modal', function() {
         //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
         resizeMap();
-    })
+    });
 
     function resizeMap() {
         if (typeof map == "undefined") return;
@@ -77,12 +77,12 @@
         map.setCenter(center);
     }
     $scope.salirModalUbicacion = function () {
-        debugger;
+        
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $('#modal-mapa-ubicacion').modal('hide');
     };
     $scope.insertarUbicacionClinica = function () {
-        debugger;
+      
         $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
         $scope.clinicToSave.Longitud = angular.copy($scope.latlngActual.lng());
         $('#modal-mapa-ubicacion').modal('hide');
