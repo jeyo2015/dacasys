@@ -1,6 +1,6 @@
 ﻿app.controller("consultoriosController", function (clinicaService, $scope, $compile) {
     init();
-   // var listaMarcadores = [];
+    // var listaMarcadores = [];
     var map;
     function init() {
         $scope.listaMarcadores = [];
@@ -12,27 +12,30 @@
 
     };
 
-    function CrearMarcador(id, latitud, longitud) {
-        var latlng = new google.maps.LatLng(latitud, longitud);
+    function CrearMarcador(id, latLong) {
+       // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
         var marker = new google.maps.Marker({
             map: map,
-            position: latlng,
+            position: latLong,
             title: '',
             icon: 'Content/img/marker.png',
             zIndex: id
         });
-       // map.setCenter(latlng);
+        // map.setCenter(latlng);
         map.setZoom(17);
         $scope.listaMarcadores.push(marker);
     }
-   
+
     $scope.abrirModalDeMapa = function () {
+        debugger;
         $("#modal-mapa-ubicacion").modal('show');
-       
+        removerMarcador();
+        CrearMarcador(0, $scope.latlngActual)
+        map.setCenter($scope.latlngActual);
     }
     function removerMarcador() {
         if ($scope.listaMarcadores) {
-            for (var i=0 ; i<  $scope.listaMarcadores.length; i++) {
+            for (var i = 0 ; i < $scope.listaMarcadores.length; i++) {
                 var markerCurrent = $scope.listaMarcadores[i];
                 markerCurrent.setMap(null);
             }
@@ -46,12 +49,43 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
-        CrearMarcador(0,latlng.lat(), latlng.lng());
+        CrearMarcador(0, latlng);
         google.maps.event.addListener(map, 'click', function (event) {
             removerMarcador();
-            CrearMarcador(0, event.latLng.lat(), event.latLng.lng())
+            CrearMarcador(0, event.latLng)
+            $scope.latlngActual = event.latLng;
         });
 
+    }
+
+    google.maps.event.addDomListener(window, "resize", resizingMap());
+
+    $('#modal-mapa-ubicacion').on('show.bs.modal', function () {
+        //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+        resizeMap();
+    })
+
+    function resizeMap() {
+        if (typeof map == "undefined") return;
+        setTimeout(function () { resizingMap(); }, 400);
+    }
+
+    function resizingMap() {
+        if (typeof map == "undefined") return;
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    }
+    $scope.salirModalUbicacion = function () {
+        debugger;
+        $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
+        $('#modal-mapa-ubicacion').modal('hide');
+    };
+    $scope.insertarUbicacionClinica = function () {
+        debugger;
+        $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
+        $scope.clinicToSave.Longitud = angular.copy($scope.latlngActual.lng());
+        $('#modal-mapa-ubicacion').modal('hide');
     }
     function prepararNuevaClinica() {
         $scope.trabajoClinicaSelected = null;
@@ -61,8 +95,8 @@
             IDClinica: -1,
             Nombre: "",
             Login: "",
-            Latitud: -17.665500,
-            Longitud: -63.566770,
+            Latitud: -17.783198,
+            Longitud: -63.182046,
             Descripcion: "",
             Nit: "",
             Direccion: "",
@@ -72,6 +106,7 @@
             Telefonos: [],
             Status: 1
         };
+        $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
         prepararNuevoTelefonoClinica();
         prepararNuevoConsultorio();
@@ -298,11 +333,13 @@
     }
 
     $scope.selectClinica = function (clinica) {
+        debugger;
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
         $scope.primerTrabajo = "";
         $scope.clinicaSelected = clinica;
         $scope.clinicToSave = angular.copy($scope.clinicaSelected);
+        $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicToSave.Latitud.replace(',','.')), parseFloat($scope.clinicToSave.Longitud.replace(',','.')));
         $scope.clinicToSave.Status = 2;
     };
 
