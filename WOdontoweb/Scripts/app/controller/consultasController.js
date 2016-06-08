@@ -34,11 +34,12 @@
                 $scope.dateSelectedString = $scope.diasDeSemana[aux.getDay() % 7] + " " + $scope.dateSelected;
                 cargarCitasDelDia();
                 $scope.$apply();
+              
             }
         });
         $("#datepicker").datepicker("setDate", $scope.dateSelected);
         cargarConsultorio();
-
+       
 
     };
     function ObtenerFechaDesdeStrint(dateString) {
@@ -61,6 +62,7 @@
     function cargarCitasDelDia() {
         consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
             $scope.citasDelDia = result;
+            $scope.citaSeleccionada = null;
         });
     }
     $scope.seleccionaCita = function (cita) {
