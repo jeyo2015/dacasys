@@ -11,7 +11,6 @@
         #region VariablesGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -64,7 +63,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "DeshabilitarNuevasNotificaciones", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "DeshabilitarNuevasNotificaciones", ex);
                 return false;
             }
         }
@@ -94,7 +93,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
                 return false;
             }
         }
@@ -114,7 +113,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
                 return false;
             }
         }

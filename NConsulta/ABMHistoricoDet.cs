@@ -13,8 +13,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -52,7 +50,7 @@
 
                 dataContext.Historico_Paciente_det.InsertOnSubmit(vHistoricoDet);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto Nuevo detalle de Historico", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto Nuevo detalle de Historico", pIDUsuario);
 
                 if (pFinalizado)
                     Actualizar_citas_realizadas(pIDEmpresa, pIDpaciente, ticket, pIDUsuario);
@@ -63,7 +61,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMHistoricoDet", "Insertar", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMHistoricoDet", "Insertar", ex);
                 return 2;
             }
 
@@ -184,12 +182,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se cerró un historico", pIDUsuario);
+                    ControlBitacora.Insertar("Se cerró un historico", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
+                    ControlLogErrores.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
                     return 2;
                 }
             } return 0;

@@ -13,8 +13,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -27,23 +25,26 @@
         /// <param name="idUsuario"></param>
         public bool Insertar(HorarioDto horarioDto, string idUsuario)
         {
-            Horario vHorario = new Horario();
-            vHorario.hora_fin = horarioDto.HoraFin;
-            vHorario.hora_inicio = horarioDto.HoraInicio;
-            vHorario.iddia = horarioDto.IDDia;
-            vHorario.idempresa = horarioDto.IDEmpresa;
-            vHorario.num_horario = horarioDto.NumHorario;
-            vHorario.estado = true;
             try
             {
+                var vHorario = new Horario
+                {
+                    hora_fin = TimeSpan.Parse(horarioDto.HoraFin),
+                    hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio),
+                    iddia = horarioDto.IDDia,
+                    idempresa = horarioDto.IDEmpresa,
+                    num_horario = horarioDto.NumHorario,
+                    estado = true
+                };
+
                 dataContext.Horario.InsertOnSubmit(vHorario);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto un horario", idUsuario);
+                ControlBitacora.Insertar("Se inserto un horario", idUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Insertar", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Insertar", ex);
                 return false;
             }
         }
@@ -61,24 +62,24 @@
 
             if (sql.Count() > 0)
             {
-                sql.First().hora_fin = horarioDto.HoraFin;
-                sql.First().hora_inicio = horarioDto.HoraInicio;
+                sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
+                sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
                 sql.First().iddia = horarioDto.IDDia;
                 sql.First().idempresa = horarioDto.IDEmpresa;
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico el horario", idUsuario);
+                    ControlBitacora.Insertar("Se modifico el horario", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
                 }
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
             }
             return false;
         }
@@ -91,7 +92,7 @@
         /// <param name="idUsuario">Id del usuario que realiza la accion</param>
         public bool Eliminar(int idHorario, int numHorario, string idUsuario)
         {
-            var sql = from h in dataContext.Horario                      
+            var sql = from h in dataContext.Horario
                       where h.idhorario == idHorario && h.num_horario == numHorario
                       select h;
 
@@ -101,17 +102,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino el horario", idUsuario);
+                    ControlBitacora.Insertar("Se elimino el horario", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMHorario", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Eliminar", ex);
                 }
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMHorario", "Eliminar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Eliminar, no se pudo obtener el horario", null);
             }
             return false;
         }
@@ -119,31 +120,6 @@
         #endregion
 
         #region Getter_Horarios
-
-        /// <summary>
-        /// Metodo privado que retorna los horarios de un consultorio segun el el dia
-        /// </summary>
-        /// <param name="pidDia">ID del dia</param>
-        /// <param name="pidEmpresa">Id del consultorio</param>
-        /// <returns>IEnumerable<Horario></returns>
-        public List<HorarioDto> ObtenerHorariosPorDia(int idDia, int idEmpresa)
-        {
-            return (from h in dataContext.Horario
-                    join d in dataContext.Dia on h.iddia equals d.iddia
-                    where h.iddia == idDia && h.idempresa == idEmpresa && h.estado == true
-                    orderby h.iddia
-                    select new HorarioDto()
-                    {
-                        HoraInicio = h.hora_inicio,
-                        HoraFin = h.hora_fin,
-                        IDHorario = h.idhorario,
-                        IDDia = h.iddia,
-                        IDEmpresa = h.idempresa,
-                        NumHorario = h.num_horario,
-                        Estado = h.estado,
-                        NombreDia = d.nombre_corto
-                    }).ToList();
-        }
 
         public List<HorarioDto> ObtenerHorariosPorEmpresa(int idEmpresa)
         {
@@ -153,8 +129,8 @@
                     orderby h.iddia
                     select new HorarioDto()
                     {
-                        HoraInicio = h.hora_inicio,
-                        HoraFin = h.hora_fin,
+                        HoraInicio = h.hora_inicio.Hours + ":" + h.hora_inicio.Minutes,
+                        HoraFin = h.hora_fin.Hours + ":" + h.hora_fin.Minutes,
                         IDHorario = h.idhorario,
                         IDDia = h.iddia,
                         IDEmpresa = h.idempresa,
@@ -162,24 +138,6 @@
                         Estado = h.estado,
                         NombreDia = d.nombre_corto
                     }).ToList();
-        }
-
-        /// <summary>
-        /// Devuelve el nombre corto del dia
-        /// </summary>
-        /// <param name="idDia"></param>
-        /// <returns></returns>
-        public string ObtenerNombreCortoDelDia(int idDia)
-        {
-            var sql = from d in dataContext.Dia
-                      where d.iddia == idDia
-                      select d;
-            if (sql.Count() > 0)
-            {
-                return sql.First().nombre_corto;
-            }
-            return "none";
-
         }
 
         /// <summary>

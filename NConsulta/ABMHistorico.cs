@@ -14,8 +14,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -58,12 +56,12 @@
             {
                 dataContext.Historico_Paciente.InsertOnSubmit(vHistorico);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
+                ControlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
                 return false;
             }
 
@@ -110,12 +108,12 @@
             {
                 dataContext.Historico_Paciente_det.InsertOnSubmit(vHistoricoDetalle);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
+                ControlBitacora.Insertar("Se insertó un nuevo histórico", pIDusuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
                 return false;
             }
 

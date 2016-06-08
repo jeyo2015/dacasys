@@ -1,17 +1,37 @@
 ﻿app.controller("consultasController", function (consultasService, pacienteService, clinicaService, $scope, $compile, $rootScope) {
+    
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    
     init();
 
     function init() {
         $scope.diasDeSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         $scope.dateSelected = moment().format('DD/MM/YYYY');
+        $scope.dateSelectedString = $scope.diasDeSemana[(ObtenerFechaDesdeStrint($scope.dateSelected).getDay() % 7)] + " " + $scope.dateSelected;
         $scope.citaSeleccionada = null;
         $("#datepicker").datepicker({
-            dateFormat: "dd-mm-yy",
+            dateFormat: "dd/mm/yy",
             defaultDate: $scope.dateSelected,
             onSelect: function (date) {
-                $scope.dateSelected = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
-                var dateAux = new Date(Date.parse(date));
-                $scope.dateSelectedString = $scope.diasDeSemana[dateAux.getDay()] + " " + $scope.dateSelected;
+                $scope.dateSelected = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
+                var aux = ObtenerFechaDesdeStrint($scope.dateSelected);
+                $scope.dateSelectedString = $scope.diasDeSemana[aux.getDay() % 7] + " " + $scope.dateSelected;
                 cargarCitasDelDia();
                 $scope.$apply();
             }
@@ -21,7 +41,10 @@
        
 
     };
-
+    function ObtenerFechaDesdeStrint(dateString) {
+        var dateSplit = dateString.split("/");
+        return new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);//parseInt($scope.dateSelected.split('/')[0]);
+    }
     function cargarConsultorio() {
         if ($rootScope.consultorioActual == undefined)
             clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
@@ -46,7 +69,7 @@
         mostrarAdvertenciasEstadoCita();
     }
     function mostrarAdvertenciasEstadoCita() {
-        if ($scope.citaSeleccionada.EsTarde) 
+        if ($scope.citaSeleccionada.EsTarde)
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
         else
             if ($scope.citaSeleccionada.EstaAtendida)
@@ -73,7 +96,10 @@
 
     function cargarHistoricoPaciente(modalOpen) {
         consultasService.getHistoricoPaciente($scope.pacienteParaAtender.IdPaciente, $rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $scope.historicosPaciente = result;
+            $scope.historicosPaciente = result.select(function (his) {
+                his.FechaCreacion = moment(his.FechaCreacion).format('DD/MM/YYYY');
+                return his;
+            });
             $("#modal-seleccionar-paciente").modal("hide");
             if (modalOpen.length > 0) {
                 $(modalOpen).modal('show');

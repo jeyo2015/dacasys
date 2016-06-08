@@ -5,6 +5,8 @@
     using DataTableConverter;
     using System.Data;
     using Datos;
+    using Herramientas;
+
     public class ABMDia
     {
         #region VariablesGlogales
@@ -99,6 +101,19 @@
         public DataTable Get_Diasp()
         {
             return Converter<Dia>.Convert(Get_Dias().ToList());
+        }
+        
+        public List<DiaDto> ObtenerDias()
+        {
+            return (from d in dataContext.Dia
+                    orderby d.iddia
+                    select new DiaDto()
+                    {
+                        IDDia = d.iddia,
+                        NombreDia = d.descripcion,
+                        NombreCorto = d.nombre_corto,
+                        IsChecked = false
+                    }).ToList();
         }
 
         #endregion

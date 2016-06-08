@@ -8,7 +8,7 @@
     {
         #region VariablesGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
@@ -22,9 +22,9 @@
         /// <param name="pClase">La clase donde saltó el error</param>
         /// <param name="pProcedimiento">El procedimiento donde saltó el error</param>
         /// <param name="pEx">La excepción que dió al momento del error</param>
-        public void Insertar(string pProyecto, string pClase, string pProcedimiento, Exception pEx)
+        public static void Insertar(string pProyecto, string pClase, string pProcedimiento, Exception pEx)
         {
-            string vDescripcion = pClase + " - " + pProcedimiento + " - " + pEx.Message.ToString();
+            var vDescripcion = pClase + " - " + pProcedimiento + " - " + pEx.Message;
             try
             {
                 LogErrores vLogErrores = new LogErrores();
@@ -33,13 +33,14 @@
                 dataContext.LogErrores.InsertOnSubmit(vLogErrores);
                 dataContext.SubmitChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Blog de notas por empresa
                 //Insertará en un blog de Notas
             }
         }
-        public int Get_DirefenciaHora()
+        
+        public static int Get_DirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
@@ -50,6 +51,7 @@
             }
             return 0;
         }
+
         #endregion
     }
 }

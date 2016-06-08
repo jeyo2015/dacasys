@@ -47,10 +47,7 @@
                     });
                 }
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception) { }
         }
 
         public void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
@@ -71,9 +68,7 @@
                 });
                 dataContext.SubmitChanges();
             }
-            catch (Exception ex)
-            {
-            }
+            catch (Exception) { }
         }
 
         private int GetNextIDTelefono()

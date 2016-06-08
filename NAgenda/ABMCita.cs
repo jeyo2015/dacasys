@@ -13,8 +13,6 @@
         #region VariableGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -37,17 +35,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico la cita", pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico la cita", pIDUsuario);
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Modificar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Modificar", ex);
                 }
 
             }
             else
             {
-                controlErrores.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
+                ControlLogErrores.Insertar("NAgenda", "ABMCita", "Modificar, no se pudo obtener el horario", null);
             }
 
         }
@@ -64,7 +62,7 @@
                 {
                     Enviar_Correo_Cancelacion(pCita.Paciente, pIDUsuario, pMotivo);
                     vCita.estado = false;
-                    vCita.libre = plibre;
+                    vCita.libre = !plibre;
 
 
                 }
@@ -76,13 +74,13 @@
                 {
 
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino la cita", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino la cita", pIDUsuario);
 
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
                     return 0;
                 }
 
@@ -141,12 +139,12 @@
             {
                 dataContext.Cita.InsertOnSubmit(vCita);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                ControlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                 return false;
             }
         }
@@ -169,10 +167,11 @@
 
                              IdCita = c.idcita,
                              IDConsultorio = c.idempresa,
-                             EstaAtendida = c.atendido??false,
+                             EstaAtendida = c.atendido ?? false,
                              HoraFin = c.hora_fin,
                              HoraInicio = c.hora_inicio,
-                             LoginCliente = c.id_cliente
+                             LoginCliente = c.id_cliente,
+                             Estalibre = c.libre
                          });
             var vDia = (int)pFecha.DayOfWeek - 1;
             if (vDia == -1)
@@ -199,13 +198,13 @@
                         IDHorario = horario.idhorario,
                         IdCita = cita != null ? cita.IdCita : "",
                         IDConsultorio = pIDConsultorio,
-                        EstaOcupada = cita != null,
+                        EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
                         HoraInicioString = aux.ToString(),
                         HoraFinString = aux.Add(tiempoCita).ToString(),
-                        Paciente = cita != null ? GetPacienteCita(cita.LoginCliente) : null,
+                        Paciente = cita != null ?  GetPacienteCita(cita.LoginCliente) : null,
                         NumeroCita = numeroCita,
-                        EstaAtendida = cita != null ? cita.EstaAtendida:false,
-                        EsTarde = pFecha<= DateTime.Now?  aux< timeOfDay?true:false:false
+                        EstaAtendida = cita != null ? cita.EstaAtendida : false,
+                        EsTarde = pFecha <= DateTime.Now ? aux < timeOfDay ? true : false : false
                     });
                     aux = aux.Add(tiempoCita);
                     numeroCita++;
@@ -345,12 +344,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
+                    ControlBitacora.Insertar("Se actualizo corretamente el estado atendido", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Actualizar_Atendido", ex);
                     return 2;
                 }
             } return 0;

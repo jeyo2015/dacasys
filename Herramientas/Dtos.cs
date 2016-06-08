@@ -74,7 +74,6 @@
         public int NumeroCita { get; set; }
         public bool EsTarde { get; set; }
     }
-
     public class TrabajosConsultorioDto
     {
         public int ID { get; set; }
@@ -182,14 +181,21 @@
 
     public class HorarioDto
     {
-        public TimeSpan HoraInicio { get; set; }
-        public TimeSpan HoraFin { get; set; }
+        public string HoraInicio { get; set; }
+        public string HoraFin { get; set; }
         public int NumHorario { get; set; }
         public int IDEmpresa { get; set; }
         public int IDDia { get; set; }
         public int IDHorario { get; set; }
         public bool Estado { get; set; }
         public string NombreDia { get; set; }
-        public List<string> ListIDHorario { get; set; }
+    }
+
+    public class DiaDto
+    {
+        public int IDDia { get; set; }
+        public string NombreDia { get; set; }
+        public string NombreCorto { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

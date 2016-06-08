@@ -14,8 +14,6 @@
         #region VariablesGlobales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
 
         #endregion
 
@@ -47,13 +45,13 @@
             {
                 dataContext.Rol.InsertOnSubmit(vRol);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto un Rol", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto un Rol", pIDUsuario);
                 return Insertar_Rol(vRol, pIDUsuario, pDACASYS);
 
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMRol", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMRol", "Insertar", ex);
                 return 2;
             }
         }
@@ -167,14 +165,10 @@
                     {
                         dataContext.Rol_Modulo.InsertOnSubmit(vrol_modulo);
                         dataContext.SubmitChanges();
-                        controlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", pIDUsuario);
+                        ControlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", pIDUsuario);
                     }
-                    catch (Exception ex)
-                    {
-                        ///nada
-                    }
+                    catch (Exception) { }
                 }
-
             }
             else
             {//elimina
@@ -217,25 +211,18 @@
                         dataContext.Rol_Formulario.InsertOnSubmit(vrol_formulario);
                         dataContext.SubmitChanges();
                     }
-                    catch (Exception ex)
-                    {
-                        /// esta insertado
-                    }
+                    catch (Exception) { }
                 }
-
             }
             else
             {
-
                 if (sql.Count() > 0)
                 {
                     dataContext.Rol_Formulario.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
                 }
             }
-
         }
-
 
         /// <summary>
         /// Inserta o elimina un Componente de un rol
@@ -261,28 +248,18 @@
                         dataContext.Rol_Componente.InsertOnSubmit(vrol_componente);
                         dataContext.SubmitChanges();
                     }
-                    catch (Exception ex)
-                    {
-                        ///ya esta insertado
-                    }
-
-
+                    catch (Exception) { }
                 }
             }
             else
             {
-
                 if (sql.Count() > 0)
                 {
                     dataContext.Rol_Componente.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
                 }
-
-
             }
         }
-
-
 
         /// <summary>
         /// Modificar un nuevo Rol
@@ -308,17 +285,17 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico un rol", pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico un rol", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMRol", "Modificar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMRol", "Modificar", ex);
                     return 2;
                 }
 
             }
-            controlErrores.Insertar("NLogin", "ABMRol", "Modificar, no existe rol", null);
+            ControlLogErrores.Insertar("NLogin", "ABMRol", "Modificar, no existe rol", null);
             return 3;
         }
 
@@ -334,7 +311,6 @@
         ///           4 - Existen usuarios en este rol</returns>
         public int Eliminar(int pIDRol, string pIDUsuario)
         {
-
             var sql = from r in dataContext.Rol
                       where r.ID == pIDRol
                       select r;
@@ -346,8 +322,6 @@
                           select us;
                 if (vUs.Count() > 0)
                 {
-
-
                     return 4;
                 }
 
@@ -355,12 +329,12 @@
                 {
                     dataContext.Rol.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino Rol", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino Rol", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMRol", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMRol", "Eliminar", ex);
                     return 2;
                 }
             }
@@ -677,7 +651,7 @@
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMRol", "ModificarPermisos", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMRol", "ModificarPermisos", ex);
                 return false;
             }
         }

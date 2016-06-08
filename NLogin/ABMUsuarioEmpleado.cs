@@ -14,8 +14,6 @@
         #region VariablesGlogales
 
         readonly DataContext dataContext = new DataContext();
-        readonly ControlBitacora controlBitacora = new ControlBitacora();
-        readonly ControlLogErrores controlErrores = new ControlLogErrores();
         readonly Encriptador abmEncriptador = new Encriptador();
         ABMEmpresa abmEmpresa;
 
@@ -62,39 +60,15 @@
             {
                 dataContext.UsuarioEmpleado.InsertOnSubmit(vUsuarioEmpleado);
                 dataContext.SubmitChanges();
-                controlBitacora.Insertar("Se inserto un nuevo Usuario", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto un nuevo Usuario", pIDUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Insertar", ex);
                 return 0;
             }
 
-        }
-
-        private int ValidarCampos(string pNombre, string pLogin, int pIDEmpresa, int pIDRol, string pPassword, string pPass2, bool pChangepass)
-        {
-            if (pLogin.Length < 4)
-                return 2;
-            else
-                // if (pLogin.Equals("adminadmin"))
-                // return 8;
-                if (pIDEmpresa == 0)
-                    return 3;
-            if (pIDRol == 0)
-                return 4;
-            if (pPassword.Length < 2)
-                return 5;
-            else
-                if (!pPassword.Equals(pPass2))
-                    return 6;
-            if (pNombre.Length < 6)
-                return 7;
-            //  else
-            // if (pNombre.Equals("Administrador"))
-            //return 9;
-            return 0;   // todo ok;
         }
 
         /// <summary>
@@ -138,12 +112,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico un Usuario", pIDUsuario);
+                    ControlBitacora.Insertar("Se modifico un Usuario", pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar", ex);
                     return 8;
                 }
             }
@@ -170,12 +144,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se elimino un Usuario, login: " + pLogin, pUsuario);
+                    ControlBitacora.Insertar("Se elimino un Usuario, login: " + pLogin, pUsuario);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Eliminar", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Eliminar", ex);
                     return 2;
 
                 }
@@ -440,12 +414,12 @@
                     try
                     {
                         dataContext.SubmitChanges();
-                        controlBitacora.Insertar("Se modifico un Usuario Default", pLogin);
+                        ControlBitacora.Insertar("Se modifico un Usuario Default", pLogin);
                         return 0;
                     }
                     catch (Exception ex)
                     {
-                        controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar_UserDefault", ex);
+                        ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Modificar_UserDefault", ex);
                         return -6;
                     }
                 }
@@ -507,12 +481,12 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    controlBitacora.Insertar("Se modifico un Usuario", pLogin);
+                    ControlBitacora.Insertar("Se modifico un Usuario", pLogin);
                     return 1;
                 }
                 catch (Exception ex)
                 {
-                    controlErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Cambiar_Pass", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Cambiar_Pass", ex);
                     return 0;
                 }
 
@@ -542,7 +516,7 @@
                     try
                     {
                         dataContext.SubmitChanges();
-                        controlBitacora.Insertar("Se reseteo contraseña de usuario " + pLogin + " Consultorio " + vclinica.Nombre, "0000");
+                        ControlBitacora.Insertar("Se reseteo contraseña de usuario " + pLogin + " Consultorio " + vclinica.Nombre, "0000");
                         SMTP vSMTP = new SMTP();
                         String vMensaje = "Consultorio " + vclinica.Nombre + " se solicito el reseteo de contrasena del \n" +
                                          " usuario : " + pLogin + ", con nombre " + usuario.Nombre +
@@ -557,7 +531,7 @@
                     }
                     catch (Exception ex)
                     {
-                        controlErrores.Insertar("Nlogin", "ABMUsuarioEmpleado", "Reseto_Constrasena", ex);
+                        ControlLogErrores.Insertar("Nlogin", "ABMUsuarioEmpleado", "Reseto_Constrasena", ex);
                         return 2;
                     }
                 }

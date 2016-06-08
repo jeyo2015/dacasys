@@ -1,14 +1,14 @@
 ﻿app.service("horarioService", function ($http, $q) {
-    this.obtenerHorariosPorEmpresa = function (idEmpresa) {
+    this.obtenerDias = function () {
         var d = $q.defer();
-        $http.get('Horario/ObtenerHorariosPorEmpresa?idEmpresa=' + idEmpresa).success(function (data) {
+        $http.get('Horario/ObtenerDias').success(function (data) {
             d.resolve(data);
         });
         return d.promise;
-    };
-    this.obtenerHorariosPorDia = function (idDia, idEmpresa) {
+    };    
+    this.obtenerHorariosPorEmpresa = function (idEmpresa) {
         var d = $q.defer();
-        $http.get('Horario/ObtenerHorariosPorDia?idDia=' + idDia + '&idEmpresa=' + idEmpresa).success(function (data) {
+        $http.get('Horario/ObtenerHorariosPorEmpresa?idEmpresa=' + idEmpresa).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
@@ -20,9 +20,9 @@
         });
         return d.promise;
     };
-    this.insertarHorario = function (horario) {
+    this.insertarHorario = function (horario, dias) {
         var d = $q.defer();
-        $http.post('Horario/InsertarNuevoHorario', { horarioDto: horario }).success(function (data) {
+        $http.post('Horario/InsertarNuevoHorario', { horarioDto: horario, listaDias: dias }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

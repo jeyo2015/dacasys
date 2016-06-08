@@ -1,4 +1,6 @@
-﻿namespace WOdontoweb.Controllers
+﻿using System.Collections.Generic;
+
+namespace WOdontoweb.Controllers
 {
     using System.Web.Mvc;
 using NAgenda;
@@ -10,6 +12,7 @@ using RMTools.UI.Models;
         #region Variables
 
         private readonly ABMHorario abmHorario;
+        private readonly ABMDia abmDia;
 
         #endregion
 
@@ -18,19 +21,20 @@ using RMTools.UI.Models;
         public HorarioController()
         {
             abmHorario = new ABMHorario();
+            abmDia = new ABMDia();
         }
 
         #endregion
 
-        public JsonResult ObtenerHorariosPorEmpresa(int idEmpresa)
+        public JsonResult ObtenerDias()
         {
-            var result = abmHorario.ObtenerHorariosPorEmpresa(idEmpresa);
+            var result = abmDia.ObtenerDias();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ObtenerHorariosPorDia(int idDia, int idEmpresa)
+        public JsonResult ObtenerHorariosPorEmpresa(int idEmpresa)
         {
-            var result = abmHorario.ObtenerHorariosPorDia(idDia, idEmpresa);
+            var result = abmHorario.ObtenerHorariosPorEmpresa(idEmpresa);                
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -56,7 +60,7 @@ using RMTools.UI.Models;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ModificarUsuario(HorarioDto horarioDto)
+        public JsonResult ModificarHorario(HorarioDto horarioDto)
         {
             var insert = abmHorario.Modificar(horarioDto, Session["loginusuario"].ToString());
             var result = new ResponseModel()

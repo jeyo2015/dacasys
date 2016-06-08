@@ -8,14 +8,11 @@
     <meta charset="utf-8">
     <meta http-equiv="cache-control" content="no-cache" />
     <title>.:: ODONTOWEB ::.</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- CSS -->
-
     <link href="@Url.Content("~/Scripts/toastr.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Scripts/app/libs/Bootstrap/css/ripples.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Scripts/app/libs/Bootstrap/css/bootstrap.css")" rel="stylesheet" />
@@ -26,91 +23,77 @@
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
-
 </head>
-
 <body>
-
     <div class="row">
         @*<div id="divLoaderfull" class="loader" loader>
-            <div>
-                <span>
-                    <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
-            </div>
-        </div>*@
+                <div>
+                    <span>
+                        <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
+                </div>
+            </div>*@
         <div id="header-1">
             <!--Start Top Bar-->
             <div class="top-bar">
                 <div class="container">
                     <div class="row">
-
                         <div class="col-xs-3 col-md-3">
                         </div>
-
                         <div class="col-xs-9 col-md-9">
                             <div class="get-touch">
-
                                 <ul>
                                     <li><a><i class="fa fa-phone"></i>76643214</a></li>
                                     <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>
                                     <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
+                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
                                             <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
-                                            <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS"><a href="#">{{noti.NombreUsuario}} 
-                                                <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
-                                                <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button></a></li>
+                                            <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
+                                                <a href="#">
+                                                    {{noti.NombreUsuario}}
+                                                    <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
+                                                    <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
+                                                </a>
+                                            </li>
 
                                         </ul>
 
                                     </li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
+                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li class="withoutborderNS"><a ng-click="abrirModalHorario($event)" href="#"><span>Configurar horarios</span> </a></li>
-
+                                            <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
                                         </ul>
-
                                     </li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0"><a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
+                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
                                         <ul id="menuPerfil" class="dropdown-menu pull-right">
                                             <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
                                             <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>
                                         </ul>
-
                                     </li>
-
                                     @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
-
                                 </ul>
-
                                 @*  <ul class="social-icons">
-                        <li><a href="#." class="fb"><i class="fa fa-facebook"></i> </a></li>
-                        <li><a href="#." class="tw"><i class="fa fa-user-plus"></i> </a></li>
-                        <li><a><i class="icon-phone4"></i> Ingresar</a></li>
-						</ul>*@
-
+                                    <li><a href="#." class="fb"><i class="fa fa-facebook"></i> </a></li>
+                                    <li><a href="#." class="tw"><i class="fa fa-user-plus"></i> </a></li>
+                                    <li><a><i class="icon-phone4"></i> Ingresar</a></li>
+                                    </ul>*@
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
             <!--Top Bar End-->
-
-
             <!--Start Header-->
-
             <header class="header">
                 <div class="container">
-
-
                     <div class="row">
-
                         @*   <div class="col-md-3">
-                            <a href="index.html" class="logo">
-                                <img src="images/logo.png" alt=""></a>
-                        </div>*@
-
+                                <a href="index.html" class="logo">
+                                    <img src="images/logo.png" alt=""></a>
+                            </div>*@
                         <div class="col-md-9">
                             <div class="navbar navbar-default ">
                                 <div class="container-fluid">
@@ -133,36 +116,28 @@
                                             <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
                                             @*<li><a ng-hide="sessionDto.IDConsultorio==-1" href="#miperfil">Mi perfil</a></li>*@
                                             @*<li class="pull-right"><a ng-hide="sessionDto.loginUsuario.length>0" ng-click=" showModal($event)" href="#">Ingresar</a></li>
-                                            <li class="pull-right"><a ng-hide="!sessionDto.loginUsuario.length>0" ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>*@
+                                                <li class="pull-right"><a ng-hide="!sessionDto.loginUsuario.length>0" ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>*@
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
-
-
                 </div>
             </header>
         </div>
     </div>
-
     <div ng-view class=" row">
         @*<div  class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-         *@   @*<div  style="padding-top: 20px;"></div>*@
+        *@   @*<div  style="padding-top: 20px;"></div>*@
         @*</div>*@
     </div>
     <div ng-controller="loginController">
         <div class="modal fade" id="modal-login" role="dialog">
             <div class="modal-dialog modal-sm">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-
                         <h4 class="modal-title">Ingresar a Odontoweb</h4>
                     </div>
                     <div class="modal-body">
@@ -212,10 +187,8 @@
                                         <label ng-show="!isAdmin">
                                             <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Doctor
                                         </label>
-
                                     </div>
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -224,7 +197,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="modal fade" id="modal-renovar" role="dialog">
             <div class="modal-dialog modal-sm">
@@ -295,11 +267,11 @@
                                 <div class="col-md-12">
 
                                     @*<div class="form-group">
-                                        <label for="inputEmail3" class="col-md-3 control-label">Nombre completo:</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre">
-                                        </div>
-                                    </div>*@
+                                            <label for="inputEmail3" class="col-md-3 control-label">Nombre completo:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre">
+                                            </div>
+                                        </div>*@
                                     <div class="form-group ">
                                         <label for="loginuserID" class="col-md-3 control-label">Login</label>
 
@@ -349,86 +321,16 @@
         </div>
     </div>
 
-    <div ng-controller="horarioController">
-        <div class="modal fade" id="configurar-horarios" role="dialog">
-            <div class="modal-dialog ">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Configurar horarios del consultorio</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
-                            <div class="row">
-                                <div class="col-md-12" id="listDia">
-
-                                    <div ng-repeat="dia in ListaDias" class="checkbox">
-                                        <label>
-                                            <input ng-model="dia.check" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> {{dia.Nombre}}}
-                                        </label>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group ">
-                                        <label class="col-md-2 control-label">Hora Inicio</label>
-                                        <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaInicio">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group ">
-                                        <label class="col-md-2 control-label">Hora Final</label>
-                                        <div class="col-md-12">
-                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="horaFinal">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-                                    <table class="table table-hover tableStyle">
-                                        <thead>
-                                            <tr>
-                                                <th>Dia</th>
-                                                <th>Hora Inicio</th>
-                                                <th>Hora Final</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="horario in ListaHorario">
-                                                <td>{{horario.NombreDia}}</td>
-                                                <td>{{horario.HoraInicio}}</td>
-                                                <td>{{horario.HoraFinal}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        @*<button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>*@
-                        <button class="btn btn-primary" ng-click="closeModal('#configurar-horarios')">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
     <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
     <script src="@Url.Content("~/Scripts/snackbar.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.nouislider.min.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
-
+    <script src="@Url.Content("~/Scripts/jquery.timeentry.min.js")"></script>
     <script src="@Url.Content("~/Scripts/angular.js")"></script>
     <script src="@Url.Content("~/Scripts/app/app.js")"></script>
     <script src="@Url.Content("~/Content/Wodonto.js")"></script>
@@ -452,7 +354,7 @@
     <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
-        type="text/javascript"></script>
+            type="text/javascript"></script>
 
     <script>
         $(function () {
@@ -479,5 +381,3 @@
     </script>
 </body>
 </html>
-
-@*@Scripts.Render("~/Scripts/app")*@
