@@ -1,6 +1,4 @@
 ﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-
-
     <div class="col-md-4 col-md-offset-1">
         <div class="row">
             <form class="">
@@ -85,11 +83,10 @@
                     <div class="col-md-9">
                         <a id="lnkMapa" ng-click="abrirModalDeMapa()">Ver mapa</a>
                     </div>
-                </div> <div class="row" id="mapaConsultorio" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px; height:300px">
                 </div>
                 <div class="row" ng-show="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
                     <div class="col-md-12">
-                        
+
                         <label for="inputPassword3" class="col-md-3 control-label">Trabajos</label>
                         <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
                             <table class="table table-hover tableStyle scroll">
@@ -212,16 +209,16 @@
                     </div>
 
                 </div>
+                </div>
             </div>
+
+
+            <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
+            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
+
         </div>
-
-
-        <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
-        <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
-
     </div>
 </div>
-
 <div class="modal fade" id="confirm-delete" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -250,7 +247,6 @@
 <div class="modal fade" id="modal-new-consultorio" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
 
@@ -359,22 +355,23 @@
 <div class="modal fade" id="modal-mapa-ubicacion" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
+
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title">Agregar Consultorio a la clinica {{clinicToSave.Nombre}}</h4>
+                <h4 class="modal-title">Seleccione una ubicacion en el mapa {{clinicToSave.Nombre}}</h4>
             </div>
             <div class="modal-body">
-                <div class="row" id="mapaConsultorio2" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px; height:300px">
-                </div>
 
+                <div id="mapaConsultorio" style="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn  btn-primary" ng-click="insertarUbicacionClinica()">Insertar ubicacion</button>
-                <button class="btn btn-danger" ng-click="salirModal()">Cancelar</button>
+                <button class="btn  btn-primary" ng-click="insertarUbicacionClinica()">Aceptar</button>
+                <button class="btn btn-danger" ng-click="salirModalUbicacion()">Cancelar</button>
             </div>
         </div>
     </div>
 
 </div>
+

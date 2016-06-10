@@ -167,13 +167,14 @@
                              LoginCliente = c.id_cliente,
                              Estalibre = c.libre
                          });
-            var vDia = (int)pFecha.DayOfWeek - 1;
+            var vDia = (int)pFecha.DayOfWeek ;
             if (vDia == -1)
                 vDia = 6;
             var timeOfDay = DateTime.Now.TimeOfDay;
             var vHorarioConsultorio = (from h in dataContext.Horario
                                        where h.iddia == vDia
                                        && h.idempresa == pIDConsultorio
+                                       && h.estado 
                                        select h).OrderBy(o => o.hora_inicio);
             var listaRetorno = new List<AgendaDto>();
             var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);

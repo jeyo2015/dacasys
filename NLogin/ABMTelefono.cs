@@ -34,12 +34,13 @@
                 }
                 else
                 {
-                    int newIDTelefono = GetNextIDTelefono();
+                   
                     var newTelefono = new Telefono();
-                    newTelefono.ID = newIDTelefono;
+                   // newTelefono.ID = newIDTelefono;
                     newTelefono.Nombre = ptelefono.Nombre;
                     newTelefono.Telefono1 = ptelefono.Telefono;
                     dataContext.Telefono.InsertOnSubmit(newTelefono);
+                    int newIDTelefono = GetNextIDTelefono();
                     dataContext.TelefonoConsultorio.InsertOnSubmit(new TelefonoConsultorio()
                     {
                         IDTelefono = newIDTelefono,
@@ -52,15 +53,17 @@
 
         public static void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
         {
-            int newIDTelefono = GetNextIDTelefono();
+            
             var newTelefono = new Telefono();
-            newTelefono.ID = newIDTelefono;
+            
             newTelefono.Nombre = pNombre;
             newTelefono.Telefono1 = pTelefono;
             newTelefono.Estado = true;
             try
             {
                 dataContext.Telefono.InsertOnSubmit(newTelefono);
+                dataContext.SubmitChanges();
+                int newIDTelefono = GetNextIDTelefono();
                 dataContext.TefonosClinica.InsertOnSubmit(new TefonosClinica()
                 {
                     IDTelefono = newIDTelefono,

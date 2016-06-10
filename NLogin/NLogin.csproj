@@ -89,8 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DLogin\Datos.csproj">
-      <Project>{8A23C7AD-52D5-4C7F-9B9C-191A2EBCC305}</Project>
-      <Name>Datos</Name>
+      <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
+      <Name>Datos %28Datos\Datos%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Herramientas\Herramientas.csproj">
       <Project>{0398367d-0762-41fc-9e40-b62a53b50977}</Project>
