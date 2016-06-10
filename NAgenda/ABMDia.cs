@@ -11,11 +11,12 @@
     {
         #region VariablesGlogales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region MetodosPublicos
+        #region Metodos Publicos
+
         /// <summary>
         /// Este metodo devolvera el codigo del dia, segun el nombre corto
         /// </summary>
@@ -89,11 +90,6 @@
 
         }
 
-        private IEnumerable<Dia> Get_Dias()
-        {
-            return from d in dataContext.Dia select d;
-        }
-
         /// <summary>
         /// Retorna la tabla Dias
         /// </summary>
@@ -102,8 +98,8 @@
         {
             return Converter<Dia>.Convert(Get_Dias().ToList());
         }
-        
-        public List<DiaDto> ObtenerDias()
+
+        public static List<DiaDto> ObtenerDias()
         {
             return (from d in dataContext.Dia
                     orderby d.iddia
@@ -114,6 +110,15 @@
                         NombreCorto = d.nombre_corto,
                         IsChecked = false
                     }).ToList();
+        }
+
+        #endregion
+
+        #region Metodos Privados
+
+        private IEnumerable<Dia> Get_Dias()
+        {
+            return from d in dataContext.Dia select d;
         }
 
         #endregion

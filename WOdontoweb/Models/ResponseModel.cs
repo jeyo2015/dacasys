@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace RMTools.UI.Models
+﻿namespace WOdontoweb.Models
 {
+    using System.Collections.Generic;
+
     public enum Status : int
     {
         Success = 1,
@@ -25,6 +22,7 @@ namespace RMTools.UI.Models
 
         public IEnumerable<T> DataCollection { get; set; }
     }
+
     public class ResponseModel
     {
         public object Data { get; set; }

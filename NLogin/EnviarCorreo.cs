@@ -7,29 +7,23 @@
     {
         Thread hilo;
         DataTable gDTEmpresas;
-        ABMEmpresa gABMEmpresa;
+
+        #region Metodos Publicos
+
         public void Iniciar(DataTable Empresas)
         {
             gDTEmpresas = Empresas;
-
-
             hilo = new Thread(Verificar_Licencias);
             hilo.Start();
-
-
-            /// hilo.Join();
         }
 
         public void Verificar_Licencias()
         {
-
-            ABMEmpresa em = new ABMEmpresa();
-            DataTable vDTLicencia = new DataTable();
             foreach (DataRow IDEmpresa in gDTEmpresas.Rows)
             {
-                String[] vLicencia = em.Get_LicenciaString((int)IDEmpresa[0]).Split('-');
+                String[] vLicencia = ABMEmpresa.Get_LicenciaString((int)IDEmpresa[0]).Split('-');
                 DateTime datelc = Convert.ToDateTime(vLicencia[1].Trim());
-                TimeSpan diff = datelc.Subtract(DateTime.Now.AddHours(em.Get_DirefenciaHora()));
+                TimeSpan diff = datelc.Subtract(DateTime.Now.AddHours(ABMEmpresa.Get_DirefenciaHora()));
                 int dias = diff.Days + 1;
                 //if(diff.Hours >)
                 if (dias <= 3 && dias > 0)///falta3 dias para vencer
@@ -45,22 +39,19 @@
                     else
                         if (dias < -2)///Se vencio los 3 dias mas
                         {
-                            gABMEmpresa = new ABMEmpresa();
-                            gABMEmpresa.Eliminar((int)IDEmpresa[0], "00000");
+                            ABMEmpresa.Eliminar((int)IDEmpresa[0], "00000");
                         }
-
                 }
             }
-
-
-
         }
+
+        #endregion
+
+        #region Metodos Privados
 
         private void Enviar_Correo_Vencido(int pIDEmpresa, int pDiasrestantes)
         {
-            gABMEmpresa = new ABMEmpresa();
-            DataTable vDTEmpresa = gABMEmpresa.Get_Empresap(pIDEmpresa);
-
+            DataTable vDTEmpresa = ABMEmpresa.Get_Empresap(pIDEmpresa);
             if (vDTEmpresa.Rows.Count > 0)
             {
                 SMTP vSMTP = new SMTP();
@@ -80,8 +71,7 @@
 
         private void Enviar_Correo(int pIDEmpresa, int pDiasrestantes)
         {
-            gABMEmpresa = new ABMEmpresa();
-            DataTable vDTEmpresa = gABMEmpresa.Get_Empresap(pIDEmpresa);
+            DataTable vDTEmpresa = ABMEmpresa.Get_Empresap(pIDEmpresa);
 
             if (vDTEmpresa.Rows.Count > 0)
             {
@@ -97,5 +87,7 @@
                 vSMTP.Enviar_Mail();
             }
         }
+
+        #endregion
     }
 }

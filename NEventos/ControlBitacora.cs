@@ -12,7 +12,8 @@
 
         #endregion
 
-        #region ABM_LogErrores
+        #region Metodos Publicos
+
         /// <summary>
         /// Inserta el evento generado por un usuario.
         /// </summary>

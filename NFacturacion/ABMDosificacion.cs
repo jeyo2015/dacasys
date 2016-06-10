@@ -16,7 +16,8 @@
 
         #endregion
 
-        #region ABMDosificacion
+        #region Metodos Publicos
+
         /// <summary>
         /// Inserta una nueva Dosificacion, para poder emitir facturas
         /// </summary>
@@ -55,6 +56,7 @@
 
 
         }
+
         /// <summary>
         /// Permite eliminar una dosificacion
         /// </summary>
@@ -85,6 +87,7 @@
                  0;
 
         }
+
         /// <summary>
         /// Modifica una dosificacion segun su fecha de registro
         /// </summary>
@@ -128,20 +131,6 @@
             return 0;
         }
 
-        #endregion
-
-        #region Getter
-        /// <summary>
-        /// metodo privado que devuelve todas las dosificaciones
-        /// </summary>
-        /// <returns> IEnumerable de tipo Dosificacion</returns>
-        private IEnumerable<Dosificacion> Get_Dosificaciones()
-        {
-
-            return from d in dataContext.Dosificacion
-                   select d;
-        }
-
         /// <summary>
         /// Metodo publico que retorna todas las dosificaciones registradas
         /// </summary>
@@ -150,26 +139,11 @@
         {
             return Converter<Dosificacion>.Convert(Get_Dosificaciones().ToList());
         }
-        /// <summary>
-        /// Metodo privado que retorna la Dosificacion habilitada
-        /// </summary>
-        /// <returns>IEnurable de tipo Dosificacion</returns>
-        private IEnumerable<Dosificacion> Get_DosificacionHabilitada()
-        {
-
-            return from d in dataContext.Dosificacion
-                   where d.estado == true
-                   select d;
-        }
 
         public DataTable Get_DosificacionHabilitadap()
         {
             return Converter<Dosificacion>.Convert(Get_DosificacionHabilitada().ToList());
         }
-
-
-
-        #endregion
 
         /// <summary>
         /// Permite habilitar o desahabilitar alguna dosificacion
@@ -203,5 +177,34 @@
 
             return 0;
         }
+
+        #endregion
+
+        #region Metodos Privados
+
+        /// <summary>
+        /// metodo privado que devuelve todas las dosificaciones
+        /// </summary>
+        /// <returns> IEnumerable de tipo Dosificacion</returns>
+        private IEnumerable<Dosificacion> Get_Dosificaciones()
+        {
+
+            return from d in dataContext.Dosificacion
+                   select d;
+        }
+
+        /// <summary>
+        /// Metodo privado que retorna la Dosificacion habilitada
+        /// </summary>
+        /// <returns>IEnurable de tipo Dosificacion</returns>
+        private IEnumerable<Dosificacion> Get_DosificacionHabilitada()
+        {
+
+            return from d in dataContext.Dosificacion
+                   where d.estado == true
+                   select d;
+        }
+
+        #endregion
     }
 }

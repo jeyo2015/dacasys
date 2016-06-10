@@ -12,7 +12,7 @@
 
         #endregion
 
-        #region ABM_LogErrores
+        #region Metodos Publicos
 
         /// <summary>
         /// Inserta el error que saltó en un procedimiento de una clase específica en

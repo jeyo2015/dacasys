@@ -22,7 +22,7 @@
     };
     this.aBMHistorico = function (pHistorico) {
         var d = $q.defer();
-        $http.post('Consultas/ABMHistorico', { pHistorico: pHistorico }).success(function (data) {
+        $http.post('Consultas/GuardarHistorico', { pHistorico: pHistorico }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

@@ -12,11 +12,12 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_HistoricoDet
+        #region Metodos Publicos
+
         /// <summary>
         /// Permite Insetar un nuevo detalle, dentro de un historico
         /// </summary>
@@ -33,7 +34,7 @@
         /// <param name="pIDUsuario">Usuario que realiza accion</param>
         /// <returns>1 - Insertado correctamente
         ///          2 - No se pudo insertar</returns>
-        public int Insertar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle, string trabajo_realizado,
+        public static int Insertar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle, string trabajo_realizado,
                             string pTrabajo_a_realizar, DateTime pFecha, String pIDCita, bool pFinalizado, string pIDUsuario)
         {
             Historico_Paciente_det vHistoricoDet = new Historico_Paciente_det();
@@ -67,7 +68,7 @@
 
         }
 
-        public void Eliminar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle)
+        public static void Eliminar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle)
         {
             var sql = from e in dataContext.Historico_Paciente_det
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
@@ -88,7 +89,7 @@
         /// <param name="pTrabajo_a_realizar">Trabajo a realizar</param>
         /// <param name="pFecha">Fecha del detalle</param>
         /// <param name="pIDCita">ID de la cita</param>
-        public void Modificar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle, string trabajo_realizado,
+        public static void Modificar(int pIDEmpresa, int pIDpaciente, int ticket, int pNro_detalle, string trabajo_realizado,
                             string pTrabajo_a_realizar, DateTime pFecha, String pIDCita)
         {
 
@@ -97,23 +98,14 @@
                       && e.numero == ticket && e.nro_detalle == pNro_detalle
                       select e;
 
-            if (sql.Count() > 0)
-            {
-                sql.First().fecha = pFecha;
-                sql.First().id_cita = pIDCita;
-
-                sql.First().trabajo_a_realizar = pTrabajo_a_realizar;
-                sql.First().trabajo_realizado = trabajo_realizado;
-                dataContext.SubmitChanges();
-            }
-
-
-
+            if (!sql.Any()) return;
+            sql.First().fecha = pFecha;
+            sql.First().id_cita = pIDCita;
+            sql.First().trabajo_a_realizar = pTrabajo_a_realizar;
+            sql.First().trabajo_realizado = trabajo_realizado;
+            dataContext.SubmitChanges();
         }
 
-        #endregion
-
-        #region Getter_HistoricoDET
         /// <summary>
         /// Metodo Privado que Retorna los detalles de un historico
         /// </summary>
@@ -121,7 +113,7 @@
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="ticket">Numero de Historico</param>
         /// <returns>IEnumerable Historico_Paciente_det</returns>
-        public List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
+        public static List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
         {
             return (from p in dataContext.Historico_Paciente_det
                     where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
@@ -140,10 +132,10 @@
                     }).ToList();
         }
 
-
         #endregion
 
-        #region Metodos_Auxiliares
+        #region Metodos Privados
+
         /// <summary>
         /// Permite cambiar el estado de cita atendido a true
         /// </summary>
@@ -151,10 +143,9 @@
         /// <param name="pIDUsuario">ID Del usuario que realiza accion</param>
         /// <returns> 1 - Se Actualizo correctamente
         ///    2 - no se pudo actualizar</returns>
-        private int Actualizar_Cita_Atendido(string pIDCita, string pIDUsuario)
+        private static int Actualizar_Cita_Atendido(string pIDCita, string pIDUsuario)
         {
-            ABMCita vABMCita = new ABMCita();
-            return vABMCita.Actualizar_Atendido(pIDCita, pIDUsuario);
+            return ABMCita.Actualizar_Atendido(pIDCita, pIDUsuario);
         }
 
         /// <summary>
@@ -167,7 +158,7 @@
         /// <returns> 1 - todo en orden
         ///     2 - No se pudo cerrar historico
         ///     0 - No se encuentra historico</returns>
-        private int Actualizar_citas_realizadas(int pIDEmpresa, int pIDpaciente, int pTicket,
+        private static int Actualizar_citas_realizadas(int pIDEmpresa, int pIDpaciente, int pTicket,
                                             string pIDUsuario)
         {
             var sql = from e in dataContext.Historico_Paciente
@@ -175,23 +166,21 @@
                       && e.numero == pTicket
                       select e;
 
-            if (sql.Count() > 0)
+            if (!sql.Any()) return 0;
+            sql.First().estado = false;
+            try
             {
-
-                sql.First().estado = false;
-                try
-                {
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se cerró un historico", pIDUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
-                    return 2;
-                }
-            } return 0;
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se cerró un historico", pIDUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMHistoricoDet", "Actualizar_Citas_Realizadas", ex);
+                return 2;
+            }
         }
+
         #endregion
     }
 }

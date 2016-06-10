@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ConsultasController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
-    <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Controllers\PacienteController.cs" />
     <Compile Include="Controllers\NotificacionConsultorioController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />

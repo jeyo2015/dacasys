@@ -1,9 +1,8 @@
-﻿using System;
-using System.Web.Mvc;
-
-
-namespace WOdontoweb.Controllers
+﻿namespace WOdontoweb.Controllers
 {
+    using System;
+    using System.Web.Mvc;
+
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -14,11 +13,7 @@ namespace WOdontoweb.Controllers
 
                 return View();
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
+            catch (Exception) { throw; }
         }
 
         public ActionResult About()
@@ -29,12 +24,7 @@ namespace WOdontoweb.Controllers
 
                 return View();
             }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-
+            catch (Exception) { throw; }
         }
 
         public ActionResult Contact()
@@ -45,13 +35,7 @@ namespace WOdontoweb.Controllers
 
                 return View();
             }
-            catch (Exception ex)
-            {
-              
-                throw;
-            }
-
+            catch (Exception) { throw; }
         }
-
     }
 }

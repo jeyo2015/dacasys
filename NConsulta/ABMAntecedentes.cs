@@ -10,18 +10,18 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Antecedentes
+        #region Metodos Publicos
 
         /// <summary>
         /// Inserta un Atecedente a un paciente
         /// </summary>
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="pAntecedente">Descripcion del antecedente</param>
-        public void Insertar(int pIDpaciente, string pAntecedente)
+        public static void Insertar(int pIDpaciente, string pAntecedente)
         {
             Antecedentes vAntecedente = new Antecedentes();
             vAntecedente.id_paciente = pIDpaciente;
@@ -39,25 +39,19 @@
         /// </summary>
         /// <param name="pIDPaciente">Id del paciente</param>
         /// <param name="pIDAntecedente">ID del antecedente</param>
-        public void Eliminar(int pIDPaciente, int pIDAntecedente)
+        public static void Eliminar(int pIDPaciente, int pIDAntecedente)
         {
             var sql = from c in dataContext.Antecedentes
                       where c.id_paciente == pIDPaciente && c.id_antecedente == pIDAntecedente
                       select c;
 
-            if (sql.Count() > 0)
-            {
-                Antecedentes vDA = new Antecedentes();
-                vDA.id_antecedente = pIDAntecedente;
-                vDA.id_paciente = pIDPaciente;
-                vDA.descripcion = sql.First().descripcion;
-                dataContext.Antecedentes.DeleteOnSubmit(vDA);
-
-                dataContext.SubmitChanges();
-
-            }
-
-
+            if (!sql.Any()) return;
+            Antecedentes vDA = new Antecedentes();
+            vDA.id_antecedente = pIDAntecedente;
+            vDA.id_paciente = pIDPaciente;
+            vDA.descripcion = sql.First().descripcion;
+            dataContext.Antecedentes.DeleteOnSubmit(vDA);
+            dataContext.SubmitChanges();
         }
 
         /// <summary>
@@ -66,30 +60,16 @@
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="pAntecedente">Descripcion del antecedente</param>
         /// <param name="pIDAntecedente">ID del antecedente</param>
-        public void Modificar(int pIDpaciente, string pAntecedente, int pIDAntecedente)
+        public static void Modificar(int pIDpaciente, string pAntecedente, int pIDAntecedente)
         {
 
             var sql = from c in dataContext.Antecedentes
                       where c.id_paciente == pIDpaciente && c.id_antecedente == pIDAntecedente
                       select c;
 
-            if (sql.Count() > 0)
-            {
-                sql.First().descripcion = pAntecedente;
-
-                dataContext.SubmitChanges();
-            }
-
-
-
-        }
-
-
-        private IEnumerable<Antecedentes> Get_Antecedentes(int pIDPaciente)
-        {
-            return from p in dataContext.Antecedentes
-                   where p.id_paciente == pIDPaciente
-                   select p;
+            if (!sql.Any()) return;
+            sql.First().descripcion = pAntecedente;
+            dataContext.SubmitChanges();
         }
 
         /// <summary>
@@ -97,9 +77,20 @@
         /// </summary>
         /// <param name="pIDPaciente">ID del paciente</param>
         /// <returns>Retorna un DataTable con los antecedentes</returns>
-        public DataTable Get_Pacientesp(int pIDPaciente)
+        public static DataTable Get_Pacientesp(int pIDPaciente)
         {
             return Converter<Antecedentes>.Convert(Get_Antecedentes(pIDPaciente).ToList());
+        }
+
+        #endregion
+
+        #region Metodos Privados
+
+        private static IEnumerable<Antecedentes> Get_Antecedentes(int pIDPaciente)
+        {
+            return from p in dataContext.Antecedentes
+                   where p.id_paciente == pIDPaciente
+                   select p;
         }
 
         #endregion

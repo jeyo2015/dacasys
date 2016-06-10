@@ -1,44 +1,27 @@
-﻿using System.Web.Mvc;
-using NLogin;
-using Herramientas;
-using RMTools.UI.Models;
-namespace WOdontoweb.Controllers
+﻿namespace WOdontoweb.Controllers
 {
+    using System.Web.Mvc;
+    using Herramientas;
+    using Models;
+    using NLogin;
+
     public class UsuariosController : Controller
     {
-        //
-        // GET: /Login/
-
-        #region Variables
-
-        private readonly ABMUsuarioEmpleado gABMIUsuarioEmpleado;
-
-        #endregion
-
-        #region Constructor
-
-        public UsuariosController()
-        {
-            gABMIUsuarioEmpleado = new ABMUsuarioEmpleado();
-        }
-
-        #endregion
-
         public JsonResult GetUsersOfClinic(int idClinic)
         {
-            var result = gABMIUsuarioEmpleado.Get_Usuarios(idClinic);
+            var result = ABMUsuarioEmpleado.Get_Usuarios(idClinic);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetUsuarioConsultorio(string pLogin, int pIDEmpresa)
         {
-            var result = gABMIUsuarioEmpleado.Get_Usuario(pLogin, pIDEmpresa);
+            var result = ABMUsuarioEmpleado.Get_Usuario(pLogin, pIDEmpresa);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult EliminarUsuario(UsuarioDto pUsuario)
         {
-            var viel = gABMIUsuarioEmpleado.Eliminar(pUsuario.Login, pUsuario.IDEmpresa, Session["loginusuario"].ToString());
+            var viel = ABMUsuarioEmpleado.Eliminar(pUsuario.Login, pUsuario.IDEmpresa, Session["loginusuario"].ToString());
             var result = new ResponseModel()
           {
               Message = viel == 1 ? "Se elimino correctamente el usuario" : "No se pudo eliminar el usuario, intente de nuevo por favor.",
@@ -49,7 +32,7 @@ namespace WOdontoweb.Controllers
 
         public JsonResult InsertarNuevoUsuario(UsuarioDto pUsuario)
         {
-            var insert = gABMIUsuarioEmpleado.Insertar(pUsuario.Nombre, pUsuario.Login, pUsuario.IDEmpresa, pUsuario.IDRol,
+            var insert = ABMUsuarioEmpleado.Insertar(pUsuario.Nombre, pUsuario.Login, pUsuario.IDEmpresa, pUsuario.IDRol,
                 pUsuario.Password, pUsuario.ConfirmPass, pUsuario.changepass, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
@@ -61,7 +44,7 @@ namespace WOdontoweb.Controllers
 
         public JsonResult ModificarUsuario(UsuarioDto pUsuario)
         {
-            var insert = gABMIUsuarioEmpleado.Modificar(pUsuario.Nombre, pUsuario.Login, pUsuario.IDEmpresa, pUsuario.IDRol,
+            var insert = ABMUsuarioEmpleado.Modificar(pUsuario.Nombre, pUsuario.Login, pUsuario.IDEmpresa, pUsuario.IDRol,
                 pUsuario.Password, pUsuario.ConfirmPass, pUsuario.changepass, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
