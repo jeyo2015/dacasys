@@ -107,7 +107,6 @@
                 {
                     sessionReturn.loginUsuario = pUsuario;
                     sessionReturn.IDConsultorio = -1;
-                    //sessionReturn.Nombre = cliente.First().
                     sessionReturn.ChangePass = cliente.First().changepass ?? false;
                     sessionReturn.IDClinica = -1;
                     sessionReturn.IsDacasys = false;
@@ -126,9 +125,11 @@
             }
         }
 
-        public DataTable Get_Clientep(string pLogin)
+        public static IEnumerable<UsuarioCliente> Get_Clientep(string loginCliente)
         {
-            return Converter<UsuarioCliente>.Convert(Get_Gliente(pLogin).ToList());
+            return from c in dataContext.UsuarioCliente
+                   where c.Login == loginCliente
+                   select c;
         }
         
         /// <summary>
@@ -196,7 +197,7 @@
             }
         }
 
-        public static void Enviar_Bienvenida(int pIDClinica, string pemail, string vPass, string pcodigo_cliente)
+        public static void EnviarCorreoDeBienvenida(int pIDClinica, string pemail, string vPass, string pcodigo_cliente)
         {
             var em = from e in dataContext.Clinica
                      where e.ID == pIDClinica && e.Estado == true
@@ -227,14 +228,6 @@
 
         #region Metodos Privados
 
-        private IEnumerable<UsuarioCliente> Get_Gliente(string pLogin)
-        {
-            return from c in dataContext.UsuarioCliente
-                   where c.Login == pLogin
-                   select c;
-
-        }
-        
         private static void Enviar_ReseteoDePass(string pLogin, string pNewPass)
         {
             var pac = from p in dataContext.Paciente

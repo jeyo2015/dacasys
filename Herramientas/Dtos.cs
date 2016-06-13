@@ -154,7 +154,7 @@
         public string Antecedentes { get; set; }
         public int IdPaciente { get; set; }
         public int IDEmpresa { get; set; }
-        public bool IsPaciente { get; set; }
+        public bool IsPrincipal { get; set; }
     }
 
     public class HistoricoPacienteDto

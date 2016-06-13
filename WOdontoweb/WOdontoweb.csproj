@@ -189,6 +189,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\controller\consultasController.js" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
+    <Content Include="Scripts\app\controller\pacienteController.js" />
     <Content Include="Scripts\app\controller\horarioController.js" />
     <Content Include="Scripts\app\controller\inicioClienteController.js" />
     <Content Include="Scripts\app\controller\usuariosController.js" />
@@ -228,6 +229,7 @@
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
+    <Content Include="Scripts\app\partials\paciente.html" />
     <Content Include="Scripts\app\partials\horario.html" />
     <Content Include="Scripts\app\services\consultasService.js" />
     <Content Include="Scripts\app\services\horarioService.js" />
@@ -264,7 +266,6 @@
     <Content Include="Scripts\jquery.timeentry.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\snackbar.min.js" />

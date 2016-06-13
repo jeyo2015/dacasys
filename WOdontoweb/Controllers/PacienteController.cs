@@ -7,30 +7,30 @@
 
     public class PacienteController : Controller
     {
-        public JsonResult GetPacienteConsultorio( int pIdConsultorio)
+        public JsonResult ObtenerClientesPorEmpresa(int idConsultorio)
         {
-            var result = ABMPaciente.GetPacientesEmpresa(pIdConsultorio);
+            var result = ABMPaciente.ObtenerClientesPorEmpresa(idConsultorio);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPacientesByCliente(string pLoginCliente)
+        public JsonResult ObtenerPacientesPorCliente(string loginCliente)
         {
-            var result = ABMPaciente.GetPacientesByCliente(pLoginCliente);
+            var result = ABMPaciente.ObtenerPacientesPorCliente(loginCliente);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult EliminarPaciente(PacienteDto pacienteDto)
         {
-            var viel = ABMPaciente.Eliminar(pacienteDto.IdPaciente, pacienteDto.IsPaciente, Session["loginusuario"].ToString());
+            var viel = ABMPaciente.Eliminar(pacienteDto.IdPaciente, pacienteDto.IsPrincipal, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
-                Message = viel == true ? "Se elimino correctamente el horario" : "No se pudo eliminar el horario, intente de nuevo por favor.",
+                Message = viel == true ? "Se elimino correctamente el paciente" : "No se pudo eliminar el paciente, intente de nuevo por favor.",
                 Data = viel
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarNuevoHorario(PacienteDto pacienteDto)
+        public JsonResult InsertarNuevoPaciente(PacienteDto pacienteDto)
         {
             var insert = ABMPaciente.Insertar(pacienteDto, Session["loginusuario"].ToString());
             var message = string.Empty;
@@ -70,7 +70,7 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ModificarHorario(PacienteDto pacienteDto)
+        public JsonResult ModificarPaciente(PacienteDto pacienteDto)
         {
             var insert = ABMPaciente.Modificar(pacienteDto, Session["loginusuario"].ToString());
             var message = string.Empty;

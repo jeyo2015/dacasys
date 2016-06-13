@@ -109,7 +109,7 @@
         });
     }
     function cargarPacientesEmpresa(modalOpen) {
-        pacienteService.getPacienteConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
+        pacienteService.obtenerClientesPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.pacientesConsultorio = result;
             if (modalOpen.length > 0) {
                 $(modalOpen).modal('show');
@@ -225,10 +225,8 @@
         });
     }
 
-
-
     function getPacientesByCliente(modalOpen) {
-        pacienteService.getPacientesByCliente($scope.citaSeleccionada.LoginCliente).then(function (result) {
+        pacienteService.obtenerPacientesPorCliente($scope.citaSeleccionada.LoginCliente).then(function (result) {
             $scope.pacientesClienteSeleccionado = result;
             if (modalOpen.length > 0) {
                 $(modalOpen).modal('show');
