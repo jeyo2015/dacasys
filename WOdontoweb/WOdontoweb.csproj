@@ -189,6 +189,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\controller\consultasController.js" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
+    <Content Include="Scripts\app\controller\comentarioController.js" />
     <Content Include="Scripts\app\controller\pacienteController.js" />
     <Content Include="Scripts\app\controller\horarioController.js" />
     <Content Include="Scripts\app\controller\inicioClienteController.js" />
@@ -229,9 +230,11 @@
     <Content Include="Content\fontAwesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
+    <Content Include="Scripts\app\partials\comentario.html" />
     <Content Include="Scripts\app\partials\paciente.html" />
     <Content Include="Scripts\app\partials\horario.html" />
     <Content Include="Scripts\app\services\consultasService.js" />
+    <Content Include="Scripts\app\services\comentarioService.js" />
     <Content Include="Scripts\app\services\horarioService.js" />
     <Content Include="Scripts\app\services\pacienteService.js" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />

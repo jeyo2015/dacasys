@@ -96,6 +96,7 @@
                                             <li ng-class="getClass('/consultorios')"><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                             <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
                                             <li ng-class="getClass('/paciente')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#paciente"><i class="fa fa-h-square iconMenu "></i>Pacientes</a></li>
+                                            <li ng-class="getClass('/comentario')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#comentario"><i class="fa fa-h-square iconMenu "></i>Comentarios</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -301,7 +302,9 @@
     <script src="@Url.Content("~/Scripts/app/controller/pacienteController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/horarioController.js")"></script>
-    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>    
+    <script src="@Url.Content("~/Scripts/app/controller/comentarioController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/comentarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
             type="text/javascript"></script>

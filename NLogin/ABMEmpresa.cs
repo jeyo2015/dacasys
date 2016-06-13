@@ -1053,12 +1053,10 @@
         /// <returns>  IEnumerable</returns>
         private IEnumerable<Empresa> Get_Empresas(String pLoginUsuario)
         {
-
             return from e in dataContext.Empresa
                    join ec in dataContext.Empresa_Cliente on e.ID equals ec.id_empresa
                    where e.Estado == true && e.ID != 1 && ec.id_usuariocliente == pLoginUsuario
                    select e;
-
         }
         
         /// <summary>

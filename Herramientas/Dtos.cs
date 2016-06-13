@@ -203,4 +203,14 @@
         public string NombreCorto { get; set; }
         public bool IsChecked { get; set; }
     }
+
+    public class ComentarioDto
+    {
+        public string Comentario { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string LoginCliente { get; set; }
+        public int IDEmpresa { get; set; }
+        public int IDComentario { get; set; }
+        public bool IsVisible { get; set; }
+    }
 }

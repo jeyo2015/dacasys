@@ -1,6 +1,5 @@
 D:\Geovi\Dacasys2705\dacasys\DLogin\bin\Debug\DLogin.dll.config
 D:\Geovi\Dacasys2705\dacasys\DLogin\bin\Debug\DLogin.dll
 D:\Geovi\Dacasys2705\dacasys\DLogin\bin\Debug\DLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\DLogin\obj\Debug\Datos.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\DLogin\obj\Debug\DLogin.dll
 D:\Geovi\Dacasys2705\dacasys\DLogin\obj\Debug\DLogin.pdb

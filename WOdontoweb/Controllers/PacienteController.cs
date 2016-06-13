@@ -4,6 +4,7 @@
     using Herramientas;
     using Models;
     using NConsulta;
+    using NLogin;
 
     public class PacienteController : Controller
     {
@@ -107,6 +108,31 @@
                 Message = message,
                 Data = insert
             };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult InsertarNuevoComentario(ComentarioDto comentarioDto)
+        {
+            var insert = ABMComentario.Insertar(comentarioDto, Session["loginusuario"].ToString());
+            var message = string.Empty;
+            switch (insert)
+            {
+                case 1:
+                    message = "Se inserto correctamente el comentario";
+                    break;                
+            }
+
+            var result = new ResponseModel()
+            {
+                Message = message,
+                Data = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerComentariosPorEmpresa(int idConsultorio)
+        {
+            var result = ABMComentario.ObtenerComentarios(idConsultorio);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

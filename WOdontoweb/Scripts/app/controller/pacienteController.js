@@ -25,9 +25,6 @@
             IsPrincipal: false,
             IDEmpresa: $rootScope.sessionDto.IDConsultorio
         };
-
-        $scope.diaSelected = null;
-        $scope.numeroSelected = null;
     }
 
     function cargarClientes() {
@@ -89,9 +86,6 @@
             IsPrincipal: false,
             IDEmpresa: $rootScope.sessionDto.IDConsultorio
         };
-
-        $scope.diaSelected = null;
-        $scope.numeroSelected = null;
     }
 
     $scope.nuevoPaciente = function () {
@@ -115,6 +109,7 @@
 
     $scope.closeWarnig = function () {
         $scope.clienteSelected = null;
+        $scope.pacienteSelected = null;
         $('#confirm-delete').modal('hide');
     };
 
@@ -151,6 +146,7 @@
                     toastr.success(result.Message);
                     prepararNuevoCliente();
                     $scope.clienteSelected = null;
+                    $scope.pacienteSelected = null;
                 } else {
                     toastr.error(result.Message);
                 }
