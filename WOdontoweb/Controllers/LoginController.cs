@@ -141,7 +141,7 @@
                         break;
                     case 3:
                         Session["loginusuario"] = usuario;
-                        Session["IDConsultorio"] = sessionDto.IDConsultorio;
+                        Session["IDConsultorio"] = -1;
                         Session["IDClinica"] = sessionDto.IDClinica;
                         Session["NombreUser"] = sessionDto.Nombre;
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
