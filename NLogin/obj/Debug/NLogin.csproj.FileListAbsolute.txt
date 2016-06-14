@@ -1585,15 +1585,3 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NLogin\
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NLogin\obj\Debug\NLogin.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NLogin\obj\Debug\NLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\NLogin.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\NLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\DataTableConverter.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\DLogin.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\Herramientas.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\NEventos.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\DLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\Herramientas.pdb
-D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\NEventos.pdb
-D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
-D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.dll
-D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.pdb

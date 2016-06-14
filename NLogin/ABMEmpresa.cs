@@ -20,7 +20,7 @@
         #endregion
 
         #region Metodos Publicos
-        
+
         /// <summary>
         /// Retorna la empresa deseado segun su login
         /// </summary>
@@ -135,7 +135,7 @@
             return 0;
 
         }
-        
+
         /// <summary>
         /// Permite Insertar una nueva Empresa
         /// </summary>
@@ -243,6 +243,34 @@
 
                 return 0;
         }
+
+        public static int ModificarConsultorio(ConsultorioDto consultorioDto, string idUsuario)
+        {
+            var sql = from e in dataContext.Empresa
+                      where e.ID == consultorioDto.IDConsultorio
+                      select e;
+
+            if (sql.Count() > 0)
+            {
+                var empresa = sql.First();
+                empresa.Email = consultorioDto.Email;
+                empresa.NIT = consultorioDto.NIT;
+                empresa.IDIntervalo = consultorioDto.IDIntervalo;
+                empresa.FechaModificacion = DateTime.Now;
+                try
+                {
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se modifico un Consultorio", idUsuario);
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    return 0;
+                }
+            }
+            return 0;
+        }
         
         /// <summary>
         /// Permite Modificar una empresa segun el ID
@@ -337,7 +365,7 @@
                 return 4;
 
         }
-       
+
         public static int EliminarClinica(int pIDClinica, string pIDUsuario)
         {
             var sqlClinica = (from c in dataContext.Clinica
@@ -459,7 +487,7 @@
                 dataContext.SubmitChanges();
             }
         }
-        
+
         /// <summary>
         /// Proceso que verifica si la licencia de un consultorio esta vencida
         /// </summary>
@@ -516,7 +544,7 @@
             return 0;
         }
 
-        public static ConsultorioDto GetConsultorioByID(int idConsultorio)
+        public static ConsultorioDto ObtenerConsultorioPorId(int idConsultorio)
         {
             return (from c in dataContext.Empresa
                     from tc in dataContext.Tiempo_Consulta
@@ -551,7 +579,7 @@
             return 60;
         }
 
-        public static IEnumerable<Tiempo_Consulta> Get_Intervalosp()
+        public static IEnumerable<Tiempo_Consulta> ObtenerIntervalosDeTiempo()
         {
             return from inte in dataContext.Tiempo_Consulta
                    select inte;
@@ -739,7 +767,7 @@
 
         }
 
-        public static List<TrabajosClinicaDto> GetTrabajosClinica(int idClinica)
+        public static List<TrabajosClinicaDto> ObtenerTrabajosClinica(int idClinica)
         {
             var trabajosClinica = (from t in dataContext.Trabajos
                                    where t.IDClinica == idClinica
@@ -760,7 +788,7 @@
             return new List<TrabajosClinicaDto>();
         }
 
-        public static List<ClinicaDto> GetTodasClinicas()
+        public static List<ClinicaDto> ObtenerClinicas()
         {
             return (from c in dataContext.Clinica
                     where !c.Login.ToUpper().Equals("DACASYS")
@@ -778,13 +806,13 @@
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
                         Consultorios = GetConsultorios(x.ID),
-                        Trabajos = GetTrabajosClinica(x.ID),
+                        Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
                         Telefonos = GetTelefonosClinica(x.ID)
                     }).ToList();
         }
 
-        public static List<ClinicaDto> GetTodasClinicasHabilitadas()
+        public static List<ClinicaDto> ObtenerClinicasHabilitadas()
         {
             return (from c in dataContext.Clinica
                     where !c.Login.ToUpper().Equals("DACASYS")
@@ -803,7 +831,7 @@
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
                         Consultorios = GetConsultorios(x.ID),
-                        Trabajos = GetTrabajosClinica(x.ID),
+                        Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
                         Telefonos = GetTelefonosClinica(x.ID)
                     }).ToList();
@@ -895,7 +923,7 @@
         #endregion
 
         #region Metodos Privados
-        
+
         /// <summary>
         /// Permite Habilitar una empresa
         /// </summary>
@@ -1045,7 +1073,7 @@
             }
 
         }
-       
+
         /// <summary>
         /// Metodo privado que retorna los consultorios en los que esta inscrito un paciente
         /// </summary>
@@ -1058,7 +1086,7 @@
                    where e.Estado == true && e.ID != 1 && ec.id_usuariocliente == pLoginUsuario
                    select e;
         }
-        
+
         /// <summary>
         /// Metodo privado que busca empresas segun nombre o login
         /// </summary>
@@ -1123,7 +1151,7 @@
                    select l;
 
         }
-        
+
         /// <summary>
         /// Metodo privado que retorna los telefonos de un consultorio
         /// </summary>
@@ -1147,7 +1175,7 @@
         //{
         //    return Converter<Telefono>.Convert(Get_Telefono(pIDEmpresa).ToList());
         //}
-        
+
         /// <summary>
         /// Metodo privado que devuelve un consultorio 
         /// </summary>
@@ -1175,7 +1203,7 @@
                    select e;
 
         }
-        
+
         /// <summary>
         /// Metodo privado que llama a un procedimiento almacenado 
         /// el cual retorna los consultorios que esten disponibles segun fecha y hora
@@ -1190,7 +1218,7 @@
         {
             return dataContext.Buscar_Empresa_Horario(pFecha, vHorai, pNrodia, pUsuario);
         }
-      
+
         /// <summary>
         /// Metodo privado que retorna todas las licencias
         /// </summary>
@@ -1200,7 +1228,7 @@
             return from l in dataContext.Licencia
                    select l;
         }
-        
+
         /// <summary>
         /// Metodo privado que devuelve el consultorio DEFAULT
         /// </summary>
@@ -1211,7 +1239,7 @@
                    where e.Login == "DEFAULT"
                    select e;
         }
-      
+
         /// <summary>
         /// Metodo privado que retorna los ID de todos los consultorios
         /// </summary>
@@ -1220,7 +1248,7 @@
         {
             return dataContext.getIDEmpresas();
         }
-        
+
         /// <summary>
         /// Crea la licencia a la nueva empresa
         /// </summary>
@@ -1244,7 +1272,7 @@
                 ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ActivarLicencia", ex);
             }
         }
-        
+
         /// <summary>
         /// Amplia Licencia de una empresa
         /// </summary>
@@ -1302,7 +1330,7 @@
                 return 2;
 
         }
-        
+
         /// <summary>
         /// Envia un correo a la empresa cuando su licencia ha sido ampliada
         /// </summary>
