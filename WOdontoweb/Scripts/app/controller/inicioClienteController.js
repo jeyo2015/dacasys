@@ -1,21 +1,22 @@
 ﻿app.controller("inicioClienteController", function (clinicaService, $scope, $rootScope) {
     init();
     var map;
+    var infoWindow;
     function baseUrl() {
         var href = window.location.href.split('/');
         return href[0] + '//' + href[2] + '/';
     }
     function init() {
-        $rootScope.path = baseUrl(); 
+        $rootScope.path = baseUrl();
         $("#mapa").ready(function () {
-          
+
             var h = $(window).height();
             var rest = $("#headerTotal").height();
-            $("#mapa").height(h - rest -105);
+            $("#mapa").height(h - rest - 105);
             InicializarMapa();
 
         });
-        
+
         cargar_clinicas();
     };
     function cargar_clinicas() {
@@ -25,20 +26,48 @@
         });
     }
 
+    function abrirModalVerMasClinica() {
+        $("#modal-ver-mas").modal('show');
+    }
+    function openInfoWindow(marker) {
+        point = marker.getPosition();
+        ///var telefonos = telefono.toString().split('#');
+        var htlml = '<div id="contentInfoWindow" class="row ">\
+                        <div class="col-md-12">\
+                    <span>Nombre:'  + $scope.clinicaSeleccionada.Nombre+
+                    '</span>\
+                     </div>\
+<button class="btn btn-link" onclick="abrirModalVerMasClinica()" >Ver mas </button>\
+                      </div> ';
+        infoWindow.setContent([
+           htlml
+        ].join(''));
+        infoWindow.open(map, marker);
+
+
+    }
     function crearTodosLosMarkers() {
         angular.forEach($scope.clinicas, function (clinica, index) {
-            CrearMarcador(clinica.IDClinica, clinica.Latitud, clinica.Longitud);
+            CrearMarcador(clinica);
         });
     }
-    function CrearMarcador(id, latitud, longitud) {
+    function CrearMarcador(clinica) {
 
         var marker = new google.maps.Marker({
             map: map,
-            position: new google.maps.LatLng(latitud, longitud),
+            position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
             icon: 'Content/img/marker.png',
-            zIndex: id
+            zIndex: clinica.IDClinica
         });
+        google.maps.event.addListener(marker, 'click', function () {
+            $scope.clinicaSeleccionada = clinica;
+            openInfoWindow(marker);
+        });
+    }
+
+    function closeInfoWindow() {
+        infoWindow.close();
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -48,11 +77,11 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
-        // infoWindow = new google.maps.InfoWindow();
-        //google.maps.event.addListener(map, 'click', function () {
-        //    closeInfoWindow();
-        //    Cambiar_Imagenes();
-        //});
+        infoWindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(map, 'click', function () {
+            closeInfoWindow();
+            Cambiar_Imagenes();
+        });
 
     }
 });
