@@ -269,6 +269,41 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modal-mi-consultorio" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Mi consultorio</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label for="loginuserID" class="col-md-3 control-label">Login</label>
+                                        <div class="col-md-9">
+                                            <input type="text" ng-disabled="true" ng-model="sessionDto.loginUsuario" class="form-control col-md-11" id="loginuserID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="nombreUserID" class="col-md-3 control-label">NIT</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" ng-model="userToSave.Nombre" class="form-control" id="nombreUserID">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="modificarConsultorio()" ng-disabled="validarCamposPerfil()">Aceptar</button>
+                        <button class="btn btn-primary" ng-click="closeModal('#modal-mi-consultorio')">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
