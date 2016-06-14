@@ -204,25 +204,27 @@
             }
         }
 
-        public static void EnviarCorreoDeBienvenida(int pIDClinica, string pemail, string vPass, string pcodigo_cliente)
+        public static void EnviarCorreoDeBienvenida(int pIDEmpresa, string pemail, string vPass, string pcodigo_cliente)
         {
-            var em = from e in dataContext.Clinica
-                     where e.ID == pIDClinica && e.Estado == true
-                     select e;
-            if (em.Count() > 0)
+            var em = (from e in dataContext.Empresa
+                      from c in dataContext.Clinica
+                      where e.ID == pIDEmpresa && e.Estado == true
+                      && c.ID == e.IDClinica
+                      select c).FirstOrDefault();
+            if (em != null)
             {
                 SMTP vSMTP = new SMTP();
                 String vMensaje = "";
                 if (vPass.Equals(""))
                 {//Solo se asigna nueva empresa
-                    vMensaje = "Estimado Cliente ha sido suscrito a " + em.First().Nombre.ToUpper() + ". \nIngrese a la pagina " +
+                    vMensaje = "Estimado Cliente ha sido suscrito a " + em.Nombre.ToUpper() + ". \nIngrese a la pagina " +
                         "para poder informarse acerca de este consultorio. Sus datos de acceso son los mismos." +
-                        "\nSaludos,\nMediweb";
+                        "\nSaludos,\nOdontoweb";
                     vSMTP.Datos_Mensaje(pemail, vMensaje, "Nuevo Consultorio");
                 }
                 else
                 {
-                    vMensaje = "Bienvenido a Odontoweb.\n Ha sido suscrito a " + em.First().Nombre.ToUpper() +
+                    vMensaje = "Bienvenido a Odontoweb.\n Ha sido suscrito a " + em.Nombre.ToUpper() +
                        " sus datos para ingresar al sistema son: \n" + "Usuario: " + pcodigo_cliente +
                        "\nContraseña: " + vPass + "\nSaludos,\nOdontoweb.";
                     vSMTP.Datos_Mensaje(pemail, vMensaje, "Bienvenido a Odontoweb");

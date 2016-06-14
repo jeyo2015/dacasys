@@ -9,6 +9,7 @@
     };
 
     function prepararNuevoCliente() {
+        $scope.userSelected = null;
         $scope.pacienteParaGuardar = {
             LoginCliente: '',
             Nombre: '',
