@@ -27,7 +27,6 @@
 <body>
     <div id="containerTotal">
         <div class="row" id="headerTotal">
-
             <div id="header-1">
                 <!--Start Top Bar-->
                 <div class="top-bar">
@@ -57,6 +56,7 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
                                             <ul id="menuPerfil" class="dropdown-menu pull-right">
                                                 <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
+                                                <li class="withoutborderNS"><a ng-click="openModalMiConsultorio($event)" href="#"><span>Configurar consultorio</span> </a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
@@ -91,15 +91,15 @@
                                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
-                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin"><a  href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><a ><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
-                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
-                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a  href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
+                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><a><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
+                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                                 @*<li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>*@
-                                                <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
-                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
-                                                <li ng-class="getClass('/consultoriosCliente')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a  href="#consultoriosCliente"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
-                                                <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a  href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
+                                                <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
+                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
+                                                <li ng-class="getClass('/consultoriosCliente')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#consultoriosCliente"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
+                                                <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
 
                                             </ul>
                                         </div>
@@ -275,6 +275,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div ng-controller="empresaController">
         <div class="modal fade" id="modal-mi-consultorio" role="dialog">
             <div class="modal-dialog ">
                 <div class="modal-content">
@@ -285,26 +287,31 @@
                         <form class="form-horizontal">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group ">
-                                        <label for="loginuserID" class="col-md-3 control-label">Login</label>
+                                    <div class="form-group">
+                                        <label for="nitEmpresa" class="col-md-3 control-label">NIT</label>
                                         <div class="col-md-9">
-                                            <input type="text" ng-disabled="true" ng-model="sessionDto.loginUsuario" class="form-control col-md-11" id="loginuserID">
+                                            <input type="text" ng-model="consultorioParaGuardar.NIT" class="form-control" id="nitEmpresa">
                                         </div>
                                     </div>
-                                    <div class="form-group ">
-                                        <label for="nombreUserID" class="col-md-3 control-label">NIT</label>
-
+                                    <div class="form-group">
+                                        <label for="emailEmpresa" class="col-md-3 control-label">Email</label>
                                         <div class="col-md-9">
-                                            <input type="text" ng-model="userToSave.Nombre" class="form-control" id="nombreUserID">
+                                            <input type="text" ng-model="consultorioParaGuardar.Email" class="form-control" id="emailEmpresa">
                                         </div>
-
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intervaloEmpresa" class="col-md-3 control-label">Tiempo consulta:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="intervaloEmpresa" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected">
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="modificarConsultorio()" ng-disabled="validarCamposPerfil()">Aceptar</button>
+                        <button class="btn btn-primary" ng-click="modificarConsultorio()" ng-disabled="validarCampos()">Aceptar</button>
                         <button class="btn btn-primary" ng-click="closeModal('#modal-mi-consultorio')">Cancelar</button>
                     </div>
                 </div>
@@ -346,6 +353,7 @@
     <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/comentarioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/comentarioService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/empresaController.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
         type="text/javascript"></script>
