@@ -25,90 +25,96 @@
     <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
 </head>
 <body>
-    <div class="row">
-        <div id="header-1">
-            <!--Start Top Bar-->
-            <div class="top-bar">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-3 col-md-3">
-                        </div>
-                        <div class="col-xs-9 col-md-9">
-                            <div class="get-touch">
-                                <ul>
-                                    <li><a><i class="fa fa-phone"></i>76643214</a></li>
-                                    <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>
-                                    <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
-                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
-                                            <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
-                                                <a href="#">
-                                                    {{noti.NombreUsuario}}
-                                                    <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
-                                                    <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
-                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
-                                        <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                            <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
-                                            <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>
-                                        </ul>
-                                    </li>
-                                    @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
-                                </ul>
+    <div id="containerTotal">
+        <div class="row" id="headerTotal">
+
+            <div id="header-1">
+                <!--Start Top Bar-->
+                <div class="top-bar">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-3 col-md-3">
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Top Bar End-->
-            <!--Start Header-->
-            <header class="header">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="navbar navbar-default ">
-                                <div class="container-fluid">
-                                    <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                        </button>
-                                    </div>
-                                    <div class="navbar-collapse collapse navbar-responsive-collapse">
-                                        <ul class="nav navbar-nav">
-                                            <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
-                                            <li ng-class="getClass('/consultas')"><a ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin" href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-                                            <li ng-class="getClass('/usuarios')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
-                                            <li ng-class="getClass('/roles')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
-                                            <li ng-class="getClass('/consultorios')"><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
-                                            <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
-                                            <li ng-class="getClass('/paciente')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#paciente"><i class="fa fa-h-square iconMenu "></i>Pacientes</a></li>
-                                            <li ng-class="getClass('/comentario')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#comentario"><i class="fa fa-h-square iconMenu "></i>Comentarios</a></li>
-                                        </ul>
-                                    </div>
+                            <div class="col-xs-9 col-md-9">
+                                <div class="get-touch">
+                                    <ul>
+                                        @*   <li><a><i class="fa fa-phone"></i>76643214</a></li>
+                                    <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>*@
+                                        <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
+                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
+                                            <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                                <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
+                                                <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
+                                                    <a href="#">{{noti.NombreUsuario}}
+                                                    <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
+                                                        <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
+                                            <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                                <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#."><i class="fa fa-user"></i><span class="caret"></span></a>
+                                            <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                                <li class="withoutborder"><a ng-click="openModalChangePass($event)" href="#">{{sessionDto.Nombre}}</a></li>
+                                                <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>
+                                            </ul>
+                                        </li>
+                                        @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </header>
+                <!--Top Bar End-->
+                <!--Start Header-->
+                <header class="header">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="navbar navbar-default ">
+                                    <div class="container-fluid">
+                                        <div class="navbar-header">
+                                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                            </button>
+                                        </div>
+                                        <div class="navbar-collapse collapse navbar-responsive-collapse">
+                                            <ul class="nav navbar-nav">
+                                                <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
+                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin"><a  href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><a ><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
+                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a  href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
+                                                @*<li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>*@
+                                                <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
+                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1"><a  href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
+                                                <li ng-class="getClass('/consultoriosCliente')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a  href="#consultoriosCliente"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
+                                                <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a  href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div ng-view class=" row">
         </div>
     </div>
-    <div ng-view class=" row">
-    </div>
+
     <div ng-controller="loginController">
         <div class="modal fade" id="modal-login" role="dialog">
             <div class="modal-dialog modal-sm">
@@ -337,12 +343,12 @@
     <script src="@Url.Content("~/Scripts/app/controller/pacienteController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/horarioController.js")"></script>
-    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>    
+    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/comentarioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/comentarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
-            type="text/javascript"></script>
+        type="text/javascript"></script>
 
     <script>
         $(function () {

@@ -6,8 +6,16 @@
         return href[0] + '//' + href[2] + '/';
     }
     function init() {
-        $rootScope.path = baseUrl();
-        InicializarMapa();
+        $rootScope.path = baseUrl(); 
+        $("#mapa").ready(function () {
+          
+            var h = $(window).height();
+            var rest = $("#headerTotal").height();
+            $("#mapa").height(h - rest -105);
+            InicializarMapa();
+
+        });
+        
         cargar_clinicas();
     };
     function cargar_clinicas() {
