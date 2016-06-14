@@ -116,11 +116,14 @@
                     break;
                 case 3:
                     $('#modal-login').modal('hide');
-                    if ($rootScope.sessionDto.ChangePass) {
-                        $('#modal-renovar').modal('show');
-                        $scope.showMessage = false;
+                    if ($scope.isAdmin) {
+                        if ($rootScope.sessionDto.ChangePass) {
+                            $('#modal-renovar').modal('show');
+                            $scope.showMessage = false;
+                        }
+                        getNotificaciones();
                     }
-                    getNotificaciones();
+                    
                     break;
             }
 

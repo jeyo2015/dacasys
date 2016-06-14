@@ -97,20 +97,27 @@
         public static SessionDto verificar_cliente(String pUsuario, String pass)
         {
             var sessionReturn = new SessionDto();
-            var cliente = from cli in dataContext.UsuarioCliente
+            var cliente = (from cli in dataContext.UsuarioCliente
                           where cli.Login == pUsuario
-                          select cli;
-            if (cliente.Count() > 0)
+                          select cli).FirstOrDefault();
+            if (cliente!= null)
             {
+                var paciente = (from p in dataContext.Paciente
+                                from pc in dataContext.Cliente_Paciente
+                                where p.id_paciente == pc.id_paciente
+                                && pc.id_usuariocliente == cliente.Login
+                                && pc.IsPrincipal
+                                select p).FirstOrDefault();
                 String vPassEncriptada = Encriptador.Encriptar(pass);
-                if (cliente.First().Password == vPassEncriptada)
+                if (cliente.Password == vPassEncriptada)
                 {
                     sessionReturn.loginUsuario = pUsuario;
                     sessionReturn.IDConsultorio = -1;
-                    sessionReturn.ChangePass = cliente.First().changepass ?? false;
+                    sessionReturn.ChangePass = cliente.changepass ?? false;
                     sessionReturn.IDClinica = -1;
                     sessionReturn.IsDacasys = false;
                     sessionReturn.Verificar = 3;
+                    sessionReturn.Nombre = paciente != null ? paciente.nombre + " " + paciente.apellido : ""; 
                     sessionReturn.IDRol = -1;
                     return sessionReturn;
                 }
