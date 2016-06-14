@@ -20,6 +20,9 @@
             getNotificaciones();
 
         });
+       
+        
+       
     };
 
     $rootScope.enterLogIn = function(keyEvent) {

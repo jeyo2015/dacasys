@@ -1100,14 +1100,14 @@
         {
             var idEmpresa = (from e in dataContext.Empresa
                              select e);
-         
+            int newID = idEmpresa == null ? 1 : idEmpresa.Max(x => x.ID) + 1;
             var consultorioToSave = new Empresa()
             {
                 Email = pConsultorio.Email,
                 Estado = true,
                 FechaCreacion = DateTime.Today,
                 FechaModificacion = DateTime.Today,
-               
+                ID = newID,
                 IDClinica = pConsultorio.IDClinica,
                 IDIntervalo = pConsultorio.IDIntervalo,
                 IDUsuarioCreador = pConsultorio.IDUsuarioCreador,
@@ -1119,7 +1119,7 @@
                 dataContext.Empresa.InsertOnSubmit(consultorioToSave);
 
                 dataContext.SubmitChanges();
-                   int newID = idEmpresa == null ? 1 : idEmpresa.Max(x => x.ID) + 1;
+
                 ControlBitacora.Insertar("Se inserto un Consultorio", pConsultorio.IDUsuarioCreador);
 
                 //activar_licencia(pConsultorio.IDClinica, 12, pConsultorio.IDUsuarioCreador);
