@@ -1,45 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Herramientas;
-using NLogin;
-using RMTools.UI.Models;
-namespace WOdontoweb.Controllers
+﻿namespace WOdontoweb.Controllers
 {
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+    using Herramientas;
+    using Models;
+    using NLogin;
+
     public class RolesController : Controller
     {
-        //
-        // GET: /Login/
-
-        #region Variables
-        private readonly ABMUsuarioEmpleado gABMIUsuarioEmpleado;
-        private readonly ABMRol gABMRol;
-        #endregion
-
-        #region Constructor
-        public RolesController()
-        {
-            gABMRol = new ABMRol();
-            gABMIUsuarioEmpleado = new ABMUsuarioEmpleado();
-        }
-        #endregion
-
         public JsonResult GetAllRolOfClinic(int idClinic)
         {
-            var result = gABMRol.Get_Roles(idClinic);
+            var result = ABMRol.Get_Roles(idClinic);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetModulos(int pidrol)
         {
-            var result = gABMRol.GetModulos(pidrol);
+            var result = ABMRol.GetModulos(pidrol);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
         public JsonResult EliminarRol(int idRol)
         {
-            var viel = gABMRol.Eliminar(idRol, Session["loginusuario"].ToString());
+            var viel = ABMRol.Eliminar(idRol, Session["loginusuario"].ToString());
             var message = "";
             switch (viel)
             {
@@ -65,7 +48,7 @@ namespace WOdontoweb.Controllers
 
         public JsonResult InsertarNuevoRol(string nombreRol, int pIdConsultorio)
         {
-            var insert = gABMRol.Insertar(nombreRol, pIdConsultorio, Session["loginusuario"].ToString(), 0);
+            var insert = ABMRol.Insertar(nombreRol, pIdConsultorio, Session["loginusuario"].ToString(), 0);
             var result = new ResponseModel()
             {
                 Message = insert == 2 ? "No se pudo insertar el rol" : "Se inserto correctamente el Rol",
@@ -73,16 +56,16 @@ namespace WOdontoweb.Controllers
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ModificarPermisos(List<ModulosTree> modulos, int pIDRol)
         {
-            var insert = gABMRol.ModificarPermisos(modulos, pIDRol);
+            var insert = ABMRol.ModificarPermisos(modulos, pIDRol);
             var result = new ResponseModel()
             {
-                Message = insert? "Se guardaron los cambios" : "Hubo un error, por favor intente mas tarde",
+                Message = insert ? "Se guardaron los cambios" : "Hubo un error, por favor intente mas tarde",
                 Data = insert
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

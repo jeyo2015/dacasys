@@ -28,11 +28,6 @@
     <div id="containerTotal">
         <div class="row" id="headerTotal">
             @*<div id="divLoaderfull" class="loader" loader>
-                <div>
-                    <span>
-                        <img src="../../Content/img/ajax-loader.gif" />Cargando.. </span>
-                </div>
-            </div>*@
             <div id="header-1">
                 <!--Start Top Bar-->
                 <div class="top-bar">
@@ -56,9 +51,7 @@
                                                         <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
                                                     </a>
                                                 </li>
-
                                             </ul>
-
                                         </li>
                                         <li class="dropdown" ng-hide="!sessionDto.loginUsuario.length>0">
                                             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
@@ -75,11 +68,6 @@
                                         </li>
                                         @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
                                     </ul>
-                                    @*  <ul class="social-icons">
-                                    <li><a href="#." class="fb"><i class="fa fa-facebook"></i> </a></li>
-                                    <li><a href="#." class="tw"><i class="fa fa-user-plus"></i> </a></li>
-                                    <li><a><i class="icon-phone4"></i> Ingresar</a></li>
-                                    </ul>*@
                                 </div>
                             </div>
                         </div>
@@ -90,11 +78,7 @@
                 <header class="header">
                     <div class="container">
                         <div class="row">
-                            @*   <div class="col-md-3">
-                                <a href="index.html" class="logo">
-                                    <img src="images/logo.png" alt=""></a>
-                            </div>*@
-                            <div class="col-md-9">
+                        <div class="col-md-12">
                                 <div class="navbar navbar-default ">
                                     <div class="container-fluid">
                                         <div class="navbar-header">
@@ -103,20 +87,17 @@
                                                 <span class="icon-bar"></span>
                                                 <span class="icon-bar"></span>
                                             </button>
-
                                         </div>
                                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')"><a ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin" href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-
                                                 <li ng-class="getClass('/usuarios')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')"><a ng-show="sessionDto.IsDacasys" href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                                 <li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>
-                                                @*<li><a ng-hide="sessionDto.IDConsultorio==-1" href="#miperfil">Mi perfil</a></li>*@
-                                                @*<li class="pull-right"><a ng-hide="sessionDto.loginUsuario.length>0" ng-click=" showModal($event)" href="#">Ingresar</a></li>
-                                                <li class="pull-right"><a ng-hide="!sessionDto.loginUsuario.length>0" ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>*@
+                                            <li ng-class="getClass('/paciente')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#paciente"><i class="fa fa-h-square iconMenu "></i>Pacientes</a></li>
+                                            <li ng-class="getClass('/comentario')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#comentario"><i class="fa fa-h-square iconMenu "></i>Comentarios</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -128,16 +109,12 @@
             </div>
         </div>
         <div ng-view class=" row">
-            @*<div  class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-        *@   @*<div  style="padding-top: 20px;"></div>*@
-            @*</div>*@
         </div>
     </div>
 
     <div ng-controller="loginController">
         <div class="modal fade" id="modal-login" role="dialog">
             <div class="modal-dialog modal-sm">
-                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Ingresar a Odontoweb</h4>
@@ -146,7 +123,6 @@
                         <form class="form-horizontal">
                             <div class="row">
                                 <div class="col-md-12">
-
                                     <div class="form-group label-floating" ng-show="isAdmin">
                                         <label for="consultorioID" class="col-md-2 control-label">Consultorio</label>
 
@@ -155,7 +131,6 @@
                                         </div>
                                         <div class="col-md-10">
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==0 || sessionDto.Verificar==1">{{message}} </span>
-
                                         </div>
                                     </div>
                                     <div class="form-group label-floating">
@@ -170,7 +145,6 @@
                                     </div>
                                     <div class="form-group label-floating">
                                         <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
-
                                         <div class="col-md-12">
                                             <input type="password" ng-model="pass" class="form-control" id="passwordID" ng-keypress="enterLogIn($event)">
                                         </div>
@@ -180,7 +154,6 @@
                                     </div>
                                     <div class="col-md-12 linkForgotPass">
                                         <a ng-click=" renovarContrasena()" style="color: #D82756; font-size: 11px">Olvidaste tu constraseña?</a>
-
                                     </div>
                                     <div class="checkbox" style="margin-top: 20px">
                                         <label ng-show="isAdmin">
@@ -202,30 +175,22 @@
         </div>
         <div class="modal fade" id="modal-renovar" role="dialog">
             <div class="modal-dialog modal-sm">
-
-                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-
                         <h4 class="modal-title">Renovar contrasena</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="row">
                                 <div class="col-md-12">
-
-
                                     <div class="form-group ">
                                         <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
-
                                         <div class="col-md-12">
                                             <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="loginID">
                                         </div>
-
                                     </div>
                                     <div class="form-group label-floating">
                                         <label for="newPasswordID" class="col-md-2 control-label">Contrasena</label>
-
                                         <div class="col-md-12">
                                             <input type="password" ng-model="newPass" class="form-control" id="newPasswordID">
                                         </div>
@@ -235,15 +200,11 @@
                                     </div>
                                     <div class="form-group label-floating">
                                         <label for="confirmPasswordID" style="text-align: left;" class="col-md-8 control-label">Repita Contrasena</label>
-
                                         <div class="col-md-12">
                                             <input type="password" ng-model="ConfirmPass" class="form-control" id="confirmPasswordID">
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -253,21 +214,16 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="modal-mi-perfil" role="dialog">
             <div class="modal-dialog ">
-
-                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-
                         <h4 class="modal-title">Mi perfil</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="row">
                                 <div class="col-md-12">
-
                                     @*<div class="form-group">
                                             <label for="inputEmail3" class="col-md-3 control-label">Nombre completo:</label>
                                             <div class="col-md-9">
@@ -276,11 +232,9 @@
                                         </div>*@
                                     <div class="form-group ">
                                         <label for="loginuserID" class="col-md-3 control-label">Login</label>
-
                                         <div class="col-md-9">
                                             <input type="text" ng-disabled="true" ng-model="sessionDto.loginUsuario" class="form-control col-md-11" id="loginuserID">
                                         </div>
-
                                     </div>
                                     <div class="form-group ">
                                         <label for="nombreUserID" class="col-md-3 control-label">Nombre</label>
@@ -306,11 +260,8 @@
                                         <div class="col-md-9">
                                             <input type="password" ng-model="userToSave.ConfirmPass" class="form-control col-md-12" id="confirmPasswordPerfilID">
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -351,9 +302,12 @@
     <script src="@Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/consultasService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/notificacionesConsultorioService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/pacienteController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/pacienteService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/horarioController.js")"></script>
-    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/horarioService.js")"></script>    
+    <script src="@Url.Content("~/Scripts/app/controller/comentarioController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/comentarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
         type="text/javascript"></script>

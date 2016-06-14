@@ -12,14 +12,13 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Cita
+        #region Metodos Publicos
 
-
-        public void ModificarCita(AgendaDto pCita, string pIDUsuario)
+        public static void ModificarCita(AgendaDto pCita, string pIDUsuario)
         {
             var vCita = (from c in dataContext.Cita
                          where c.idcita == pCita.IdCita
@@ -50,7 +49,7 @@
 
         }
 
-        public int EliminarCita(AgendaDto pCita, string pIDUsuario, bool plibre, String pMotivo)
+        public static int EliminarCita(AgendaDto pCita, string pIDUsuario, bool plibre, String pMotivo)
         {
             var vCita = (from c in dataContext.Cita
                          where c.idcita == pCita.IdCita
@@ -89,10 +88,6 @@
                 return 2;
         }
 
-        #endregion
-
-        #region Getter_Citas
-
         /// <summary>
         /// Genera el codigo de la cita a reservar
         /// </summary>
@@ -100,7 +95,7 @@
         /// <param name="pFechaCita">Fecha en la que se realizara la reserva</param>
         /// <param name="pIDEmpresa">ID de la empresa </param>
         /// <returns>Codigo Generado segun los parametros recibidos</returns>
-        public string Obtener_Codigo(int pNro_cita, DateTime pFechaCita, int pIDEmpresa)
+        public static string Obtener_Codigo(int pNro_cita, DateTime pFechaCita, int pIDEmpresa)
         {
             Random rnd = new Random();
             string ran = rnd.Next(1, 100).ToString();
@@ -121,7 +116,7 @@
             return codigo + ran;
         }
 
-        public bool InsertarCita(AgendaDto cita, string pLogingCliente, DateTime pfechaCita, string pIDUsuario)
+        public static bool InsertarCita(AgendaDto cita, string pLogingCliente, DateTime pfechaCita, string pIDUsuario)
         {
             Cita vCita = new Cita();
             vCita.idcita = Obtener_Codigo(cita.NumeroCita, pfechaCita, cita.IDConsultorio);
@@ -149,8 +144,7 @@
             }
         }
 
-
-        public List<AgendaDto> GetAgendaDelDia(DateTime pFecha, int pIDConsultorio, int tiempoConsulta)
+        public static List<AgendaDto> GetAgendaDelDia(DateTime pFecha, int pIDConsultorio, int tiempoConsulta)
         {
 
             var query = (from c in dataContext.Cita
@@ -202,7 +196,7 @@
                         EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
                         HoraInicioString = aux.ToString(),
                         HoraFinString = aux.Add(tiempoCita).ToString(),
-                        Paciente = cita != null ?  GetPacienteCita(cita.LoginCliente) : null,
+                        Paciente = cita != null ? GetPacienteCita(cita.LoginCliente) : null,
                         NumeroCita = numeroCita,
                         EstaAtendida = cita != null ? cita.EstaAtendida : false,
                         EsTarde = pFecha <= DateTime.Now ? aux < timeOfDay ? true : false : false
@@ -216,49 +210,11 @@
 
         }
 
-        private PacienteDto GetPacienteCita(string pIDCliente)
-        {
-            return (from uc in dataContext.Cliente_Paciente
-                    from p in dataContext.Paciente
-                    where uc.id_usuariocliente == pIDCliente
-                    && uc.id_paciente == p.id_paciente
-                     && uc.IsPrincipal == true
-                    select new PacienteDto()
-                    {
-                        Antecedentes = p.antecedente,
-                        Ci = p.ci,
-                        Direccion = p.direccion,
-                        Email = p.email,
-                        Estado = p.estado,
-                        LoginCliente = pIDCliente,
-                        NombrePaciente = p.nombre + " " + p.apellido,
-                        Telefono = p.nro_telefono,
-                        TipoSangre = p.tipo_sangre,
-                        IdPaciente = p.id_paciente
-                    }).FirstOrDefault();
-        }
-        #endregion
-
-        #region Metodos_Auxiliares
-        /// <summary>
-        /// Envia un correo al cliente explicando el motivo de cita cancelada
-        /// </summary>
-        /// <param name="pIDcliente">ID del cliente</param>
-        /// <param name="pIDUsuario">ID del usuario que cancela cita</param>
-        /// <param name="pMotivo">Motivo de la anulacion de cita</param>
-        private void Enviar_Correo_Cancelacion(PacienteDto pPaciente, string pIDUsuario, String pMotivo)
-        {
-            SMTP vSMTP = new SMTP();
-            vSMTP.Datos_Mensaje(pPaciente.Email, pMotivo, "Cita Cancelada -  ODONTOWEB");
-            vSMTP.Enviar_Mail();
-
-
-        }
         /// <summary>
         /// Devuelve el parametro de sistema, la diferencia de hora con el servidor
         /// </summary>
         /// <returns></returns>
-        public int Get_DirefenciaHora()
+        public static int Get_DirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
@@ -269,6 +225,7 @@
             }
             return 0;
         }
+
         /// <summary>
         /// Metodo que verifica si la fecha y hora estan disponibles, si no han pasado
         /// </summary>
@@ -276,7 +233,7 @@
         /// <param name="phorai">Hora inicio de la cita</param>
         /// <returns> True - Si esta disponible
         /// False - No esta disponible</returns>
-        public bool Se_puede_Cliente(DateTime pfecha, TimeSpan phorai)
+        public static bool Se_puede_Cliente(DateTime pfecha, TimeSpan phorai)
         {
             DateTime aux = DateTime.Now.AddHours(Get_DirefenciaHora());
             if (aux.ToShortDateString().CompareTo(pfecha.ToShortDateString()) == 0)
@@ -288,6 +245,7 @@
                 return true;
             return false;
         }
+
         /// <summary>
         /// Metodo que verifica si la fecha y hora estan disponibles, segun el tiempo
         /// </summary>
@@ -295,7 +253,7 @@
         /// <param name="phorai">Hora incio de la cita</param>
         /// <returns> True - Si esta disponible
         /// False - No esta disponible</returns>
-        public bool Se_puede(DateTime pfecha, TimeSpan phorai)
+        public static bool Se_puede(DateTime pfecha, TimeSpan phorai)
         {
             DateTime aux = DateTime.Now.AddHours(Get_DirefenciaHora());
             if (aux.ToShortDateString().CompareTo(pfecha.ToShortDateString()) == 0)
@@ -314,7 +272,7 @@
         /// <param name="phorai">Hora incio de la cita</param>
         /// <returns>True - Si esta disponible
         /// False - No esta disponible</returns>
-        public bool Esta_a_Tiempo(DateTime pfecha, TimeSpan phorai)
+        public static bool Esta_a_Tiempo(DateTime pfecha, TimeSpan phorai)
         {
             DateTime aux = DateTime.Now.AddHours(Get_DirefenciaHora());
             if (aux.ToShortDateString().CompareTo(pfecha.ToShortDateString()) == 0)
@@ -334,7 +292,7 @@
         /// <returns> 0- No existe cita
         /// 1- Se actualizo Correctamente
         /// 2 - No se pudo actualizar</returns>
-        public int Actualizar_Atendido(string pIDCita, string pIDUsuario)
+        public static int Actualizar_Atendido(string pIDCita, string pIDUsuario)
         {
             var cita = from c in dataContext.Cita
                        where c.idcita == pIDCita
@@ -362,7 +320,7 @@
         /// <param name="pIDCita">Codigo de la cita</param>
         /// <returns>True - Si esta atendida
         /// False - No esta atendida</returns>
-        public bool No_es_Atendido(string pIDCita)
+        public static bool No_es_Atendido(string pIDCita)
         {
 
             var sql = from c in dataContext.Cita
@@ -374,6 +332,48 @@
             }
             return false;
         }
+
+        #endregion
+
+        #region Metodos Privados
+
+        private static PacienteDto GetPacienteCita(string pIDCliente)
+        {
+            return (from uc in dataContext.Cliente_Paciente
+                    from p in dataContext.Paciente
+                    where uc.id_usuariocliente == pIDCliente
+                    && uc.id_paciente == p.id_paciente
+                     && uc.IsPrincipal == true
+                    select new PacienteDto()
+                    {
+                        Antecedentes = p.antecedente,
+                        Ci = p.ci,
+                        Direccion = p.direccion,
+                        Email = p.email,
+                        Estado = p.estado,
+                        LoginCliente = pIDCliente,
+                        NombrePaciente = p.nombre + " " + p.apellido,
+                        Telefono = p.nro_telefono,
+                        TipoSangre = p.tipo_sangre,
+                        IdPaciente = p.id_paciente
+                    }).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Envia un correo al cliente explicando el motivo de cita cancelada
+        /// </summary>
+        /// <param name="pIDcliente">ID del cliente</param>
+        /// <param name="pIDUsuario">ID del usuario que cancela cita</param>
+        /// <param name="pMotivo">Motivo de la anulacion de cita</param>
+        private static void Enviar_Correo_Cancelacion(PacienteDto pPaciente, string pIDUsuario, String pMotivo)
+        {
+            SMTP vSMTP = new SMTP();
+            vSMTP.Datos_Mensaje(pPaciente.Email, pMotivo, "Cita Cancelada -  ODONTOWEB");
+            vSMTP.Enviar_Mail();
+
+
+        }
+
         #endregion
     }
 }

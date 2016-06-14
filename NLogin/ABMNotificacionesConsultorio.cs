@@ -10,13 +10,13 @@
     {
         #region VariablesGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region MetodosPublicos
+        #region Metodos Publicos
 
-        public NotificacionesConsultorioNewDto GetNotificacionesPendientes(int pIDConsultorio, int pIDTipoNotificacion)
+        public static NotificacionesConsultorioNewDto GetNotificacionesPendientes(int pIDConsultorio, int pIDTipoNotificacion)
         {
             var query = (from no in dataContext.NotificacionConsultorio
                          from cp in dataContext.Cliente_Paciente
@@ -42,7 +42,7 @@
             };
         }
 
-        public bool DeshabilitarNuevasNotificaciones(int pIDConsultorio, int pIDTipoNotificacion)
+        public static bool DeshabilitarNuevasNotificaciones(int pIDConsultorio, int pIDTipoNotificacion)
         {
             var query = (from no in dataContext.NotificacionConsultorio
                          where no.IDConsultorio == pIDConsultorio
@@ -67,7 +67,8 @@
                 return false;
             }
         }
-        public bool AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+
+        public static bool AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
         {
             var query = (from cp in dataContext.Empresa_Cliente
                          where cp.id_empresa == pNotificacionPaciente.IDConsultorio
@@ -97,7 +98,8 @@
                 return false;
             }
         }
-        public bool CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+
+        public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
         {
 
             var notificacion = (from no in dataContext.NotificacionConsultorio
@@ -117,6 +119,7 @@
                 return false;
             }
         }
+
         #endregion
     }
 }

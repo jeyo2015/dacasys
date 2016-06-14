@@ -13,13 +13,13 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Historico
+        #region Metodos Publicos
 
-        public bool ABMHistoricoMetodo(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
+        public static bool ABMHistoricoMetodo(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
         {
             switch (pHistoricoPaciente.EstadoABM)
             {
@@ -28,8 +28,6 @@
             }
             return false;
         }
-
-
 
         /// <summary>
         /// Inserta un Historico de un Paciente
@@ -41,7 +39,7 @@
         /// <param name="fecha_creacion">Fecha de la creacion del historico</param>
         /// <param name="pcitas_estimadas">Citas estimadas</param>
         /// <param name="pcitas_realizasadas">Citas realizadas</param>
-        public bool InsertarHistorico(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
+        public static bool InsertarHistorico(HistoricoPacienteDto pHistoricoPaciente, string pIDusuario)
         {
             Historico_Paciente vHistorico = new Historico_Paciente();
             vHistorico.citas_realizadas = pHistoricoPaciente.CitasRealizadas;
@@ -64,9 +62,8 @@
                 ControlLogErrores.Insertar("NConsulta", "ABMHistorico", "Insertar", ex);
                 return false;
             }
-
-
         }
+
         /// <summary>
         /// Inserta un Historico de un Paciente
         /// </summary>
@@ -77,7 +74,7 @@
         /// <param name="fecha_creacion">Fecha de la creacion del historico</param>
         /// <param name="pcitas_estimadas">Citas estimadas</param>
         /// <param name="pcitas_realizasadas">Citas realizadas</param>
-        public bool InsertarHistoricoDetalle(HistoricoDetallePacienteDto pHistoricoDetallePaciente, string pIDusuario)
+        public static bool InsertarHistoricoDetalle(HistoricoDetallePacienteDto pHistoricoDetallePaciente, string pIDusuario)
         {
             Historico_Paciente_det vHistoricoDetalle = new Historico_Paciente_det();
             vHistoricoDetalle.fecha = DateTime.Now;
@@ -119,29 +116,23 @@
 
 
         }
+
         /// <summary>
         /// Elimina un historico
         /// </summary>
         /// <param name="pIDPaciente">Id del paciente</param>
         /// <param name="pIDEmpresa">ID de la empresa</param>
         /// <param name="pnumero">Numro de historico</param>
-        public void Eliminar(int pIDPaciente, int pIDEmpresa, int pnumero)
+        public static void Eliminar(int pIDPaciente, int pIDEmpresa, int pnumero)
         {
             var sql = from e in dataContext.Historico_Paciente
                       where e.id_paciente == pIDPaciente && e.id_empresa == pIDEmpresa
                       && e.numero == pnumero
                       select e;
 
-            if (sql.Count() > 0)
-            {
-
-                sql.First().estado = false;
-
-                dataContext.SubmitChanges();
-
-            }
-
-
+            if (!sql.Any()) return;
+            sql.First().estado = false;
+            dataContext.SubmitChanges();
         }
 
         /// <summary>
@@ -154,7 +145,7 @@
         /// <param name="fecha_creacion">Fecha de la creacion del historico</param>
         /// <param name="pcitas_estimadas">Citas estimadas</param>
         /// <param name="pcitas_realizasadas">Citas realizadas</param>
-        public void Modificar(int pIDEmpresa, int pIDpaciente, int ticket, string ticket_titulo, DateTime fecha_creacion,
+        public static void Modificar(int pIDEmpresa, int pIDpaciente, int ticket, string ticket_titulo, DateTime fecha_creacion,
                             int pcitas_estimadas, int pcitas_realizasadas)
         {
 
@@ -162,24 +153,15 @@
                       where e.id_paciente == pIDpaciente && e.id_empresa == pIDEmpresa
                       select e;
 
-            if (sql.Count() > 0)
-            {
-                sql.First().citas_realizadas = pcitas_realizasadas;
-                sql.First().estado = true;
-                sql.First().estimacion_citas = pcitas_estimadas;
-                sql.First().fecha_creacion = fecha_creacion;
-
-                sql.First().numero = ticket;
-                sql.First().titulo_numero = ticket_titulo;
-                dataContext.SubmitChanges();
-            }
-
-
-
+            if (!sql.Any()) return;
+            sql.First().citas_realizadas = pcitas_realizasadas;
+            sql.First().estado = true;
+            sql.First().estimacion_citas = pcitas_estimadas;
+            sql.First().fecha_creacion = fecha_creacion;
+            sql.First().numero = ticket;
+            sql.First().titulo_numero = ticket_titulo;
+            dataContext.SubmitChanges();
         }
-        #endregion
-
-        #region Getter_Historicos
 
         /// <summary>
         /// Metodo Privado que Retorna los detalles de un historico
@@ -188,7 +170,7 @@
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="ticket">Numero de Historico</param>
         /// <returns>IEnumerable Historico_Paciente_det</returns>
-        public List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
+        public static List<HistoricoDetallePacienteDto> GetHistoricoDetalle(int pIDEmpresa, int pIDpaciente, int ticket)
         {
             return (from p in dataContext.Historico_Paciente_det
                     where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
@@ -206,13 +188,14 @@
                         CerrarHistorico = false
                     }).ToList();
         }
+
         /// <summary>
         /// Metodo privado que retorna historicos de un paciente
         /// </summary>
         /// <param name="pIDpaciente">ID del paciente</param>
         /// <param name="pIDEmpresa">ID del consultorio</param>
         /// <returns>IEnumerable<Historico_Paciente></returns>
-        public List<HistoricoPacienteDto> GetHistoricoPaciente(int pIDpaciente, int pIDEmpresa)
+        public static List<HistoricoPacienteDto> GetHistoricoPaciente(int pIDpaciente, int pIDEmpresa)
         {
             return (from p in dataContext.Historico_Paciente
                     where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
@@ -232,6 +215,38 @@
                     }).ToList();
         }
 
+        /// <summary>
+        /// Devuelve un DataTable con un historico de un paciente segun el número de historico
+        /// </summary>
+        /// <param name="pIDPaciente">ID del paciente</param>
+        /// <param name="pIDEmpresa">ID de la Empresa</param>
+        /// <param name="pNroHistorico">Numero de historico</param>
+        /// <returns>DataTable</returns>
+        public static DataTable Get_HistoricosNrop(int pIDPaciente, int pIDEmpresa, int pNroHistorico)
+        {
+            return Converter<Historico_Paciente>.Convert(Get_HistoricoNro(pIDPaciente, pIDEmpresa, pNroHistorico).ToList());
+        }
+
+        /// <summary>
+        /// Retorna el numero del ultimo historico de un paciente
+        /// </summary>
+        /// <param name="pIDempresa">ID consultorio</param>
+        /// <param name="pIDPaciente">ID del paciente</param>
+        /// <param name="pIDUsuario">ID el usuario de consulta</param>
+        /// <returns>un INT , retorna 0 en caso de que no haya ningun historico</returns>
+        public static int Get_Nro_Historico(int pIDempresa, int pIDPaciente, string pIDUsuario)
+        {
+            var sql = from h in dataContext.Historico_Paciente
+                      where h.id_empresa == pIDempresa &&
+                        h.id_paciente == pIDPaciente
+                      orderby h.numero descending
+                      select h;
+            return sql.Any() ? (int)sql.First().numero : 0;
+        }
+
+        #endregion
+
+        #region Metodos Privados
 
         /// <summary>
         /// Metodo privado que retorna historicos del paciente segun el numero de historico
@@ -240,47 +255,14 @@
         /// <param name="pIDEmpresa">ID del consultorio</param>
         /// <param name="pNroHistorico">Nro de historico </param>
         /// <returns>IEnumerable<Historico_Paciente></returns>
-        private IEnumerable<Historico_Paciente> Get_HistoricoNro(int pIDpaciente, int pIDEmpresa, int pNroHistorico)
+        private static IEnumerable<Historico_Paciente> Get_HistoricoNro(int pIDpaciente, int pIDEmpresa, int pNroHistorico)
         {
             return from p in dataContext.Historico_Paciente
                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
                    p.estado == true && p.numero == pNroHistorico
                    select p;
         }
-        /// <summary>
-        /// Devuelve un DataTable con un historico de un paciente segun el número de historico
-        /// </summary>
-        /// <param name="pIDPaciente">ID del paciente</param>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        /// <param name="pNroHistorico">Numero de historico</param>
-        /// <returns>DataTable</returns>
-        //public DataTable Get_HistoricosNrop(int pIDPaciente, int pIDEmpresa, int pNroHistorico)
-        //{
-        //    return Converter<Historico_Paciente>.Convert(Get_HistoricoNro(pIDPaciente, pIDEmpresa, pNroHistorico).ToList());
-        //}
-        #endregion
 
-        #region Metodos_Auxiliares
-        /// <summary>
-        /// Retorna el numero del ultimo historico de un paciente
-        /// </summary>
-        /// <param name="pIDempresa">ID consultorio</param>
-        /// <param name="pIDPaciente">ID del paciente</param>
-        /// <param name="pIDUsuario">ID el usuario de consulta</param>
-        /// <returns>un INT , retorna 0 en caso de que no haya ningun historico</returns>
-        public int Get_Nro_Historico(int pIDempresa, int pIDPaciente, string pIDUsuario)
-        {
-            var sql = from h in dataContext.Historico_Paciente
-                      where h.id_empresa == pIDempresa &&
-                        h.id_paciente == pIDPaciente
-                      orderby h.numero descending
-                      select h;
-            if (sql.Count() > 0)
-            {
-                return (int)sql.First().numero;
-            }
-            return 0;
-        }
         #endregion
     }
 }

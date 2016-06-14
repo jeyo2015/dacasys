@@ -9,11 +9,12 @@
     {
         #region VariablesGlogales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM
+        #region Metodos Publicos
+
         /// <summary>
         /// Controla la cantidad de personas que acceden al sistema
         /// </summary>
@@ -56,6 +57,7 @@
 
             }
         }
+
         #endregion
     }
 }

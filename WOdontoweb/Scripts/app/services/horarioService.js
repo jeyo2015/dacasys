@@ -20,9 +20,9 @@
         });
         return d.promise;
     };
-    this.insertarHorario = function (horario, dias) {
+    this.insertarHorario = function (horario) {
         var d = $q.defer();
-        $http.post('Horario/InsertarNuevoHorario', { horarioDto: horario, listaDias: dias }).success(function (data) {
+        $http.post('Horario/InsertarNuevoHorario', { horarioDto: horario }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

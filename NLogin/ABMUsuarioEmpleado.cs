@@ -13,13 +13,13 @@
     {
         #region VariablesGlogales
 
-        readonly DataContext dataContext = new DataContext();
-        readonly Encriptador abmEncriptador = new Encriptador();
+        readonly static DataContext dataContext = new DataContext();
+
         ABMEmpresa abmEmpresa;
 
         #endregion
 
-        #region ABM_UsuarioEmpleado
+        #region Metodos Publicos
 
         /// <summary>
         /// Inserta un nuevo Usuario para la Empresa
@@ -40,14 +40,14 @@
         ///           6 - No coincidepass
         ///           7 - Nombre Vacio
         /// </returns>
-        public int Insertar(string pnombre, string pLogin, int pIDEmpresa, int pIDRol, string pPassword, string pPass2, bool? pChangepass,
+        public static int Insertar(string pnombre, string pLogin, int pIDEmpresa, int pIDRol, string pPassword, string pPass2, bool? pChangepass,
                             string pIDUsuario)
         {
             //int v = ValidarCampos(pnombre, pLogin,pIDEmpresa,pIDRol, pPassword,pPass2,pChangepass);
             //if (v != 0)
             //    return v;
-            String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
-            UsuarioEmpleado vUsuarioEmpleado = new UsuarioEmpleado();
+            var vPassEncriptada = Encriptador.Encriptar(pPassword);
+            var vUsuarioEmpleado = new UsuarioEmpleado();
             vUsuarioEmpleado.Login = pLogin;
             vUsuarioEmpleado.IDEmpresa = pIDEmpresa;
             vUsuarioEmpleado.IDRol = pIDRol;
@@ -68,7 +68,6 @@
                 ControlLogErrores.Insertar("NLogin", "ABMUsuarioEmpleado", "Insertar", ex);
                 return 0;
             }
-
         }
 
         /// <summary>
@@ -92,7 +91,7 @@
         ///           8 - No se pudo Modificar
         ///          
         /// </returns>
-        public int Modificar(string pNombre, string pLogin, int pIDEmpresa, int pIDRol, string pPassword, string pPass2, bool? pChangepass,
+        public static int Modificar(string pNombre, string pLogin, int pIDEmpresa, int pIDRol, string pPassword, string pPass2, bool? pChangepass,
                             string pIDUsuario)
         {
             //int v = ValidarCampos(pNombre, pLogin, pIDEmpresa, pIDRol, pPassword, pPass2, pChangepass);
@@ -104,7 +103,7 @@
 
             if (sql.Count() > 0)
             {
-                String vPassEncriptada = abmEncriptador.Encriptar(pPassword);
+                String vPassEncriptada = Encriptador.Encriptar(pPassword);
                 sql.First().IDRol = pIDRol;
                 sql.First().Password = vPassEncriptada;
                 sql.First().changepass = pChangepass;
@@ -132,7 +131,7 @@
         /// <returns> Return 0 - No existe Usuario
         ///                    1 - Se elimino correctamente
         ///                    2 - No se pudo eliminar</returns>
-        public int Eliminar(string pLogin, int pIdEmpresa, string pUsuario)
+        public static int Eliminar(string pLogin, int pIdEmpresa, string pUsuario)
         {
             var sql = from e in dataContext.UsuarioEmpleado
                       where e.Login == pLogin && e.IDEmpresa == pIdEmpresa
@@ -157,9 +156,8 @@
             }
             return 0;
         }
-        #endregion
 
-        public SessionDto verificar_empleado(String pUsuario, String pPass, String pEmpresa)
+        public static SessionDto verificar_empleado(String pUsuario, String pPass, String pEmpresa)
         {
             var sessionReturn = new SessionDto();
             var empresa = (from emp in dataContext.Empresa
@@ -167,7 +165,7 @@
                            select emp).FirstOrDefault();
             if (empresa != null)
             {
-                String vPassEncriptada = abmEncriptador.Encriptar(pPass);
+                String vPassEncriptada = Encriptador.Encriptar(pPass);
                 int vIdEmpresa = empresa.ID;
                 int lic = Verificar_licencia(empresa.IDClinica); //0Desa 1 habi
 
@@ -248,40 +246,7 @@
             ec.Iniciar(abmEmpresa.Get_IDempresasp());
 
         }
-
-        private int Verificar_licencia(int pIdClinica)
-        {
-
-            var lic = from l in dataContext.Licencia
-                      where l.IDClinica == pIdClinica
-                      orderby l.FechaInicio descending
-                      select l;
-
-            if (lic.Count() > 0)
-            {
-                TimeSpan diff = lic.First().FechaFin.Subtract(DateTime.Now.AddHours(3));
-                int dias = diff.Days + 1;
-                if (dias > -3 && dias <= 0)
-                    return 0;
-                else
-                    return 1;
-            }
-
-            return -1;
-
-        }
-
-        private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, string pLoginEmpresa)
-        {
-
-            return from e in dataContext.UsuarioEmpleado
-                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
-                   where e.Estado == true && e.Login == pLoginUsuario &&
-                   em.Login == pLoginEmpresa
-                   select e;
-
-        }
-
+        
         /// <summary>
         /// Devuelve el Empleado
         /// </summary>
@@ -292,18 +257,7 @@
         {
             return Converter<UsuarioEmpleado>.Convert(Get_Empleado(pLoginUsuario, pLoginEmpresa).ToList());
         }
-
-        private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, int pIDEmpresa)
-        {
-
-            return from e in dataContext.UsuarioEmpleado
-                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
-                   where e.Estado == true && e.Login == pLoginUsuario &&
-                   em.ID == pIDEmpresa
-                   select e;
-
-        }
-
+        
         /// <summary>
         /// Devuelve el Empleado 
         /// </summary>
@@ -315,22 +269,13 @@
             return Converter<UsuarioEmpleado>.Convert(Get_Empleado(pLoginUsuario, pIDEmpresa).ToList());
         }
 
-        private IEnumerable<UsuarioEmpleado> Buscar_Usuarios(String pLoginUsuario, int pIDEmpresa)
-        {
-
-            return from e in dataContext.UsuarioEmpleado
-                   where e.Estado == true && (e.Login.Contains(pLoginUsuario) || e.Nombre.Contains(pLoginUsuario))
-                   && e.IDEmpresa == pIDEmpresa
-                   select e;
-
-        }
 
         public DataTable Buscar_Usuariosp(string pLogin, int pIDEmpresa)
         {
             return Converter<UsuarioEmpleado>.Convert(Buscar_Usuarios(pLogin, pIDEmpresa).ToList());
         }
 
-        public List<UsuarioDto> Get_Usuarios(int pIDEmpresa)
+        public static List<UsuarioDto> Get_Usuarios(int pIDEmpresa)
         {
             return (from e in dataContext.UsuarioEmpleado
                     where e.Estado == true
@@ -338,13 +283,13 @@
                     select e).Select(x => new UsuarioDto()
                     {
                         changepass = x.changepass,
-                        ConfirmPass = abmEncriptador.Desencriptar(x.Password),
+                        ConfirmPass = Encriptador.Desencriptar(x.Password),
                         Estado = x.Estado,
                         IDEmpresa = x.IDEmpresa,
                         IDRol = x.IDRol,
                         Login = x.Login,
                         Nombre = x.Nombre,
-                        Password = abmEncriptador.Desencriptar(x.Password)
+                        Password = Encriptador.Desencriptar(x.Password)
                     }).ToList();
         }
 
@@ -353,7 +298,7 @@
         //    return Converter<UsuarioEmpleado>.Convert(Get_Usuarios(pLogin, pIDEmpresa).ToList());
         //}
 
-        public UsuarioDto Get_Usuario(string pLogin, int pIDEmpresa)
+        public static UsuarioDto Get_Usuario(string pLogin, int pIDEmpresa)
         {
             return (from e in dataContext.UsuarioEmpleado
                     where e.Estado == true && e.Login == pLogin
@@ -361,13 +306,13 @@
                     select new UsuarioDto
                     {
                         changepass = e.changepass,
-                        ConfirmPass = abmEncriptador.Desencriptar(e.Password),
+                        ConfirmPass = Encriptador.Desencriptar(e.Password),
                         Estado = e.Estado,
                         IDEmpresa = e.IDEmpresa,
                         IDRol = e.IDRol,
                         Login = e.Login,
                         Nombre = e.Nombre,
-                        Password = abmEncriptador.Desencriptar(e.Password)
+                        Password = Encriptador.Desencriptar(e.Password)
                     }).FirstOrDefault();
         }
 
@@ -401,7 +346,7 @@
                     UsuarioEmpleado vNewUser = new UsuarioEmpleado();
                     vNewUser.Login = pLogin;
                     vNewUser.Nombre = pNombre;
-                    string vnewp = abmEncriptador.Encriptar(pPass);
+                    string vnewp = Encriptador.Encriptar(pPass);
                     vNewUser.Password = vnewp;
                     vNewUser.IDRol = vUserD.First().IDRol;
                     vNewUser.IDEmpresa = pIDempresa;
@@ -429,30 +374,6 @@
 
         }
 
-        /// <summary>
-        /// Valida que los parametros no estes vacios
-        /// </summary>
-        /// <param name="pNombre">Nombre de Usuario</param>
-        /// <param name="pLogin">Login de Usuario</param>
-        /// <param name="pPass">Pass de Usuario</param>
-        /// <returns>0  - Todo ok
-        ///          -1 - Error Nombre
-        ///          -2 - Error Login    
-        ///          -3 - Error Pass</returns>
-        private int Validar_CamposD(string pNombre, string pLogin, string pPass)
-        {
-            if (pNombre.Length < 5)
-            {
-                return -1;
-            }
-            if (pLogin.Length < 3)
-                return -2;
-            if (pPass.Length < 3)
-            {
-                return -3;
-            }
-            return 0;
-        }
 
         /// <summary>
         /// Cambia el Pass
@@ -464,9 +385,8 @@
         /// -3 - Error en el Pass
         /// -5 - No existe Usuario
         /// -6 - No Se pudo Modificar</returns>
-        public int Cambiar_pass(string pLogin, string pPass, string loginEmpresa)
+        public static int Cambiar_pass(string pLogin, string pPass, string loginEmpresa)
         {
-
             var user = from u in dataContext.UsuarioEmpleado
                        from c in dataContext.Empresa
                        where u.Login == pLogin &&
@@ -475,7 +395,7 @@
                        select u;
             if (user.Count() > 0)
             {
-                String vPassEncriptada = abmEncriptador.Encriptar(pPass);
+                String vPassEncriptada = Encriptador.Encriptar(pPass);
                 user.First().changepass = false;
                 user.First().Password = vPassEncriptada;
                 try
@@ -494,7 +414,7 @@
             return 0;
         }
 
-        public int Resetear_Contrasena(string pLogin, String pLEmpresa)
+        public static int Resetear_Contrasena(string pLogin, String pLEmpresa)
         {
             var empresa = (from e in dataContext.Empresa
                            where e.Login == pLEmpresa
@@ -507,11 +427,10 @@
                                select u).FirstOrDefault();
                 if (usuario != null)
                 {
-                    String vNewPass = abmEncriptador.Generar_Aleatoriamente();
-                    String vNewPassEncriptada = abmEncriptador.Encriptar(vNewPass);
+                    String vNewPass = Encriptador.Generar_Aleatoriamente();
+                    String vNewPassEncriptada = Encriptador.Encriptar(vNewPass);
                     usuario.Password = vNewPassEncriptada;
-                    abmEmpresa = new ABMEmpresa();
-                    Clinica vclinica = abmEmpresa.Get_ClinicaByID(empresa.IDClinica);
+                    Clinica vclinica = ABMEmpresa.Get_ClinicaByID(empresa.IDClinica);
                     usuario.changepass = true;
                     try
                     {
@@ -539,7 +458,106 @@
             }
             return 0;
         }
+        
+        public DataTable Get_Planilla(DateTime pfechaaux, int pIDRol, string pIDUsuario)
+        {
+            var sql = from r in dataContext.Rol
+                      where r.ID == pIDRol
+                      select r;
+            if (sql.First().Nombre == "Administrador DACASYS")
+                return Converter<Planilla_Vendedores>.Convert(Get_PlanillaL(pfechaaux).ToList());
+            else
+                return Converter<Planilla_Vendedores>.Convert(Get_PlanillaUser(pfechaaux, pIDUsuario).ToList());
+        }
 
+        public void clean_logs()
+        {
+            dataContext.CleanLog();
+        }
+
+        #endregion
+
+        #region Metodos Privados
+
+        private static int Verificar_licencia(int pIdClinica)
+        {
+
+            var lic = from l in dataContext.Licencia
+                      where l.IDClinica == pIdClinica
+                      orderby l.FechaInicio descending
+                      select l;
+
+            if (lic.Count() > 0)
+            {
+                TimeSpan diff = lic.First().FechaFin.Subtract(DateTime.Now.AddHours(3));
+                int dias = diff.Days + 1;
+                if (dias > -3 && dias <= 0)
+                    return 0;
+                else
+                    return 1;
+            }
+
+            return -1;
+
+        }
+
+        private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, string pLoginEmpresa)
+        {
+
+            return from e in dataContext.UsuarioEmpleado
+                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
+                   where e.Estado == true && e.Login == pLoginUsuario &&
+                   em.Login == pLoginEmpresa
+                   select e;
+
+        }
+        
+        private IEnumerable<UsuarioEmpleado> Get_Empleado(String pLoginUsuario, int pIDEmpresa)
+        {
+
+            return from e in dataContext.UsuarioEmpleado
+                   join em in dataContext.Empresa on e.IDEmpresa equals em.ID
+                   where e.Estado == true && e.Login == pLoginUsuario &&
+                   em.ID == pIDEmpresa
+                   select e;
+
+        }
+
+        private IEnumerable<UsuarioEmpleado> Buscar_Usuarios(String pLoginUsuario, int pIDEmpresa)
+        {
+
+            return from e in dataContext.UsuarioEmpleado
+                   where e.Estado == true && (e.Login.Contains(pLoginUsuario) || e.Nombre.Contains(pLoginUsuario))
+                   && e.IDEmpresa == pIDEmpresa
+                   select e;
+
+        }
+        
+        /// <summary>
+        /// Valida que los parametros no estes vacios
+        /// </summary>
+        /// <param name="pNombre">Nombre de Usuario</param>
+        /// <param name="pLogin">Login de Usuario</param>
+        /// <param name="pPass">Pass de Usuario</param>
+        /// <returns>0  - Todo ok
+        ///          -1 - Error Nombre
+        ///          -2 - Error Login    
+        ///          -3 - Error Pass</returns>
+        private int Validar_CamposD(string pNombre, string pLogin, string pPass)
+        {
+            if (pNombre.Length < 5)
+            {
+                return -1;
+            }
+            if (pLogin.Length < 3)
+                return -2;
+            if (pPass.Length < 3)
+            {
+                return -3;
+            }
+            return 0;
+        }
+        
         private IEnumerable<Planilla_Vendedores> Get_PlanillaUser(DateTime pfechaaux, string pIDUsuario)
         {
 
@@ -558,20 +576,6 @@
 
         }
 
-        public DataTable Get_Planilla(DateTime pfechaaux, int pIDRol, string pIDUsuario)
-        {
-            var sql = from r in dataContext.Rol
-                      where r.ID == pIDRol
-                      select r;
-            if (sql.First().Nombre == "Administrador DACASYS")
-                return Converter<Planilla_Vendedores>.Convert(Get_PlanillaL(pfechaaux).ToList());
-            else
-                return Converter<Planilla_Vendedores>.Convert(Get_PlanillaUser(pfechaaux, pIDUsuario).ToList());
-        }
-
-        public void clean_logs()
-        {
-            dataContext.CleanLog();
-        }
+        #endregion
     }
 }

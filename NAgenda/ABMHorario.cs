@@ -12,18 +12,18 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Horario
+        #region Metodos publicos
 
         /// <summary>
         /// Insertar nuevo horario
         /// </summary>
         /// <param name="horarioDto"></param>
         /// <param name="idUsuario"></param>
-        public bool Insertar(HorarioDto horarioDto, string idUsuario)
+        public static bool Insertar(HorarioDto horarioDto, string idUsuario)
         {
             try
             {
@@ -54,7 +54,7 @@
         /// </summary>
         /// <param name="horarioDto"></param>
         /// <param name="idUsuario"></param>
-        public bool Modificar(HorarioDto horarioDto, string idUsuario)
+        public static bool Modificar(HorarioDto horarioDto, string idUsuario)
         {
             var sql = from h in dataContext.Horario
                       where h.idhorario == horarioDto.IDHorario && h.num_horario == horarioDto.NumHorario
@@ -90,13 +90,13 @@
         /// <param name="idHorario">Id del horario</param>
         /// <param name="numHorario">Numero de Horario</param>
         /// <param name="idUsuario">Id del usuario que realiza la accion</param>
-        public bool Eliminar(int idHorario, int numHorario, string idUsuario)
+        public static bool Eliminar(int idHorario, int numHorario, string idUsuario)
         {
             var sql = from h in dataContext.Horario
                       where h.idhorario == idHorario && h.num_horario == numHorario
                       select h;
 
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 sql.First().estado = false;
                 try
@@ -117,11 +117,7 @@
             return false;
         }
 
-        #endregion
-
-        #region Getter_Horarios
-
-        public List<HorarioDto> ObtenerHorariosPorEmpresa(int idEmpresa)
+        public static List<HorarioDto> ObtenerHorariosPorEmpresa(int idEmpresa)
         {
             return (from h in dataContext.Horario
                     join d in dataContext.Dia on h.iddia equals d.iddia
@@ -146,7 +142,7 @@
         /// <param name="pDTgral"></param>
         /// <param name="pFila"></param>
         /// <returns></returns>
-        public bool VerificarFila(DataTable pDTgral, DataRow pFila)
+        public static bool VerificarFila(DataTable pDTgral, DataRow pFila)
         {
             foreach (DataRow fila in pDTgral.Rows)
             {

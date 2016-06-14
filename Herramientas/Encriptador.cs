@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="texto">Texto para encriptara</param>
         /// <returns>Text encriptado</returns>
-        public string Encriptar(string texto)
+        public static string Encriptar(string texto)
         {
             //arreglo de bytes donde guardaremos la llave
             byte[] keyArray;
@@ -53,7 +53,7 @@
         /// </summary>
         /// <param name="textoEncriptado">Texto encriptado</param>
         /// <returns>Texto desencriptado</returns>
-        public string Desencriptar(string textoEncriptado)
+        public static string Desencriptar(string textoEncriptado)
         {
             byte[] keyArray;
             //convierte el texto en una secuencia de bytes
@@ -86,7 +86,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        public String Generar_Aleatoriamente()
+        public static String Generar_Aleatoriamente()
         {
             var obj = new Random();
             var posibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

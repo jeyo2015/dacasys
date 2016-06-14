@@ -8,11 +8,11 @@
     {
         #region VariablesGlobales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Modulo
+        #region Metodos Publicos
 
         /// <summary>
         /// Inserta un nuevo Modulo
@@ -21,7 +21,7 @@
         /// <param name="pTexto"></param>
         /// <param name="pIDUsuario"></param>
         /// <returns></returns>
-        public int Insertar(String pNombre, String pTexto, string pIDUsuario)
+        public static int Insertar(String pNombre, String pTexto, string pIDUsuario)
         {
             Modulo vModulo = new Modulo();
             vModulo.Nombre = pNombre;
@@ -39,7 +39,6 @@
                 ControlLogErrores.Insertar("NLogin", "ABMModulo", "Insertar", ex);
                 return 2;
             }
-
         }
 
         #endregion

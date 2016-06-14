@@ -9,18 +9,18 @@
     {
         #region VariablesGlogales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Telefono
+        #region Metodos Publicos
 
         /// <summary>
         /// Inserta un nuevo número telefónico al sistema
         /// </summary>
         /// <param name="pIDEmpresa">IDEmpresa de la Empresa a la que pertenece el número telefónico</param>
         /// <param name="Telefono">Número Telefónico</param>
-        public void InsertarConsultorio(TelefonoDto ptelefono)
+        public static void InsertarConsultorio(TelefonoDto ptelefono)
         {
             try
             {
@@ -51,7 +51,7 @@
             catch (Exception) { }
         }
 
-        public void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
+        public static void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
         {
             
             var newTelefono = new Telefono();
@@ -73,20 +73,13 @@
             }
             catch (Exception) { }
         }
-
-        private int GetNextIDTelefono()
-        {
-            var telefonos = (from t in dataContext.Telefono
-                             select t);
-            return telefonos == null ? 1 : telefonos.Max(x => x.ID) + 1;
-        }
-
+        
         /// <summary>
         /// Modifica un telefono
         /// </summary>
         /// <param name="pIDEmpresa">ID de la empresa</param>
         /// <param name="pTelefono">Numero de telefono</param>
-        public void Modificar(int pIDEmpresa, string pTelefono, string pnombre, int IDTelefono)
+        public static void Modificar(int pIDEmpresa, string pTelefono, string pnombre, int IDTelefono)
         {
             var sql = (from e in dataContext.Telefono
                        where e.ID == IDTelefono
@@ -105,7 +98,7 @@
         /// Pone a un Telefono como Estado false, o sea deshabilitado
         /// </summary>
         /// <param name="pID">Es el ID del Telefono a eliminar</param>
-        public void Eliminar(string pTelefono)
+        public static void Eliminar(string pTelefono)
         {
             var sql = from e in dataContext.Telefono
                       where e.Telefono1 == pTelefono
@@ -116,6 +109,17 @@
                 sql.First().Estado = false;
                 dataContext.SubmitChanges();
             }
+        }
+
+        #endregion
+
+        #region Metodos Private
+        
+        private static int GetNextIDTelefono()
+        {
+            var telefonos = (from t in dataContext.Telefono
+                             select t);
+            return telefonos == null ? 1 : telefonos.Max(x => x.ID) + 1;
         }
 
         #endregion

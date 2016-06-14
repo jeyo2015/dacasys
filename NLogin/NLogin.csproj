@@ -82,6 +82,7 @@
     <Compile Include="ABMUsuarioCliente.cs" />
     <Compile Include="ABMUsuarioEmpleado.cs" />
     <Compile Include="ABMNotificacionesConsultorio.cs" />
+    <Compile Include="ABMComentario.cs" />
     <Compile Include="EnviarCorreo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />

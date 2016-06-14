@@ -14,28 +14,75 @@
     {
         #region VariableGlobales
 
-        readonly DataContext dataContext = new DataContext();
-        readonly ABMUsuarioCliente abmCliente = new ABMUsuarioCliente();
+        readonly static DataContext dataContext = new DataContext();
 
         #endregion
 
-        #region ABM_Paciente
+        #region Metodos Publicos
+
+        public static List<PacienteDto> ObtenerClientesPorEmpresa(int idConsultorio)
+        {
+            return (from clientePaciente in dataContext.Cliente_Paciente
+                    from paciente in dataContext.Paciente
+                    from empresaCliente in dataContext.Empresa_Cliente
+                    where empresaCliente.id_empresa == idConsultorio
+                    && empresaCliente.id_usuariocliente == clientePaciente.id_usuariocliente
+                    && clientePaciente.id_paciente == paciente.id_paciente
+                    && clientePaciente.IsPrincipal == true
+                    && paciente.estado == true
+                    select new PacienteDto()
+                    {
+                        Antecedentes = paciente.antecedente,
+                        Ci = paciente.ci,
+                        Direccion = paciente.direccion,
+                        Email = paciente.email,
+                        Estado = paciente.estado,
+                        LoginCliente = empresaCliente.id_usuariocliente,
+                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                        Nombre = paciente.nombre,
+                        Apellido = paciente.apellido,
+                        Telefono = paciente.nro_telefono,
+                        TipoSangre = paciente.tipo_sangre,
+                        IdPaciente = paciente.id_paciente,
+                        Sexo = paciente.sexo.ToString()
+                    }).ToList();
+        }
 
         /// <summary>
-        /// Permite insertar un nuevo paciente, cliente
+        /// Devuelve el un paciente 
         /// </summary>
-        /// <param name="pnombre">Nombre del paciente</param>
-        /// <param name="papellido">Apellido del paciente</param>
-        /// <param name="pci">CI del paciente</param>
-        /// <param name="pnumero_telefono">Numero de telefono del paciente</param>
-        /// <param name="pdireccion">Dirreccion del paciente</param>
-        /// <param name="pemail">Email del paciente</param>
-        /// <param name="ptipo_sangre">Tipo de Sangre del paciente</param>
-        /// <param name="psexo">Sexo del paciente</param>
-        /// <param name="pcodigo_cliente">Codigo del Cliente</param>
-        /// <param name="pIDempresa">ID de la Empresa</param>
-        /// <param name="cliente">True es cliente, false solo es paciente</param>
-        /// <param name="pIDUsuario">Id del usuario que realiza accion</param>
+        /// <param name="idPaciente">ID del Paciente a obtener </param>
+        /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
+        public static List<PacienteDto> ObtenerPacientesPorCliente(string idPaciente)
+        {
+            return (from paciente in dataContext.Paciente
+                    from clientePaciente in dataContext.Cliente_Paciente
+                    where clientePaciente.id_usuariocliente == idPaciente
+                    && paciente.id_paciente == clientePaciente.id_paciente
+                    && paciente.estado == true && clientePaciente.IsPrincipal == false
+                    select new PacienteDto()
+                    {
+                        Antecedentes = paciente.antecedente,
+                        Ci = paciente.ci,
+                        Direccion = paciente.direccion,
+                        Email = paciente.email,
+                        Estado = paciente.estado,
+                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                        Nombre = paciente.nombre,
+                        Apellido = paciente.apellido,
+                        Telefono = paciente.nro_telefono,
+                        TipoSangre = paciente.tipo_sangre,
+                        IdPaciente = paciente.id_paciente,
+                        Sexo = paciente.sexo.ToString()
+                    }).ToList();
+
+        }
+
+        /// <summary>
+        /// Permite insertar un nuevo paciente, isPaciente
+        /// </summary>
+        /// <param name="pacienteDto">Dto paciente</param>
+        /// <param name="idUsuario">Id del usuario que realiza accion</param>
         /// <returns> 1 - Se inserto 
         ///  0 - No se inserto
         ///  2 - Nombre vacio
@@ -45,41 +92,39 @@
         ///  6 - tipo de sangre vacio o  menos de 4 caracteres
         ///  7 - ci menos de 7 digitos
         /// </returns>
-        public int Insertar(string pnombre, string papellido, string pci, string pnumero_telefono,
-                            string pdireccion, string pemail, string ptipo_sangre, char psexo,
-                            string pcodigo_cliente, int pIDempresa, bool cliente, string pantecedente, string pIDUsuario)
+        public static int Insertar(PacienteDto pacienteDto, string idUsuario)
         {
-            int v = Validar(pnombre, papellido, pci, pnumero_telefono, pdireccion,
-                        pemail, ptipo_sangre, psexo, pcodigo_cliente);
+            var v = Validar(pacienteDto);
             if (v != 0)
                 return v;
-            Paciente vPaciente = new Paciente();
-            vPaciente.ci = pci.Trim();
-            vPaciente.direccion = pdireccion;
-            vPaciente.email = pemail;
-            vPaciente.nombre = pnombre;
-            vPaciente.apellido = papellido;
-            vPaciente.nro_telefono = pnumero_telefono;
-            vPaciente.sexo = psexo;
-            vPaciente.tipo_sangre = ptipo_sangre;
-            vPaciente.antecedente = pantecedente;
-            vPaciente.estado = true;
+            var vPaciente = new Paciente
+            {
+                ci = pacienteDto.Ci.Trim(),
+                direccion = pacienteDto.Direccion,
+                email = pacienteDto.Email,
+                nombre = pacienteDto.Nombre,
+                apellido = pacienteDto.Apellido,
+                nro_telefono = pacienteDto.Telefono,
+                sexo = char.Parse(pacienteDto.Sexo),
+                tipo_sangre = pacienteDto.TipoSangre,
+                antecedente = pacienteDto.Antecedentes,
+                estado = true
+            };
             try
             {
                 dataContext.Paciente.InsertOnSubmit(vPaciente);
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se Inserto un nuevo Paciente", pIDUsuario);
-                if (cliente)
+                ControlBitacora.Insertar("Se Inserto un nuevo Paciente", idUsuario);
+                int nuevoIdPaciente = ObtenerIdPaciente();
+
+                if (pacienteDto.IsPrincipal)
                 {
-                    String vPass = new Encriptador().Generar_Aleatoriamente();
-                    abmCliente.Insertar(pcodigo_cliente, vPass, pIDUsuario);
-                    Asignar_Empresa(pIDempresa, pci, "", pIDUsuario);
-
-                    abmCliente.Enviar_Bienvenida(pIDempresa, pemail, vPass, pcodigo_cliente);
-
-
+                    var password = Encriptador.Generar_Aleatoriamente();
+                    ABMUsuarioCliente.Insertar(pacienteDto.LoginCliente, password, idUsuario);
+                    AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
+                    ABMUsuarioCliente.EnviarCorreoDeBienvenida(pacienteDto.IDEmpresa, pacienteDto.Email, password, pacienteDto.LoginCliente);
                 }
-                Asignar_Cliente(vPaciente, pcodigo_cliente);
+                AsignarClientePaciente(nuevoIdPaciente, pacienteDto.LoginCliente, pacienteDto.IsPrincipal, idUsuario);
                 return 1;
             }
             catch (Exception ex)
@@ -87,32 +132,174 @@
                 ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Insertar", ex);
                 return 0;
             }
-
-
         }
 
+        /// <summary>
+        /// Permite modificar los datos de un paciente
+        /// </summary>
+        /// <param name="pacienteDto">Dto del paciente a modificar</param>
+        /// <param name="pIDUsuario">ID del usuario que modifica</param>
+        /// <returns>1 - Se Guardo correctamente
+        ///         0 - No se pudo modificar</returns>
+        public static int Modificar(PacienteDto pacienteDto, string pIDUsuario)
+        {
+            var v = Validar(pacienteDto);
+            if (v != 0)
+                return v;
+
+            var sql = from e in dataContext.Paciente
+                      where e.id_paciente == pacienteDto.IdPaciente
+                      select e;
+            if (!sql.Any()) return 0;
+            sql.First().nombre = pacienteDto.Nombre;
+            sql.First().apellido = pacienteDto.Apellido;
+            sql.First().ci = pacienteDto.Ci;
+            sql.First().nro_telefono = pacienteDto.Telefono;
+            sql.First().direccion = pacienteDto.Direccion;
+            sql.First().email = pacienteDto.Email;
+            sql.First().tipo_sangre = pacienteDto.TipoSangre;
+            sql.First().sexo = char.Parse(pacienteDto.Sexo);
+            sql.First().antecedente = pacienteDto.Antecedentes;
+            try
+            {
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se Modifico un paciente " + pacienteDto.IdPaciente, pIDUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Modificar Paciente", ex);
+                return 0;
+            }
+        }
+
+        public static bool Eliminar(int idPaciente, bool isPrincipal, string idUsuario)
+        {
+            var sql = from c in dataContext.Paciente
+                      where c.id_paciente == idPaciente
+                      select c;
+
+            if (sql.Any())
+            {
+                var query = from c in dataContext.Cliente_Paciente
+                            where c.id_paciente == idPaciente
+                            select c;
+
+                if (isPrincipal)
+                {
+                    if (query.Any())
+                    {
+                        ABMUsuarioCliente.Eliminar(query.First().id_usuariocliente);
+                        EliminarEmpresaCliente(query.First().id_usuariocliente);
+                    }
+                }
+
+                EliminarClientePaciente(query.First().id_usuariocliente, idUsuario);
+                sql.First().estado = false;
+                try
+                {
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se elimino el paciente", idUsuario);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Eliminar", ex);
+                }
+            }
+            else
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Eliminar, no se pudo obtener el paciente", null);
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Metodos Privados
+
+        private static int ObtenerIdPaciente()
+        {
+            var paciente = (from c in dataContext.Paciente
+                            select c);
+            return paciente == null ? 1 : paciente.Max(x => x.id_paciente);
+        }
 
         /// <summary>
-        /// Permite Convertir a un paciente en cliente, desconectandolo de su Cliente Padre
+        /// Asigna un paciente a un isPaciente
         /// </summary>
-        /// <param name="pCodCliente">Login del nuevo Cliente</param>
-        /// <param name="pIDEmpresa">Id de la empresa</param>
-        /// <param name="pIDUsuario">Id del Usuario que realiza la accion</param>
+        /// <param name="idPaciente">Id del paciente</param>
+        /// <param name="loginCliente">Codigo del Cliente</param>
+        ///  <param name="loginCliente">ID del usuario que realiza accion</param>
+        /// <returns>0 - No inserto
+        /// 1 - Inserto correctamente</returns>
+        private static int AsignarClientePaciente(int idPaciente, string loginCliente, bool isPaciente, string idUsuario)
+        {
+            Cliente_Paciente clientePaciente = new Cliente_Paciente();
+            clientePaciente.id_paciente = idPaciente;
+            clientePaciente.id_usuariocliente = loginCliente;
+            clientePaciente.IsPrincipal = isPaciente;
+            try
+            {
+                dataContext.Cliente_Paciente.InsertOnSubmit(clientePaciente);
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se Asigno un paciente a un isPaciente", idUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asignar_Paciente", ex);
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Permite  asignar un isPaciente a una empresa ya exitente
+        /// </summary>
+        /// <param name="idEmpresa">ID de la empresa a la que se le asiganara el isPaciente</param>
+        /// <param name="loginCliente">Id del Cliente que se asignara</param>
+        private static int AsignarEmpresaCliente(int idEmpresa, string loginCliente, string email, string idUsuario)
+        {
+            Empresa_Cliente empresaCliente = new Empresa_Cliente();
+            empresaCliente.id_empresa = idEmpresa;
+            empresaCliente.id_usuariocliente = loginCliente;
+            try
+            {
+                dataContext.Empresa_Cliente.InsertOnSubmit(empresaCliente);
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se Inserto un nuevo Empresa_Cliente", idUsuario);
+                if (!email.Equals(""))//Si no se ha dado bienvenida
+                    ABMUsuarioCliente.EnviarCorreoDeBienvenida(idEmpresa, email, "", loginCliente);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asiganar_Empresa", ex);
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Permite Convertir a un paciente en isPaciente, desconectandolo de su Cliente Padre
+        /// </summary>
+        /// <param name="loginCliente">Login del nuevo Cliente</param>
+        /// <param name="idEmpresa">Id de la empresa</param>
+        /// <param name="idUsuario">Id del Usuario que realiza la accion</param>
         /// <returns>0 - No se pudo crear nuevo Cliente
         /// 1 - Se creo exitosamente
         /// 2 - No se pudo eliminar</returns>
-        public int AsignarCliente_Empresa(string pCodCliente, int pIDEmpresa, string pemail, string pIDUsuario)
+        private int AsignarUsuarioCliente(string loginCliente, int idEmpresa, string email, string idUsuario)
         {
-            String vPass = new Encriptador().Generar_Aleatoriamente();
-            int vInsert = abmCliente.Insertar(pCodCliente, vPass, pIDUsuario);
+            var password = Encriptador.Generar_Aleatoriamente();
+            var idInsetar = ABMUsuarioCliente.Insertar(loginCliente, password, idUsuario);
 
-            if (vInsert == 1)
+            if (idInsetar == 1)
             {
-                vInsert = Asignar_Empresa(pIDEmpresa, pCodCliente, "", pIDUsuario);
-                if (vInsert == 1)
+                idInsetar = AsignarEmpresaCliente(idEmpresa, loginCliente, "", idUsuario);
+                if (idInsetar == 1)
                 {
-                    vInsert = Eliminar_Paciente(pCodCliente, pIDUsuario);
-                    abmCliente.Enviar_Bienvenida(pIDEmpresa, pemail, vPass, pCodCliente);
+                    idInsetar = EliminarClientePaciente(loginCliente, idUsuario);
+                    ABMUsuarioCliente.EnviarCorreoDeBienvenida(idEmpresa, email, password, loginCliente);
                 }
                 else
                     return 0;
@@ -121,42 +308,63 @@
             {
                 return 0;
             }
-            return vInsert;
+            return idInsetar;
+        }
+
+        private static int Validar(PacienteDto pacienteDto)
+        {
+            if (pacienteDto.Nombre.Length <= 1)
+            {
+                return 2;
+            }
+            if (pacienteDto.Apellido.Length <= 1)
+            {
+                return 3;
+            }
+            if (pacienteDto.Ci.Length <= 0) return 0;
+            if (pacienteDto.Ci.Length < 7)
+                return 7;
+            else
+            {
+                var sql = from us in dataContext.UsuarioCliente where us.Login == pacienteDto.Ci select us;
+                if (sql.Any())
+                    return 8;
+            }
+            if (pacienteDto.Email.Length < 3)
+            {
+                return 4;
+            }
+            else
+            {
+                if (!pacienteDto.Email.Contains('@'))
+                    return 4;
+            }
+            return 0;
         }
 
         /// <summary>
         /// Elimina de manera permanente la asociacion con otros clientes
         /// </summary>
-        /// <param name="pCodCliente">Ci de identidad</param>
-        /// <param name="pIDUsuario">ID usuario que realiza accion</param>
+        /// <param name="loginCliente">Ci de identidad</param>
+        /// <param name="idUsuario">ID usuario que realiza accion</param>
         /// <returns>0 - no exite paciente
         ///         1 - se elimino exitosamente
         ///         2 - Error al querer eliminar cliente_paciente</returns>
-        private int Eliminar_Paciente(string pCodCliente, string pIDUsuario)
+        private static int EliminarClientePaciente(string loginCliente, string idUsuario)
         {
             var sql = from pac in dataContext.Paciente
-                      where pac.ci == pCodCliente
+                      where pac.ci == loginCliente
                       select pac;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
-
                 var cl_pac = from c_p in dataContext.Cliente_Paciente
                              where c_p.id_paciente == sql.First().id_paciente
                              select c_p;
                 foreach (var cp in cl_pac)
                 {
-                    try
-                    {
-                        dataContext.Cliente_Paciente.DeleteOnSubmit(cp);
-                        ControlBitacora.Insertar("Se elimino un Cliente_Paciente", pIDUsuario);
-                    }
-                    catch (Exception ex)
-                    {
-                        ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Eliminar_Paciente", ex);
-                        return 0;
-                    }
+                    dataContext.Cliente_Paciente.DeleteOnSubmit(cp);
                 }
-                Asignar_Paciente(sql.First().id_paciente, pCodCliente, pIDUsuario);
+
                 try
                 {
                     dataContext.SubmitChanges();
@@ -169,343 +377,30 @@
                 }
             }
             else
-
                 return 2;
-
-        }
-        private int Validar(string pnombre, string papellido, string pci, string pnumero_telefono, string pdireccion, string pemail, string ptipo_sangre, char psexo, string pcodigo_cliente)
-        {
-            if (pnombre.Length <= 1)
-            {
-                return 2;
-            }
-            if (papellido.Length <= 1)
-            {
-                return 3;
-            }
-            if (pci.Length > 0)
-            {
-                if (pci.Length < 7)
-                    return 7;
-                else
-                {
-                    var sql = from us in dataContext.UsuarioCliente
-                              where us.Login == pci
-                              select us;
-                    if (sql.Count() > 0)
-                        return 8;
-                }
-                if (pemail.Length < 3)
-                {
-                    return 4;
-                }
-                else
-                {
-                    if (!pemail.Contains('@'))
-                        return 4;
-                }
-            }
-
-            return 0;
-        }
-
-
-        public void Eliminar(int pIDPaciente, bool cliente)
-        {
-            var sql = from c in dataContext.Paciente
-                      where c.id_paciente == pIDPaciente
-                      select c;
-
-            if (sql.Count() > 0)
-            {
-                if (cliente)
-                {
-                    abmCliente.Eliminar(sql.First().ci);
-                }
-                sql.First().estado = false;
-
-                dataContext.SubmitChanges();
-
-            }
-
-
         }
 
         /// <summary>
-        /// Permite modificar los datos de un paciente
+        /// Asigna a un isPaciente a un empresa. Genera su pass y envia correo de bienvenida
         /// </summary>
-        /// <param name="pIdPaciente">ID del paciente a modificar</param>
-        /// <param name="pnombre">Nombre del paciente</param>
-        /// <param name="papellido">Apellido del paciente</param>
-        /// <param name="pci">Ci del paciente</param>
-        /// <param name="pnumero_telefono">Numero telfonico del paciente</param>
-        /// <param name="pdireccion">Direccion del paciente</param>
-        /// <param name="pemail">Email del paciente</param>
-        /// <param name="ptipo_sangre">Tipo de sangre del paciente</param>
-        /// <param name="psexo">Sexo del paciente</param>
-        /// <param name="pIDUsuario">ID del usuario que modifica</param>
-        /// <returns>1 - Se Guardo correctamente
-        ///         0 - No se pudo modificar</returns>
-        public int Modificar(int pIdPaciente, string pnombre, string papellido, string pci, string pnumero_telefono,
-                            string pdireccion, string pemail, string ptipo_sangre, char psexo, string pantecedente,
-                               string pIDUsuario)
-        {
-            int v = ValidarMod(pnombre, papellido, pci, pnumero_telefono, pdireccion,
-                       pemail, ptipo_sangre, psexo);
-            if (v != 0)
-                return v;
-
-            var sql = from e in dataContext.Paciente
-                      where e.id_paciente == pIdPaciente
-                      select e;
-            if (sql.Count() > 0)
-            {
-
-
-                sql.First().nombre = pnombre;
-                sql.First().apellido = papellido;
-                sql.First().ci = pci;
-                sql.First().nro_telefono = pnumero_telefono;
-                sql.First().direccion = pdireccion;
-                sql.First().email = pemail;
-                sql.First().tipo_sangre = ptipo_sangre;
-                sql.First().sexo = psexo;
-                sql.First().antecedente = pantecedente;
-                try
-                {
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se Modifico un paciente " + pIdPaciente, pIDUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Modificar Paciente", ex);
-                    return 0;
-                }
-
-            }
-
-
-            return 0;
-
-        }
-
-        private int ValidarMod(string pnombre, string papellido, string pci, string pnumero_telefono, string pdireccion, string pemail, string ptipo_sangre, char psexo)
-        {
-            if (pnombre.Length <= 1)
-            {
-                return 2;
-            }
-            if (papellido.Length <= 1)
-            {
-                return 3;
-            }
-
-            if (pci.Length > 0)
-            {
-                if (pci.Length < 7)
-                    return 7;
-                if (pemail.Length < 3)
-                {
-                    return 4;
-                }
-                else
-                {
-                    if (!pemail.Contains('@'))
-                        return 4;
-                }
-            }
-
-            return 0;
-        }
-
-
-        /// <summary>
-        /// Asigna un paciente a un cliente existente
-        /// </summary>
-        /// <param name="pPaciente">Paciente que se desea asignar</param>
-        /// <param name="pIDCliente">ID del Cliente al que se asignara el paciente</param>
-        public void Asignar_Cliente(Paciente pPaciente, string pIDCliente)
-        {
-            var sql = from c in dataContext.Paciente
-                      where c.ci == pPaciente.ci && c.nombre == pPaciente.nombre &&
-                      c.nro_telefono == pPaciente.nro_telefono && c.sexo == pPaciente.sexo
-                      && c.tipo_sangre == pPaciente.tipo_sangre && c.email == pPaciente.email
-                      select c;
-            int vid_pacient = -1;
-            if (sql.Count() > 0)
-            {
-                vid_pacient = sql.First().id_paciente;
-            }
-            Cliente_Paciente vCli_Pac = new Cliente_Paciente();
-            vCli_Pac.id_paciente = vid_pacient;
-            vCli_Pac.id_usuariocliente = pIDCliente;
-            dataContext.Cliente_Paciente.InsertOnSubmit(vCli_Pac);
-            dataContext.SubmitChanges();
-        }
-
-        /// <summary>
-        /// Asigna un paciente a un cliente
-        /// </summary>
-        /// <param name="pIDPaciente">Id del paciente</param>
-        /// <param name="pCodCliente">Codigo del Cliente</param>
-        ///  <param name="pCodCliente">ID del usuario que realiza accion</param>
-        /// <returns>0 - No inserto
-        /// 1 - Inserto correctamente</returns>
-        public int Asignar_Paciente(int pIDPaciente, string pCodCliente, string pIDUsuario)
-        {
-            Cliente_Paciente cp = new Cliente_Paciente();
-            cp.id_paciente = pIDPaciente;
-            cp.id_usuariocliente = pCodCliente;
-            try
-            {
-                dataContext.Cliente_Paciente.InsertOnSubmit(cp);
-                dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se Asigno un paciente a un cliente", pIDUsuario);
-                return 1;
-            }
-            catch (Exception ex)
-            {
-                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asignar_Paciente", ex);
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// Permite  asignar un cliente a una empresa ya exitente
-        /// </summary>
-        /// <param name="pIDempresa">ID de la empresa a la que se le asiganara el cliente</param>
-        /// <param name="pIDCliente">Id del Cliente que se asignara</param>
-        public int Asignar_Empresa(int pIDempresa, string pIDCliente, string pemail, string pIDUsuario)
-        {
-            Empresa_Cliente vEmp_Clie = new Empresa_Cliente();
-            vEmp_Clie.id_empresa = pIDempresa;
-            vEmp_Clie.id_usuariocliente = pIDCliente;
-            try
-            {
-                dataContext.Empresa_Cliente.InsertOnSubmit(vEmp_Clie);
-                dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se Inserto un nuevo Empresa_Cliente", pIDUsuario);
-                if (!pemail.Equals(""))//Si no se ha dado bienvenida
-                    abmCliente.Enviar_Bienvenida(pIDempresa, pemail, "", pIDCliente);
-                return 1;
-            }
-            catch (Exception ex)
-            {
-                ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Asiganar_Empresa", ex);
-                return 0;
-            }
-
-        }
-
-
-        private IEnumerable<Paciente> Get_PacientesID(int pIdPaciente)
-        {
-            return from paciente in dataContext.Paciente
-                   where paciente.id_paciente == pIdPaciente
-                   select paciente;
-
-        }
-
-        /// <summary>
-        /// Devuelve el un paciente 
-        /// </summary>
-        /// <param name="pIdPaciente">ID del Paciente a obtener </param>
-        /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
-        public List<PacienteDto> GetPacientesByCliente(String pCodigoCliente)
-        {
-            return (from paciente in dataContext.Paciente
-                    from paciente_cliente in dataContext.Cliente_Paciente
-                    where paciente_cliente.id_usuariocliente == pCodigoCliente
-                    && paciente.id_paciente == paciente_cliente.id_paciente
-                    select new PacienteDto()
-                    {
-                        Email = paciente.email,
-                        Estado = paciente.estado,
-                        LoginCliente = pCodigoCliente,
-                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
-                        Telefono = paciente.nro_telefono,
-                        TipoSangre = paciente.tipo_sangre,
-                        Direccion = paciente.direccion,
-                        Ci = paciente.ci,
-                        Antecedentes = paciente.antecedente,
-                        IdPaciente = paciente.id_paciente
-                    }).ToList();
-
-        }
-
-
-
-
-        private IEnumerable<Paciente> Get_PacienteCI(String pCi)
-        {
-            return from paciente in dataContext.Paciente
-                   where paciente.ci == pCi
-                   select paciente;
-
-        }
-
-        /// <summary>
-        /// Devuelve los datos de un cliente, que coincidan con el parametro
-        /// </summary>
-        /// <param name="pCodigoCliente">Login del Cliente </param>
-        /// <returns>Retorna el Paciente en un DataTable, vacia caso de que no exista</returns>
-        public DataTable Get_ClientePacienteCIp(String pCi)
-        {
-
-            return Converter<Paciente>.Convert(Get_PacienteCI(pCi).ToList());
-        }
-
-
-        #endregion
-
-        /// <summary>
-        /// Valida que el CI sea valido, no se repita y que email este correcto :"@,.com"
-        /// </summary>
-        /// <param name="pCI">CI Carnet de Identidad</param>
-        /// <param name="pEmail">Email del paciente</param>
-        /// <returns> -1 - PCI corto
-        /// -2 repetido
-        /// -3 email incorrecto
-        ///         1 - todo ok</returns>
-        public int ValidoDatos(string pCI, string pEmail)
-        {
-            if (pCI.Length < 7)
-                return -1;
-            else
-            {
-                var sql = from user in dataContext.UsuarioCliente
-                          where user.Login == pCI
-                          select user;
-
-                if (sql.Count() > 0)
-                    return -2;
-            }
-            if (pEmail.Length < 5 && !pEmail.Contains('@') && !pEmail.Contains(".com"))
-                return -3;
-            return 1;
-        }
-        /// <summary>
-        /// Asigna a un cliente a un empresa. Genera su pass y envia correo de bienvenida
-        /// </summary>
-        /// <param name="pCodCliente">Codigo cliente</param>
-        /// <param name="pIDEmpresa">ID empresa</param>
-        /// <param name="pemail">Email del cliente</param>
-        /// <param name="pIDUsuario">ID Usuario</param>
-        /// <param name="pIDPaciente">ID paciente, para sacar sus datos personales</param>
+        /// <param name="loginCliente">Codigo isPaciente</param>
+        /// <param name="idEmpresa">ID empresa</param>
+        /// <param name="email">Email del isPaciente</param>
+        /// <param name="idUsuario">ID Usuario</param>
+        /// <param name="idPaciente">ID paciente, para sacar sus datos personales</param>
         /// <returns></returns>
-        public int AsignarCliente_Empresa(string pCodCliente, int pIDEmpresa, string pemail, string pIDUsuario, int pIDPaciente)
+        public int AsignarCliente_Empresa(string loginCliente, int idEmpresa, string email, string idUsuario, int idPaciente)
         {
-            String vPass = new Encriptador().Generar_Aleatoriamente();
-            int vInsert = abmCliente.Insertar(pCodCliente, vPass, pIDUsuario);
+            String vPass = Encriptador.Generar_Aleatoriamente();
+            int vInsert = ABMUsuarioCliente.Insertar(loginCliente, vPass, idUsuario);
 
             if (vInsert == 1)
             {
-                vInsert = Asignar_Empresa(pIDEmpresa, pCodCliente, "", pIDUsuario);
+                vInsert = AsignarEmpresaCliente(idEmpresa, loginCliente, "", idUsuario);
                 if (vInsert == 1)
                 {
-                    vInsert = Quitar_Cliente_Padre(pIDPaciente, pCodCliente, pIDUsuario);
-                    abmCliente.Enviar_Bienvenida(pIDEmpresa, pemail, vPass, pCodCliente);
+                    vInsert = Quitar_Cliente_Padre(idPaciente, loginCliente, idUsuario);
+                    ABMUsuarioCliente.EnviarCorreoDeBienvenida(idEmpresa, email, vPass, loginCliente);
                 }
                 else
                     return 0;
@@ -521,13 +416,11 @@
         /// Metodo utilizado cuando un paciente ya dependerá de otro
         /// </summary>
         /// <param name="pIDPaciente">ID del paciente </param>
-        /// <param name="pCodCliente">codigo cliente a desligar</param>
+        /// <param name="pCodCliente">codigo isPaciente a desligar</param>
         /// <param name="pIDUsuario">ID del usuario que realiza accion</param>
         /// <returns></returns>
         private int Quitar_Cliente_Padre(int pIDPaciente, string pCodCliente, string pIDUsuario)
         {
-
-
             var cl_pac = from c_p in dataContext.Cliente_Paciente
                          where c_p.id_paciente == pIDPaciente
                          select c_p;
@@ -544,7 +437,6 @@
                     return 0;
                 }
             }
-            Asignar_Paciente(pIDPaciente, pCodCliente, pIDUsuario);
             try
             {
                 dataContext.SubmitChanges();
@@ -557,30 +449,17 @@
             }
 
         }
-        //desde aqui es lo que uso
-        public List<PacienteDto> GetPacientesEmpresa(int pIDConsultorio)
-        {
 
-            return (from uc in dataContext.Cliente_Paciente
-                    from p in dataContext.Paciente
-                    from cc in dataContext.Empresa_Cliente
-                    where cc.id_empresa == pIDConsultorio
-                    && cc.id_usuariocliente == uc.id_usuariocliente
-                    && uc.id_paciente == p.id_paciente
-                    && uc.IsPrincipal == true
-                    select new PacienteDto()
-                    {
-                        Antecedentes = p.antecedente,
-                        Ci = p.ci,
-                        Direccion = p.direccion,
-                        Email = p.email,
-                        Estado = p.estado,
-                        LoginCliente = cc.id_usuariocliente,
-                        NombrePaciente = p.nombre + " " + p.apellido,
-                        Telefono = p.nro_telefono,
-                        TipoSangre = p.tipo_sangre,
-                        IdPaciente = p.id_paciente
-                    }).ToList();
+        public static void EliminarEmpresaCliente(string loginCliente)
+        {
+            var sql = from e in dataContext.Empresa_Cliente
+                      where e.id_usuariocliente == loginCliente
+                      select e;
+
+            if (!sql.Any()) return;
+            dataContext.Empresa_Cliente.DeleteOnSubmit(sql.First());
         }
+
+        #endregion
     }
 }

@@ -17,7 +17,8 @@
 
         #endregion
 
-        #region ABMFactura
+        #region Metodos Publicos
+
         /// <summary>
         /// Inserta una factura
         /// </summary>
@@ -61,6 +62,7 @@
 
 
         }
+
         /// <summary>
         /// Modifica una factura
         /// </summary>
@@ -114,6 +116,7 @@
 
 
         }
+
         /// <summary>
         /// Elimina una factura fisicamente
         /// </summary>
@@ -144,6 +147,82 @@
             }
             return 0;
         }
+
+        /// <summary>
+        /// Retorna el numero de factura siguiente
+        /// </summary>
+        /// <returns></returns>
+        public int Get_NumeroFactura()
+        {
+            var sql = from f in dataContext.factura_odontoweb
+                      orderby f.nro_factura descending
+                      select f;
+            if (sql.Count() > 0)
+            {
+                return (int)sql.First().nro_factura + 1;
+            }
+            return 1;
+
+        }
+
+        /// <summary>
+        /// Metodo publico que retorna todas las facturas
+        /// </summary>
+        /// <returns>Datable de tipo factura_odontoweb</returns>
+        public DataTable Get_Facturasp()
+        {
+            return Converter<factura_odontoweb>.Convert(Get_Facturas().ToList());
+        }
+
+        public DataTable Get_FacturaLastp()
+        {
+            return Converter<factura_odontoweb>.Convert(Get_FacturaLast().ToList());
+        }
+
+        #endregion
+
+        #region Metodos Privados
+
+        /// <summary>
+        /// Devuelve el parametro de sistema que contiene el nit de la empresa
+        /// </summary>
+        /// <returns></returns>
+        private string Get_NitDacasys()
+        {
+            var sql = from p in dataContext.ParametroSistemas
+                      where p.Elemento == "NitDacasys"
+                      select p;
+            if (sql.Count() > 0)
+            {
+                return sql.First().ValorS;
+            }
+            return "";
+
+        }
+
+        /// <summary>
+        /// Metodo privado que retorna la ultima factura
+        /// </summary>
+        /// <returns>IEnurable de tipo Factura</returns>
+        private IEnumerable<factura_odontoweb> Get_FacturaLast()
+        {
+
+            return (from d in dataContext.factura_odontoweb
+                    orderby d.nro_factura descending
+                    select d).Take(1);
+        }
+
+        /// <summary>
+        /// metodo privado que devuelve todas las facturas
+        /// </summary>
+        /// <returns> IEnumerable de tipo factura_odontoweb</returns>
+        private IEnumerable<factura_odontoweb> Get_Facturas()
+        {
+
+            return from d in dataContext.factura_odontoweb
+                   select d;
+        }
+        
         /// <summary>
         /// Retorna el parametro de sistema que contiene la licencia
         /// </summary>
@@ -169,84 +248,6 @@
         {
             return abmDosificacion.Get_DosificacionHabilitadap();
         }
-
-        /// <summary>
-        /// Retorna el numero de factura siguiente
-        /// </summary>
-        /// <returns></returns>
-        public int Get_NumeroFactura()
-        {
-            var sql = from f in dataContext.factura_odontoweb
-                      orderby f.nro_factura descending
-                      select f;
-            if (sql.Count() > 0)
-            {
-                return (int)sql.First().nro_factura + 1;
-            }
-            return 1;
-
-        }
-
-        /// <summary>
-        /// Devuelve el parametro de sistema que contiene el nit de la empresa
-        /// </summary>
-        /// <returns></returns>
-        private string Get_NitDacasys()
-        {
-            var sql = from p in dataContext.ParametroSistemas
-                      where p.Elemento == "NitDacasys"
-                      select p;
-            if (sql.Count() > 0)
-            {
-                return sql.First().ValorS;
-            }
-            return "";
-
-        }
-
-
-
-
-        #endregion
-
-        #region Getter
-        /// <summary>
-        /// metodo privado que devuelve todas las facturas
-        /// </summary>
-        /// <returns> IEnumerable de tipo factura_odontoweb</returns>
-        private IEnumerable<factura_odontoweb> Get_Facturas()
-        {
-
-            return from d in dataContext.factura_odontoweb
-                   select d;
-        }
-
-        /// <summary>
-        /// Metodo publico que retorna todas las facturas
-        /// </summary>
-        /// <returns>Datable de tipo factura_odontoweb</returns>
-        public DataTable Get_Facturasp()
-        {
-            return Converter<factura_odontoweb>.Convert(Get_Facturas().ToList());
-        }
-        /// <summary>
-        /// Metodo privado que retorna la ultima factura
-        /// </summary>
-        /// <returns>IEnurable de tipo Factura</returns>
-        private IEnumerable<factura_odontoweb> Get_FacturaLast()
-        {
-
-            return (from d in dataContext.factura_odontoweb
-                    orderby d.nro_factura descending
-                    select d).Take(1);
-        }
-
-        public DataTable Get_FacturaLastp()
-        {
-            return Converter<factura_odontoweb>.Convert(Get_FacturaLast().ToList());
-        }
-
-
 
         #endregion
     }

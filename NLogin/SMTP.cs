@@ -12,7 +12,9 @@
         string Subject;
         string Host;
         int Puerto;//puerto = 587(local) - puerto= 25(servidor)
-        System.Net.Mail.MailMessage Email;
+        MailMessage Email;
+
+        #region Metodos Publicos
 
         public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject)
         {
@@ -36,8 +38,6 @@
 
         public int Enviar_Mail()
         {
-
-
             Email = new System.Net.Mail.MailMessage(From, To, Subject, Message);
             System.Net.Mail.SmtpClient smtpMail = new System.Net.Mail.SmtpClient();
             Email.Priority = MailPriority.Normal;
@@ -59,7 +59,6 @@
                 Console.WriteLine("No se pudo :" + ex.Data);
                 ControlLogErrores.Insertar("NLongin", "SMTP", "enviarmail", ex);
                 return 0;
-
             }
         }
 
@@ -72,5 +71,7 @@
             Puerto = 25;
             From = "mwediweb@dacasys.com";
         }
+
+        #endregion
     }
 }
