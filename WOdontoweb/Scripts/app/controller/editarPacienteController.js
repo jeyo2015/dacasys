@@ -22,6 +22,7 @@
         pacienteService.modificarPaciente($scope.editarPacienteParaGuardar).then(function (result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
+                $('#modal-editar-paciente').modal('hide');
             } else {
                 toastr.error(result.Message);
             }

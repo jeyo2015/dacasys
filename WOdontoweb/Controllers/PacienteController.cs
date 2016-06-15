@@ -67,6 +67,9 @@
                 case 8:
                     message = "Login ya existe";
                     break;
+                case 9:
+                    message = "Documento de Identidad ya existe";
+                    break;
                 case 0:
                     message = "No se pudo registrar el paciente, intente de nuevo por favor";
                     break;
@@ -106,6 +109,9 @@
                     break;
                 case 6:
                     message = "Por favor ingrese tipo de sangre valida";
+                    break;
+                case 9:
+                    message = "Documento de Identidad ya existe";
                     break;
                 case 0:
                     message = "No se pudo modificar el paciente, intente de nuevo por favor";

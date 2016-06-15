@@ -240,7 +240,7 @@
     <Content Include="Scripts\app\services\horarioService.js" />
     <Content Include="Scripts\app\services\pacienteService.js" />
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
-    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\angular.js" />
