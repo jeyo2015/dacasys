@@ -102,10 +102,10 @@
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1" href="#usuarios"><a><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
-                                                @*<li ng-class="getClass('/miconsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>*@
+                                                @*<li ng-class="getClass('/miConsultorio')"><a ng-hide="sessionDto.IDConsultorio==-1" href="#miconsultorio"><i class="fa fa-h-square iconMenu "></i>Mi consultorio</a></li>*@
                                                 <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
                                                 <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
-                                                <li ng-class="getClass('/consultoriosCliente')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#consultoriosCliente"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
+                                                <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
                                                 <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
 
                                             </ul>
@@ -431,7 +431,7 @@
     <script src="@Url.Content("~/Content/Wodonto.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/loginController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/loginService.js")"></script>
-    <script src="@Url.Content("~/Scripts/app/controller/miconsultorioController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/miConsultorioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/rolesService.js")"></script>
     <script src="@Url.Content("~/Scripts/toastr.js")"></script>

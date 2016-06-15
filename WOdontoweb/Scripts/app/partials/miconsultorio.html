@@ -1,28 +1,75 @@
-﻿<div class="row" >
-    <div class="col-md-12">
-        <div class="form-group">
-            <label for="consultorioID">mi consultorio:</label>
-            <input ng-model="loginEmpresa" type="text" class="form-control" id="consultorioID" placeholder="Consultorio">
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="miConsultorioController">
+    <div class="col-md-12 col-md-offset-1">
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <table class="table table-hover tableStyle">
+                    <tbody>
+                        <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
+                            <td>{{consultorio.Nombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="usuarioID">Password</label>
-            <input type="text" ng-model="usuario" class="form-control" id="usuarioID" placeholder="Usuario">
+        <div class="row">
+            <button class="btn btn-raised btn-danger" ng-click="openModalCita()" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
+            <button class="btn btn-raised btn-danger" ng-click="openModalComentario()" ng-disabled="miConsultorioSelected==null">Comentar</button>
         </div>
-        <div class="form-group">
-            <label for="passwordID">Contrasena</label>
-            <input type="password" ng-model="pass" class="form-control" id="passwordID">
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox">
-                Administrador
-            </label>
-        </div>
-        <button class="btn btn-primary">Ingresar</button>
-
-
     </div>
-
+    <div class="modal fade" id="modal-mi-comentario" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="comentario" class="col-md-3 control-label">Comentario</label>
+                                    <div class="col-md-9">
+                                        <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="guardarComentario()" ng-disabled="validarCamposComentario()">Aceptar</button>
+                    <button class="btn btn-primary" ng-click="cerrarModalComentario()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-mi-cita" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agendar Cita</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--<div class="form-group">
+                                    <label for="comentario" class="col-md-3 control-label">Comentario</label>
+                                    <div class="col-md-9">
+                                        <textarea ng-model="historicoDetalleNuevo.TrabajoRealizado" class="form-control" id="Textarea1"></textarea>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--<button class="btn btn-primary" ng-click="modificarConsultorio()" ng-disabled="validarCampos()">Aceptar</button>-->
+                    <button class="btn btn-primary" ng-click="cerrarModalCita()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

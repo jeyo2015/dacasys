@@ -51,9 +51,27 @@
             return Converter<Empresa>.Convert(Get_Empresas(pLoginUsuario).ToList());
         }
 
-        public List<Empresa> Get_EmpresaspList(String pLoginUsuario)
+        public static List<EmpresaClinicaDto> ObtenerConsultoriosPorCliente(string loginCliente)
         {
-            return Get_Empresas(pLoginUsuario).ToList();
+            return (from e in dataContext.Empresa
+                    join ec in dataContext.Empresa_Cliente on e.ID equals ec.id_empresa
+                    join clinica in dataContext.Clinica on e.IDClinica equals clinica.ID
+                    where e.Estado == true && ec.id_usuariocliente == loginCliente //&& e.ID != 1
+                    select new EmpresaClinicaDto()
+                    {
+                        Email = e.Email,
+                        Estado = e.Estado,
+                        IDClinica = e.IDClinica,
+                        Login = clinica.Login,
+                        Nit = e.NIT,
+                        IDEmpresa = e.ID,
+                        Latitud = clinica.Latitud,
+                        Longitud = clinica.Longitud,
+                        LoginCliente = ec.id_usuariocliente,
+                        Direccion= clinica.Direccion,
+                        Descripcion = clinica.Descripcion,
+                        Nombre = clinica.Nombre
+                    }).ToList();
         }
 
         /// <summary>

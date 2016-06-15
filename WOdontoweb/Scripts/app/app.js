@@ -40,6 +40,9 @@ app.config(['$routeProvider',
           when('/comentario', {
               templateUrl: 'Scripts/app/partials/comentario.html'
           }).
+          when('/miConsultorio', {
+              templateUrl: 'Scripts/app/partials/miConsultorio.html'
+          }).
       when('/consultas', {
           templateUrl: 'Scripts/app/partials/consultas.html',
           controller: 'consultasController'

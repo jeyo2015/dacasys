@@ -84,4 +84,11 @@
         });
         return d.promise;
     };
+    this.obtenerConsultoriosPorCliente = function (login) {
+        var d = $q.defer();
+        $http.get('Empresa/ObtenerConsultoriosPorCliente?loginCliente=' + login).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
 });
