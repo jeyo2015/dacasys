@@ -1,5 +1,5 @@
 ﻿app.service("loginService", function ($http, $q, $rootScope) {
-    this.logIn = function (loginEmpresa, usuario, pass) {
+    this.ingresar = function (loginEmpresa, usuario, pass) {
         var d = $q.defer();//(string nameEmpresa, string usuario, string pass)
         $http.post('Login/Ingresar', { nameEmpresa: loginEmpresa, usuario: usuario, pass: pass }).success(function (data) {
             d.resolve(data);

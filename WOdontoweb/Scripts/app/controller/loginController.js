@@ -85,18 +85,19 @@
     };
     
     $scope.ingresar = function () {
-        var verificar = loginService.logIn($scope.loginEmpresa, $scope.usuario, $scope.pass);
+        var verificar = loginService.ingresar($scope.loginEmpresa, $scope.usuario, $scope.pass);
 
         verificar.then(function (result) {
-            $rootScope.sessionDto = result.Data;
+          
             $scope.message = result.Message;
-
-            switch ($rootScope.sessionDto.Verificar) {
+            $rootScope.sessionDto = result.Data;
+            switch (result.Data.Verificar) {
                 case 1:
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
                     $scope.pass = "";
+                    
                     break;
                 case 0:
                     $("#consultorioID").focus();
@@ -115,6 +116,7 @@
                     $scope.pass = "";
                     break;
                 case 3:
+                  
                     $('#modal-login').modal('hide');
                     if ($scope.isAdmin) {
                         if ($rootScope.sessionDto.ChangePass) {
