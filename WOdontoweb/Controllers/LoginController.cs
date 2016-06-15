@@ -106,12 +106,21 @@
                 {
                     case 0:
                         message = "Consultorio no existe o esta desactivado";
+                        sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                     case 1:
                         message = "Su licencia vencio, algunas funciones están deshabilitada";
+                        sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                     case 2:
                         message = "Usuario " + usuario + " no existe";
+                        sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                     case 3:
                         message = "Bienvenido a Odontoweb";
@@ -125,6 +134,9 @@
                         break;
                     case 4:
                         message = "Contrasena incorrecta";
+                         sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                 }
             }
@@ -135,9 +147,15 @@
                 {
                     case 2:
                         message = "Usuario " + usuario + " no existe";
+                        sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                     case 4:
                         message = "Contrasena incorrecta";
+                        sessionDto.IDClinica = -1;
+                        sessionDto.IDConsultorio = -1;
+                        sessionDto.IDRol = -1;
                         break;
                     case 3:
                         Session["loginusuario"] = usuario;
