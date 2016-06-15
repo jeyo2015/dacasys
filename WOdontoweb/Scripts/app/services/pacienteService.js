@@ -13,6 +13,13 @@
         });
         return d.promise;
     };
+    this.obtenerPacientePorId = function (loginCliente) {
+        var d = $q.defer();
+        $http.post('Paciente/ObtenerPacientesPorId', { loginCliente: loginCliente }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.eliminarPaciente = function (paciente) {
         var d = $q.defer();
         $http.post('Paciente/EliminarPaciente', { pacienteDto: paciente }).success(function (data) {

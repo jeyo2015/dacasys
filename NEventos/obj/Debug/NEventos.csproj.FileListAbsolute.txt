@@ -803,3 +803,10 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NEvento
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NEventos\obj\Debug\NEventos.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NEventos\obj\Debug\NEventos.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NEventos\obj\Debug\NEventos.pdb
+D:\Geovi\Dacasys2705\dacasys\NEventos\bin\Debug\NEventos.dll
+D:\Geovi\Dacasys2705\dacasys\NEventos\bin\Debug\NEventos.pdb
+D:\Geovi\Dacasys2705\dacasys\NEventos\bin\Debug\DLogin.dll
+D:\Geovi\Dacasys2705\dacasys\NEventos\bin\Debug\DLogin.pdb
+D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.csprojResolveAssemblyReference.cache
+D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.dll
+D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.pdb

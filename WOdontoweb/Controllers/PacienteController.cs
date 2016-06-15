@@ -20,6 +20,12 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ObtenerPacientesPorId(string loginCliente)
+        {
+            var result = ABMPaciente.ObtenerPacientePorId(loginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult EliminarPaciente(PacienteDto pacienteDto)
         {
             var viel = ABMPaciente.Eliminar(pacienteDto.IdPaciente, pacienteDto.IsPrincipal, Session["loginusuario"].ToString());
@@ -47,7 +53,7 @@
                     message = "Por favor ingrese un apellido valido";
                     break;
                 case 4:
-                    message = "Por favor ingrese el numero de identidad valido";
+                    message = "Por favor ingrese un email valido";
                     break;
                 case 7:
                     message = "Por favor ingrese el numero de identidad valido";
@@ -57,6 +63,9 @@
                     break;
                 case 6:
                     message = "Por favor ingrese tipo de sangre valida";
+                    break;
+                case 8:
+                    message = "Login ya existe";
                     break;
                 case 0:
                     message = "No se pudo registrar el paciente, intente de nuevo por favor";

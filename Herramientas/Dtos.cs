@@ -155,6 +155,7 @@
         public int IdPaciente { get; set; }
         public int IDEmpresa { get; set; }
         public bool IsPrincipal { get; set; }
+        public string Password { get; set; }
     }
 
     public class HistoricoPacienteDto

@@ -44,7 +44,8 @@
                         Telefono = paciente.nro_telefono,
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
-                        Sexo = paciente.sexo.ToString()
+                        Sexo = paciente.sexo.ToString(),
+                        IsPrincipal = clientePaciente.IsPrincipal
                     }).ToList();
         }
 
@@ -73,8 +74,36 @@
                         Telefono = paciente.nro_telefono,
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
-                        Sexo = paciente.sexo.ToString()
+                        Sexo = paciente.sexo.ToString(),
+                        IsPrincipal = clientePaciente.IsPrincipal
                     }).ToList();
+
+        }
+                
+        public static PacienteDto ObtenerPacientePorId(string idPaciente)
+        {
+            return (from paciente in dataContext.Paciente
+                    from clientePaciente in dataContext.Cliente_Paciente
+                    where clientePaciente.id_usuariocliente == idPaciente
+                    && paciente.id_paciente == clientePaciente.id_paciente
+                    && paciente.estado == true && clientePaciente.IsPrincipal == true
+                    select new PacienteDto()
+                    {
+                        LoginCliente = clientePaciente.id_usuariocliente,
+                        Antecedentes = paciente.antecedente,
+                        Ci = paciente.ci,
+                        Direccion = paciente.direccion,
+                        Email = paciente.email,
+                        Estado = paciente.estado,
+                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                        Nombre = paciente.nombre,
+                        Apellido = paciente.apellido,
+                        Telefono = paciente.nro_telefono,
+                        TipoSangre = paciente.tipo_sangre,
+                        IdPaciente = paciente.id_paciente,
+                        Sexo = paciente.sexo.ToString(),
+                        IsPrincipal = clientePaciente.IsPrincipal
+                    }).FirstOrDefault();
 
         }
 
@@ -99,7 +128,7 @@
                 return v;
             var vPaciente = new Paciente
             {
-                ci = pacienteDto.Ci.Trim(),
+                ci = pacienteDto.Ci != null ? pacienteDto.Ci.Trim() : null,
                 direccion = pacienteDto.Direccion,
                 email = pacienteDto.Email,
                 nombre = pacienteDto.Nombre,
@@ -164,6 +193,14 @@
             {
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se Modifico un paciente " + pacienteDto.IdPaciente, pIDUsuario);
+
+                if (pacienteDto.IsPrincipal)
+                {
+                    if(pacienteDto.Password != null)
+                    {
+                        ABMUsuarioCliente.Modificar(pacienteDto.LoginCliente, pacienteDto.Password);
+                    }
+                }
                 return 1;
             }
             catch (Exception ex)
@@ -321,15 +358,16 @@
             {
                 return 3;
             }
-            if (pacienteDto.Ci.Length <= 0) return 0;
-            if (pacienteDto.Ci.Length < 7)
-                return 7;
-            else
+            if (pacienteDto.Ci == null && pacienteDto.IsPrincipal) return 7;
+            if (pacienteDto.Ci != null && pacienteDto.Ci.Length < 7) return 7;
+
+            if (pacienteDto.IsPrincipal && pacienteDto.IdPaciente == 0)
             {
-                var sql = from us in dataContext.UsuarioCliente where us.Login == pacienteDto.Ci select us;
-                if (sql.Any())
+                var sql = from us in dataContext.UsuarioCliente where us.Login == pacienteDto.LoginCliente select us;
+                if (sql.Any() && pacienteDto.IsPrincipal)
                     return 8;
             }
+
             if (pacienteDto.Email.Length < 3)
             {
                 return 4;

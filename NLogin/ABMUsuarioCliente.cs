@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="pLogin">Login del UsuarioCliente a modificar</param>
         /// <param name="pPassword">Password del UsuarioCliente a modificar</param>
-        public void Modificar(string pLogin, string pPassword)
+        public static void Modificar(string pLogin, string pPassword)
         {
             var sql = from e in dataContext.UsuarioCliente
                       where e.Login == pLogin
