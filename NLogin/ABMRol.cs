@@ -57,7 +57,7 @@
                         {
                             ID = x.ID,
                             IsChecked = isModuloChecked(x.ID, pRolID),
-                            Nombre = x.Nombre,
+                            Nombre = x.Texto,
                             Hijos = getFormularios(pRolID, x.ID),
                             IsCollapsed = false
                         }).ToList();
@@ -482,7 +482,7 @@
                     {
                         ID = x.ID,
                         IsChecked = isComponenteChecked(x.ID, pRolID),
-                        Nombre = x.Nombre,
+                        Nombre = x.Texto,
                         Hijos = new List<ModulosTree>(),
                         IsCollapsed = false
                     }).ToList();
@@ -501,7 +501,7 @@
                             new ModulosTree()
                             {
                                 ID = x.ID,
-                                Nombre = x.Nombre,
+                                Nombre = x.Texto,
                                 IsChecked = isFormularioChecked(x.ID, pRolID),
                                 Hijos = getComponenentes(pRolID, x.ID),
                                 IsCollapsed = false
