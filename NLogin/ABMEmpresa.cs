@@ -51,6 +51,7 @@
             return Converter<Empresa>.Convert(Get_Empresas(pLoginUsuario).ToList());
         }
 
+        // TODO Fix this function.
         public static List<EmpresaClinicaDto> ObtenerConsultoriosPorCliente(string loginCliente)
         {
             return (from e in dataContext.Empresa

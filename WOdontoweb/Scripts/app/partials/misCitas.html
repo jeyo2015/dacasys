@@ -1,11 +1,18 @@
-﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="miConsultorioController">
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="misCitasController">
     <div class="col-md-12 col-md-offset-1">
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                 <table class="table table-hover tableStyle">
                     <tbody>
-                        <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
-                            <td>{{consultorio.Nombre}}</td>
+                        <tr ng-class="{selectElement:miCitaSelected.IDCita==cita.IDCita}" ng-repeat="cita in ListaCitas |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarCita(cita)">
+                            <td>
+                                <b>{{cita.NombreConsultorio}}</b><br />
+                                {{cita.NombrePaciente}}                                
+                            </td>
+                            <td>
+                                {{cita.FechaString}}<br />
+                                De {{cita.HoraInicioString}} a {{cita.HoraFinString}} hrs.
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -13,11 +20,9 @@
         </div>
         <div class="row">
             <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-            <button class="btn btn-raised btn-primary pull-right" ng-click="openModalCita()" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
-            <button class="btn btn-raised btn-primary pull-right" ng-click="openModalComentario()" ng-disabled="miConsultorioSelected==null">Comentar</button>
-        <div class="row">
+            <button class="btn btn-raised btn-danger pull-right" ng-click="abrirModalCancelarCita()" ng-disabled="miCitaSelected==null">Cancelar cita</button>        
     </div>
-    <div class="modal fade" id="confirm-delete" role="dialog">
+    <div class="modal fade" id="modal-cancelar-cita" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,8 +37,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="eliminarRegistro()">Si</button>
-                    <button class="btn btn-danger" ng-click="closeWarnig()">No</button>
+                    <button class="btn btn-primary" ng-click="cancelarCitaPaciente()">Si</button>
+                    <button class="btn btn-danger" ng-click="cerrarModalCancelarCita()">No</button>
                 </div>
             </div>
         </div>

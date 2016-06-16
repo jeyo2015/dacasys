@@ -40,5 +40,5 @@
             d.resolve(data);
         });
         return d.promise;
-    };
+    };    
 });

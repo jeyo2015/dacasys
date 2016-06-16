@@ -5,9 +5,12 @@
                 <table class="table table-hover tableStyle">
                     <tbody>
                         <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
-                            <td>{{consultorio.Nombre}}<br />
-                                {{consultorio.Direccion}} <a id="lnkMapa" ng-click="abrirModalMapa()">Ver mapa</a><br />
-                                {{consultorio.Descripcion}}<br />
+                            <td>
+                                <b>{{consultorio.Nombre}}</b><br />
+                                {{consultorio.Direccion}}<br />
+                                <a id="lnkMapa" ng-click="abrirModalMapa()">Ver mapa</a>
+                            </td>
+                            <td>{{consultorio.Descripcion}}
                             </td>
                         </tr>
                     </tbody>
@@ -16,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-                <button class="btn btn-raised btn-primary pull-right" ng-click="abrirModalCita()" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
+                <button class="btn btn-raised btn-primary pull-right" ng-click="abrirModalCita(consultorio)" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
                 <button class="btn btn-raised btn-primary pull-right" ng-click="abrirModalComentario()" ng-disabled="miConsultorioSelected==null">Comentar</button>
             </div>
         </div>
@@ -76,21 +79,21 @@
         </div>
     </div>
     <div class="modal fade" id="modal-mapa-ubicacion" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Ubicacion en el mapa {{miConsultorioSelected.Nombre}}</h4>
-            </div>
-            <div class="modal-body">
-                <div id="mapaConsultorio" style="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ubicacion en el mapa {{miConsultorioSelected.Nombre}}</h4>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger" ng-click="cerrarModalMapa()">Cancelar</button>
+                <div class="modal-body">
+                    <div id="mapaConsultorio" style="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-click="cerrarModalMapa()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
