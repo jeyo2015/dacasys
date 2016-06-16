@@ -19,6 +19,11 @@
             var result = ABMPaciente.ObtenerPacientesPorCliente(loginCliente);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ObtenerPacientesPorClienteCita(string loginCliente)
+        {
+            var result = ABMPaciente.ObtenerPacientesPorClienteCita(loginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult ObtenerPacientesPorId(string loginCliente)
         {
