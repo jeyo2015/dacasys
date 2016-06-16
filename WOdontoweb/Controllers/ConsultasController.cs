@@ -89,5 +89,37 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ObtenerCitasPorCliente(string loginCliente)
+        {
+            var result = ABMCita.ObtenerCitasPorCliente(loginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CancelarCitaPaciente(string idCita)
+        {
+            var insert = ABMCita.CancelarCita(idCita, Session["loginusuario"].ToString());
+            var vMessage = "";
+            switch (insert)
+            {
+                case 1:
+                    vMessage = "Se cancelo la cita correctamente";
+                    break;
+                case 2:
+                    vMessage = "No existe cita en ese horario";
+                    break;
+                case 0:
+                    vMessage = "No se pudo cancelar la cita, por favor intente de nuevo";
+                    break;
+
+            }
+            var result = new ResponseModel()
+            {
+                Message = vMessage,
+                Data = insert,
+                Success = insert == 1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
