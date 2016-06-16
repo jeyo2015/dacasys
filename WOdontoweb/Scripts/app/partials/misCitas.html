@@ -1,0 +1,44 @@
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="miConsultorioController">
+    <div class="col-md-12 col-md-offset-1">
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <table class="table table-hover tableStyle">
+                    <tbody>
+                        <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
+                            <td>{{consultorio.Nombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+            <button class="btn btn-raised btn-primary pull-right" ng-click="openModalCita()" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
+            <button class="btn btn-raised btn-primary pull-right" ng-click="openModalComentario()" ng-disabled="miConsultorioSelected==null">Comentar</button>
+        <div class="row">
+    </div>
+    <div class="modal fade" id="confirm-delete" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Cancelar cita</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>¿Esta seguro de cancelar su cita?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarRegistro()">Si</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

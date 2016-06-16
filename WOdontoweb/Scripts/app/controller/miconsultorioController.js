@@ -2,6 +2,7 @@
     init();
 
     function init() {
+        $scope.listaMarcadores = [];
         cargarConsultorioPorCliente();
     };
 
@@ -11,7 +12,7 @@
         });
     }
 
-    $scope.openModalComentario = function () {
+    $scope.abrirModalComentario = function () {
         prepararNuevoComentario();
         $('#modal-mi-comentario').modal('show');
     };
@@ -20,12 +21,61 @@
         $('#modal-mi-comentario').modal('hide');
     };
 
-    $scope.openModalCita = function () {
+    $scope.abrirModalCita = function () {
         $('#modal-mi-cita').modal('show');
     };
 
     $scope.cerrarModalCita = function () {
         $('#modal-mi-cita').modal('hide');
+    };
+
+    function InicializarMapa() {
+        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
+        CrearMarcador(0, latlng);
+        google.maps.event.addListener(map, 'click', function (event) {
+            removerMarcador();
+            CrearMarcador(0, event.latLng)
+            $scope.latlngActual = event.latLng;
+        });
+    }
+
+    function CrearMarcador(id, latLong) {
+        var marker = new google.maps.Marker({
+            map: map,
+            position: latLong,
+            title: '',
+            icon: 'Content/img/marker.png',
+            zIndex: id
+        });
+        map.setZoom(17);
+        $scope.listaMarcadores.push(marker);
+    }
+
+    function removerMarcador() {
+        if ($scope.listaMarcadores) {
+            for (var i = 0 ; i < $scope.listaMarcadores.length; i++) {
+                var markerCurrent = $scope.listaMarcadores[i];
+                markerCurrent.setMap(null);
+            }
+        }
+    }
+
+    $scope.abrirModalMapa = function () {
+        $('#modal-mapa-ubicacion').modal('show');
+        InicializarMapa();
+        //removerMarcador();
+        //CrearMarcador(0, $scope.latlngActual);
+        //map.setCenter($scope.latlngActual);
+    };
+
+    $scope.cerrarModalMapa = function () {
+        $('#modal-mapa-ubicacion').modal('hide');
     };
 
     $scope.seleccionarConsultorio = function (consultorio) {
