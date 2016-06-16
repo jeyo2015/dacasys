@@ -34,3 +34,4 @@ D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\es\System.Web.Providers.resources.dl
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.pdb
+D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll.config
