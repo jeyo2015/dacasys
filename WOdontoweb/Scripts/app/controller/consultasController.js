@@ -226,7 +226,7 @@
     }
 
     function getPacientesByCliente(modalOpen) {
-        pacienteService.obtenerPacientesPorCliente($scope.citaSeleccionada.LoginCliente).then(function (result) {
+        pacienteService.obtenerPacientesPorClienteCita($scope.citaSeleccionada.LoginCliente).then(function (result) {
             $scope.pacientesClienteSeleccionado = result;
             if (modalOpen.length > 0) {
                 $(modalOpen).modal('show');

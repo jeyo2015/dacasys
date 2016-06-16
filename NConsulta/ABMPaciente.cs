@@ -79,7 +79,27 @@
                     }).ToList();
 
         }
+        public static List<PacienteDto> ObtenerPacientesPorClienteCita(String pCodigoCliente)
+        {
+            return (from paciente in dataContext.Paciente
+                    from paciente_cliente in dataContext.Cliente_Paciente
+                    where paciente_cliente.id_usuariocliente == pCodigoCliente
+                    && paciente.id_paciente == paciente_cliente.id_paciente
+                    select new PacienteDto()
+                    {
+                        Email = paciente.email,
+                        Estado = paciente.estado,
+                        LoginCliente = pCodigoCliente,
+                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                        Telefono = paciente.nro_telefono,
+                        TipoSangre = paciente.tipo_sangre,
+                        Direccion = paciente.direccion,
+                        Ci = paciente.ci,
+                        Antecedentes = paciente.antecedente,
+                        IdPaciente = paciente.id_paciente
+                    }).ToList();
 
+        }
         public static PacienteDto ObtenerPacientePorId(string idPaciente)
         {
             return (from paciente in dataContext.Paciente
