@@ -1,22 +1,14 @@
 ﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="comentarioController">
-    <div class="col-md-4 col-md-offset-1">
-        <div class="row">
-            <div class="form-group label-floating">
-                <label for="buscarComentarioID" class="col-md-2 control-label">Buscar</label>
-                <div class="col-md-10">
-                    <input type="text" ng-model="subString" class="form-control" id="buscarComentarioID">
-                </div>
-            </div>
-        </div>
+    <div class="col-md-10 col-md-offset-1">
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                 <table class="table table-hover tableStyle">
-                    <thead>
+                    <!-- <thead>
                         <tr>
                             <th>Fecha</th>
                             <th>Comentario</th>
                         </tr>
-                    </thead>
+                    </thead>-->
                     <tbody>
                         <tr ng-class="{selectElement:comentarioSelected.IDComentario==comentario.IDComentario}" ng-repeat="comentario in ListaComentario |filterByWords:subString:'IDComentario,IDEmpresa,LoginCliente,IsVisible'" ng-click="seleccionarComentario(comentario)">
                             <td>{{comentario.FechaCreacion}}</td>
@@ -24,23 +16,19 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>           
-        </div>
-    </div>
-    <div class="col-md-7 ">
-        <div class="row">
-            <div class="col-md-6"></div>
+            </div>
         </div>
         <div class="row">
-            <form class="form-horizontal">               
-                <div class="form-group">
-                    <label for="comentario" class="col-md-3 control-label">Comentario:</label>
-                    <div class="col-md-9">
-                        <input type="text" ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario">
-                    </div>
+
+            <div class="panel panel-primary"  ng-repeat="comentario in ListaComentario" >
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{comentario}}</h3>
                 </div>
-                <button class="btn btn-raised btn-primary" ng-click="guardarComentario()" ng-disabled="validarCampos()">Guardar</button>
-            </form>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
         </div>
     </div>
+
 </div>
