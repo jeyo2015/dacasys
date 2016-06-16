@@ -89,5 +89,11 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ObtenerCitasPorCliente(string loginCliente)
+        {
+            var result = ABMCita.ObtenerCitasPorCliente(loginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

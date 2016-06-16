@@ -44,7 +44,6 @@
         public int State { get; set; }
         public List<TelefonoDto> Telefonos { get; set; }
         public List<TrabajosConsultorioDto> Trabajos { get; set; }
-
     }
 
     public class TelefonoDto
@@ -74,6 +73,7 @@
         public int NumeroCita { get; set; }
         public bool EsTarde { get; set; }
     }
+
     public class TrabajosConsultorioDto
     {
         public int ID { get; set; }
@@ -129,7 +129,6 @@
         public string LoginUsuario { get; set; }
         public DateTime FechaNotificacion { get; set; }
         public int EstadoNotificacion { get; set; }
-
     }
 
     public class NotificacionesConsultorioNewDto
@@ -231,5 +230,17 @@
         public int Status { get; set; }
         public int IDEmpresa { get; set; }
         public string Email { get; set; }
+    }
+
+    public class CitasDelClienteDto
+    {
+        public int IDConsultorio { get; set; }
+        public string LoginCliente { get; set; }
+        public string IdCita { get; set; }
+        public string FechaString { get; set; }
+        public string HoraInicioString { get; set; }
+        public string HoraFinString { get; set; }
+        public string NombreConsultorio { get; set; }
+        public string NombrePaciente { get; set; }
     }
 }
