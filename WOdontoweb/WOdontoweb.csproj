@@ -190,6 +190,7 @@
     <Content Include="Scripts\app\controller\consultasController.js" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
     <Content Include="Scripts\app\controller\comentarioController.js" />
+    <Content Include="Scripts\app\controller\misCitasController.js" />
     <Content Include="Scripts\app\controller\editarPacienteController.js" />
     <Content Include="Scripts\app\controller\empresaController.js" />
     <Content Include="Scripts\app\controller\pacienteController.js" />

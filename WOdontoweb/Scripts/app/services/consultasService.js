@@ -48,4 +48,18 @@
         });
         return d.promise;
     };
+    this.obtenerCitasPorCliente = function (login) {
+        var d = $q.defer();
+        $http.get('Consultas/ObtenerCitasPorCliente?loginCliente=' + login).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.cancelarCitaPaciente = function (cita) {
+        var d = $q.defer();
+        $http.post('Consultas/CancelarCitaPaciente', { idCita: cita }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
 });

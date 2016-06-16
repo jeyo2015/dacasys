@@ -34,8 +34,8 @@
             $.each(result, function (i, item) {
                 var hinicio = item.HoraInicio.split(":");
                 var hfinal = item.HoraFin.split(":");
-                item.HoraInicio = (hinicio[0] < 9 ? '0' + hinicio[0] : hinicio[0]) + ':' + (hinicio[1] < 9 ? '0' + hinicio[1] : hinicio[1]);
-                item.HoraFin = (hfinal[0] < 9 ? '0' + hfinal[0] : hfinal[0]) + ':' + (hfinal[1] < 9 ? '0' + hfinal[1] : hfinal[1]);
+                item.HoraInicio = (hinicio[0] < 10 ? '0' + hinicio[0] : hinicio[0]) + ':' + (hinicio[1] < 10 ? '0' + hinicio[1] : hinicio[1]);
+                item.HoraFin = (hfinal[0] < 10 ? '0' + hfinal[0] : hfinal[0]) + ':' + (hfinal[1] < 10 ? '0' + hfinal[1] : hfinal[1]);
                 listaHorario.push(item);
             });
         });
@@ -60,7 +60,7 @@
         var fecha = new Date();
         var hora = fecha.getHours().toString();
         var minuto = fecha.getMinutes().toString();
-        $('#' + element).val((hora < 9 ? '0' + hora : hora) + ":" + (minuto < 9 ? '0' + minuto : minuto));
+        $('#' + element).val((hora < 10 ? '0' + hora : hora) + ":" + (minuto < 10 ? '0' + minuto : minuto));
         $('#' + element).timeEntry();
     }
 

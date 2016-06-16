@@ -80,6 +80,30 @@
                 return 2;
         }
 
+        public static int CancelarCita(string idCita, string idUsuario)
+        {
+            var cita = (from c in dataContext.Cita
+                        where c.idcita == idCita
+                        select c).FirstOrDefault();
+            if (cita != null)
+            {
+                try
+                {
+                    cita.estado = false;
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se cancelo la cita", idUsuario);
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    return 0;
+                }
+            }
+            else
+                return 2;
+        }
+
         /// <summary>
         /// Genera el codigo de la cita a reservar
         /// </summary>
@@ -319,6 +343,7 @@
             return false;
         }
 
+        // TODO Fix this function.
         public static List<CitasDelClienteDto> ObtenerCitasPorCliente(string loginCliente)
         {
             return (from cita in dataContext.Cita
@@ -327,8 +352,8 @@
                     join clinicaPaciente in dataContext.Cliente_Paciente on cita.id_cliente equals clinicaPaciente.id_usuariocliente
                     join paciente in dataContext.Paciente on clinicaPaciente.id_paciente equals paciente.id_paciente
                     where cita.estado == true && clinicaPaciente.id_usuariocliente == loginCliente
-                    && empresa.Estado == true && clinica.Estado == true && paciente.estado == true && empresa.ID != 1
-                    && cita.atendido == false
+                    && empresa.Estado == true && paciente.estado == true //&& clinica.Estado == true && empresa.ID != 1
+                    && cita.atendido == false && clinicaPaciente.IsPrincipal == true
                     select new CitasDelClienteDto()
                     {
                         LoginCliente = clinicaPaciente.id_usuariocliente,
