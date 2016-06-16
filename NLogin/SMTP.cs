@@ -46,8 +46,8 @@
             smtpMail.EnableSsl = false;
             smtpMail.Port = Puerto;
             smtpMail.Host = Host;
-            smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
-
+          //  smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
+            smtpMail.Credentials = new System.Net.NetworkCredential("odontoweb@dacasys.com", "Dacasys123");
             try
             {
                 smtpMail.Send(Email);
