@@ -1,4 +1,4 @@
-﻿app.service("consultasService", function ($http, $q, $rootScope) {
+﻿app.service("consultasService", function ($http, $q) {
     this.getCitasDelDia = function (fecha, idConsultorio, tiempoConsulta) {
         var d = $q.defer();
         $http.post('Consultas/GetCitasDelDia', { pfecha: fecha, pIdConsultorio: idConsultorio, ptiempoConsulta: tiempoConsulta }).success(function (data) {

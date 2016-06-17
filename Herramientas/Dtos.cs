@@ -229,6 +229,7 @@
         public bool Estado { get; set; }
         public int Status { get; set; }
         public int IDEmpresa { get; set; }
+        public int TiempoCita { get; set; }
         public string Email { get; set; }
     }
 

@@ -1,9 +1,21 @@
-﻿app.controller("miConsultorioController", function (clinicaService, comentarioService, $scope, $compile, $rootScope) {
+﻿app.controller("miConsultorioController", function (clinicaService, comentarioService, consultasService, $scope, $compile, $rootScope) {
     init();
 
     function init() {
         $scope.listaMarcadores = [];
         cargarConsultorioPorCliente();
+        $scope.dateSelected = moment().format('DD/MM/YYYY');
+        $.datepicker.setDefaults($.datepicker.regional["es"]);
+        $("#dtpFecha").datepicker({
+            dateFormat: 'dd/mm/yy',
+            onSelect: function () {
+                $scope.dateSelected = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
+                cargarCitasDelDia();
+                $scope.$apply();
+            }
+        });
+
+        $('#dtpFecha').val(moment().format('DD/MM/YYYY'));
     };
 
     function cargarConsultorioPorCliente() {
@@ -11,23 +23,6 @@
             $scope.ListaConsultorio = result;
         });
     }
-
-    $scope.abrirModalComentario = function () {
-        prepararNuevoComentario();
-        $('#modal-mi-comentario').modal('show');
-    };
-
-    $scope.cerrarModalComentario = function () {        
-        $('#modal-mi-comentario').modal('hide');
-    };
-
-    $scope.abrirModalCita = function () {
-        $('#modal-mi-cita').modal('show');
-    };
-
-    $scope.cerrarModalCita = function () {
-        $('#modal-mi-cita').modal('hide');
-    };
 
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -82,7 +77,61 @@
         $scope.miConsultorioSelected = consultorio;
     };
 
+    $scope.abrirModalCita = function () {
+        cargarCitasDelDia();
+    };
 
+    $scope.cerrarModalCita = function () {
+        $('#modal-mi-cita').modal('hide');
+    };
+
+    function cargarCitasDelDia() {
+        if ($scope.miConsultorioSelected.IDEmpresa && $scope.miConsultorioSelected.TiempoCita) {
+            consultasService.getCitasDelDia($scope.dateSelected, $scope.miConsultorioSelected.IDEmpresa, $scope.miConsultorioSelected.TiempoCita).then(function (result) {
+                $scope.citasDelDia = result;
+                $scope.citaSeleted = null;
+                $('#modal-mi-cita').modal('show');
+            });
+        }
+    }
+
+    $scope.seleccionaCita = function (cita) {
+        $scope.citaSeleted = cita;
+        alertaEstadoCita();
+    };
+
+    function alertaEstadoCita() {
+        if ($scope.citaSeleted.EsTarde)
+            toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
+        else
+            if ($scope.citaSeleted.EstaAtendida)
+                toastr.warning("La cita seleccionada ya fue atendida");
+    }
+
+    $scope.validarCamposCita = function () {
+        return $scope.citaSeleted == null || $scope.citaSeleted.EstaOcupada;
+    };
+    
+    $scope.agendarCita = function () {
+        consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                $('#modal-mi-cita').modal('hide');
+                $scope.citaSeleted = null;
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
+    
+    $scope.abrirModalComentario = function () {
+        prepararNuevoComentario();
+        $('#modal-mi-comentario').modal('show');
+    };
+
+    $scope.cerrarModalComentario = function () {
+        $('#modal-mi-comentario').modal('hide');
+    };
 
     function prepararNuevoComentario() {
         $scope.comentarioParaGuardar = {

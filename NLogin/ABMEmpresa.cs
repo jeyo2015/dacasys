@@ -54,24 +54,27 @@
         // TODO Fix this function.
         public static List<EmpresaClinicaDto> ObtenerConsultoriosPorCliente(string loginCliente)
         {
-            return (from e in dataContext.Empresa
-                    join ec in dataContext.Empresa_Cliente on e.ID equals ec.id_empresa
-                    join clinica in dataContext.Clinica on e.IDClinica equals clinica.ID
-                    where e.Estado == true && ec.id_usuariocliente == loginCliente //&& e.ID != 1
+            return (from empresa in dataContext.Empresa
+                    join empresaCliente in dataContext.Empresa_Cliente on empresa.ID equals empresaCliente.id_empresa
+                    join clinica in dataContext.Clinica on empresa.IDClinica equals clinica.ID
+                    from tiempoConsulta in dataContext.Tiempo_Consulta
+                    where empresa.Estado == true && empresaCliente.id_usuariocliente == loginCliente //&& e.ID != 1
+                    && tiempoConsulta.ID == empresa.IDIntervalo
                     select new EmpresaClinicaDto()
                     {
-                        Email = e.Email,
-                        Estado = e.Estado,
-                        IDClinica = e.IDClinica,
+                        Email = empresa.Email,
+                        Estado = empresa.Estado,
+                        IDClinica = empresa.IDClinica,
                         Login = clinica.Login,
-                        Nit = e.NIT,
-                        IDEmpresa = e.ID,
+                        Nit = empresa.NIT,
+                        IDEmpresa = empresa.ID,
                         Latitud = clinica.Latitud,
                         Longitud = clinica.Longitud,
-                        LoginCliente = ec.id_usuariocliente,
+                        LoginCliente = empresaCliente.id_usuariocliente,
                         Direccion= clinica.Direccion,
                         Descripcion = clinica.Descripcion,
-                        Nombre = clinica.Nombre
+                        Nombre = clinica.Nombre,
+                        TiempoCita = tiempoConsulta.Value
                     }).ToList();
         }
 
@@ -567,7 +570,7 @@
         {
             return (from c in dataContext.Empresa
                     from tc in dataContext.Tiempo_Consulta
-                    where c.ID == idConsultorio
+                    where c.ID == idConsultorio && tc.ID == c.IDIntervalo
                     select new ConsultorioDto()
                     {
                         Email = c.Email,

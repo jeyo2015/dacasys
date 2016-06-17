@@ -45,13 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DLogin">
-      <HintPath>..\DLogin\bin\Debug\DLogin.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NLogin">
-      <HintPath>..\NLogin\bin\Debug\NLogin.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -316,6 +310,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DLogin\Datos.csproj">
+      <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Herramientas\Herramientas.csproj">
       <Project>{0398367d-0762-41fc-9e40-b62a53b50977}</Project>
       <Name>Herramientas</Name>
@@ -327,6 +325,10 @@
     <ProjectReference Include="..\NConsulta\NConsulta.csproj">
       <Project>{d4d0b6e5-7aac-4262-882e-28e9f4c48225}</Project>
       <Name>NConsulta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NLogin\NLogin.csproj">
+      <Project>{92581e05-bdf7-4d4a-b188-785ff46ef5cc}</Project>
+      <Name>NLogin</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

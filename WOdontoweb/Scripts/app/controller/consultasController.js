@@ -1,23 +1,4 @@
 ﻿app.controller("consultasController", function (consultasService, pacienteService, clinicaService, $scope, $compile, $rootScope) {
-    
-    $.datepicker.regional['es'] = {
-        closeText: 'Cerrar',
-        prevText: '<Ant',
-        nextText: 'Sig>',
-        currentText: 'Hoy',
-        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-        weekHeader: 'Sm',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: ''
-    };
-    
     init();
 
     function init() {
@@ -34,18 +15,18 @@
                 $scope.dateSelectedString = $scope.diasDeSemana[aux.getDay() % 7] + " " + $scope.dateSelected;
                 cargarCitasDelDia();
                 $scope.$apply();
-              
+
             }
         });
         $("#datepicker").datepicker("setDate", $scope.dateSelected);
         cargarConsultorio();
-       
-
     };
+
     function ObtenerFechaDesdeStrint(dateString) {
         var dateSplit = dateString.split("/");
-        return new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);//parseInt($scope.dateSelected.split('/')[0]);
+        return new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
     }
+
     function cargarConsultorio() {
         if ($rootScope.consultorioActual == undefined)
             clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
@@ -56,45 +37,49 @@
             consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
                 $scope.citasDelDia = result;
             });
-
     }
 
     function cargarCitasDelDia() {
-        consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
-            $scope.citasDelDia = result;
-            $scope.citaSeleccionada = null;
-        });
+        if ($rootScope.sessionDto.IDConsultorio && $rootScope.consultorioActual.TiempoCita) {
+            consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
+                $scope.citasDelDia = result;
+                $scope.citaSeleccionada = null;
+            });
+        }
     }
+
     $scope.seleccionaCita = function (cita) {
         $scope.pacienteSeleccionado = null;
         $scope.citaSeleccionada = cita;
         mostrarAdvertenciasEstadoCita();
-    }
+    };
+
     function mostrarAdvertenciasEstadoCita() {
         if ($scope.citaSeleccionada.EsTarde)
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
         else
             if ($scope.citaSeleccionada.EstaAtendida)
                 toastr.warning("La cita seleccionada ya fue atendida");
-
-
     }
+
     $scope.showModalPacientes = function () {
         cargarPacientesEmpresa("#modal-seleccionar-cliente");
-    }
+    };
+
     $scope.showModalPacientesCliente = function () {
-        getPacientesByCliente("#modal-seleccionar-paciente")
-    }
+        getPacientesByCliente("#modal-seleccionar-paciente");
+    };
+
     $scope.showModalCancelarCita = function () {
         $scope.horaLibre = false;
         $scope.motivoCancelacion = "";
         $("#modal-cancelar-cita").modal("show");
-    }
+    };
 
     $scope.mostrarHistorico = function (paciente) {
         $scope.pacienteParaAtender = paciente;
         cargarHistoricoPaciente("#modal-historico-paciente");
-    }
+    };
 
     function cargarHistoricoPaciente(modalOpen) {
         consultasService.getHistoricoPaciente($scope.pacienteParaAtender.IdPaciente, $rootScope.sessionDto.IDConsultorio).then(function (result) {
@@ -108,6 +93,7 @@
             }
         });
     }
+
     function cargarPacientesEmpresa(modalOpen) {
         pacienteService.obtenerClientesPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.pacientesConsultorio = result;
@@ -120,21 +106,22 @@
     $scope.closeModal = function (modal) {
         $("#" + modal).modal("hide");
         $scope.citaSeleccionada = null;
+    };
 
-    }
     $scope.closeModalDetalle = function () {
         $("#modal-detalle-historico").modal('hide');
         $("#modal-historico-paciente").modal('show');
-    }
+    };
+
     $scope.seleccionarPaciente = function (paciente) {
         $scope.pacienteSeleccionado = paciente;
-    }
+    };
 
     $scope.mostrarModalNuevoHistorico = function () {
         prepararNuevoHistoricoDto();
         $("#modal-historico-paciente").modal("hide");
         $("#modal-nuevo-historico").modal("show");
-    }
+    };
 
     $scope.crearNuevoHistorico = function () {
         consultasService.aBMHistorico($scope.historicoNuevo).then(function (result) {
@@ -146,7 +133,7 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
 
     function prepararNuevoHistoricoDto() {
         $scope.historicoNuevo = {
@@ -161,13 +148,14 @@
             EstadoABM: 1
         };
     }
+
     $scope.mostrarDetalleHistorico = function (historico) {
         $scope.historicoPacienteSeleccionado = angular.copy(historico);
         $scope.historicoDetalleSeleccionado = angular.copy($scope.historicoPacienteSeleccionado.DetalleHistorico);
         prepararNuevoHistoricoDetalleDto();
         $("#modal-detalle-historico").modal('show');
         $("#modal-historico-paciente").modal('hide');
-    }
+    };
 
     $scope.guardarHistoricoDetalle = function () {
         consultasService.insertarHistoricoDetalle($scope.historicoDetalleNuevo).then(function (result) {
@@ -181,7 +169,7 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
 
     function prepararNuevoHistoricoDetalleDto() {
         $scope.historicoDetalleNuevo = {
@@ -196,6 +184,7 @@
             CerrarHistorico: false
         };
     }
+
     $scope.agendarCita = function () {
         consultasService.insertarCitaPaciente($scope.citaSeleccionada, $scope.dateSelected, $scope.pacienteSeleccionado.LoginCliente).then(function (result) {
             if (result.Success) {
@@ -207,9 +196,8 @@
             } else {
                 toastr.error(result.Message);
             }
-
         });
-    }
+    };
 
     $scope.eliminarCitaPaciente = function () {
         consultasService.eliminarCitaPaciente($scope.citaSeleccionada, $scope.horaLibre, $scope.motivoCancelacion).then(function (result) {
@@ -223,7 +211,7 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
 
     function getPacientesByCliente(modalOpen) {
         pacienteService.obtenerPacientesPorClienteCita($scope.citaSeleccionada.LoginCliente).then(function (result) {

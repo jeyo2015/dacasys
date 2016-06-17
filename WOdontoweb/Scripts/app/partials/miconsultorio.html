@@ -1,7 +1,7 @@
 ﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="miConsultorioController">
     <div class="col-md-12 col-md-offset-1">
         <div class="row" style="margin-top: 15px;">
-            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0;">
                 <table class="table table-hover tableStyle">
                     <tbody>
                         <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
@@ -10,7 +10,8 @@
                                 {{consultorio.Direccion}}<br />
                                 <a id="lnkMapa" ng-click="abrirModalMapa()">Ver mapa</a>
                             </td>
-                            <td>{{consultorio.Descripcion}}
+                            <td>
+                                {{consultorio.Descripcion}}
                             </td>
                         </tr>
                     </tbody>
@@ -18,7 +19,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0;">
                 <button class="btn btn-raised btn-primary pull-right" ng-click="abrirModalCita(consultorio)" ng-disabled="miConsultorioSelected==null">Agendar Cita</button>
                 <button class="btn btn-raised btn-primary pull-right" ng-click="abrirModalComentario()" ng-disabled="miConsultorioSelected==null">Comentar</button>
             </div>
@@ -61,18 +62,41 @@
                     <form class="form-horizontal">
                         <div class="row">
                             <div class="col-md-12">
-                                <!--<div class="form-group">
-                                    <label for="comentario" class="col-md-3 control-label">Comentario</label>
+                                <div class="form-group">
+                                    <label for="dtpFecha" class="col-md-3 control-label">Fecha</label>
                                     <div class="col-md-9">
-                                        <textarea ng-model="historicoDetalleNuevo.TrabajoRealizado" class="form-control" id="Textarea1"></textarea>
+                                        <input type="text" class="form-control" id="dtpFecha">
                                     </div>
-                                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="max-height: 340px; overflow-y: auto; padding-right: 0;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>{{dateSelectedString}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
+                                            <td>
+                                                <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
+                                            </td>
+                                            <td>
+                                                {{cita.Paciente.NombrePaciente}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <!--<button class="btn btn-primary" ng-click="modificarConsultorio()" ng-disabled="validarCampos()">Aceptar</button>-->
+                    <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="validarCamposCita()">Agendar</button>
                     <button class="btn btn-primary" ng-click="cerrarModalCita()">Cancelar</button>
                 </div>
             </div>
