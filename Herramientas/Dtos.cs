@@ -212,6 +212,7 @@
         public int IDEmpresa { get; set; }
         public int IDComentario { get; set; }
         public bool IsVisible { get; set; }
+        public string NombrePaciente { get; set; }
     }
 
     public class EmpresaClinicaDto
