@@ -56,14 +56,14 @@
             {
                 SMTP vSMTP = new SMTP();
                 String vMensaje = vDTEmpresa.Rows[0][2].ToString() + " buenos dias, \n" +
-                                     "Se le informa que su licencia Mediweb se vencio hace " + Convert.ToString(pDiasrestantes) + " dias," +
+                                     "Se le informa que su licencia Odontoweb se vencio hace " + Convert.ToString(pDiasrestantes) + " dias," +
                                      " \npor tal motivo algunas funciones se encuentran desactivadas." +
                                      "\nPasados los 3 dias su acceso sera completamente denegado, \npor favor ampliar su licencia " +
                                      "para evitar inconvenientes." +
-                                     "\nSaludos, \nMediweb" +
+                                     "\nSaludos, \nOdontoweb" +
                                      "\nPara mayor informacion contáctenos : soporte@dacasys.com ";
                 vSMTP.Datos_Mensaje(vDTEmpresa.Rows[0][13].ToString(),
-                                      vMensaje, "Licencia - Mediweb");
+                                      vMensaje, "Licencia - Odontoweb");
 
                 vSMTP.Enviar_Mail();
             }
@@ -78,11 +78,11 @@
                 SMTP vSMTP = new SMTP();
                 String vMensaje = vDTEmpresa.Rows[0][2].ToString() + " buenos dias, \n" +
                                      "Se le informa que en " + Convert.ToString(pDiasrestantes) + " dias vence su lincencia" +
-                                     " Mediweb, \npor favor ampliar la misma para evitar los inconvenientes." +
-                                     "\nSaludos, \nMediweb" +
+                                     " Odontoweb, \npor favor ampliar la misma para evitar los inconvenientes." +
+                                     "\nSaludos, \nOdontoweb" +
                                      "\nPara mayor informacion contáctenos : soporte@dacasys.com ";
                 vSMTP.Datos_Mensaje(vDTEmpresa.Rows[0][13].ToString(),
-                                      vMensaje, "Licencia - Mediweb");
+                                      vMensaje, "Licencia - Odontoweb");
 
                 vSMTP.Enviar_Mail();
             }

@@ -71,7 +71,7 @@
                         Latitud = clinica.Latitud,
                         Longitud = clinica.Longitud,
                         LoginCliente = empresaCliente.id_usuariocliente,
-                        Direccion= clinica.Direccion,
+                        Direccion = clinica.Direccion,
                         Descripcion = clinica.Descripcion,
                         Nombre = clinica.Nombre,
                         TiempoCita = tiempoConsulta.Value
@@ -282,6 +282,8 @@
                 try
                 {
                     dataContext.SubmitChanges();
+                    InsertarTelefonosConsultorio(consultorioDto.Telefonos, idUsuario);
+                    InsertarTrabajos(consultorioDto.Trabajos, consultorioDto.IDConsultorio, idUsuario);
                     ControlBitacora.Insertar("Se modifico un Consultorio", idUsuario);
                     return 1;
                 }
@@ -293,7 +295,7 @@
             }
             return 0;
         }
-        
+
         /// <summary>
         /// Permite Modificar una empresa segun el ID
         /// </summary>
@@ -623,7 +625,20 @@
                         IDUsuarioCreador = x.IDUsuarioCreador,
                         Login = x.Login,
                         NIT = x.NIT,
-                        Telefonos = GetTelefonosConsultorios(x.ID, IDClinica)
+                        Telefonos = GetTelefonosConsultorios(x.ID, IDClinica),
+                        Trabajos = ObtenerTrabajosConsultorio(x.ID)
+                    }).ToList();
+        }
+
+        private static List<TrabajosConsultorioDto> ObtenerTrabajosConsultorio(int pIdConsultorio)
+        {
+            return (from tc in dataContext.TrabajosConsultorio
+                    where tc.IDConsultorio == pIdConsultorio
+                    select tc).Select(x => new TrabajosConsultorioDto()
+                    {
+                        ID = x.IDTrabajo,
+                        IDConsultorio = x.IDConsultorio,
+                        State = 0
                     }).ToList();
         }
 
@@ -702,7 +717,7 @@
                 String vMensaje = "Bienvenido a Odontoweb, usted pertenece a la clinica" + pConsultorio.NombreClinica + " sus datos para ingresar\nal" +
                                     " sistema son:\nConsultorio : " + pConsultorio.Login + " \nUsuario:admin \nPassword: " + vPass + "." +
                                     "\nAl momento de ingresar se le pedira que actualice su contraseña."
-                                    + "\nSaludos,\nMediweb";
+                                    + "\nSaludos,\nOdontoweb";
                 vSMTP.Datos_Mensaje(pConsultorio.Email, vMensaje, "Bienvenido a Odontoweb");
                 vSMTP.Enviar_Mail();
                 return 1;

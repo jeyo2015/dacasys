@@ -13,7 +13,7 @@
     };
 
     function CrearMarcador(id, latLong) {
-       // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
+        // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
         var marker = new google.maps.Marker({
             map: map,
             position: latLong,
@@ -27,7 +27,7 @@
     }
 
     $scope.abrirModalDeMapa = function () {
-     
+
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
         CrearMarcador(0, $scope.latlngActual);
@@ -60,7 +60,7 @@
 
     google.maps.event.addDomListener(window, "resize", resizingMap());
 
-    $('#modal-mapa-ubicacion').on('show.bs.modal', function() {
+    $('#modal-mapa-ubicacion').on('show.bs.modal', function () {
         //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
         resizeMap();
     });
@@ -76,18 +76,25 @@
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
     }
+    $scope.salirModal = function () {
+        $("#modal-new-consultorio").modal("hide");
+        $scope.consultorioToSave = null;
+        $scope.consultorioSeleccionado = null;
+    }
+
     $scope.salirModalUbicacion = function () {
-        
+
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $('#modal-mapa-ubicacion').modal('hide');
     };
     $scope.insertarUbicacionClinica = function () {
-      
+
         $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
         $scope.clinicToSave.Longitud = angular.copy($scope.latlngActual.lng());
         $('#modal-mapa-ubicacion').modal('hide');
     }
     function prepararNuevaClinica() {
+        $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
         $scope.primerTrabajo = "";
@@ -119,7 +126,36 @@
     }
 
     $scope.selectTrabajoConsultorio = function (trabajo, event) {
-        $scope.consultorioToSave.Trabajos.push({ ID: trabajo.ID, IDConsultorio: -1, State: 1 });
+        if (event.currentTarget.checked) {
+            if ($scope.consultorioToSave.Trabajos == null)
+                $scope.consultorioToSave.Trabajos = [{ ID: trabajo.ID, IDConsultorio: -1, State: 1 }];
+            else {
+                var existeElTrabajo = false;
+                var trabajoEnLista = $scope.consultorioToSave.Trabajos.where(function (element) {
+                    if (element.ID == trabajo.ID)
+                        if (element.State == 3) {
+                            existeElTrabajo = true;
+                            element.State = 0;
+                        }
+                    return element;
+                });
+                if (existeElTrabajo)
+                    $scope.consultorioToSave.Trabajos = angular.copy(trabajoEnLista);
+                else
+                    $scope.consultorioToSave.Trabajos.push({ ID: trabajo.ID, IDConsultorio: -1, State: 1 });
+            }
+
+        } else {
+            var trabajoEnLista = $scope.consultorioToSave.Trabajos.where(function (element) {
+                if (element.ID == trabajo.ID)
+                    if (element.State == 0) {
+                        element.State = 3;
+                        return element;
+                    }
+            });
+            $scope.consultorioToSave.Trabajos = angular.copy(trabajoEnLista);
+        }
+
     };
 
     $scope.openModalNewConsultorio = function () {
@@ -333,13 +369,12 @@
     }
 
     $scope.selectClinica = function (clinica) {
-        debugger;
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
         $scope.primerTrabajo = "";
         $scope.clinicaSelected = clinica;
         $scope.clinicToSave = angular.copy($scope.clinicaSelected);
-        $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicToSave.Latitud.replace(',','.')), parseFloat($scope.clinicToSave.Longitud.replace(',','.')));
+        $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicToSave.Latitud.replace(',', '.')), parseFloat($scope.clinicToSave.Longitud.replace(',', '.')));
         $scope.clinicToSave.Status = 2;
     };
 
@@ -387,7 +422,30 @@
             }
         });
     };
-
+    $scope.selectConsultorio = function (consultorio) {
+        $scope.consultorioSeleccionado = angular.copy(consultorio);
+        $scope.consultorioSeleccionado.State = 2;
+    }
+    $scope.abrirModalModificarConsultorio = function () {
+        $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
+        $scope.intervaloSelected = $scope.intervalos.where(function (intervalo) {
+            return intervalo.ID == $scope.consultorioToSave.IDIntervalo
+        })[0];
+        matchearTrabajoConsultorio();
+        $("#modal-new-consultorio").modal("show");
+    }
+    function matchearTrabajoConsultorio() {
+        var CantTrabajos = $scope.clinicToSave.Trabajos.length;
+        for (var i = 0; i < CantTrabajos ; i++) {
+            var trabajoEnLista = $scope.consultorioToSave.Trabajos.where(function (ele) {
+                return ele.ID == $scope.clinicToSave.Trabajos[i].ID;
+            });
+            if (trabajoEnLista && trabajoEnLista.length > 0)
+                $scope.clinicToSave.Trabajos[i].checked = true;
+            else
+                $scope.clinicToSave.Trabajos[i].checked = false;
+        }
+    }
     $scope.guardarConsultorio = function () {
         $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected.ID;
         if ($scope.consultorioToSave.State == 1) {
@@ -399,12 +457,13 @@
                     toastr.error(result.Message);
                 }
             });
-        } else {
-            usuariosService.modificarUsuario($scope.userToSave).then(function (result) {
+        }
+        else {
+            clinicaService.modificarConsultorio($scope.consultorioToSave).then(function (result) {
                 if (result.Data == 1) {
-                    cargar_todos_los_usuarios();
+                    $scope.consultorioSeleccionado = null;
                     toastr.success(result.Message);
-                    prepararNuevoUsuario();
+                    $("#modal-new-consultorio").modal("hide");
                 } else {
                     toastr.error(result.Message);
                 }
@@ -428,7 +487,7 @@
             }
         } else if ($scope.clinicToSave.Status == 2) {
 
-            $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
+           // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {
                     toastr.success(result.Message);

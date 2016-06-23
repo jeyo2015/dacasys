@@ -70,13 +70,7 @@
         });
         return d.promise;
     };
-    this.modificarUsuario = function (usuario) {
-        var d = $q.defer();
-        $http.post('Usuarios/ModificarUsuario', { pUsuario: usuario }).success(function (data) {
-            d.resolve(data);
-        });
-        return d.promise;
-    };
+    
     this.modificarConsultorio = function (consultorio) {
         var d = $q.defer();
         $http.post('Empresa/ModificarConsultorio', { consultorioDto: consultorio }).success(function (data) {

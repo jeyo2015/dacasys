@@ -251,7 +251,7 @@
             {
                 SMTP vSMTP = new SMTP();
                 String vMensaje = "Estimado Cliente su contrasena ha sido reseteada, por lo tanto su nueva " +
-                    "\nconstrasena es: " + pNewPass + ". \nSaludos,\nMediweb";
+                    "\nconstrasena es: " + pNewPass + ". \nSaludos,\nOdontoweb";
                 vSMTP.Datos_Mensaje(pac.First().email, vMensaje, "Reseteo de Constrasena");
                 vSMTP.Enviar_Mail();
             }

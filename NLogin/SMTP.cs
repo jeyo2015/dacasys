@@ -46,8 +46,8 @@
             smtpMail.EnableSsl = false;
             smtpMail.Port = Puerto;
             smtpMail.Host = Host;
-            smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
-
+           // smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
+            smtpMail.Credentials = new System.Net.NetworkCredential("odontoweb@dacasys.com", "Dacasys123");
             try
             {
                 smtpMail.Send(Email);
@@ -69,7 +69,7 @@
             Subject = pAsunto;
             Host = "64.79.170.155";
             Puerto = 25;
-            From = "mwediweb@dacasys.com";
+            From = "odontoweb@dacasys.com";
         }
 
         #endregion

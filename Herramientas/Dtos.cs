@@ -78,6 +78,7 @@
     {
         public int ID { get; set; }
         public int IDConsultorio { get; set; }
+       
         public int State { get; set; }
     }
 
