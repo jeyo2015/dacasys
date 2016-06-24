@@ -1,6 +1,6 @@
 ﻿app.controller("miConsultorioController", function (clinicaService, comentarioService, consultasService, $scope, $compile, $rootScope) {
     init();
-
+    var map;
     function init() {
         $scope.listaMarcadores = [];
         cargarConsultorioPorCliente();
@@ -14,13 +14,17 @@
                 $scope.$apply();
             }
         });
-
+        InicializarMapa();
         $('#dtpFecha').val(moment().format('DD/MM/YYYY'));
     };
 
     function cargarConsultorioPorCliente() {
         clinicaService.obtenerConsultoriosPorCliente($rootScope.sessionDto.loginUsuario).then(function (result) {
-            $scope.ListaConsultorio = result;
+            $scope.ListaConsultorio = result.where(function (r) {
+                r.Longitud = r.Longitud.replace(".", ",");
+                r.Latitud = r.Latitud.replace(".", ",");
+                return r;
+            });
         });
     }
 
@@ -32,14 +36,26 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
-        CrearMarcador(0, latlng);
-        google.maps.event.addListener(map, 'click', function (event) {
-            removerMarcador();
-            CrearMarcador(0, event.latLng)
-            $scope.latlngActual = event.latLng;
-        });
+       
+    }
+    google.maps.event.addDomListener(window, "resize", resizingMap());
+
+    $('#modal-mapa-ubicacion').on('show.bs.modal', function () {
+        //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+        resizeMap();
+    });
+
+    function resizeMap() {
+        if (typeof map == "undefined") return;
+        setTimeout(function () { resizingMap(); }, 400);
     }
 
+    function resizingMap() {
+        if (typeof map == "undefined") return;
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    }
     function CrearMarcador(id, latLong) {
         var marker = new google.maps.Marker({
             map: map,
@@ -61,12 +77,12 @@
         }
     }
 
-    $scope.abrirModalMapa = function () {
+    $scope.abrirModalMapa = function (consultorio) {
         $('#modal-mapa-ubicacion').modal('show');
-        InicializarMapa();
-        //removerMarcador();
-        //CrearMarcador(0, $scope.latlngActual);
-        //map.setCenter($scope.latlngActual);
+        $scope.latlngActual = new google.maps.LatLng(parseFloat(consultorio.Latitud.replace(',', '.')), parseFloat(consultorio.Longitud.replace(',', '.')));
+        removerMarcador();
+        CrearMarcador(0, $scope.latlngActual);
+        map.setCenter($scope.latlngActual);
     };
 
     $scope.cerrarModalMapa = function () {
@@ -111,7 +127,7 @@
     $scope.validarCamposCita = function () {
         return $scope.citaSeleted == null || $scope.citaSeleted.EstaOcupada;
     };
-    
+
     $scope.agendarCita = function () {
         consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
             if (result.Success) {
@@ -123,7 +139,7 @@
             }
         });
     };
-    
+
     $scope.abrirModalComentario = function () {
         prepararNuevoComentario();
         $('#modal-mi-comentario').modal('show');

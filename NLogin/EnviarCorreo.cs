@@ -39,7 +39,7 @@
                     else
                         if (dias < -2)///Se vencio los 3 dias mas
                         {
-                            ABMEmpresa.Eliminar((int)IDEmpresa[0], "00000");
+                            ABMEmpresa.EliminarConsultorio((int)IDEmpresa[0], "00000");
                         }
                 }
             }

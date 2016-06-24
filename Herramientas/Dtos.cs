@@ -222,8 +222,8 @@
         public string Nombre { get; set; }
         public string Login { get; set; }
         public string LoginCliente { get; set; }
-        public decimal? Latitud { get; set; }
-        public decimal? Longitud { get; set; }
+        public string Latitud { get; set; }
+        public string Longitud { get; set; }
         public byte[] LogoImagen { get; set; }
         public string Descripcion { get; set; }
         public string Direccion { get; set; }

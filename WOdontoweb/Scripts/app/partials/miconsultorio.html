@@ -8,7 +8,7 @@
                             <td>
                                 <b>{{consultorio.Nombre}}</b><br />
                                 {{consultorio.Direccion}}<br />
-                                <a id="lnkMapa" ng-click="abrirModalMapa()">Ver mapa</a>
+                                <a id="lnkMapa" ng-click="abrirModalMapa(consultorio)">Ver mapa</a>
                             </td>
                             <td>
                                 {{consultorio.Descripcion}}
@@ -113,7 +113,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" ng-click="cerrarModalMapa()">Cancelar</button>
+                    <button class="btn btn-danger" ng-click="cerrarModalMapa()">Salir</button>
                 </div>
             </div>
         </div>

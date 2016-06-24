@@ -72,7 +72,17 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult HabilitarClinica(int idClinica)
+        {
+            var insert = ABMEmpresa.HabilitarClinica(idClinica, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert == 1 ? "Se habilito correctamente la clinica" : "No se pudo habilitar la clinica, intente de nuevo por favor",
+                Data = insert,
+                Success = insert == 1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult InsertarNuevoConsultorio(ConsultorioDto consultorioDto)
         {
             consultorioDto.IDUsuarioCreador = Session["loginusuario"].ToString();
@@ -96,10 +106,36 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult EliminarConsultorio(int idConsultorio)
+        {
+            var insert = ABMEmpresa.EliminarConsultorio(idConsultorio, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert == 1 ? "Se deshabilito correctamente el consultorio" : "No se pudo deshabilitar el consultorio, intente de nuevo por favor",
+                Data = insert,
+                Success = insert == 1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult HabilitarConsultorio(int idConsultorio)
+        {
+            var insert = ABMEmpresa.HabilitarConsultorio(idConsultorio, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert == 1 ? "Se habilito correctamente el consultorio" : "No se pudo habilitar el consultorio, intente de nuevo por favor",
+                Data = insert,
+                Success = insert == 1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ObtenerConsultoriosPorCliente(string loginCliente)
         {
             var result = ABMEmpresa.ObtenerConsultoriosPorCliente(loginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtenerConsultoriosPorClinica(int pIDClinica)
+        {
+            var result = ABMEmpresa.ObtenerConsultoriosPorClinica(pIDClinica);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

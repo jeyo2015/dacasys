@@ -41,15 +41,6 @@
             return Converter<Licencia>.Convert(Get_Licencia(pIDClinica).ToList());
         }
 
-        /// <summary>
-        /// Devuelve las Empresas segun el usurio
-        /// </summary>
-        /// <param name="pLoginUsuario">ID del Usuario </param>
-        /// <returns>un DataTable que contiene todas las empresas</returns>
-        public DataTable Get_Empresasp(String pLoginUsuario)
-        {
-            return Converter<Empresa>.Convert(Get_Empresas(pLoginUsuario).ToList());
-        }
 
         // TODO Fix this function.
         public static List<EmpresaClinicaDto> ObtenerConsultoriosPorCliente(string loginCliente)
@@ -68,8 +59,8 @@
                         Login = clinica.Login,
                         Nit = empresa.NIT,
                         IDEmpresa = empresa.ID,
-                        Latitud = clinica.Latitud,
-                        Longitud = clinica.Longitud,
+                        Latitud = clinica.Latitud.ToString(),
+                        Longitud = clinica.Longitud.ToString(),
                         LoginCliente = empresaCliente.id_usuariocliente,
                         Direccion = clinica.Direccion,
                         Descripcion = clinica.Descripcion,
@@ -421,7 +412,37 @@
 
 
         }
+        public static int HabilitarClinica(int pIDClinica, string pIDUsuario)
+        {
+            var sqlClinica = (from c in dataContext.Clinica
+                              where c.ID == pIDClinica
+                              select c).FirstOrDefault();
+            if (sqlClinica != null)
+            {
+                sqlClinica.Estado = true;
+                var sqlConsultorio = (from c in dataContext.Empresa
+                                      where c.IDClinica == pIDClinica
+                                      select c).ToList();
+                foreach (var consul in sqlConsultorio)
+                {
+                    consul.Estado = true;
+                }
+            }
 
+            try
+            {
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se habilito una clinica: " + pIDClinica, pIDUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Habilitar", ex);
+                return 0;
+            }
+
+
+        }
         /// <summary>
         /// Permite desactivar una empresa
         /// </summary>
@@ -430,10 +451,10 @@
         /// <returns> 0 - Ocurrio un error No se elimino
         ///         1 - Se elimino Correctamente
         ///         2 - No Existe la Empresa  </returns>
-        public static int Eliminar(int pID, string pIDUsuario)
+        public static int EliminarConsultorio(int pIDConsultorio, string pIDUsuario)
         {
             var sql = from e in dataContext.Empresa
-                      where e.ID == pID
+                      where e.ID == pIDConsultorio
                       select e;
 
             if (sql.Count() > 0)
@@ -450,7 +471,31 @@
                         EliminarClinica(empresas.FirstOrDefault().ID, pIDUsuario);
                     }
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se Desactivo una empresa: " + pID, pIDUsuario);
+                    ControlBitacora.Insertar("Se Desactivo una empresa: " + pIDConsultorio, pIDUsuario);
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Eliminar", ex);
+                    return 0;
+                }
+            }
+            return 2;
+        }
+        public static int HabilitarConsultorio(int pIDConsultorio, string pIDUsuario)
+        {
+            var sql = from e in dataContext.Empresa
+                      where e.ID == pIDConsultorio
+                      select e;
+
+            if (sql.Count() > 0)
+            {
+                sql.First().Estado = !sql.First().Estado;
+                try
+                {
+
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se Desactivo una empresa: " + pIDConsultorio, pIDUsuario);
                     return 1;
                 }
                 catch (Exception ex)
@@ -573,6 +618,7 @@
             return (from c in dataContext.Empresa
                     from tc in dataContext.Tiempo_Consulta
                     where c.ID == idConsultorio && tc.ID == c.IDIntervalo
+                    && c.Estado
                     select new ConsultorioDto()
                     {
                         Email = c.Email,
@@ -588,6 +634,29 @@
                         NIT = c.NIT,
                         Telefonos = GetTelefonosConsultorios(c.ID, c.IDClinica)
                     }).FirstOrDefault();
+        }
+        public static List<ConsultorioDto> ObtenerConsultoriosPorClinica(int idClinica)
+        {
+            return (from c in dataContext.Empresa
+                    from tc in dataContext.Tiempo_Consulta
+                    where c.IDClinica == idClinica && tc.ID == c.IDIntervalo
+
+                    select new ConsultorioDto()
+                    {
+                        Email = c.Email,
+                        Estado = c.Estado,
+                        TiempoCita = tc.Value,
+                        FechaCreacion = c.FechaCreacion,
+                        FechaModificacion = c.FechaModificacion,
+                        IDClinica = c.IDClinica,
+                        IDConsultorio = c.ID,
+                        IDIntervalo = c.IDIntervalo,
+                        IDUsuarioCreador = c.IDUsuarioCreador,
+                        Login = c.Login,
+                        NIT = c.NIT,
+                        Telefonos = GetTelefonosConsultorios(c.ID, c.IDClinica),
+                        Trabajos = ObtenerTrabajosConsultorio(c.ID)
+                    }).ToList();
         }
 
         public int Get_IntervaloConsulta(int pIDEmpresa)
