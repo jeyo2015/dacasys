@@ -153,7 +153,7 @@ namespace Datos
     #endregion
 		
 		public DataContext() : 
-				base(global::DLogin.Properties.Settings.Default.db_dentistaConnectionString, mappingSource)
+				base(global::Datos.Properties.Settings.Default.db_dentistaConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

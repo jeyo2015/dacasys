@@ -44,7 +44,11 @@
         public static List<ComentarioDto> ObtenerComentarios(int idConsultorio)
         {
             return (from comentario in dataContext.ComentariosClinica
+                    from cp in dataContext.Cliente_Paciente
+                    from p in dataContext.Paciente
                     where comentario.IsVisible == true && comentario.IDClinica == idConsultorio
+                    && cp.id_usuariocliente== comentario.IDUsuarioPaciente 
+                    && p.id_paciente == cp.id_paciente && cp.IsPrincipal
                     orderby comentario.FechaCreacion descending
                     select new ComentarioDto()
                     {
@@ -52,7 +56,8 @@
                         LoginCliente = comentario.IDUsuarioPaciente,
                         Comentario = comentario.Comentario,
                         IsVisible = comentario.IsVisible,
-                        FechaCreacion = comentario.FechaCreacion
+                        FechaCreacion = comentario.FechaCreacion,
+                        NombrePaciente = p.nombre + " " + p.apellido
                     }).ToList();
         }
 

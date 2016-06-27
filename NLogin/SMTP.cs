@@ -69,7 +69,7 @@
             Subject = pAsunto;
             Host = "64.79.170.155";
             Puerto = 25;
-            From = "mwediweb@dacasys.com";
+            From = "odontoweb@dacasys.com";
         }
 
         #endregion

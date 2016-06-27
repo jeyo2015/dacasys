@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="clinica in allClinicas  " ng-class="{selectElement:clinicaSelected.Login==clinica.Login}" ng-click="selectClinica(clinica)">
+                    <tr ng-repeat="clinica in allClinicas  " ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
                         <td>{{clinica.Login}}
                         </td>
                         <td>{{clinica.Nombre}}
@@ -31,14 +31,14 @@
 
             </table>
 
-            <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null">Eliminar clinica</button>
+           
+            <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado)"> Eliminar clinica</button>
+             <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar clinica</button>
         </div>
 
     </div>
     <div class="col-md-7">
-        <div class="row">
-            <div class="col-md-6"></div>
-        </div>
+
         <div class="row">
             <div class="col-md-11 col-md-offset-1">
                 <div class="form-group">
@@ -138,6 +138,7 @@
                             <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
                             <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                             <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+
                         </div>
                     </div>
                 </div>
@@ -153,7 +154,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
+                                    <tr ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
                                         <td>{{consultorio.Login}}
                                         </td>
                                         <td>{{consultorio.NIT}}
@@ -164,8 +165,11 @@
                             </table>
                         </div>
                         <div class=" col-md-1">
-                            <!--<button class="btn btn-raised btn-primary" ng-click="openModalNewConsultorio()">+</button>-->
-                            <a data-toggle="modal" ng-click="openModalNewConsultorio()"><i class="fa fa-plus-circle iconStyle"></i></a>
+
+                            <a data-toggle="modal" ng-click="openModalNewConsultorio()" title="Agregar un consultorio"><i class="fa fa-plus-circle iconStyle"></i></a>
+                            <a data-toggle="modal" title="Editar el consultorio" ng-show="consultorioSeleccionado!= null && consultorioSeleccionado.Estado " ng-click="abrirModalModificarConsultorio()"><i class="fa fa-pencil-square-o iconStyle"></i></a>
+                            <a title="Deshabilitar el consultorio" data-toggle="modal" ng-show="consultorioSeleccionado!= null &&  consultorioSeleccionado.Estado" ng-click="abrirModaleliminarConsultorio()"><i class="fa fa-trash iconStyle"></i></a>
+                            <a title="Habilitar el consultorio" ng-show="consultorioSeleccionado!= null &&  !consultorioSeleccionado.Estado" ng-click="habilitarConsultorio()"><i class="fa fa-refresh iconStyle"></i></a>
                         </div>
                     </div>
 
@@ -190,7 +194,7 @@
 
                     </div>
                 </div>
-               <!-- <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                <!-- <div class="form-group" ng-hide=" clinicToSave.Status==2">
                     <label for="inputPassword3" class="col-md-3 control-label">Seleccione trabajo</label>
                     <div class="col-md-7">
                         <table id="Table2" class="table table-hover tableStyle scroll">
@@ -209,16 +213,16 @@
                     </div>
 
                 </div>-->
-                </div>
             </div>
-
-
-            <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
-            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
-
         </div>
+
+
+        <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
+        <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
+
     </div>
 </div>
+
 <div class="modal fade" id="confirm-delete" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -243,7 +247,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="confirmar-eliminar-consultorio" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Deshabilitar Consultorio</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Esta seguro que quiere deshabilitar el consultorio {{ consultorioSeleccionado.Login }}?</label>
+                    </div>
 
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn  btn-primary" ng-click="eliminarConsultorio()">Aceptar</button>
+                <button class="btn btn-danger" ng-click="salirModalElimnar()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modal-new-consultorio" role="dialog">
     <div class="modal-dialog">
 
@@ -288,9 +314,9 @@
                             <div class="col-md-7">
                                 <table id="Table1" class="table table-hover tableStyle scroll">
                                     <tbody>
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos  " ng-click="selectConsultorio(trabajo)">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos  ">
                                             <td>
-                                                <input type="checkbox" ng-click="selectTrabajoConsultorio(trabajo, e)" />
+                                                <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
                                             </td>
                                             <td>{{trabajo.Descripcion}}
                                             </td>

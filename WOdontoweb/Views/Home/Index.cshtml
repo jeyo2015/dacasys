@@ -38,15 +38,16 @@
                                 <div class="get-touch">
                                     <ul>
                                         @*   <li><a><i class="fa fa-phone"></i>76643214</a></li>
-                                    <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>*@
+                                            <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>*@
                                         <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
                                         <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
                                             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
                                             <ul id="menuPerfil" class="dropdown-menu pull-right">
                                                 <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
                                                 <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
-                                                    <a href="#">{{noti.NombreUsuario}}
-                                                    <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
+                                                    <a href="#">
+                                                        {{noti.NombreUsuario}}
+                                                        <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
                                                         <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
                                                     </a>
                                                 </li>
@@ -99,7 +100,7 @@
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1" ><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                                 <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
@@ -307,8 +308,7 @@
                                     <div class="form-group">
                                         <label for="intervaloEmpresa" class="col-md-3 control-label">Tiempo consulta:</label>
                                         <div class="col-md-9">
-                                            <select class="form-control" id="intervaloEmpresa" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected">
-                                            </select>
+                                            <select class="form-control" id="intervaloEmpresa" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -453,7 +453,7 @@
     <script src="@Url.Content("~/Scripts/app/controller/empresaController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/editarPacienteController.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
-        type="text/javascript"></script>
+            type="text/javascript"></script>
 
     <script>
         $(function () {

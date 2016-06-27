@@ -78,6 +78,7 @@
     {
         public int ID { get; set; }
         public int IDConsultorio { get; set; }
+       
         public int State { get; set; }
     }
 
@@ -212,6 +213,7 @@
         public int IDEmpresa { get; set; }
         public int IDComentario { get; set; }
         public bool IsVisible { get; set; }
+        public string NombrePaciente { get; set; }
     }
 
     public class EmpresaClinicaDto
@@ -220,8 +222,8 @@
         public string Nombre { get; set; }
         public string Login { get; set; }
         public string LoginCliente { get; set; }
-        public decimal? Latitud { get; set; }
-        public decimal? Longitud { get; set; }
+        public string Latitud { get; set; }
+        public string Longitud { get; set; }
         public byte[] LogoImagen { get; set; }
         public string Descripcion { get; set; }
         public string Direccion { get; set; }
@@ -229,6 +231,7 @@
         public bool Estado { get; set; }
         public int Status { get; set; }
         public int IDEmpresa { get; set; }
+        public int TiempoCita { get; set; }
         public string Email { get; set; }
     }
 

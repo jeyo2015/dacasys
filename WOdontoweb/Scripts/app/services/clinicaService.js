@@ -35,9 +35,16 @@
         });
         return d.promise;
     };
-    this.eliminarUsuario = function (usario) {
+    this.eliminarConsultorio = function (pIdConsultorio) {
         var d = $q.defer();
-        $http.post('Usuarios/EliminarUsuario', { pUsuario: usario }).success(function (data) {
+        $http.post('Empresa/EliminarConsultorio', { idConsultorio: pIdConsultorio }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.habilitarConsultorio = function (pIdConsultorio) {
+        var d = $q.defer();
+        $http.post('Empresa/HabilitarConsultorio', { idConsultorio: pIdConsultorio }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
@@ -56,6 +63,13 @@
         });
         return d.promise;
     };
+    this.habilitarClinica = function (idClinica) {
+        var d = $q.defer();
+        $http.post('Empresa/HabilitarClinica', { idClinica: idClinica }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.insertarClinica = function (clinica) {
         var d = $q.defer();
         $http.post('Empresa/InsertarNuevaClinica', { clinicaDto: clinica }).success(function (data) {
@@ -70,13 +84,7 @@
         });
         return d.promise;
     };
-    this.modificarUsuario = function (usuario) {
-        var d = $q.defer();
-        $http.post('Usuarios/ModificarUsuario', { pUsuario: usuario }).success(function (data) {
-            d.resolve(data);
-        });
-        return d.promise;
-    };
+    
     this.modificarConsultorio = function (consultorio) {
         var d = $q.defer();
         $http.post('Empresa/ModificarConsultorio', { consultorioDto: consultorio }).success(function (data) {
@@ -87,6 +95,13 @@
     this.obtenerConsultoriosPorCliente = function (login) {
         var d = $q.defer();
         $http.get('Empresa/ObtenerConsultoriosPorCliente?loginCliente=' + login).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.obtenerConsultoriosPorClinica = function (pIDClinica) {
+        var d = $q.defer();
+        $http.get('Empresa/ObtenerConsultoriosPorClinica?pIDClinica=' + pIDClinica).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

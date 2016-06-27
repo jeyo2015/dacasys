@@ -1,3 +1,4 @@
+D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll.config
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DLogin.dll
@@ -16,10 +17,10 @@ D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\System.Web.WebPages.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\System.Web.WebPages.Razor.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\NEventos.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DataTableConverter.dll
+D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DLogin.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\Herramientas.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\NAgenda.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\NConsulta.pdb
-D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DLogin.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\NLogin.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\EntityFramework.xml
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\System.Web.Helpers.xml
@@ -34,4 +35,3 @@ D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\es\System.Web.Providers.resources.dl
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\obj\Debug\WOdontoweb.pdb
-D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll.config

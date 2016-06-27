@@ -21,6 +21,10 @@
     function cargarComentarios() {
         comentarioService.obtenerComentariosPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.ListaComentario = result;
+            $scope.ListaComentario = result.select(function (comentario) {
+                comentario.FechaCreacion = moment(comentario.FechaCreacion).format('DD/MM/YYYY');
+                return comentario;
+            });
         });
     }
 

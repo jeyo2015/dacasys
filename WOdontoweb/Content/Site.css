@@ -174,7 +174,10 @@ input[type="checkbox"].input-validation-error
 {
     background: #ccc;
 }
-
+.deshabilitadaColor
+{
+    color:#f44336;
+}
 .checkbox label, .radio label, label
 {
     font-size: 12px;
