@@ -22,7 +22,7 @@
 
         public JsonResult RenovarContrasena(bool pIsAdmin, string loginUsuario, string pPass, string ploginConsultorio)
         {
-            var renew = pIsAdmin ? ABMUsuarioEmpleado.Cambiar_pass(loginUsuario, pPass, ploginConsultorio) : ABMUsuarioCliente.Cambiar_pass(loginUsuario, pPass);
+            var renew = pIsAdmin ? ABMUsuarioEmpleado.CambiarContrasena(loginUsuario, pPass, ploginConsultorio) : ABMUsuarioCliente.CambiaContrasena(loginUsuario, pPass);
             var result = new ResponseModel()
             {
                 Message = renew == 1 ? "Se actualizo su contrasena" : "No se pudo actualizar su contrasena",
@@ -51,7 +51,7 @@
             if (loginEmpresa != "")//Si es admin?
             {
 
-                userRenewPass = ABMUsuarioEmpleado.Resetear_Contrasena(loginUsuario, loginEmpresa);
+                userRenewPass = ABMUsuarioEmpleado.ResetearContrasena(loginUsuario, loginEmpresa);
                 switch (userRenewPass)
                 {
                     case 0:
@@ -72,7 +72,7 @@
             }
             else
             {//si es cliente
-                userRenewPass = ABMUsuarioCliente.ResetearPass(loginUsuario);
+                userRenewPass = ABMUsuarioCliente.ResetearContrasena(loginUsuario);
                 switch (userRenewPass)
                 {
                     case 1:
@@ -101,7 +101,7 @@
             var sessionDto = new Herramientas.SessionDto();
             if (nameEmpresa != "")//Si es admin?
             {
-                sessionDto = ABMUsuarioEmpleado.verificar_empleado(usuario.Trim(), pass.Trim(), nameEmpresa.Trim().ToUpper());//verifica al empleado
+                sessionDto = ABMUsuarioEmpleado.VerificarEmpleado(usuario.Trim(), pass.Trim(), nameEmpresa.Trim().ToUpper());//verifica al empleado
                 switch (sessionDto.Verificar)
                 {
                     case 0:
@@ -142,7 +142,7 @@
             }
             else
             {//si es cliente
-                sessionDto = ABMUsuarioCliente.verificar_cliente(usuario, pass);//Verifica al cliente
+                sessionDto = ABMUsuarioCliente.VerificarCliente(usuario, pass);//Verifica al cliente
                 switch (sessionDto.Verificar)
                 {
                     case 2:

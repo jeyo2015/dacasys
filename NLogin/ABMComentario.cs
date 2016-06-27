@@ -36,7 +36,7 @@
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NLogin", "ABMComentario", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMComentario", "InsertarModulo", ex);
                 return 0;
             }
         }

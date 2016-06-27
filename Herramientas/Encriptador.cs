@@ -48,6 +48,7 @@
             //se regresa el resultado en forma de una cadena
             return Convert.ToBase64String(ArrayResultado, 0, ArrayResultado.Length);
         }
+
         /// <summary>
         /// Funcion que desencripta Texto
         /// </summary>
@@ -86,7 +87,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        public static String Generar_Aleatoriamente()
+        public static String GenerarAleatoriamente()
         {
             var obj = new Random();
             var posibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

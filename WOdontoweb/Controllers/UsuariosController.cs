@@ -9,13 +9,13 @@
     {
         public JsonResult GetUsersOfClinic(int idClinic)
         {
-            var result = ABMUsuarioEmpleado.Get_Usuarios(idClinic);
+            var result = ABMUsuarioEmpleado.ObtenerListaUsuario(idClinic);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetUsuarioConsultorio(string pLogin, int pIDEmpresa)
         {
-            var result = ABMUsuarioEmpleado.Get_Usuario(pLogin, pIDEmpresa);
+            var result = ABMUsuarioEmpleado.ObtenerUsuario(pLogin, pIDEmpresa);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

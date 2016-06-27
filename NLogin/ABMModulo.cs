@@ -17,26 +17,26 @@
         /// <summary>
         /// Inserta un nuevo Modulo
         /// </summary>
-        /// <param name="pNombre"></param>
-        /// <param name="pTexto"></param>
-        /// <param name="pIDUsuario"></param>
+        /// <param name="nombre"></param>
+        /// <param name="texto"></param>
+        /// <param name="idUsuario"></param>
         /// <returns></returns>
-        public static int Insertar(String pNombre, String pTexto, string pIDUsuario)
+        public static int InsertarModulo(string nombre, string texto, string idUsuario)
         {
             Modulo vModulo = new Modulo();
-            vModulo.Nombre = pNombre;
-            vModulo.Texto = pTexto;
+            vModulo.Nombre = nombre;
+            vModulo.Texto = texto;
 
             try
             {
                 dataContext.Modulo.InsertOnSubmit(vModulo);
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se inserto un Modulo", pIDUsuario);
+                ControlBitacora.Insertar("Se inserto un Modulo", idUsuario);
                 return 1;
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NLogin", "ABMModulo", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMModulo", "InsertarModulo", ex);
                 return 2;
             }
         }

@@ -5,8 +5,6 @@
     using System.Linq;
     using Datos;
     using NEventos;
-    using DataTableConverter;
-    using System.Data;
     using Herramientas;
     using NLogin;
 
@@ -79,17 +77,18 @@
                     }).ToList();
 
         }
-        public static List<PacienteDto> ObtenerPacientesPorClienteCita(String pCodigoCliente)
+
+        public static List<PacienteDto> ObtenerPacientesPorClienteCita(string idCliente)
         {
             return (from paciente in dataContext.Paciente
                     from paciente_cliente in dataContext.Cliente_Paciente
-                    where paciente_cliente.id_usuariocliente == pCodigoCliente
+                    where paciente_cliente.id_usuariocliente == idCliente
                     && paciente.id_paciente == paciente_cliente.id_paciente
                     select new PacienteDto()
                     {
                         Email = paciente.email,
                         Estado = paciente.estado,
-                        LoginCliente = pCodigoCliente,
+                        LoginCliente = idCliente,
                         NombrePaciente = paciente.nombre + " " + paciente.apellido,
                         Telefono = paciente.nro_telefono,
                         TipoSangre = paciente.tipo_sangre,
@@ -100,6 +99,7 @@
                     }).ToList();
 
         }
+
         public static PacienteDto ObtenerPacientePorId(string idPaciente)
         {
             return (from paciente in dataContext.Paciente
@@ -168,7 +168,7 @@
 
                 if (pacienteDto.IsPrincipal)
                 {
-                    var password = Encriptador.Generar_Aleatoriamente();
+                    var password = Encriptador.GenerarAleatoriamente();
                     ABMUsuarioCliente.Insertar(pacienteDto.LoginCliente, password, idUsuario);
                     AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
                     ABMUsuarioCliente.EnviarCorreoDeBienvenida(pacienteDto.IDEmpresa, pacienteDto.Email, password, pacienteDto.LoginCliente);
@@ -178,7 +178,7 @@
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "Insertar", ex);
+                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "InsertarModulo", ex);
                 return 0;
             }
         }
@@ -187,10 +187,10 @@
         /// Permite modificar los datos de un paciente
         /// </summary>
         /// <param name="pacienteDto">Dto del paciente a modificar</param>
-        /// <param name="pIDUsuario">ID del usuario que modifica</param>
+        /// <param name="idUsuario">ID del usuario que modifica</param>
         /// <returns>1 - Se Guardo correctamente
         ///         0 - No se pudo modificar</returns>
-        public static int Modificar(PacienteDto pacienteDto, string pIDUsuario)
+        public static int Modificar(PacienteDto pacienteDto, string idUsuario)
         {
             var v = Validar(pacienteDto);
             if (v != 0)
@@ -212,7 +212,7 @@
             try
             {
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se Modifico un paciente " + pacienteDto.IdPaciente, pIDUsuario);
+                ControlBitacora.Insertar("Se Modifico un paciente " + pacienteDto.IdPaciente, idUsuario);
 
                 if (pacienteDto.IsPrincipal)
                 {
@@ -354,6 +354,7 @@
 
             if (pacienteDto.IsPrincipal && pacienteDto.IdPaciente == 0)
             {
+                if (pacienteDto.LoginCliente.Length < 4) return 8;
                 var sql = from us in dataContext.UsuarioCliente where us.Login == pacienteDto.LoginCliente select us;
                 if (sql.Any())
                     return 8;

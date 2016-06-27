@@ -69,7 +69,7 @@
             var sql = from d in dataContext.Dosificacion
                       where d.fecha_registro == pFecha_registro
                       select d;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 dataContext.Dosificacion.DeleteOnSubmit(sql.First());
                 try
@@ -107,7 +107,7 @@
             var sql = from d in dataContext.Dosificacion
                       where d.fecha_registro == pFecha_Registro
                       select d;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 sql.First().fecha_inicio = pFecha_inicio;
                 sql.First().fecha_limite = pFecha_limite;
@@ -157,7 +157,7 @@
             var sql = from d in dataContext.Dosificacion
                       where d.fecha_registro == pFecha_Registro
                       select d;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 sql.First().estado = vEstado;
 

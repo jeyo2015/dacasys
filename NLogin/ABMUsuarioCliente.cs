@@ -5,8 +5,6 @@
     using System.Linq;
     using Datos;
     using NEventos;
-    using System.Data;
-    using DataTableConverter;
     using Herramientas;
 
     public class ABMUsuarioCliente
@@ -63,17 +61,17 @@
         /// <summary>
         /// Modifica los datos del UsuarioCliente especificado por su ID
         /// </summary>
-        /// <param name="pLogin">Login del UsuarioCliente a modificar</param>
-        /// <param name="pPassword">Password del UsuarioCliente a modificar</param>
-        public static void Modificar(string pLogin, string pPassword)
+        /// <param name="login">Login del UsuarioCliente a modificar</param>
+        /// <param name="password">Password del UsuarioCliente a modificar</param>
+        public static void Modificar(string login, string password)
         {
             var sql = from e in dataContext.UsuarioCliente
-                      where e.Login == pLogin
+                      where e.Login == login
                       select e;
 
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
-                String vPassEncriptada = Encriptador.Encriptar(pPassword);
+                var vPassEncriptada = Encriptador.Encriptar(password);
                 sql.First().Password = vPassEncriptada;
                 dataContext.SubmitChanges();
             }
@@ -94,13 +92,13 @@
             dataContext.SubmitChanges();
         }
 
-        public static SessionDto verificar_cliente(String pUsuario, String pass)
+        public static SessionDto VerificarCliente(string idUsuario, string password)
         {
             var sessionReturn = new SessionDto();
             var cliente = (from cli in dataContext.UsuarioCliente
-                          where cli.Login == pUsuario
-                          select cli).FirstOrDefault();
-            if (cliente!= null)
+                           where cli.Login == idUsuario
+                           select cli).FirstOrDefault();
+            if (cliente != null)
             {
                 var paciente = (from p in dataContext.Paciente
                                 from pc in dataContext.Cliente_Paciente
@@ -108,16 +106,16 @@
                                 && pc.id_usuariocliente == cliente.Login
                                 && pc.IsPrincipal
                                 select p).FirstOrDefault();
-                String vPassEncriptada = Encriptador.Encriptar(pass);
+                String vPassEncriptada = Encriptador.Encriptar(password);
                 if (cliente.Password == vPassEncriptada)
                 {
-                    sessionReturn.loginUsuario = pUsuario;
+                    sessionReturn.loginUsuario = idUsuario;
                     sessionReturn.IDConsultorio = -1;
                     sessionReturn.ChangePass = cliente.changepass ?? false;
                     sessionReturn.IDClinica = -1;
                     sessionReturn.IsDacasys = false;
                     sessionReturn.Verificar = 3;
-                    sessionReturn.Nombre = paciente != null ? paciente.nombre + " " + paciente.apellido : ""; 
+                    sessionReturn.Nombre = paciente != null ? paciente.nombre + " " + paciente.apellido : "";
                     sessionReturn.IDRol = -1;
                     return sessionReturn;
                 }
@@ -132,37 +130,30 @@
             }
         }
 
-        public static IEnumerable<UsuarioCliente> Get_Clientep(string loginCliente)
-        {
-            return from c in dataContext.UsuarioCliente
-                   where c.Login == loginCliente
-                   select c;
-        }
-        
         /// <summary>
         /// Permite Cambiar el Pass de un Cliente
         /// </summary>
-        /// <param name="pLogin">Login del Cliente</param>
-        /// <param name="pPass">Nueva Password</param>
+        /// <param name="login">Login del Cliente</param>
+        /// <param name="password">Nueva Password</param>
         /// <returns>0 - Todo ok
-        /// -3 - Error pass
+        /// -3 - Error password
         /// -5 - No existe Cliente
         /// -6 - No se Pudo Modificar Pass</returns>
-        public static int Cambiar_pass(string pLogin, string pPass)
+        public static int CambiaContrasena(string login, string password)
         {
 
             var user = from u in dataContext.UsuarioCliente
-                       where u.Login == pLogin
+                       where u.Login == login
                        select u;
-            if (user.Count() > 0)
+            if (user.Any())
             {
-                String vPassEncriptada = Encriptador.Encriptar(pPass);
+                String vPassEncriptada = Encriptador.Encriptar(password);
                 user.First().changepass = false;
                 user.First().Password = vPassEncriptada;
                 try
                 {
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se modifico un Usuario", pLogin);
+                    ControlBitacora.Insertar("Se modifico un Usuario", login);
                     return 1;
                 }
                 catch (Exception ex)
@@ -174,27 +165,27 @@
             return 0;
         }
 
-        public static int ResetearPass(string pLogin)
+        public static int ResetearContrasena(string login)
         {
             var user = (from u in dataContext.UsuarioCliente
-                        where u.Login == pLogin
+                        where u.Login == login
                         select u).FirstOrDefault();
             if (user != null)
             {
-                String vPassNew = Encriptador.Generar_Aleatoriamente();
+                String vPassNew = Encriptador.GenerarAleatoriamente();
                 String vPassNewEncriptada = Encriptador.Encriptar(vPassNew);
                 user.changepass = true;
                 user.Password = vPassNewEncriptada;
                 try
                 {
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se reseteo password de Usuario " + pLogin, "0000");
-                    Enviar_ReseteoDePass(pLogin, vPassNew);
+                    ControlBitacora.Insertar("Se reseteo password de Usuario " + login, "0000");
+                    EnviarReseteoContrasena(login, vPassNew);
                     return 3;
                 }
                 catch (Exception ex)
                 {
-                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioCliente", "ResetearPass", ex);
+                    ControlLogErrores.Insertar("NLogin", "ABMUsuarioCliente", "ResetearContrasena", ex);
                     return 2;
                 }
             }
@@ -204,30 +195,30 @@
             }
         }
 
-        public static void EnviarCorreoDeBienvenida(int pIDEmpresa, string pemail, string vPass, string pcodigo_cliente)
+        public static void EnviarCorreoDeBienvenida(int idEmpresa, string email, string password, string idCliente)
         {
             var em = (from e in dataContext.Empresa
                       from c in dataContext.Clinica
-                      where e.ID == pIDEmpresa && e.Estado == true
+                      where e.ID == idEmpresa && e.Estado == true
                       && c.ID == e.IDClinica
                       select c).FirstOrDefault();
             if (em != null)
             {
                 SMTP vSMTP = new SMTP();
                 String vMensaje = "";
-                if (vPass.Equals(""))
+                if (password.Equals(""))
                 {//Solo se asigna nueva empresa
                     vMensaje = "Estimado Cliente ha sido suscrito a " + em.Nombre.ToUpper() + ". \nIngrese a la pagina " +
                         "para poder informarse acerca de este consultorio. Sus datos de acceso son los mismos." +
                         "\nSaludos,\nOdontoweb";
-                    vSMTP.Datos_Mensaje(pemail, vMensaje, "Nuevo Consultorio");
+                    vSMTP.Datos_Mensaje(email, vMensaje, "Nuevo Consultorio");
                 }
                 else
                 {
                     vMensaje = "Bienvenido a Odontoweb.\n Ha sido suscrito a " + em.Nombre.ToUpper() +
-                       " sus datos para ingresar al sistema son: \n" + "Usuario: " + pcodigo_cliente +
-                       "\nContraseña: " + vPass + "\nSaludos,\nOdontoweb.";
-                    vSMTP.Datos_Mensaje(pemail, vMensaje, "Bienvenido a Odontoweb");
+                       " sus datos para ingresar al sistema son: \n" + "Usuario: " + idCliente +
+                       "\nContraseña: " + password + "\nSaludos,\nOdontoweb.";
+                    vSMTP.Datos_Mensaje(email, vMensaje, "Bienvenido a Odontoweb");
                 }
                 vSMTP.Enviar_Mail();
             }
@@ -237,7 +228,7 @@
 
         #region Metodos Privados
 
-        private static void Enviar_ReseteoDePass(string pLogin, string pNewPass)
+        private static void EnviarReseteoContrasena(string login, string nuevaContrasena)
         {
             var pac = from p in dataContext.Paciente
                       join cp in dataContext.Cliente_Paciente
@@ -245,13 +236,13 @@
                       join
                           c in dataContext.UsuarioCliente on
                           cp.id_usuariocliente equals c.Login
-                      where c.Login == pLogin
+                      where c.Login == login
                       select p;
-            if (pac.Count() > 0)
+            if (pac.Any())
             {
                 SMTP vSMTP = new SMTP();
-                String vMensaje = "Estimado Cliente su contrasena ha sido reseteada, por lo tanto su nueva " +
-                    "\nconstrasena es: " + pNewPass + ". \nSaludos,\nOdontoweb";
+                var vMensaje = "Estimado Cliente su contrasena ha sido reseteada, por lo tanto su nueva " +
+                    "\nconstrasena es: " + nuevaContrasena + ". \nSaludos,\nOdontoweb";
                 vSMTP.Datos_Mensaje(pac.First().email, vMensaje, "Reseteo de Constrasena");
                 vSMTP.Enviar_Mail();
             }

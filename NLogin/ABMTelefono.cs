@@ -18,108 +18,95 @@
         /// <summary>
         /// Inserta un nuevo número telefónico al sistema
         /// </summary>
-        /// <param name="pIDEmpresa">IDEmpresa de la Empresa a la que pertenece el número telefónico</param>
-        /// <param name="Telefono">Número Telefónico</param>
-        public static void InsertarConsultorio(TelefonoDto ptelefono)
+        /// <param name="telefonoDto">IDEmpresa de la Empresa a la que pertenece el número telefónico</param>
+        public static void InsertarConsultorio(TelefonoDto telefonoDto)
         {
             try
             {
-                if (ptelefono.IDClinica > 0)
+                if (telefonoDto.IDClinica > 0)
                 {
                     dataContext.TelefonoConsultorio.InsertOnSubmit(new TelefonoConsultorio()
                     {
-                        IDTelefono = ptelefono.ID,
-                        IDConsultorio = ptelefono.IDConsultorio
+                        IDTelefono = telefonoDto.ID,
+                        IDConsultorio = telefonoDto.IDConsultorio
                     });
                 }
                 else
                 {
-                   
-                    var newTelefono = new Telefono();
-                   // newTelefono.ID = newIDTelefono;
-                    newTelefono.Nombre = ptelefono.Nombre;
-                    newTelefono.Telefono1 = ptelefono.Telefono;
+                    var newTelefono = new Telefono { Nombre = telefonoDto.Nombre, Telefono1 = telefonoDto.Telefono };
                     dataContext.Telefono.InsertOnSubmit(newTelefono);
-                    int newIDTelefono = GetNextIDTelefono();
+                    var newIDTelefono = ObtenerCodigo();
                     dataContext.TelefonoConsultorio.InsertOnSubmit(new TelefonoConsultorio()
                     {
                         IDTelefono = newIDTelefono,
-                        IDConsultorio = ptelefono.IDConsultorio
+                        IDConsultorio = telefonoDto.IDConsultorio
                     });
                 }
             }
             catch (Exception) { }
         }
 
-        public static void InsertarTelefonosDeLaClinica(int pIDClinica, string pTelefono, string pNombre)
+        public static void InsertarTelefonosDeLaClinica(int idClinica, string telefono, string nombre)
         {
-            
-            var newTelefono = new Telefono();
-            
-            newTelefono.Nombre = pNombre;
-            newTelefono.Telefono1 = pTelefono;
-            newTelefono.Estado = true;
+            var newTelefono = new Telefono {Nombre = nombre, Telefono1 = telefono, Estado = true};
             try
             {
                 dataContext.Telefono.InsertOnSubmit(newTelefono);
                 dataContext.SubmitChanges();
-                int newIDTelefono = GetNextIDTelefono();
+                var newIDTelefono = ObtenerCodigo();
                 dataContext.TefonosClinica.InsertOnSubmit(new TefonosClinica()
                 {
                     IDTelefono = newIDTelefono,
-                    IDClinica = pIDClinica
+                    IDClinica = idClinica
                 });
                 dataContext.SubmitChanges();
             }
             catch (Exception) { }
         }
-        
+
         /// <summary>
         /// Modifica un telefono
         /// </summary>
-        /// <param name="pIDEmpresa">ID de la empresa</param>
-        /// <param name="pTelefono">Numero de telefono</param>
-        public static void Modificar(int pIDEmpresa, string pTelefono, string pnombre, int IDTelefono)
+        /// <param name="idEmpresa">ID de la empresa</param>
+        /// <param name="telefono">Numero de telefono</param>
+        /// <param name="nombre">Numero de telefono</param>
+        /// <param name="idTelefono">id de telefono</param>
+        public static void Modificar(int idEmpresa, string telefono, string nombre, int idTelefono)
         {
             var sql = (from e in dataContext.Telefono
-                       where e.ID == IDTelefono
-
+                       where e.ID == idTelefono
                        select e).FirstOrDefault();
 
-            if (sql != null)
-            {
-                sql.Nombre = pnombre;
-                sql.Telefono1 = pTelefono;
-                dataContext.SubmitChanges();
-            }
+            if (sql == null) return;
+            sql.Nombre = nombre;
+            sql.Telefono1 = telefono;
+            dataContext.SubmitChanges();
         }
 
         /// <summary>
         /// Pone a un Telefono como Estado false, o sea deshabilitado
         /// </summary>
-        /// <param name="pID">Es el ID del Telefono a eliminar</param>
-        public static void Eliminar(string pTelefono)
+        /// <param name="telefono">Es el ID del Telefono a eliminar</param>
+        public static void Eliminar(string telefono)
         {
             var sql = from e in dataContext.Telefono
-                      where e.Telefono1 == pTelefono
+                      where e.Telefono1 == telefono
                       select e;
 
-            if (sql.Count() > 0)
-            {
-                sql.First().Estado = false;
-                dataContext.SubmitChanges();
-            }
+            if (!sql.Any()) return;
+            sql.First().Estado = false;
+            dataContext.SubmitChanges();
         }
 
         #endregion
 
         #region Metodos Private
-        
-        private static int GetNextIDTelefono()
+
+        private static int ObtenerCodigo()
         {
             var telefonos = (from t in dataContext.Telefono
                              select t);
-            return telefonos == null ? 1 : telefonos.Max(x => x.ID) + 1;
+            return telefonos.Max(x => x.ID) + 1;
         }
 
         #endregion

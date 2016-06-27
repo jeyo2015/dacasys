@@ -16,7 +16,7 @@
 
         #region Metodos Publicos
 
-        public static NotificacionesConsultorioNewDto GetNotificacionesPendientes(int pIDConsultorio, int pIDTipoNotificacion)
+        public static NotificacionesConsultorioNewDto ObtenerNotificacionesPendientes(int idConsultorio, int idTipoNotificacion)
         {
             var query = (from no in dataContext.NotificacionConsultorio
                          from cp in dataContext.Cliente_Paciente
@@ -42,11 +42,11 @@
             };
         }
 
-        public static bool DeshabilitarNuevasNotificaciones(int pIDConsultorio, int pIDTipoNotificacion)
+        public static bool DeshabilitarNuevasNotificaciones(int idConsultorio, int idTipoNotificacion)
         {
             var query = (from no in dataContext.NotificacionConsultorio
-                         where no.IDConsultorio == pIDConsultorio
-                         && no.TipoNotificacion == pIDTipoNotificacion
+                         where no.IDConsultorio == idConsultorio
+                         && no.TipoNotificacion == idTipoNotificacion
                          && no.Estado == 1
                          select no).ToList();
 
@@ -68,20 +68,20 @@
             }
         }
 
-        public static bool AceptarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+        public static bool AceptarSolicitudPaciente(NotificacionesConsultorioDto notificacionesConsultorioDto)
         {
             var query = (from cp in dataContext.Empresa_Cliente
-                         where cp.id_empresa == pNotificacionPaciente.IDConsultorio
-                         && cp.id_usuariocliente == pNotificacionPaciente.LoginUsuario
+                         where cp.id_empresa == notificacionesConsultorioDto.IDConsultorio
+                         && cp.id_usuariocliente == notificacionesConsultorioDto.LoginUsuario
                          select cp).FirstOrDefault();
             if (query == null)
             {
                 Empresa_Cliente ep = new Empresa_Cliente();
-                ep.id_usuariocliente = pNotificacionPaciente.LoginUsuario;
-                ep.id_empresa = pNotificacionPaciente.IDConsultorio;
+                ep.id_usuariocliente = notificacionesConsultorioDto.LoginUsuario;
+                ep.id_empresa = notificacionesConsultorioDto.IDConsultorio;
                 dataContext.Empresa_Cliente.InsertOnSubmit(ep);
                 var notificacion = (from no in dataContext.NotificacionConsultorio
-                                    where no.ID == pNotificacionPaciente.IDNotificacion
+                                    where no.ID == notificacionesConsultorioDto.IDNotificacion
                                     select no).FirstOrDefault();
                 if (notificacion != null)
                     notificacion.Estado = 0;
@@ -99,11 +99,11 @@
             }
         }
 
-        public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacionPaciente)
+        public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto notificacionesConsultorioDto)
         {
 
             var notificacion = (from no in dataContext.NotificacionConsultorio
-                                where no.ID == pNotificacionPaciente.IDNotificacion
+                                where no.ID == notificacionesConsultorioDto.IDNotificacion
                                 select no).FirstOrDefault();
             if (notificacion != null)
                 notificacion.Estado = 0;

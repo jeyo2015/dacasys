@@ -70,7 +70,7 @@
                     message = "Por favor ingrese tipo de sangre valida";
                     break;
                 case 8:
-                    message = "Login ya existe";
+                    message = "Login ya existe o no es valido";
                     break;
                 case 9:
                     message = "Documento de Identidad ya existe";

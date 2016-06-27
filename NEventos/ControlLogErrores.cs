@@ -18,17 +18,17 @@
         /// Inserta el error que saltó en un procedimiento de una clase específica en
         /// el log de errores.
         /// </summary>
-        /// <param name="pProyecto">El proyecto donde se generó el error</param>
-        /// <param name="pClase">La clase donde saltó el error</param>
-        /// <param name="pProcedimiento">El procedimiento donde saltó el error</param>
-        /// <param name="pEx">La excepción que dió al momento del error</param>
-        public static void Insertar(string pProyecto, string pClase, string pProcedimiento, Exception pEx)
+        /// <param name="idProyecto">El proyecto donde se generó el error</param>
+        /// <param name="idClase">La clase donde saltó el error</param>
+        /// <param name="idProcedimiento">El procedimiento donde saltó el error</param>
+        /// <param name="excepcion">La excepción que dió al momento del error</param>
+        public static void Insertar(string idProyecto, string idClase, string idProcedimiento, Exception excepcion)
         {
-            var vDescripcion = pClase + " - " + pProcedimiento + " - " + pEx.Message;
+            var vDescripcion = idClase + " - " + idProcedimiento + " - " + excepcion.Message;
             try
             {
                 LogErrores vLogErrores = new LogErrores();
-                vLogErrores.FechaHora = DateTime.Now.AddHours(Get_DirefenciaHora());
+                vLogErrores.FechaHora = DateTime.Now.AddHours(ObtenerDirefenciaHora());
                 vLogErrores.Descripcion = vDescripcion;
                 dataContext.LogErrores.InsertOnSubmit(vLogErrores);
                 dataContext.SubmitChanges();
@@ -40,15 +40,14 @@
             }
         }
         
-        public static int Get_DirefenciaHora()
+        public static int ObtenerDirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
-            if (sql.Count() > 0)
-            {
-                return (int)sql.First().ValorI;
-            }
+            if (!sql.Any()) return 0;
+            var valorI = sql.First().ValorI;
+            if (valorI != null) return (int)valorI;
             return 0;
         }
 

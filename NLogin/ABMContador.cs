@@ -18,14 +18,14 @@
         /// <summary>
         /// Controla la cantidad de personas que acceden al sistema
         /// </summary>
-        /// <param name="pFecha">Fecha del acceso</param>
-        public void Insertar_Contador(DateTime pFecha)
+        /// <param name="fecha">Fecha del acceso</param>
+        public void InsertarContador(DateTime fecha)
         {
             var con = from c in dataContext.Contador
-                      where c.Fecha.Equals(pFecha)
-                      && c.Hora == pFecha.TimeOfDay.Hours
+                      where c.Fecha.Equals(fecha)
+                      && c.Hora == fecha.TimeOfDay.Hours
                       select c;
-            if (con.Count() > 0)
+            if (con.Any())
             {
                 con.First().Cantidad = con.First().Cantidad + 1;
                 try
@@ -35,15 +35,12 @@
                 }
                 catch (Exception ex)
                 {
-                    ControlLogErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
+                    ControlLogErrores.Insertar("NLoging", "ABMContador", "InsertarModulo", ex);
                 }
             }
             else
             {
-                Contador vCont = new Contador();
-                vCont.Fecha = pFecha;
-                vCont.Hora = pFecha.TimeOfDay.Hours;
-                vCont.Cantidad = 1;
+                var vCont = new Contador {Fecha = fecha, Hora = fecha.TimeOfDay.Hours, Cantidad = 1};
                 dataContext.Contador.InsertOnSubmit(vCont);
                 try
                 {
@@ -52,9 +49,8 @@
                 }
                 catch (Exception ex)
                 {
-                    ControlLogErrores.Insertar("NLoging", "ABMContador", "Insertar", ex);
+                    ControlLogErrores.Insertar("NLoging", "ABMContador", "InsertarModulo", ex);
                 }
-
             }
         }
 

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using NEventos;
-    using System.Data;
     using System.Linq;
     using Herramientas;
     using Datos;
@@ -19,7 +18,7 @@
         #region Metodos publicos
 
         /// <summary>
-        /// Insertar nuevo horario
+        /// InsertarModulo nuevo horario
         /// </summary>
         /// <param name="horarioDto"></param>
         /// <param name="idUsuario"></param>
@@ -44,7 +43,7 @@
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Insertar", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "InsertarModulo", ex);
                 return false;
             }
         }
@@ -60,7 +59,7 @@
                       where h.idhorario == horarioDto.IDHorario && h.num_horario == horarioDto.NumHorario
                       select h;
 
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
                 sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
@@ -134,26 +133,6 @@
                         Estado = h.estado,
                         NombreDia = d.nombre_corto
                     }).ToList();
-        }
-
-        /// <summary>
-        /// Metodo para verificar la entrada
-        /// </summary>
-        /// <param name="pDTgral"></param>
-        /// <param name="pFila"></param>
-        /// <returns></returns>
-        public static bool VerificarFila(DataTable pDTgral, DataRow pFila)
-        {
-            foreach (DataRow fila in pDTgral.Rows)
-            {
-                if (((TimeSpan)pFila[2] >= (TimeSpan)fila[2]) &&
-                    ((TimeSpan)pFila[3] < (TimeSpan)fila[2]))
-                    return false;
-                if (((TimeSpan)pFila[2] >= (TimeSpan)fila[2]) ||
-                    ((TimeSpan)pFila[3] < (TimeSpan)fila[2]))
-                    return false;
-            }
-            return true;
         }
 
         #endregion
