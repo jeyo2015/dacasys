@@ -29,6 +29,9 @@
     function abrirModalVerMasClinica() {
         $("#modal-ver-mas").modal('show');
     }
+
+ 
+
     function openInfoWindow(marker) {
         point = marker.getPosition();
         ///var telefonos = telefono.toString().split('#');
@@ -37,11 +40,17 @@
                     <span>Nombre:'  + $scope.clinicaSeleccionada.Nombre+
                     '</span>\
                      </div>\
-<button class="btn btn-link" onclick="abrirModalVerMasClinica()" >Ver mas </button>\
+<button id="test" class="btn btn-link"  >Ver mas </button>\
                       </div> ';
         infoWindow.setContent([
            htlml
         ].join(''));
+        
+        google.maps.event.addListener(infoWindow, 'domready', function () {
+            $('#test').click(function() {
+                abrirModalVerMasClinica();
+            });
+        });
         infoWindow.open(map, marker);
 
 
