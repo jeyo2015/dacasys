@@ -41,7 +41,7 @@
     }
 
     $scope.nuevoCliente = function () {
-        prepararNuevoCliente();        
+        prepararNuevoCliente();
         $scope.pacienteParaGuardar.IsPrincipal = true;
     };
 
@@ -49,7 +49,7 @@
         $('#confirm-delete').modal('show');
     };
 
-    $scope.seleccionarCliente = function (cliente) {     
+    $scope.seleccionarCliente = function (cliente) {
         $rootScope.LoginCliente = cliente.LoginCliente;
         $scope.clienteSelected = cliente;
         $scope.pacienteParaGuardar = angular.copy($scope.clienteSelected);
@@ -70,7 +70,7 @@
 
     function prepararNuevoPaciente() {
         $scope.pacienteParaGuardar = {
-            LoginCliente : $rootScope.LoginCliente,
+            LoginCliente: $rootScope.LoginCliente,
             Nombre: '',
             Apellido: '',
             Ci: '',
@@ -100,7 +100,8 @@
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
-        || $scope.pacienteParaGuardar.Ci.length < 7 || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0 || $scope.pacienteParaGuardar.Email.length <= 0;
+        || $scope.pacienteParaGuardar.LoginCliente.length < 4 || $scope.pacienteParaGuardar.Ci.length < 7
+        || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0 || $scope.pacienteParaGuardar.Email.length <= 0;
         } else {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
             || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0 || $scope.pacienteParaGuardar.Email.length <= 0;

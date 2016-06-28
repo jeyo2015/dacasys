@@ -16,22 +16,22 @@
 
         #region Metodos Publicos
 
-        public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject)
+        public void Datos_Mensaje(string from, string para, string mensaje, string asunto)
         {
-            From = pFrom;
-            To = pTo;
-            Message = pMessage;
-            Subject = pSubject;
+            From = from;
+            To = para;
+            Message = mensaje;
+            Subject = asunto;
             Host = "64.79.170.155";
             Puerto = 25;
         }
 
-        public void Datos_Mensaje(string pFrom, string pTo, string pMessage, string pSubject, string pHost, int pPuerto)
+        public void Datos_Mensaje(string from, string para, string mensaje, string asunto, string pHost, int pPuerto)
         {
-            From = pFrom;
-            To = pTo;
-            Message = pMessage;
-            Subject = pSubject;
+            From = from;
+            To = para;
+            Message = mensaje;
+            Subject = asunto;
             Host = pHost;
             Puerto = pPuerto;
         }
@@ -39,7 +39,7 @@
         public int Enviar_Mail()
         {
             Email = new System.Net.Mail.MailMessage(From, To, Subject, Message);
-            System.Net.Mail.SmtpClient smtpMail = new System.Net.Mail.SmtpClient();
+            var smtpMail = new System.Net.Mail.SmtpClient();
             Email.Priority = MailPriority.Normal;
             Email.IsBodyHtml = false;
 
@@ -62,11 +62,11 @@
             }
         }
 
-        public void Datos_Mensaje(string pTo, string pMensaje, string pAsunto)
+        public void Datos_Mensaje(string para, string mensaje, string asunto)
         {
-            To = pTo;
-            Message = pMensaje;
-            Subject = pAsunto;
+            To = para;
+            Message = mensaje;
+            Subject = asunto;
             Host = "64.79.170.155";
             Puerto = 25;
             From = "odontoweb@dacasys.com";

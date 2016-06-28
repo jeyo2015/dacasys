@@ -82,7 +82,7 @@
             var sql = from f in dataContext.factura_odontoweb
                       where f.nro_factura == pnrofact
                       select f;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
 
                 DataTable vDTDosificacion_activa = Get_DosificacionActiva();
@@ -130,7 +130,7 @@
             var sql = from f in dataContext.factura_odontoweb
                       where f.nro_factura == pnrofact
                       select f;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 dataContext.factura_odontoweb.DeleteOnSubmit(sql.First());
                 try
@@ -157,7 +157,7 @@
             var sql = from f in dataContext.factura_odontoweb
                       orderby f.nro_factura descending
                       select f;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 return (int)sql.First().nro_factura + 1;
             }
@@ -192,7 +192,7 @@
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "NitDacasys"
                       select p;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 return sql.First().ValorS;
             }
@@ -233,7 +233,7 @@
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "Licencia"
                       select p;
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 return (int)sql.First().ValorI;
             }

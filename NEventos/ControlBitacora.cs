@@ -24,7 +24,7 @@
             try
             {
                 Bitacora vBitacora = new Bitacora();
-                vBitacora.FechaHora = DateTime.Now.AddHours(Get_DirefenciaHora());
+                vBitacora.FechaHora = DateTime.Now.AddHours(ObtenerDirefenciaHora());
                 vBitacora.Descripcion = pDescripcion;
                 vBitacora.IDUsuario = pIDUsuario;
                 dataContext.Bitacora.InsertOnSubmit(vBitacora);
@@ -36,15 +36,14 @@
             }
         }
 
-        public static int Get_DirefenciaHora()
+        public static int ObtenerDirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"
                       select p;
-            if (sql.Count() > 0)
-            {
-                return (int)sql.First().ValorI;
-            }
+            if (!sql.Any()) return 0;
+            var valorI = sql.First().ValorI;
+            if (valorI != null) return (int)valorI;
             return 0;
         }
 

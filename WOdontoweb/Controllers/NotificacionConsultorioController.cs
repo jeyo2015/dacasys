@@ -9,7 +9,7 @@
     {
         public JsonResult GetSolicitudesPacientes(int pIdConsultorio, int pIDTipoNotificacion)
         {
-            var result = ABMNotificacionesConsultorio.GetNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion);
+            var result = ABMNotificacionesConsultorio.ObtenerNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -19,7 +19,7 @@
             var result = new ResponseModel()
             {
                 Message = string.Empty,
-                Data = success ? ABMNotificacionesConsultorio.GetNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion) : null,
+                Data = success ? ABMNotificacionesConsultorio.ObtenerNotificacionesPendientes(pIdConsultorio, pIDTipoNotificacion) : null,
                 Success = success
             };
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -31,7 +31,7 @@
             var result = new ResponseModel()
             {
                 Message = string.Empty,
-                Data = success ? ABMNotificacionesConsultorio.GetNotificacionesPendientes(pNotificacion.IDConsultorio, pNotificacion.IDNotificacion) : null,
+                Data = success ? ABMNotificacionesConsultorio.ObtenerNotificacionesPendientes(pNotificacion.IDConsultorio, pNotificacion.IDNotificacion) : null,
                 Success = success
             };
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -43,7 +43,7 @@
             var result = new ResponseModel()
             {
                 Message = string.Empty,
-                Data = success ? ABMNotificacionesConsultorio.GetNotificacionesPendientes(pNotificacion.IDConsultorio, pNotificacion.IDNotificacion) : null,
+                Data = success ? ABMNotificacionesConsultorio.ObtenerNotificacionesPendientes(pNotificacion.IDConsultorio, pNotificacion.IDNotificacion) : null,
                 Success = success
             };
             return Json(result, JsonRequestBehavior.AllowGet);

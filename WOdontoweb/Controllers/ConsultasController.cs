@@ -11,19 +11,19 @@
     {
         public JsonResult GetCitasDelDia(DateTime pfecha, int pIdConsultorio, int ptiempoConsulta)
         {
-            var result = ABMCita.GetAgendaDelDia(pfecha, pIdConsultorio, ptiempoConsulta);
+            var result = ABMCita.ObtenerAgendaDelDia(pfecha, pIdConsultorio, ptiempoConsulta);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetHistoricoPaciente(int pIdPaciente, int pIdConsultorio)
         {
-            var result = ABMHistorico.GetHistoricoPaciente(pIdPaciente, pIdConsultorio);
+            var result = ABMHistorico.ObtenerHistoricoPaciente(pIdPaciente, pIdConsultorio);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetHistoricoDetalle(HistoricoPacienteDto pHistorico)
         {
-            var result = ABMHistoricoDet.GetHistoricoDetalle(pHistorico.IdConsultorio, pHistorico.IdPaciente, pHistorico.NumeroHistorico);
+            var result = ABMHistoricoDet.ObtenerHistoricoDetalle(pHistorico.IdConsultorio, pHistorico.IdPaciente, pHistorico.NumeroHistorico);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -42,7 +42,7 @@
         public JsonResult GuardarHistorico(HistoricoPacienteDto pHistorico)
         {
             pHistorico.FechaCreacion = DateTime.Now;
-            var insert = ABMHistorico.ABMHistoricoMetodo(pHistorico, Session["loginusuario"].ToString());
+            var insert = ABMHistorico.GuadrarHistorico(pHistorico, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
                 Message = insert ? "Se registro el nuevo historico" : "No se pudo registrar el nuevo historico, por favor intente de nuevo",

@@ -18,84 +18,78 @@
         #endregion
 
         #region Metodos Publicos
-        
-        public static bool isModuloChecked(int pModuloId, int pRolId)
-        {
 
+        public static bool isModuloChecked(int idModulo, int idRol)
+        {
             return (from mr in dataContext.Rol_Modulo
-                    where mr.IDModulo == pModuloId
-                    && mr.IDRol == pRolId
-                    select mr).Count() > 0;
+                    where mr.IDModulo == idModulo
+                          && mr.IDRol == idRol
+                    select mr).Any();
         }
 
-        public static bool isFormularioChecked(int pFormularioId, int pRolId)
+        public static bool isFormularioChecked(int idFormulario, int idRol)
         {
-
             return (from fr in dataContext.Rol_Formulario
-                    where fr.IDFormulario == pFormularioId
-                    && fr.IDRol == pRolId
-                    select fr).Count() > 0;
+                    where fr.IDFormulario == idFormulario
+                          && fr.IDRol == idRol
+                    select fr).Any();
         }
 
-        public static bool isComponenteChecked(int pComponenteId, int pRolId)
+        public static bool isComponenteChecked(int idComponente, int idRol)
         {
-
             return (from cr in dataContext.Rol_Componente
-                    where cr.ID_Componente == pComponenteId
-                    && cr.ID_Rol == pRolId
-                    select cr).Count() > 0;
+                    where cr.ID_Componente == idComponente
+                          && cr.ID_Rol == idRol
+                    select cr).Any();
         }
 
-        public static List<ModulosTree> GetModulos(int pRolID)
+        public static List<ModulosTree> GetModulos(int idRol)
         {
             //var moduloOfRol = (from mr in dataContext.Rol_Modulo
-            //                   where mr.IDRol == pRolID
+            //                   where mr.IDRol == idRol
             //                   select mr).ToList();
             return (from m in dataContext.Modulo
                     select m).Select(x =>
                         new ModulosTree()
                         {
                             ID = x.ID,
-                            IsChecked = isModuloChecked(x.ID, pRolID),
+                            IsChecked = isModuloChecked(x.ID, idRol),
                             Nombre = x.Texto,
-                            Hijos = getFormularios(pRolID, x.ID),
+                            Hijos = getFormularios(idRol, x.ID),
                             IsCollapsed = false
                         }).ToList();
         }
 
         /// <summary>
-        /// Insertar un nuevo Rol
+        /// InsertarModulo un nuevo Rol
         /// </summary>
-        /// <param name="pNombre">Nombre del Rol</param>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        /// <param name="pIDUsuario">ID del usuario que ejecuta accion</param>
+        /// <param name="nombre">Nombre del Rol</param>
+        /// <param name="idEmpresa">ID de la Empresa</param>
+        /// <param name="idUsuario">ID del usuario que ejecuta accion</param>
+        /// <param name="idDacasys">ID del empresa</param>
         /// <returns> 1 - Insertado Correctamente
         ///           2 - No se Pudo insertar
         ///           3 - Nombre existe
         ///           </returns>
-        public static int Insertar(String pNombre, int pIDEmpresa, string pIDUsuario, int pDACASYS)
+        public static int Insertar(string nombre, int idEmpresa, string idUsuario, int idDacasys)
         {
-
             var rol = from r in dataContext.Rol
-                      where r.Nombre.ToUpper() == pNombre.ToUpper() &&
-                      r.IDEmpresa == pIDEmpresa
+                      where r.Nombre.ToUpper() == nombre.ToUpper() &&
+                      r.IDEmpresa == idEmpresa
                       select r;
-            if (rol.Count() > 0)
+            if (rol.Any())
                 return 3;
-            Rol vRol = new Rol();
-            vRol.IDEmpresa = pIDEmpresa;
-            vRol.Nombre = pNombre;
+            var vRol = new Rol { IDEmpresa = idEmpresa, Nombre = nombre };
             try
             {
                 dataContext.Rol.InsertOnSubmit(vRol);
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se inserto un Rol", pIDUsuario);
-                return Insertar_Rol(vRol, pIDUsuario, pDACASYS);
-
+                ControlBitacora.Insertar("Se inserto un Rol", idUsuario);
+                return Insertar_Rol(vRol, idUsuario, idDacasys);
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NLogin", "ABMRol", "Insertar", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMRol", "InsertarModulo", ex);
                 return 2;
             }
         }
@@ -103,45 +97,43 @@
         /// <summary>
         /// Inserta o elimina un Modulo a un rol
         /// </summary>
-        /// <param name="pIDRol">ID del rol</param>
-        /// <param name="pIDModulo">Id del modulo</param>
+        /// <param name="idRol">ID del rol</param>
+        /// <param name="idModulo">Id del modulo</param>
         /// <param name="pinsert">True inserta, False elimina</param>
-        /// <param name="pIDUsuario">Id del usuario que realiza accion</param>
-        public static void Insertar_EliminarModulo(int pIDRol, int pIDModulo, bool pinsert, string pIDUsuario,
-                                              int pDACASYS)
+        /// <param name="idUsuario">Id del usuario que realiza accion</param>
+        /// <param name="idDacasys">ID del empresa</param>
+        public static void Insertar_EliminarModulo(int idRol, int idModulo, bool pinsert, string idUsuario, int idDacasys)
         {
             var sql = from m in dataContext.Rol_Modulo
-                      where m.IDRol == pIDRol && m.IDModulo == pIDModulo
+                      where m.IDRol == idRol && m.IDModulo == idModulo
                       select m;
             if (pinsert)
             {
-                if (sql.Count() == 0)
+                if (!sql.Any())
                 {
-                    Rol_Modulo vrol_modulo = new Rol_Modulo();
-                    vrol_modulo.IDModulo = pIDModulo;
-                    vrol_modulo.IDRol = pIDRol;
+                    var vrol_modulo = new Rol_Modulo { IDModulo = idModulo, IDRol = idRol };
                     try
                     {
                         dataContext.Rol_Modulo.InsertOnSubmit(vrol_modulo);
                         dataContext.SubmitChanges();
-                        ControlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", pIDUsuario);
+                        ControlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", idUsuario);
                     }
                     catch (Exception) { }
                 }
             }
             else
             {//elimina
-                if (sql.Count() > 0)
+                if (sql.Any())
                 {
                     dataContext.Rol_Modulo.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
                 }
 
             }
-            // DataTable vDTFormularios = Get_Formulariosp(pIDRol, pIDModulo,pDACASYS);
+            // DataTable vDTFormularios = Get_Formulariosp(idRol, idModulo,idDacasys);
             //   foreach (DataRow formulario in vDTFormularios.Rows)
             //  {
-            //      Insertar_EliminarFormulario(pIDRol, (int)formulario[0], pIDUsuario, pinsert,pDACASYS);
+            //      Insertar_EliminarFormulario(idRol, (int)formulario[0], idUsuario, pinsert,idDacasys);
             // }
 
         }
@@ -149,22 +141,23 @@
         /// <summary>
         /// Inserta o Eliminar un formulario de un rol, con sus respectivos componentes
         /// </summary>
-        /// <param name="pIDRol">Id del Rol</param>
-        /// <param name="pIDFormulario">Id del Formulario</param>
-        /// <param name="pIDUsuario">ID del Usuario que realiza accion</param>
+        /// <param name="idRol">Id del Rol</param>
+        /// <param name="idFormulario">Id del Formulario</param>
+        /// <param name="idUsuario">ID del Usuario que realiza accion</param>
         /// <param name="pinsert">True insertar, False Elimina</param>
-        public static void Insertar_EliminarFormulario(int pIDRol, int pIDFormulario, string pIDUsuario, bool pinsert, int pDACASYS)
+        /// <param name="idDacasys">ID del empresa</param>
+        public static void Insertar_EliminarFormulario(int idRol, int idFormulario, string idUsuario, bool pinsert, int idDacasys)
         {
             var sql = from f in dataContext.Rol_Formulario
-                      where f.IDRol == pIDRol && f.IDFormulario == pIDFormulario
+                      where f.IDRol == idRol && f.IDFormulario == idFormulario
                       select f;
             if (pinsert)
             {
-                if (sql.Count() == 0)
+                if (!sql.Any())
                 {
                     Rol_Formulario vrol_formulario = new Rol_Formulario();
-                    vrol_formulario.IDFormulario = pIDFormulario;
-                    vrol_formulario.IDRol = pIDRol;
+                    vrol_formulario.IDFormulario = idFormulario;
+                    vrol_formulario.IDRol = idRol;
                     try
                     {
                         dataContext.Rol_Formulario.InsertOnSubmit(vrol_formulario);
@@ -175,7 +168,7 @@
             }
             else
             {
-                if (sql.Count() > 0)
+                if (sql.Any())
                 {
                     dataContext.Rol_Formulario.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
@@ -186,22 +179,22 @@
         /// <summary>
         /// Inserta o elimina un Componente de un rol
         /// </summary>
-        /// <param name="pIDRol">ID del Rol </param>
-        /// <param name="pIDComponente">Id del componente a elimnar </param>
-        /// <param name="pIDUsuario">Id del usuario que realiza accion</param>
+        /// <param name="idRol">ID del Rol </param>
+        /// <param name="idComponente">Id del componente a elimnar </param>
+        /// <param name="idUsuario">Id del usuario que realiza accion</param>
         /// <param name="pinsert">True insertar, False eliminar</param>
-        public static void Insertar_EliminarComponente(int pIDRol, int pIDComponente, string pIDUsuario, bool pinsert)
+        public static void Insertar_EliminarComponente(int idRol, int idComponente, string idUsuario, bool pinsert)
         {
             var sql = from c in dataContext.Rol_Componente
-                      where c.ID_Rol == pIDRol && c.ID_Componente == pIDComponente
+                      where c.ID_Rol == idRol && c.ID_Componente == idComponente
                       select c;
             if (pinsert)
             {
-                if (sql.Count() == 0)
+                if (!sql.Any())
                 {
                     Rol_Componente vrol_componente = new Rol_Componente();
-                    vrol_componente.ID_Componente = pIDComponente;
-                    vrol_componente.ID_Rol = pIDRol;
+                    vrol_componente.ID_Componente = idComponente;
+                    vrol_componente.ID_Rol = idRol;
                     try
                     {
                         dataContext.Rol_Componente.InsertOnSubmit(vrol_componente);
@@ -212,7 +205,7 @@
             }
             else
             {
-                if (sql.Count() > 0)
+                if (sql.Any())
                 {
                     dataContext.Rol_Componente.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
@@ -221,64 +214,26 @@
         }
 
         /// <summary>
-        /// Modificar un nuevo Rol
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol a Modificar</param>
-        /// <param name="pNombre">Nombre del Rol</param>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        /// <param name="pIDUsuario">ID del usuario que ejecuta accion</param>
-        /// <returns> 1 - Insertado Correctamente
-        ///           2 - No se Pudo insertar
-        ///           3 - No existe el Rol</returns>
-        public int Modificar(int pIDRol, String pNombre, int pIDEmpresa, string pIDUsuario)
-        {
-            var sql = from r in dataContext.Rol
-                      where r.ID == pIDRol
-                      select r;
-
-            if (sql.Count() > 0)
-            {
-                sql.First().Nombre = pNombre;
-                sql.First().IDEmpresa = pIDEmpresa;
-
-                try
-                {
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se modifico un rol", pIDUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NLogin", "ABMRol", "Modificar", ex);
-                    return 2;
-                }
-
-            }
-            ControlLogErrores.Insertar("NLogin", "ABMRol", "Modificar, no existe rol", null);
-            return 3;
-        }
-        
-        /// <summary>
         /// Eliminar Rol
         /// </summary>
-        /// <param name="pIDRol">ID Rol a Eliminar</param>
-        /// <param name="pIDUsuario">ID del Usuario que realiza accion</param>
+        /// <param name="idRol">ID Rol a Eliminar</param>
+        /// <param name="idUsuario">ID del Usuario que realiza accion</param>
         /// <returns>1 - Eliminado Correctamente
         ///           2 - No se Pudo Eliminar
         ///           3 - No existe el Rol
         ///           4 - Existen usuarios en este rol</returns>
-        public static int Eliminar(int pIDRol, string pIDUsuario)
+        public static int Eliminar(int idRol, string idUsuario)
         {
             var sql = from r in dataContext.Rol
-                      where r.ID == pIDRol
+                      where r.ID == idRol
                       select r;
 
-            if (sql.Count() > 0)
+            if (sql.Any())
             {
                 var vUs = from us in dataContext.UsuarioEmpleado
-                          where us.IDRol == pIDRol
+                          where us.IDRol == idRol
                           select us;
-                if (vUs.Count() > 0)
+                if (vUs.Any())
                 {
                     return 4;
                 }
@@ -287,7 +242,7 @@
                 {
                     dataContext.Rol.DeleteOnSubmit(sql.First());
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se elimino Rol", pIDUsuario);
+                    ControlBitacora.Insertar("Se elimino Rol", idUsuario);
                     return 1;
                 }
                 catch (Exception ex)
@@ -298,190 +253,32 @@
             }
             return 3;
         }
-        
+
         /// <summary>
         /// Metodo privado que devuelve los roles de un consultorio
         /// </summary>
-        /// <param name="pIDempresa">Id del consultorio</param>
+        /// <param name="idEmpresa">Id del consultorio</param>
         /// <returns></returns>
-        public static List<Rol> Get_Roles(int pIDempresa)
+        public static List<Rol> Get_Roles(int idEmpresa)
         {
             return (from r in dataContext.Rol
-                    where r.IDEmpresa == pIDempresa
+                    where r.IDEmpresa == idEmpresa
                     orderby r.Nombre
                     select r).ToList();
         }
 
-        /// <summary>
-        /// Obtiene todos los Roles de una empresa
-        /// </summary>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        /// <returns> DataTable con los roles de la empresa indicada</returns>
-        public DataTable Get_rolesp(int pIDEmpresa)
-        {
-            return Converter<Rol>.Convert(Get_Roles(pIDEmpresa).ToList());
-        }
-        
-        /// <summary>
-        /// Obtiene todos los Roles de una empresa por nombre
-        /// </summary>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        /// <param name="pNombreRol">Nombre del Rol a buscar</param>
-        /// <returns> DataTable con los roles que coincidan con el nombre</returns>
-        public DataTable Get_rolesnp(int pIDEmpresa, String pNombreRol)
-        {
-            return Converter<Rol>.Convert(Get_Rolesn(pIDEmpresa, pNombreRol).ToList());
-        }
-        
-        /// <summary>
-        /// Obtiene un Rol
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol</param>
-        /// <returns> DataTable con el rol que desea encontrar</returns>
-        public DataTable Get_rolp(int pIDRol)
-        {
-            return Converter<Rol>.Convert(Get_Rol(pIDRol).ToList());
-        }
-        
-        /// <summary>
-        /// Obtiene los modulos de un rol
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol</param>
-        /// <returns> DataTable con los modulos del Rol</returns>
-        public DataTable Get_Modulosp(int pIDRol, int pDACASYS)
-        {
-
-            return Converter<getModulosResult>.Convert(Get_Modulos(pIDRol, pDACASYS).ToList());
-        }
-        
-        /// <summary>
-        /// Obtiene los Formularios  de un Modlo
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol</param>
-        /// <param name="pIDModulo">ID del Modulo</param>
-        /// <returns> DataTable con los formularios de un modulo indicando si pertenece al Rol</returns>
-        public DataTable Get_Formulariosp(int pIDRol, int pIDModulo, int pDACASYS)
-        {
-            return Converter<getFormulariosResult>.Convert(Get_Formularios(pIDRol, pIDModulo, pDACASYS).ToList());
-        }
-        
-        /// <summary>
-        /// Obtiene los Componentes  de un Formulario
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol</param>
-        /// <param name="pIDFormulario">ID del Formulario</param>
-        /// <returns> DataTable con los componetes de un formulario indicando si pertenece al Rol</returns>
-        public DataTable Get_Componentesp(int pIDRol, int pIDFormulario, int pDACASYS)
-        {
-            return Converter<getComponentesResult>.Convert(Get_Componentes(pIDRol, pIDFormulario, pDACASYS).ToList());
-        }
-
-        /// <summary>
-        /// Desabilita las funciones de una empresa, por vencimiento de licencia
-        /// </summary>
-        /// <param name="pIDEmpresa">ID de la Empresa</param>
-        public void Desahabilitar_Por_Licencia(int pIDEmpresa)
-        {
-            var vRoles = from r in dataContext.Rol
-                         where r.IDEmpresa == pIDEmpresa
-                         select r;
-            int vIDVerCi = this.Get_CodigoFormulario("frmCitas");
-            foreach (Rol r in vRoles)
-            {
-                var vformularios = from f in dataContext.Rol_Formulario
-                                   where f.IDRol == r.ID
-                                   select f;
-
-                foreach (Rol_Formulario rf in vformularios)
-                {
-                    if (rf.IDFormulario != vIDVerCi)
-                    {
-                        Insertar_EliminarFormulario(rf.IDRol, rf.IDFormulario, "DACASYS", false, 0);
-                    }
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Devuelve ID de un formulario segun su nombre
-        /// </summary>
-        /// <param name="pNombreForm">Nombre Formulario</param>
-        /// <returns></returns>
-        public int Get_CodigoFormulario(string pNombreForm)
-        {
-            var form = from f in dataContext.Fomulario
-                       where f.Nombre == pNombreForm
-                       select f;
-            if (form.Count() > 0)
-            {
-                return form.First().ID;
-            }
-            return -1;
-        }
-
-        /// <summary>
-        /// Obtiene los Componentes  de un Formulario
-        /// </summary>
-        /// <param name="pIDRol">ID del Rol</param>
-        /// <param name="pIDFormulario">ID del Formulario</param>
-        /// <returns> DataTable con los componetes de un formulario indicando si pertenece al Rol</returns>
-        public DataTable Get_AllFormulariosp(int pIDRol)
-        {
-            return Converter<Fomulario>.Convert(Get_AllFormularios(pIDRol).ToList());
-        }
-
-        /// <summary>
-        /// Metodo que verifica si un componente esta habilitado
-        /// </summary>
-        /// <param name="pDTComponentes">Datable con todos los componetes del rol</param>
-        /// <param name="pComponente">Nombre del componente a verificar</param>
-        /// <returns>bool</returns>
-        public bool Esta_habilitado(DataTable pDTComponentes, string pComponente)
-        {
-            foreach (DataRow m in pDTComponentes.Rows)
-            {
-                if (m[2].ToString().Equals(pComponente))
-                {
-                    return Convert.ToBoolean((int)m[4]);
-
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Verifica si un formulario esta habilitado
-        /// </summary>
-        /// <param name="pDTformularios">DataTable con los formularios de un rol</param>
-        /// <param name="pFormulario">Nombre del formulario a verificar</param>
-        /// <returns></returns>
-
-        public bool Formulario_habilitado(DataTable pDTformularios, string pFormulario)
-        {
-            foreach (DataRow m in pDTformularios.Rows)
-            {
-                if (m[2].ToString().Equals(pFormulario))
-                {
-                    return Convert.ToBoolean((int)m[4]);
-
-                }
-            }
-            return false;
-        }
-
-        public static List<ModulosTree> getComponenentes(int pRolID, int pIDFormulario)
+        public static List<ModulosTree> getComponenentes(int idRol, int idFormulario)
         {
             var componenteOfRol = (from cr in dataContext.Rol_Componente
-                                   where cr.ID_Rol == pRolID
+                                   where cr.ID_Rol == idRol
                                    select cr).ToList();
             return (from c in dataContext.Componente
-                    where c.IDFormulario == pIDFormulario
+                    where c.IDFormulario == idFormulario
                     select c).Select(x =>
                     new ModulosTree()
                     {
                         ID = x.ID,
-                        IsChecked = isComponenteChecked(x.ID, pRolID),
+                        IsChecked = isComponenteChecked(x.ID, idRol),
                         Nombre = x.Texto,
                         Hijos = new List<ModulosTree>(),
                         IsCollapsed = false
@@ -489,48 +286,48 @@
 
         }
 
-        public static List<ModulosTree> getFormularios(int pRolID, int pIDModulo)
+        public static List<ModulosTree> getFormularios(int idRol, int idModulo)
         {
             var formulariosOfRol = (from fr in dataContext.Rol_Formulario
-                                    where fr.IDRol == pRolID
+                                    where fr.IDRol == idRol
                                     select fr).ToList();
 
             return (from f in dataContext.Fomulario
-                    where f.IDModulo == pIDModulo
+                    where f.IDModulo == idModulo
                     select f).Select(x =>
                             new ModulosTree()
                             {
                                 ID = x.ID,
                                 Nombre = x.Texto,
-                                IsChecked = isFormularioChecked(x.ID, pRolID),
-                                Hijos = getComponenentes(pRolID, x.ID),
+                                IsChecked = isFormularioChecked(x.ID, idRol),
+                                Hijos = getComponenentes(idRol, x.ID),
                                 IsCollapsed = false
                             }).ToList();
         }
 
-        public static bool ModificarPermisos(List<ModulosTree> modulos, int pIDRol)
+        public static bool ModificarPermisos(List<ModulosTree> modulos, int idRol)
         {
             //  var isDone = true;
             foreach (var modulo in modulos)
             {
                 if (modulo.IsChecked)
-                    InsertarModulo(modulo, pIDRol);
+                    InsertarModulo(modulo, idRol);
                 else
-                    DeleteModulo(modulo, pIDRol);
+                    DeleteModulo(modulo, idRol);
                 if (modulo.Hijos != null)
                     foreach (var formulario in modulo.Hijos)
                     {
                         if (formulario.IsChecked)
-                            Insertarformulario(formulario, pIDRol);
+                            Insertarformulario(formulario, idRol);
                         else
-                            Deleteformulario(formulario, pIDRol);
+                            Deleteformulario(formulario, idRol);
                         if (formulario.Hijos != null)
                             foreach (var componente in formulario.Hijos)
                             {
                                 if (componente.IsChecked)
-                                    InsertarComponente(componente, pIDRol);
+                                    InsertarComponente(componente, idRol);
                                 else
-                                    DeleteComponente(componente, pIDRol);
+                                    DeleteComponente(componente, idRol);
                             }
                     }
             }
@@ -549,74 +346,26 @@
         #endregion
 
         #region Metodos Privados
-        
-        /// <summary>
-        /// Metodo privado que devuelve los modulos de un rol
-        /// </summary>
-        /// <param name="pIDRol">ID rol</param>
-        /// <param name="pDACASYS">1 es dacasys, 0 no</param>
-        /// <returns></returns>
-        private IEnumerable<getModulosResult> Get_Modulos(int pIDRol, int pDACASYS)
-        {
-
-            return dataContext.getModulos(pIDRol, pDACASYS);
-        }
-
-        private IEnumerable<getFormulariosResult> Get_Formularios(int pIDRol, int pIDModulo, int pDACASYS)
-        {
-            return dataContext.getFormularios(pIDModulo, pIDRol, pDACASYS);
-
-        }
-
-        private IEnumerable<getComponentesResult> Get_Componentes(int pIDRol, int pIDFormulario, int pDACASYS)
-        {
-            return dataContext.getComponentes(pIDFormulario, pIDRol, pDACASYS);
-
-        }
-
-        /// <summary>
-        /// Metodo privad que devuelve un rol
-        /// </summary>
-        /// <param name="pIDRol">ID del rol</param>
-        /// <returns></returns>
-        private IEnumerable<Rol> Get_Rol(int pIDRol)
-        {
-
-            return from r in dataContext.Rol
-                   where r.ID == pIDRol
-                   select r;
-        }
-        
-        private IEnumerable<Rol> Get_Rolesn(int pIDempresa, String pNombreRol)
-        {
-
-            return from r in dataContext.Rol
-                   where r.IDEmpresa == pIDempresa
-                            && r.Nombre.Contains(pNombreRol)
-                   orderby r.Nombre
-                   select r;
-
-        }
 
         /// <summary>
         /// Este metodo los permisos por defecto de un nuevo rol
         /// </summary>
-        /// <param name="pRol">Rol nuevo</param>
-        /// <param name="pIDUsuario">ID del usuario que crea</param>
-        /// <param name="pDACASYS">Si es dacasys 1, 0 lo contrario</param>
+        /// <param name="rolDto">Rol nuevo</param>
+        /// <param name="idUsuario">ID del usuario que crea</param>
+        /// <param name="idDacasys">Si es dacasys 1, 0 lo contrario</param>
         /// <returns>-1 algo anda mal</returns>
-        private static int Insertar_Rol(Rol pRol, string pIDUsuario, int pDACASYS)
+        private static int Insertar_Rol(Rol rolDto, string idUsuario, int idDacasys)
         {
             var vRol = from rol in dataContext.Rol
-                       where rol.IDEmpresa == pRol.IDEmpresa && rol.Nombre == pRol.Nombre
+                       where rol.IDEmpresa == rolDto.IDEmpresa && rol.Nombre == rolDto.Nombre
                        select rol;
 
-            if (vRol.Count() > 0)
+            if (vRol.Any())
             {
                 int vIDRol = vRol.First().ID;
-                Insertar_Modulos(vIDRol, pIDUsuario, pDACASYS);
-                Insertar_Formularios(vIDRol, pIDUsuario, pDACASYS);
-                Insertar_Componentes(vIDRol, pIDUsuario, pDACASYS);
+                Insertar_Modulos(vIDRol, idUsuario, idDacasys);
+                Insertar_Formularios(vIDRol, idUsuario, idDacasys);
+                Insertar_Componentes(vIDRol, idUsuario, idDacasys);
                 return vRol.First().ID;
             }
             return -1;
@@ -625,12 +374,12 @@
         /// <summary>
         /// Inserta los componentes a un nuevo rol
         /// </summary>
-        /// <param name="pIDRol">ID rol nuevo</param>
-        /// <param name="pIDUsuario">ID del usuario</param>
-        /// <param name="pDACASYS">Si es dacasys 1, 0 lo contrario</param>
-        private static void Insertar_Componentes(int pIDRol, string pIDUsuario, int pDACASYS)
+        /// <param name="idRol">ID rol nuevo</param>
+        /// <param name="idUsuario">ID del usuario</param>
+        /// <param name="idDacasys">Si es dacasys 1, 0 lo contrario</param>
+        private static void Insertar_Componentes(int idRol, string idUsuario, int idDacasys)
         {
-            bool vDacasys = Convert.ToBoolean(pDACASYS);
+            bool vDacasys = Convert.ToBoolean(idDacasys);
             var vComponentes = from componentes in dataContext.Componente
                                where componentes.dacasys == vDacasys
                                select componentes;
@@ -640,18 +389,18 @@
                                select componentes;
 
             foreach (var componente in vComponentes)
-                Insertar_EliminarComponente(pIDRol, componente.ID, pIDUsuario, true);
+                Insertar_EliminarComponente(idRol, componente.ID, idUsuario, true);
         }
 
         /// <summary>
         /// Inserta los formularios a un nuevo Rol
         /// </summary>
-        /// <param name="pIDRol">ID rol</param>
-        /// <param name="pIDUsuario">ID usuario</param>
-        /// <param name="pDACASYS">Si es dacasys 1, 0 lo contrario</param>
-        private static void Insertar_Formularios(int pIDRol, string pIDUsuario, int pDACASYS)
+        /// <param name="idRol">ID rol</param>
+        /// <param name="idUsuario">ID usuario</param>
+        /// <param name="idDacasys">Si es dacasys 1, 0 lo contrario</param>
+        private static void Insertar_Formularios(int idRol, string idUsuario, int idDacasys)
         {
-            bool vDacasys = Convert.ToBoolean(pDACASYS);
+            bool vDacasys = Convert.ToBoolean(idDacasys);
             var vFormularios = from formularios in dataContext.Fomulario
                                where formularios.dacasys == vDacasys
                                select formularios;
@@ -661,18 +410,18 @@
                                select formularios;
 
             foreach (var formulario in vFormularios)
-                Insertar_EliminarFormulario(pIDRol, formulario.ID, pIDUsuario, true, pDACASYS);
+                Insertar_EliminarFormulario(idRol, formulario.ID, idUsuario, true, idDacasys);
         }
 
         /// <summary>
         /// Inserta los modulos a un nuevo Rol
         /// </summary>
-        /// <param name="pIDRol">ID rol nuevo</param>
-        /// <param name="pIDUsuario">ID del usuario</param>
-        /// <param name="pDACASYS">Si es dacasys 1, 0 lo contrario</param>
-        private static void Insertar_Modulos(int pIDRol, string pIDUsuario, int pDACASYS)
+        /// <param name="idRol">ID rol nuevo</param>
+        /// <param name="idUsuario">ID del usuario</param>
+        /// <param name="idDacasys">Si es dacasys 1, 0 lo contrario</param>
+        private static void Insertar_Modulos(int idRol, string idUsuario, int idDacasys)
         {
-            bool vDacasys = Convert.ToBoolean(pDACASYS);
+            bool vDacasys = Convert.ToBoolean(idDacasys);
             var vModulos = from modulos in dataContext.Modulo
                            where modulos.dacasys == vDacasys
                            select modulos;
@@ -682,29 +431,15 @@
                            select modulos;
 
             foreach (var modulo in vModulos)
-                Insertar_EliminarModulo(pIDRol, modulo.ID, true, pIDUsuario, pDACASYS);
+                Insertar_EliminarModulo(idRol, modulo.ID, true, idUsuario, idDacasys);
 
         }
 
-        /// <summary>
-        /// Metodo privado que devuelve todos los formularios de un Rol
-        /// </summary>
-        /// <param name="pIDRol">ID del rol</param>
-        /// <returns></returns>
-        private IEnumerable<Fomulario> Get_AllFormularios(int pIDRol)
-        {
-            return from f in dataContext.Fomulario
-                   join rf in dataContext.Rol_Formulario on f.ID equals rf.IDFormulario
-                   where rf.IDRol == pIDRol
-                   select f;
-
-        }
-        
-        private static void DeleteComponente(ModulosTree componente, int pIDRol)
+        private static void DeleteComponente(ModulosTree componente, int idRol)
         {
             var rc = (from cr in dataContext.Rol_Componente
                       where cr.ID_Componente == componente.ID
-                          && cr.ID_Rol == pIDRol
+                          && cr.ID_Rol == idRol
                       select cr).FirstOrDefault();
             if (rc != null)
             {
@@ -712,26 +447,26 @@
             }
         }
 
-        private static void InsertarComponente(ModulosTree componente, int pIDRol)
+        private static void InsertarComponente(ModulosTree componente, int idRol)
         {
             var rc = (from cr in dataContext.Rol_Componente
                       where cr.ID_Componente == componente.ID
-                          && cr.ID_Rol == pIDRol
+                          && cr.ID_Rol == idRol
                       select cr).FirstOrDefault();
             if (rc == null)
             {
                 Rol_Componente rfor = new Rol_Componente();
-                rfor.ID_Rol = pIDRol;
+                rfor.ID_Rol = idRol;
                 rfor.ID_Componente = componente.ID;
                 dataContext.Rol_Componente.InsertOnSubmit(rfor);
             }
         }
 
-        private static void Deleteformulario(ModulosTree formulario, int pIDRol)
+        private static void Deleteformulario(ModulosTree formulario, int idRol)
         {
             var rf = (from fr in dataContext.Rol_Formulario
                       where fr.IDFormulario == formulario.ID
-                      && fr.IDRol == pIDRol
+                      && fr.IDRol == idRol
                       select fr).FirstOrDefault();
             if (rf != null)
             {
@@ -739,25 +474,25 @@
             }
         }
 
-        private static void Insertarformulario(ModulosTree formulario, int pIDRol)
+        private static void Insertarformulario(ModulosTree formulario, int idRol)
         {
             var rf = (from fr in dataContext.Rol_Formulario
                       where fr.IDFormulario == formulario.ID
-                      && fr.IDRol == pIDRol
+                      && fr.IDRol == idRol
                       select fr).FirstOrDefault();
             if (rf == null)
             {
                 Rol_Formulario rfor = new Rol_Formulario();
-                rfor.IDRol = pIDRol;
+                rfor.IDRol = idRol;
                 rfor.IDFormulario = formulario.ID;
                 dataContext.Rol_Formulario.InsertOnSubmit(rfor);
             }
         }
 
-        private static void DeleteModulo(ModulosTree modulo, int pIDRol)
+        private static void DeleteModulo(ModulosTree modulo, int idRol)
         {
             var rm = (from mr in dataContext.Rol_Modulo
-                      where mr.IDRol == pIDRol &&
+                      where mr.IDRol == idRol &&
                       mr.IDModulo == modulo.ID
                       select mr).FirstOrDefault();
             if (rm != null)
@@ -767,22 +502,22 @@
             }
         }
 
-        private static void InsertarModulo(ModulosTree modulo, int pIDRol)
+        private static void InsertarModulo(ModulosTree modulo, int idRol)
         {
             var query = (from mr in dataContext.Rol_Modulo
-                         where mr.IDRol == pIDRol &&
+                         where mr.IDRol == idRol &&
                          mr.IDModulo == modulo.ID
                          select mr).FirstOrDefault();
             if (query == null)
             {
                 Rol_Modulo mr = new Rol_Modulo();
                 mr.IDModulo = modulo.ID;
-                mr.IDRol = pIDRol;
+                mr.IDRol = idRol;
                 dataContext.Rol_Modulo.InsertOnSubmit(mr);
             }
 
         }
-        
+
         #endregion
     }
 }
