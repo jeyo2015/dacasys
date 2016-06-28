@@ -4,16 +4,29 @@
 <div class="modal fade" id="modal-ver-mas" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
-            <!--<div class="modal-header">
-                     <h4 class="modal-title">Renovar contrasena</h4>
-                 </div>-->
+           <div class="modal-header">
+                    <h4 class="modal-title">Clinica {{clinicaSeleccionada.Nombre}}</h4>
+                </div>
             <div class="modal-body">
-                <button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>
+               
+                    <!-- Only required for left/right tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Informacion</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Horarios</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            toda info general
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            los consultorios 
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" onclick="CloseTaskList();">Close</a>
             </div>
-            <!--<div class="modal-footer">
-                     <button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>
-                 </div>-->
         </div>
     </div>
-
 </div>

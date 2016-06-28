@@ -27,6 +27,7 @@
     }
 
     function abrirModalVerMasClinica() {
+        console.log($scope.clinicaSeleccionada);
         $("#modal-ver-mas").modal('show');
     }
 
@@ -70,7 +71,11 @@
             zIndex: clinica.IDClinica
         });
         google.maps.event.addListener(marker, 'click', function () {
-            $scope.clinicaSeleccionada = clinica;
+           
+            $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
+                return item.IDClinica == marker.zIndex;
+            })[0];
+            $scope.$apply();
             openInfoWindow(marker);
         });
     }

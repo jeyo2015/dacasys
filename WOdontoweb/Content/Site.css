@@ -532,3 +532,27 @@ input:-webkit-autofill
 {
     background-color: #18114F;
 }
+.nav-tabs {
+  background: #ffffff;
+}
+.nav-tabs > li > a {
+  color: #000000;
+  border: 0;
+  margin: 0;
+}
+.nav-tabs > li > a:hover {
+  background-color: transparent;
+  border: 0;
+}
+.nav-tabs > li > a,
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+  background-color: transparent !important;
+  border: 0 !important;
+  color: #000000 !important;
+  font-weight: 500;
+}
+.nav-tabs > li.disabled > a,
+.nav-tabs > li.disabled > a:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
