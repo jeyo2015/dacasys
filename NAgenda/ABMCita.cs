@@ -133,9 +133,19 @@
                 return false;
             }
         }
-
+        public static int ObtenerDirefenciaHora()
+        {
+            var sql = from p in dataContext.ParametroSistemas
+                      where p.Elemento == "DiferenciaHora"
+                      select p;
+            if (!sql.Any()) return 0;
+            var valorI = sql.First().ValorI;
+            if (valorI != null) return (int)valorI;
+            return 0;
+        }
         public static List<AgendaDto> ObtenerAgendaDelDia(DateTime fechaCita, int idConsultorio, int tiempoConsulta)
         {
+            fechaCita = fechaCita.AddHours(ObtenerDirefenciaHora());
             var query = (from c in dataContext.Cita
                          from cp in dataContext.Cliente_Paciente
                          from p in dataContext.Paciente
@@ -156,9 +166,8 @@
                              Estalibre = c.libre
                          });
 
-            var dateValue = DateTime.Parse(fechaCita.ToString(), CultureInfo.InvariantCulture);
-
-            var timeOfDay = DateTime.Now.TimeOfDay;
+            var dateValue = DateTime.Parse(fechaCita.ToString("yyyy-MM-dd"), CultureInfo.InvariantCulture);
+           var timeOfDay = DateTime.Now.TimeOfDay;
             var horarioConsultorio = (from h in dataContext.Horario
                                       where h.iddia == (int)dateValue.DayOfWeek
                                       && h.idempresa == idConsultorio

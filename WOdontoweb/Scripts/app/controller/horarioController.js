@@ -117,9 +117,10 @@
         if ($scope.horarioParaGuardar.State == 1) {
             horarioService.insertarHorario($scope.horarioParaGuardar).then(function(result) {
                 if (result.Data == 1) {
-                    $scope.ListaHorario.push(angular.copy($scope.horarioParaGuardar));
+                    cargarHorarios();
                     toastr.success(result.Message);
                     prepararNuevoHorario();
+                  
                 } else {
                     toastr.error(result.Message);
                 }
