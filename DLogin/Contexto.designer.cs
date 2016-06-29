@@ -84,9 +84,6 @@ namespace Datos
     partial void InsertHistorico_Paciente(Historico_Paciente instance);
     partial void UpdateHistorico_Paciente(Historico_Paciente instance);
     partial void DeleteHistorico_Paciente(Historico_Paciente instance);
-    partial void InsertHorario(Horario instance);
-    partial void UpdateHorario(Horario instance);
-    partial void DeleteHorario(Horario instance);
     partial void InsertLicencia(Licencia instance);
     partial void UpdateLicencia(Licencia instance);
     partial void DeleteLicencia(Licencia instance);
@@ -150,10 +147,13 @@ namespace Datos
     partial void InsertHistorico_Paciente_det(Historico_Paciente_det instance);
     partial void UpdateHistorico_Paciente_det(Historico_Paciente_det instance);
     partial void DeleteHistorico_Paciente_det(Historico_Paciente_det instance);
+    partial void InsertHorario(Horario instance);
+    partial void UpdateHorario(Horario instance);
+    partial void DeleteHorario(Horario instance);
     #endregion
 		
 		public DataContext() : 
-				base(global::Datos.Properties.Settings.Default.db_dentistaConnectionString, mappingSource)
+				base(global::Datos.Properties.Settings.Default.db_dentistaConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -175,8 +175,8 @@ namespace Datos
 		{
 			OnCreated();
 		}
-
-        public DataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		
+		public DataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -323,14 +323,6 @@ namespace Datos
 			get
 			{
 				return this.GetTable<Historico_Paciente>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Horario> Horario
-		{
-			get
-			{
-				return this.GetTable<Horario>();
 			}
 		}
 		
@@ -499,6 +491,14 @@ namespace Datos
 			get
 			{
 				return this.GetTable<Historico_Paciente_det>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Horario> Horario
+		{
+			get
+			{
+				return this.GetTable<Horario>();
 			}
 		}
 		
@@ -4014,212 +4014,6 @@ namespace Datos
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Horario")]
-	public partial class Horario : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _idhorario;
-		
-		private int _num_horario;
-		
-		private System.TimeSpan _hora_inicio;
-		
-		private System.TimeSpan _hora_fin;
-		
-		private int _iddia;
-		
-		private int _idempresa;
-		
-		private bool _estado;
-		
-    #region Definiciones de métodos de extensibilidad
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidhorarioChanging(int value);
-    partial void OnidhorarioChanged();
-    partial void Onnum_horarioChanging(int value);
-    partial void Onnum_horarioChanged();
-    partial void Onhora_inicioChanging(System.TimeSpan value);
-    partial void Onhora_inicioChanged();
-    partial void Onhora_finChanging(System.TimeSpan value);
-    partial void Onhora_finChanged();
-    partial void OniddiaChanging(int value);
-    partial void OniddiaChanged();
-    partial void OnidempresaChanging(int value);
-    partial void OnidempresaChanged();
-    partial void OnestadoChanging(bool value);
-    partial void OnestadoChanged();
-    #endregion
-		
-		public Horario()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idhorario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int idhorario
-		{
-			get
-			{
-				return this._idhorario;
-			}
-			set
-			{
-				if ((this._idhorario != value))
-				{
-					this.OnidhorarioChanging(value);
-					this.SendPropertyChanging();
-					this._idhorario = value;
-					this.SendPropertyChanged("idhorario");
-					this.OnidhorarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_num_horario", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int num_horario
-		{
-			get
-			{
-				return this._num_horario;
-			}
-			set
-			{
-				if ((this._num_horario != value))
-				{
-					this.Onnum_horarioChanging(value);
-					this.SendPropertyChanging();
-					this._num_horario = value;
-					this.SendPropertyChanged("num_horario");
-					this.Onnum_horarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hora_inicio", DbType="Time NOT NULL")]
-		public System.TimeSpan hora_inicio
-		{
-			get
-			{
-				return this._hora_inicio;
-			}
-			set
-			{
-				if ((this._hora_inicio != value))
-				{
-					this.Onhora_inicioChanging(value);
-					this.SendPropertyChanging();
-					this._hora_inicio = value;
-					this.SendPropertyChanged("hora_inicio");
-					this.Onhora_inicioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hora_fin", DbType="Time NOT NULL")]
-		public System.TimeSpan hora_fin
-		{
-			get
-			{
-				return this._hora_fin;
-			}
-			set
-			{
-				if ((this._hora_fin != value))
-				{
-					this.Onhora_finChanging(value);
-					this.SendPropertyChanging();
-					this._hora_fin = value;
-					this.SendPropertyChanged("hora_fin");
-					this.Onhora_finChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_iddia", DbType="Int NOT NULL")]
-		public int iddia
-		{
-			get
-			{
-				return this._iddia;
-			}
-			set
-			{
-				if ((this._iddia != value))
-				{
-					this.OniddiaChanging(value);
-					this.SendPropertyChanging();
-					this._iddia = value;
-					this.SendPropertyChanged("iddia");
-					this.OniddiaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idempresa", DbType="Int NOT NULL")]
-		public int idempresa
-		{
-			get
-			{
-				return this._idempresa;
-			}
-			set
-			{
-				if ((this._idempresa != value))
-				{
-					this.OnidempresaChanging(value);
-					this.SendPropertyChanging();
-					this._idempresa = value;
-					this.SendPropertyChanged("idempresa");
-					this.OnidempresaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="Bit NOT NULL")]
-		public bool estado
-		{
-			get
-			{
-				return this._estado;
-			}
-			set
-			{
-				if ((this._estado != value))
-				{
-					this.OnestadoChanging(value);
-					this.SendPropertyChanging();
-					this._estado = value;
-					this.SendPropertyChanged("estado");
-					this.OnestadoChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Licencia")]
 	public partial class Licencia : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -7057,6 +6851,212 @@ namespace Datos
 					this._id_cita = value;
 					this.SendPropertyChanged("id_cita");
 					this.Onid_citaChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Horario")]
+	public partial class Horario : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _idhorario;
+		
+		private int _num_horario;
+		
+		private System.TimeSpan _hora_inicio;
+		
+		private System.TimeSpan _hora_fin;
+		
+		private int _iddia;
+		
+		private int _idempresa;
+		
+		private bool _estado;
+		
+    #region Definiciones de métodos de extensibilidad
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidhorarioChanging(int value);
+    partial void OnidhorarioChanged();
+    partial void Onnum_horarioChanging(int value);
+    partial void Onnum_horarioChanged();
+    partial void Onhora_inicioChanging(System.TimeSpan value);
+    partial void Onhora_inicioChanged();
+    partial void Onhora_finChanging(System.TimeSpan value);
+    partial void Onhora_finChanged();
+    partial void OniddiaChanging(int value);
+    partial void OniddiaChanged();
+    partial void OnidempresaChanging(int value);
+    partial void OnidempresaChanged();
+    partial void OnestadoChanging(bool value);
+    partial void OnestadoChanged();
+    #endregion
+		
+		public Horario()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idhorario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int idhorario
+		{
+			get
+			{
+				return this._idhorario;
+			}
+			set
+			{
+				if ((this._idhorario != value))
+				{
+					this.OnidhorarioChanging(value);
+					this.SendPropertyChanging();
+					this._idhorario = value;
+					this.SendPropertyChanged("idhorario");
+					this.OnidhorarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_num_horario", DbType="Int NOT NULL")]
+		public int num_horario
+		{
+			get
+			{
+				return this._num_horario;
+			}
+			set
+			{
+				if ((this._num_horario != value))
+				{
+					this.Onnum_horarioChanging(value);
+					this.SendPropertyChanging();
+					this._num_horario = value;
+					this.SendPropertyChanged("num_horario");
+					this.Onnum_horarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hora_inicio", DbType="Time NOT NULL")]
+		public System.TimeSpan hora_inicio
+		{
+			get
+			{
+				return this._hora_inicio;
+			}
+			set
+			{
+				if ((this._hora_inicio != value))
+				{
+					this.Onhora_inicioChanging(value);
+					this.SendPropertyChanging();
+					this._hora_inicio = value;
+					this.SendPropertyChanged("hora_inicio");
+					this.Onhora_inicioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hora_fin", DbType="Time NOT NULL")]
+		public System.TimeSpan hora_fin
+		{
+			get
+			{
+				return this._hora_fin;
+			}
+			set
+			{
+				if ((this._hora_fin != value))
+				{
+					this.Onhora_finChanging(value);
+					this.SendPropertyChanging();
+					this._hora_fin = value;
+					this.SendPropertyChanged("hora_fin");
+					this.Onhora_finChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_iddia", DbType="Int NOT NULL")]
+		public int iddia
+		{
+			get
+			{
+				return this._iddia;
+			}
+			set
+			{
+				if ((this._iddia != value))
+				{
+					this.OniddiaChanging(value);
+					this.SendPropertyChanging();
+					this._iddia = value;
+					this.SendPropertyChanged("iddia");
+					this.OniddiaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idempresa", DbType="Int NOT NULL")]
+		public int idempresa
+		{
+			get
+			{
+				return this._idempresa;
+			}
+			set
+			{
+				if ((this._idempresa != value))
+				{
+					this.OnidempresaChanging(value);
+					this.SendPropertyChanging();
+					this._idempresa = value;
+					this.SendPropertyChanged("idempresa");
+					this.OnidempresaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="Bit NOT NULL")]
+		public bool estado
+		{
+			get
+			{
+				return this._estado;
+			}
+			set
+			{
+				if ((this._estado != value))
+				{
+					this.OnestadoChanging(value);
+					this.SendPropertyChanging();
+					this._estado = value;
+					this.SendPropertyChanged("estado");
+					this.OnestadoChanged();
 				}
 			}
 		}

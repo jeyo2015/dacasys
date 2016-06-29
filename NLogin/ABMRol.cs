@@ -13,7 +13,7 @@
     {
         #region VariablesGlobales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -259,12 +259,17 @@
         /// </summary>
         /// <param name="idEmpresa">Id del consultorio</param>
         /// <returns></returns>
-        public static List<Rol> Get_Roles(int idEmpresa)
+        public static List<RolDto> Get_Roles(int idEmpresa)
         {
             return (from r in dataContext.Rol
                     where r.IDEmpresa == idEmpresa
                     orderby r.Nombre
-                    select r).ToList();
+                    select new RolDto()
+                    {
+                        ID = r.ID,
+                        IDEmpresa = r.IDEmpresa,
+                        Nombre = r.Nombre
+                    }).ToList();
         }
 
         public static List<ModulosTree> getComponenentes(int idRol, int idFormulario)

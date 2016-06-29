@@ -49,8 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLogin\Datos.csproj">
-      <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{fc5c81fb-636e-435a-bc4b-7344994b0209}</Project>
       <Name>Datos %28Datos\Datos%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\NEventos\NEventos.csproj">

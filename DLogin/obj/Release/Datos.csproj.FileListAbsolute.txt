@@ -1,0 +1,5 @@
+D:\DACASYS\Clone1506\dacasys\DLogin\bin\Release\DLogin.dll.config
+D:\DACASYS\Clone1506\dacasys\DLogin\bin\Release\DLogin.dll
+D:\DACASYS\Clone1506\dacasys\DLogin\bin\Release\DLogin.pdb
+D:\DACASYS\Clone1506\dacasys\DLogin\obj\Release\DLogin.dll
+D:\DACASYS\Clone1506\dacasys\DLogin\obj\Release\DLogin.pdb

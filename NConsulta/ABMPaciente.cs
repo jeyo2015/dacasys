@@ -12,7 +12,7 @@
     {
         #region VariableGlobales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -43,7 +43,7 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal
+                        IsPrincipal = clientePaciente.IsPrincipal??false
                     }).ToList();
         }
 
@@ -73,7 +73,7 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal
+                        IsPrincipal = clientePaciente.IsPrincipal??false
                     }).ToList();
 
         }
@@ -122,7 +122,7 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal
+                        IsPrincipal = clientePaciente.IsPrincipal??false
                     }).FirstOrDefault();
 
         }

@@ -314,3 +314,7 @@ D:\Geovi\Dacasys2705\dacasys\Herramientas\bin\Debug\Herramientas.pdb
 D:\Geovi\Dacasys2705\dacasys\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\Herramientas\obj\Debug\Herramientas.dll
 D:\Geovi\Dacasys2705\dacasys\Herramientas\obj\Debug\Herramientas.pdb
+D:\DACASYS\Clone1506\dacasys\Herramientas\bin\Debug\Herramientas.dll
+D:\DACASYS\Clone1506\dacasys\Herramientas\bin\Debug\Herramientas.pdb
+D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.dll
+D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.pdb

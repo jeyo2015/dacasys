@@ -1,0 +1,102 @@
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="horarioController">
+    <div class="col-md-4 col-md-offset-1">
+        <div class="row">
+            <div class="form-group label-floating">
+                <label for="buscarHorarioID" class="col-md-2 control-label">Buscar</label>
+                <div class="col-md-10">
+                    <input type="text" ng-model="subString" class="form-control" id="buscarHorarioID">
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-md-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <table class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Dia</th>
+                            <th>Numero</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
+                            <td>{{horario.NombreDia}}</td>
+                            <td>{{horario.NumHorario}}</td>
+                            <td>{{horario.HoraInicio}}</td>
+                            <td>{{horario.HoraFin}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="horarioSelected==null">Eliminar</button>
+        </div>
+    </div>
+    <div class="col-md-7 ">
+        <div class="row">
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="selectNumero" class="col-md-3 control-label">Día:</label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="selectDia" ng-options="dia.NombreDia for dia in ListaDias" ng-model="diaSelected"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="horaInicio" class="col-md-3 control-label">Hora Inicio:</label>
+                    <div class="col-md-9">
+                        <input type="text" ng-model="horarioParaGuardar.HoraInicio" class="form-control" id="horaInicio">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="horaFin" class="col-md-3 control-label">Hora Final: </label>
+                    <div class="col-md-9">
+                        <input type="text" ng-model="horarioParaGuardar.HoraFin" class="form-control" id="horaFin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selectNumero" class="col-md-3 control-label">Número:</label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="selectNumero" ng-model="numeroSelected">
+                            <option value="1" selected="selected">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <button class="btn btn-raised btn-primary " ng-click="nuevoHorario()">Nuevo</button>
+                        <button class="btn btn-raised btn-primary " ng-click="guardarHorario()" ng-disabled="validarCamposHorario()">Guardar</button>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-delete" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar horario</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>¿Esta seguro que quiere eliminar el registro?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarRegistro()">Si</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -310,10 +310,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLogin\Datos.csproj">
-      <Project>{8a23c7ad-52d5-4c7f-9b9c-191a2ebcc305}</Project>
-      <Name>Datos</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Herramientas\Herramientas.csproj">
       <Project>{0398367d-0762-41fc-9e40-b62a53b50977}</Project>
       <Name>Herramientas</Name>

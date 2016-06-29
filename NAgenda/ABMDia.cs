@@ -9,7 +9,7 @@
     {
         #region VariablesGlogales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 

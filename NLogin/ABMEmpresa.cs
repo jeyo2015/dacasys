@@ -9,13 +9,13 @@
     using NEventos;
     using System.Data.Linq;
     using Herramientas;
-    using DataContext = Datos.DataContext;
+    
 
     public class ABMEmpresa
     {
         #region VariablesGlogales
 
-        readonly static DataContext dataContext = new DataContext();
+      readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -410,10 +410,15 @@
                     }).ToList();
         }
 
-        public static IEnumerable<Tiempo_Consulta> ObtenerIntervalosDeTiempo()
+        public static List<TiempoConsultaDto> ObtenerIntervalosDeTiempo()
         {
-            return from inte in dataContext.Tiempo_Consulta
-                   select inte;
+            return (from inte in dataContext.Tiempo_Consulta
+                   select new TiempoConsultaDto()
+                   {
+                       ID = inte.ID,
+                        Descripcion = inte.Descripcion,
+                        Value = inte.Value
+                   }).ToList();
         }
 
         public static List<ConsultorioDto> ObtenerConsultorios(int idClinica)
@@ -694,14 +699,7 @@
             return Converter<Empresa>.Convert(ObtenerEmpresaPorId(idEmpresa).ToList());
         }
         
-        /// <summary>
-        /// Devuelve los ID's de todos los consultorios
-        /// </summary>
-        /// <returns>DataTable</returns>
-        public DataTable ObtenerIdEmpresa()
-        {
-            return Converter<getIDEmpresasResult>.Convert(ObtenerListaIdEmpresa().ToList());
-        }
+     
         
         public static Clinica ObtenerClinica(int idClinica)
         {
@@ -866,14 +864,7 @@
 
         }
         
-        /// <summary>
-        /// Metodo privado que retorna los ID de todos los consultorios
-        /// </summary>
-        /// <returns>IEnumerable</returns>
-        private IEnumerable<getIDEmpresasResult> ObtenerListaIdEmpresa()
-        {
-            return dataContext.getIDEmpresas();
-        }
+      
 
         /// <summary>
         /// Crea la licencia a la nueva empresa

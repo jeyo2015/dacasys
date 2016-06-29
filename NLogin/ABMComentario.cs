@@ -11,7 +11,7 @@
     {
         #region VariablesGlogales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -48,7 +48,7 @@
                     from p in dataContext.Paciente
                     where comentario.IsVisible == true && comentario.IDClinica == idConsultorio
                     && cp.id_usuariocliente== comentario.IDUsuarioPaciente 
-                    && p.id_paciente == cp.id_paciente && cp.IsPrincipal
+                    && p.id_paciente == cp.id_paciente && cp.IsPrincipal== true
                     orderby comentario.FechaCreacion descending
                     select new ComentarioDto()
                     {

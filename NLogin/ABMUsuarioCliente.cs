@@ -11,7 +11,7 @@
     {
         #region VariablesGlogales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -104,7 +104,7 @@
                                 from pc in dataContext.Cliente_Paciente
                                 where p.id_paciente == pc.id_paciente
                                 && pc.id_usuariocliente == cliente.Login
-                                && pc.IsPrincipal
+                                && pc.IsPrincipal== true
                                 select p).FirstOrDefault();
                 String vPassEncriptada = Encriptador.Encriptar(password);
                 if (cliente.Password == vPassEncriptada)

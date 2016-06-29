@@ -1,0 +1,5 @@
+D:\DACASYS\Clone1506\dacasys\Datos\bin\Release\Datos.dll.config
+D:\DACASYS\Clone1506\dacasys\Datos\bin\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\Datos\bin\Release\Datos.pdb
+D:\DACASYS\Clone1506\dacasys\Datos\obj\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\Datos\obj\Release\Datos.pdb

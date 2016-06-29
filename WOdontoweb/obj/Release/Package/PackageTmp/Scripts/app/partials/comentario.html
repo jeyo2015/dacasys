@@ -1,0 +1,19 @@
+﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;" ng-controller="comentarioController">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+
+            <div class="panel panel-primary" ng-repeat="comentario in ListaComentario">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{comentario.NombrePaciente}} <span class="pull-right">{{comentario.FechaCreacion}}</span></h3>
+                    
+                </div>
+                <div class="panel-body">
+                    
+                        <label> {{comentario.Comentario}}</label>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -810,3 +810,10 @@ D:\Geovi\Dacasys2705\dacasys\NEventos\bin\Debug\DLogin.pdb
 D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.dll
 D:\Geovi\Dacasys2705\dacasys\NEventos\obj\Debug\NEventos.pdb
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Debug\NEventos.dll
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Debug\NEventos.pdb
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Debug\Datos.dll
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Debug\Datos.pdb
+D:\DACASYS\Clone1506\dacasys\NEventos\obj\Debug\NEventos.csprojResolveAssemblyReference.cache
+D:\DACASYS\Clone1506\dacasys\NEventos\obj\Debug\NEventos.dll
+D:\DACASYS\Clone1506\dacasys\NEventos\obj\Debug\NEventos.pdb

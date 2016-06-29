@@ -110,12 +110,6 @@
         <elementListCompartment Id="f025ae09-12ee-4bf4-b8eb-92c3791d1941" absoluteBounds="6.765, 13.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="bc696749-6bf1-43bc-8990-37f0a3cf80ba" absoluteBounds="9.75, 12.75, 2, 2.1554996744791666">
-      <DataClassMoniker Name="/DLoginLinqDataContext/Horario" />
-      <nestedChildShapes>
-        <elementListCompartment Id="de52d86f-f6ee-4cfe-80b7-da4769ee396d" absoluteBounds="9.765, 13.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="8ab2d809-4def-4108-9b92-e87489af1327" absoluteBounds="12.75, 11.75, 2, 1.3862939453124987">
       <DataClassMoniker Name="/DLoginLinqDataContext/Licencia" />
       <nestedChildShapes>
@@ -247,6 +241,12 @@
       <DataClassMoniker Name="/DLoginLinqDataContext/Historico_Paciente_det" />
       <nestedChildShapes>
         <elementListCompartment Id="df6352c1-5d8c-4032-96cc-ca4440354fe6" absoluteBounds="12.515, 9.71, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="33fa3e0d-b15c-4295-9561-b6b97a94af8f" absoluteBounds="9.875, 12.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DLoginLinqDataContext/Horario" />
+      <nestedChildShapes>
+        <elementListCompartment Id="30fe7735-b019-42f6-98d3-32ce8656a8b1" absoluteBounds="9.89, 13.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -14,7 +14,7 @@ namespace NAgenda
     {
         #region VariableGlobales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -157,11 +157,17 @@ namespace NAgenda
                              Estalibre = c.libre
                          });
 
-         
+            var dia = (int)fechaCita.DayOfWeek;
             var nombreDia = fechaCita.ToString("dddd",
-                   new CultureInfo("es-ES"));
-
-           
+                  new CultureInfo("es-ES"));
+            //if (dia == -1)
+            //    dia = 6;
+            //var timeOfDay = DateTime.Now.TimeOfDay;
+            //var horarioConsultorio = (from h in dataContext.Horario
+            //                          where h.iddia == dia
+            //                          && h.idempresa == idConsultorio
+            //                          && h.estado
+            //                          select h).OrderBy(o => o.hora_inicio);
             var timeOfDay = DateTime.Now.TimeOfDay;
             var horarioConsultorio = (from h in dataContext.Horario
                                       from d in dataContext.Dia

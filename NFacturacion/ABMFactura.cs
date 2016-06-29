@@ -12,7 +12,7 @@
     {
         #region VariablesGlogales
 
-        readonly DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
         readonly ABMDosificacion abmDosificacion = new ABMDosificacion();
 
         #endregion

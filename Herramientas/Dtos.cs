@@ -137,7 +137,18 @@
         public List<NotificacionesConsultorioDto> Notificaciones { get; set; }
         public int CantidadNuevasNotificaciones { get; set; }
     }
-
+    public class RolDto
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+        public int IDEmpresa { get; set; }
+    }
+    public class TiempoConsultaDto
+    {
+        public int ID { get; set; }
+        public string Descripcion { get; set; }
+        public int Value { get; set; }
+    }
     public class PacienteDto
     {
         public string LoginCliente { get; set; }

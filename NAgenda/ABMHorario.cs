@@ -11,7 +11,7 @@
     {
         #region VariableGlobales
 
-        readonly static DataContext dataContext = new DataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -56,7 +56,7 @@
         public static bool Modificar(HorarioDto horarioDto, string idUsuario)
         {
             var sql = from h in dataContext.Horario
-                      where h.idhorario == horarioDto.IDHorario && h.num_horario == horarioDto.NumHorario
+                      where h.idhorario == horarioDto.IDHorario 
                       select h;
 
             if (sql.Any())
@@ -64,7 +64,8 @@
                 sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
                 sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
                 sql.First().iddia = horarioDto.IDDia;
-                sql.First().idempresa = horarioDto.IDEmpresa;
+                sql.First().num_horario = horarioDto.NumHorario;
+               
                 try
                 {
                     dataContext.SubmitChanges();
@@ -76,10 +77,10 @@
                     ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
                 }
             }
-            else
-            {
-                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
-            }
+            //else
+            //{
+            //    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
+            //}
             return false;
         }
 
