@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-
-namespace NAgenda
+﻿namespace NAgenda
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using NEventos;
     using NLogin;
@@ -156,15 +155,12 @@ namespace NAgenda
                              LoginCliente = c.id_cliente,
                              Estalibre = c.libre
                          });
-            
-            var culture = new System.Globalization.CultureInfo("es-ES");
-            var nombreDia = culture.DateTimeFormat.GetDayName(fechaCita.DayOfWeek);
+
+            var dateValue = DateTime.Parse(fechaCita.ToString(), CultureInfo.InvariantCulture);
 
             var timeOfDay = DateTime.Now.TimeOfDay;
             var horarioConsultorio = (from h in dataContext.Horario
-                                      from d in dataContext.Dia
-                                      where d.iddia == h.iddia
-                                      && d.descripcion.Trim().ToUpper() == nombreDia.Trim().ToUpper()
+                                      where h.iddia == (int)dateValue.DayOfWeek
                                       && h.idempresa == idConsultorio
                                       && h.estado
                                       select h).OrderBy(o => o.hora_inicio);
