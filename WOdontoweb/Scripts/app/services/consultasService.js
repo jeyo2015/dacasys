@@ -37,9 +37,12 @@
         });
         return d.promise;
     };
-     this.insertarCitaPaciente = function (cita, fecha, idCliente) {
-        var d = $q.defer();//
-        $http.post('Consultas/InsertarCitaPaciente', { pcita: cita,pFecha:fecha,pIdCliente:idCliente  }).success(function (data) {
+    this.insertarCitaPaciente = function (cita, fecha, idCliente) {
+        var d = $q.defer();
+        var fechaSplit = fecha.split('/');
+        var fechaConvertida = fechaSplit ? new Date(fechaSplit[2], fechaSplit[1] - 1, fechaSplit[0]) : new Date();
+
+        $http.post('Consultas/InsertarCitaPaciente', { pcita: cita, pFecha: fechaConvertida, pIdCliente: idCliente }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

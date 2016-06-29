@@ -6,7 +6,6 @@
         });
         return d.promise;
     };
-
     this.getAllClinicasHabilitadas = function () {
         var d = $q.defer();
         $http.get('Empresa/ObtenerClinicasHabilitadas').success(function (data) {
@@ -84,7 +83,6 @@
         });
         return d.promise;
     };
-    
     this.modificarConsultorio = function (consultorio) {
         var d = $q.defer();
         $http.post('Empresa/ModificarConsultorio', { consultorioDto: consultorio }).success(function (data) {
