@@ -202,10 +202,12 @@
                       where e.ID == idEmpresa && e.Estado == true
                       && c.ID == e.IDClinica
                       select c).FirstOrDefault();
+            String vMensaje = "";
+            SMTP vSMTP = new SMTP();
             if (em != null)
             {
-                SMTP vSMTP = new SMTP();
-                String vMensaje = "";
+              
+               
                 if (password.Equals(""))
                 {//Solo se asigna nueva empresa
                     vMensaje = "Estimado Cliente ha sido suscrito a " + em.Nombre.ToUpper() + ". \nIngrese a la pagina " +
@@ -220,6 +222,12 @@
                        "\nContraseña: " + password + "\nSaludos,\nOdontoweb.";
                     vSMTP.Datos_Mensaje(email, vMensaje, "Bienvenido a Odontoweb");
                 }
+                vSMTP.Enviar_Mail();
+            }
+            else {
+                vMensaje = "Bienvenido a Odontoweb.\n Sus datos para ingresar al sistema son: \n" + "Usuario: " + idCliente +
+                          "\nContraseña: " + password + "\nSaludos,\nOdontoweb.";
+                vSMTP.Datos_Mensaje(email, vMensaje, "Bienvenido a Odontoweb");
                 vSMTP.Enviar_Mail();
             }
         }

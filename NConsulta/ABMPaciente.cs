@@ -170,7 +170,8 @@
                 {
                     var password = Encriptador.GenerarAleatoriamente();
                     ABMUsuarioCliente.Insertar(pacienteDto.LoginCliente, password, idUsuario);
-                    AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
+                    if (pacienteDto.IDEmpresa != -1)
+                        AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
                     ABMUsuarioCliente.EnviarCorreoDeBienvenida(pacienteDto.IDEmpresa, pacienteDto.Email, password, pacienteDto.LoginCliente);
                 }
                 AsignarClientePaciente(nuevoIdPaciente, pacienteDto.LoginCliente, pacienteDto.IsPrincipal, idUsuario);

@@ -44,7 +44,7 @@
 
         public JsonResult InsertarNuevoPaciente(PacienteDto pacienteDto)
         {
-            var insert = ABMPaciente.Insertar(pacienteDto, Session["loginusuario"].ToString());
+            var insert = ABMPaciente.Insertar(pacienteDto, Session["loginusuario"] == null ? "" : Session["loginusuario"].ToString());
             var message = string.Empty;
             switch (insert)
             {

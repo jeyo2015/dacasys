@@ -419,21 +419,24 @@
         public static List<ConsultorioDto> ObtenerConsultorios(int idClinica)
         {
             return (from e in dataContext.Empresa
+                    from tc in dataContext.Tiempo_Consulta
                     where e.IDClinica == idClinica
-                    select e).Select(x => new ConsultorioDto()
+                    && tc.ID == e.IDIntervalo
+                    select new ConsultorioDto()
                     {
-                        Email = x.Email,
-                        Estado = x.Estado,
-                        FechaCreacion = x.FechaCreacion,
-                        FechaModificacion = x.FechaModificacion,
-                        IDClinica = x.IDClinica,
-                        IDConsultorio = x.ID,
-                        IDIntervalo = x.IDIntervalo,
-                        IDUsuarioCreador = x.IDUsuarioCreador,
-                        Login = x.Login,
-                        NIT = x.NIT,
-                        Telefonos = ObtenerTelefonosConsultorios(x.ID, idClinica),
-                        Trabajos = ObtenerTrabajosConsultorio(x.ID)
+                        Email = e.Email,
+                        Estado = e.Estado,
+                        FechaCreacion = e.FechaCreacion,
+                        FechaModificacion = e.FechaModificacion,
+                        IDClinica = e.IDClinica,
+                        IDConsultorio = e.ID,
+                        IDIntervalo = e.IDIntervalo,
+                        IDUsuarioCreador = e.IDUsuarioCreador,
+                        Login = e.Login,
+                        NIT = e.NIT,
+                        Telefonos = ObtenerTelefonosConsultorios(e.ID, idClinica),
+                        Trabajos = ObtenerTrabajosConsultorio(e.ID),
+                        TiempoCita = tc.Value
                     }).ToList();
         }
 
