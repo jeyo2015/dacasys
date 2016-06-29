@@ -1,7 +1,10 @@
 ﻿app.service("consultasService", function ($http, $q) {
     this.getCitasDelDia = function (fecha, idConsultorio, tiempoConsulta) {
         var d = $q.defer();
-        $http.post('Consultas/GetCitasDelDia', { pfecha: fecha, pIdConsultorio: idConsultorio, ptiempoConsulta: tiempoConsulta }).success(function (data) {
+        var fechaSplit = fecha.split('/');
+        var fechaConvertida = fechaSplit ? new Date(fechaSplit[2], fechaSplit[1] - 1, fechaSplit[0]) : new Date();
+
+        $http.post('Consultas/GetCitasDelDia', { pfecha: fechaConvertida, pIdConsultorio: idConsultorio, ptiempoConsulta: tiempoConsulta }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
