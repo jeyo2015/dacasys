@@ -59,28 +59,22 @@
                       where h.idhorario == horarioDto.IDHorario 
                       select h;
 
-            if (sql.Any())
-            {
-                sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
-                sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
-                sql.First().iddia = horarioDto.IDDia;
-                sql.First().num_horario = horarioDto.NumHorario;
+            if (!sql.Any()) return false;
+            sql.First().hora_fin = TimeSpan.Parse(horarioDto.HoraFin);
+            sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
+            sql.First().iddia = horarioDto.IDDia;
+            sql.First().num_horario = horarioDto.NumHorario;
                
-                try
-                {
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se modifico el horario", idUsuario);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
-                }
+            try
+            {
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se modifico el horario", idUsuario);
+                return true;
             }
-            //else
-            //{
-            //    ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar, no se pudo obtener el horario", null);
-            //}
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NAgenda", "ABMHorario", "Modificar", ex);
+            }
             return false;
         }
 
