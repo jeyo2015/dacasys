@@ -72,6 +72,7 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult HabilitarClinica(int idClinica)
         {
             var insert = ABMEmpresa.HabilitarClinica(idClinica, Session["loginusuario"].ToString());
@@ -83,6 +84,7 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult InsertarNuevoConsultorio(ConsultorioDto consultorioDto)
         {
             consultorioDto.IDUsuarioCreador = Session["loginusuario"].ToString();
@@ -117,6 +119,7 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult HabilitarConsultorio(int idConsultorio)
         {
             var insert = ABMEmpresa.HabilitarConsultorio(idConsultorio, Session["loginusuario"].ToString());
@@ -128,11 +131,13 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ObtenerConsultoriosPorCliente(string loginCliente)
         {
             var result = ABMEmpresa.ObtenerConsultoriosPorCliente(loginCliente);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult ObtenerConsultoriosPorClinica(int pIDClinica)
         {
             var result = ABMEmpresa.ObtenerConsultoriosPorClinica(pIDClinica);

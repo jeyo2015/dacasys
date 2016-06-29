@@ -12,7 +12,7 @@
             d.resolve(data);
         });
         return d.promise;
-    };//(bool pIsAdmin, string loginUsuario, string pPass, int pIDConsultorio)
+    };
     this.renovarContrasena = function (pIsAdmin, loginUsuario, pPass, ploginConsultorio) {
         var d = $q.defer();
         $http.post('Login/RenovarContrasena', { pIsAdmin: pIsAdmin, loginUsuario: loginUsuario, pPass: pPass, ploginConsultorio: ploginConsultorio }).success(function (data) {
