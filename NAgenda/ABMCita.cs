@@ -156,23 +156,15 @@ namespace NAgenda
                              LoginCliente = c.id_cliente,
                              Estalibre = c.libre
                          });
+            
+            var culture = new System.Globalization.CultureInfo("es-ES");
+            var nombreDia = culture.DateTimeFormat.GetDayName(fechaCita.DayOfWeek);
 
-            var dia = (int)fechaCita.DayOfWeek;
-            var nombreDia = fechaCita.ToString("dddd",
-                  new CultureInfo("es-ES"));
-            //if (dia == -1)
-            //    dia = 6;
-            //var timeOfDay = DateTime.Now.TimeOfDay;
-            //var horarioConsultorio = (from h in dataContext.Horario
-            //                          where h.iddia == dia
-            //                          && h.idempresa == idConsultorio
-            //                          && h.estado
-            //                          select h).OrderBy(o => o.hora_inicio);
             var timeOfDay = DateTime.Now.TimeOfDay;
             var horarioConsultorio = (from h in dataContext.Horario
                                       from d in dataContext.Dia
                                       where d.iddia == h.iddia
-                                      && d.descripcion.ToUpper() == nombreDia.ToUpper()
+                                      && d.descripcion.Trim().ToUpper() == nombreDia.Trim().ToUpper()
                                       && h.idempresa == idConsultorio
                                       && h.estado
                                       select h).OrderBy(o => o.hora_inicio);
