@@ -1,4 +1,6 @@
-﻿namespace NAgenda
+﻿using System.Globalization;
+
+namespace NAgenda
 {
     using System;
     using System.Collections.Generic;
@@ -154,12 +156,17 @@
                              LoginCliente = c.id_cliente,
                              Estalibre = c.libre
                          });
-            var dia = (int)fechaCita.DayOfWeek;
-            if (dia == -1)
-                dia = 6;
+
+         
+            var nombreDia = fechaCita.ToString("dddd",
+                   new CultureInfo("es-ES"));
+
+           
             var timeOfDay = DateTime.Now.TimeOfDay;
             var horarioConsultorio = (from h in dataContext.Horario
-                                      where h.iddia == dia
+                                      from d in dataContext.Dia
+                                      where d.iddia == h.iddia
+                                      && d.descripcion.ToUpper() == nombreDia.ToUpper()
                                       && h.idempresa == idConsultorio
                                       && h.estado
                                       select h).OrderBy(o => o.hora_inicio);
