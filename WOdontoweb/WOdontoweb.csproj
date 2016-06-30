@@ -124,6 +124,10 @@
     <Content Include="Content\img\logo-01.png" />
     <Content Include="Content\img\marker.png" />
     <Content Include="Content\img\markerselect.png" />
+    <Content Include="Content\jquery.fileupload-noscript.css" />
+    <Content Include="Content\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\jquery.fileupload-ui.css" />
+    <Content Include="Content\jquery.fileupload.css" />
     <Content Include="Content\Justified-Nav.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -238,6 +242,7 @@
     <Content Include="Scripts\app\services\notificacionesConsultorioService.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.nouislider.min.js" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\angular.js" />
@@ -305,6 +310,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,6 +1,28 @@
 ﻿app.controller("consultoriosController", function (clinicaService, $scope, $compile) {
     init();
-    // var listaMarcadores = [];
+
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        url: '/Empresa/UploadFiles',
+        done: function (event, data) {
+            if (data.result.isUploaded) {
+                $("#files").html(data.result.name);
+            }
+        },
+        fail: function (event, data) {
+            if (data.files[0].error) {
+                alert(data.files[0].error);
+            }
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    });
+    
     var map;
     function init() {
         $scope.listaMarcadores = [];
