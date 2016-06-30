@@ -163,25 +163,25 @@
                     <label for="idIntervalo" class="col-md-3 control-label">Tiempo consulta:</label>
                     <div class="col-md-9">
                         <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
-
                     </div>
                 </div>
-                <!-- <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                         <label for="inputPassword3" class="col-md-3 control-label">Seleccione trabajo</label>
-                         <div class="col-md-7">
-                             <table id="Table2" class="table table-hover tableStyle scroll">
-                                 <tbody>
-                                     <tr ng-repeat="trabajo in clinicToSave.Trabajos  " ng-click="selectConsultorio(trabajo)">
-                                         <td>
-                                             <input type="checkbox" ng-click="selectTrabajoConsultorio(trabajo, e)" />
-                                         </td>
-                                         <td>{{trabajo.Descripcion}}</td>
-                                     </tr>
-                                 </tbody>
-
-                             </table>
-                         </div>
-                     </div>-->
+                <div class="form-group" ng-hide="clinicToSave.Status==2">
+                    <div class="col-md-3 control-label"></div>
+                    <div class="col-md-5">
+                        <div class="fileupload-buttonbar">
+                            <span class="btn btn-primary fileinput-button">
+                                <i class="fa fa-plus-circle" style="display:initial !important"></i>
+                                <span style="display:initial !important">Seleccione Logo...</span>
+                                <input id="fileupload" type="file" name="files[]" multiple>
+                            </span>
+                            <br />
+                            <div id="progress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>
+                            <div id="files" class="files"></div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -192,7 +192,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="confirm-delete" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">

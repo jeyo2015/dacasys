@@ -1,4 +1,6 @@
-﻿namespace NLogin
+﻿using System.IO;
+
+namespace NLogin
 {
     using System;
     using System.Collections.Generic;
@@ -699,13 +701,25 @@
             return Converter<Empresa>.Convert(ObtenerEmpresaPorId(idEmpresa).ToList());
         }
         
-     
-        
         public static Clinica ObtenerClinica(int idClinica)
         {
             return (from c in dataContext.Clinica
                     where c.ID == idClinica
                     select c).FirstOrDefault();
+        }
+
+        public static bool CreateFolderIfNeeded(string path)
+        {
+            if (Directory.Exists(path)) return true;
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

@@ -1,5 +1,10 @@
-﻿namespace WOdontoweb.Controllers
+﻿
+
+namespace WOdontoweb.Controllers
 {
+    using System;
+    using System.IO;
+    using System.Web;
     using System.Web.Mvc;
     using Herramientas;
     using Models;
@@ -142,6 +147,41 @@
         {
             var result = ABMEmpresa.ObtenerConsultoriosPorClinica(pIDClinica);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UploadFiles()
+        {
+            var isUploaded = false;
+            var message = "File upload failed";
+            var nameFile = string.Empty;
+
+            foreach (string file in Request.Files)
+            {
+                var fileBase = Request.Files[file] as HttpPostedFileBase;
+                if (fileBase != null && fileBase.ContentLength == 0)
+                    continue;
+
+                if (fileBase == null || fileBase.ContentLength == 0) continue;
+                var pathForSaving = Server.MapPath("~/Content/upload");
+                if (!ABMEmpresa.CreateFolderIfNeeded(pathForSaving)) continue;
+                try
+                {
+                    fileBase.SaveAs(Path.Combine(pathForSaving, fileBase.FileName));
+                    isUploaded = true;
+                    message = "File uploaded successfully!";
+                    nameFile = fileBase.FileName;
+                    var stream = fileBase.InputStream;
+                    var buffer = new byte[stream.Length];
+                    stream.Read(buffer, 0, buffer.Length);
+                    Session[nameFile] = buffer;
+                }
+                catch (Exception ex)
+                {
+                    message = string.Format("File upload failed: {0}", ex.Message);
+                }
+            }
+            return Json(new { isUploaded = isUploaded, message = message, name = nameFile }, "text/html");
         }
     }
 }
