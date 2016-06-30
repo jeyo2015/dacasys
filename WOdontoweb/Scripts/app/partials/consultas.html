@@ -1,45 +1,46 @@
-﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-5 col-xs-12 ">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-xs-12">
+                    <div id="datepicker"></div>
+                </div>
 
-    <div class="col-md-4 col-md-offset-1">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div id="datepicker"></div>
             </div>
-
+            <div class="row ">
+                <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
+                <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1  btn-raised btn-primary " ng-click="showModalCancelarCita()">Cancelar cita</button>
+                <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
+            </div>
         </div>
-        <div class="row">
-            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientes()">Agendar cita</button>
-            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalCancelarCita()">Cancelar cita</button>
-            <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde" class="btn btn-raised btn-primary col-md-10 col-md-offset-1" ng-click="showModalPacientesCliente()">Atender cita</button>
-        </div>
-    </div>
-    <div class="col-md-7">
-        <!--<div class="row">
-            <div class="col-md-6">
-                <h3>{{dateSelected}} </h3>
-            </div>
-        </div>-->
-        <div class="row">
-            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-                <table class="table table-hover tableStyle">
-                    <thead>
-                        <tr>
-                            <th>Hora</th>
-                            <th>{{dateSelectedString}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
-                            <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
-                            </td>
-                            <td>{{cita.Paciente.NombrePaciente}}
-                            </td>
-                        </tr>
-                    </tbody>
+        <div class="col-md-6 col-md-offset-1 col-xs-12">
+            <!--<div class="row">
+                     <div class="col-md-6">
+                         <h3>{{dateSelected}} </h3>
+                     </div>
+                 </div>-->
+            <div class="row">
+                <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                    <table class="table table-hover tableStyle">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>{{dateSelectedString}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
+                                <td><span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
+                                </td>
+                                <td>{{cita.Paciente.NombrePaciente}}
+                                </td>
+                            </tr>
+                        </tbody>
 
-                </table>
-            </div>
-            <div class="col-md-2">
+                    </table>
+                </div>
+                <div class="col-md-2">
+                </div>
             </div>
         </div>
     </div>
@@ -228,20 +229,21 @@
                             <div class="row">
 
                                 <div class="form-group ">
-                                    <label for="buscarPacienteID" class="col-md-3 control-label">Trabajo realizado</label>
-                                    <div class="col-md-9">
+                                    <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Trabajo realizado</label>
+                                    <div class="col-md-9 col-xs-9">
                                         <textarea ng-model="historicoDetalleNuevo.TrabajoRealizado" class="form-control" id="trabajoRealizadoId"> </textarea>
                                     </div>
 
                                 </div>
                                 <div class="form-group ">
-                                    <label for="buscarPacienteID" class="col-md-3 control-label">Trabajo a realizar</label>
-                                    <div class="col-md-9">
+                                    <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Trabajo a realizar</label>
+                                    <div class="col-md-9 col-xs-9">
                                         <textarea ng-model="historicoDetalleNuevo.TrabajoARealizar" class="form-control" id="trabajoRealizar"> </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group ">
-                                    <div class="col-md-offset-3 col-md-6">
+                                    <div class="col-md-offset-3 col-xs-6 col-md-6 col-xs-offset-3
+                                        ">
                                         <div class="checkbox">
                                             <label>
                                                 <input ng-model="historicoDetalleNuevo.CerrarHistorico" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Cerrar el historico
@@ -275,7 +277,7 @@
 
                                 </table>
                             </div>
-                            </div>
+                        </div>
                         <!--</div>-->
                     </div>
                 </form>

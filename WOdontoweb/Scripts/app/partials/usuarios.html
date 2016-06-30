@@ -1,10 +1,11 @@
-﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-    <div class="col-md-4 col-md-offset-1">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+         <div class="col-md-5 col-xs-11 ">
         <div class="row">
             <form class="">
                 <div class="form-group label-floating">
-                    <label for="consultorioID" class="col-md-2 control-label">Buscar</label>
-                    <div class="col-md-10">
+                    <label for="consultorioID" class="col-md-2 col-xs-2 control-label">Buscar</label>
+                    <div class="col-md-10 col-xs-10">
                         <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
                     </div>
 
@@ -34,46 +35,48 @@
         </div>
 
     </div>
-    <div class="col-md-7 ">
+    <div class="col-md-6 col-md-offset-1 col-xs-11">
         <div class="row">
-            <div class="col-md-6"></div>
+            <div class="col-md-6 col-xs-6">
+                Datos de usuario
+            </div>
         </div>
         <div class="row">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-md-3 control-label">Nombre completo:</label>
-                    <div class="col-md-9">
+                    <label for="inputEmail3" class="col-md-4 col-xs-4 control-label">Nombre completo:</label>
+                    <div class="col-md-8 col-xs-8">
                         <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-md-3 control-label">Login: </label>
-                    <div class="col-md-9">
+                    <label for="inputPassword3" class="col-md-4 col-xs-4 control-label">Login: </label>
+                    <div class="col-md-8 col-xs-8">
                         {{UserToSave.State}}
                         <input type="text" class="form-control" id="inputPassword3" ng-model="userToSave.Login" ng-disabled="userToSave.State==2">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-md-3 control-label">Contrasena:</label>
-                    <div class="col-md-9">
+                    <label for="inputPassword3" class="col-md-4 col-xs-4 control-label">Contrasena:</label>
+                    <div class="col-md-8 col-xs-8">
                         <input type="password" class="form-control" ng-model="userToSave.Password" id="Password2">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-md-3 control-label">Repita contrasena:</label>
-                    <div class="col-md-9">
+                    <label for="inputPassword3" class="col-md-4 col-xs-4 control-label">Repita contrasena:</label>
+                    <div class="col-md-8 col-xs-8">
                         <input type="password" class="form-control" id="Password1" ng-model="userToSave.ConfirmPass">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-md-3 control-label">Rol de usuario:</label>
-                    <div class="col-md-9">
+                    <label for="inputPassword3" class="col-md-4 col-xs-4 control-label">Rol de usuario:</label>
+                    <div class="col-md-8 col-xs-8">
                         <select class="form-control" ng-options="rol.Nombre for rol in rolesConsultorio" ng-model="rolSelected">
                         </select>
 
                     </div>
                 </div>
-                <div class="col-md-offset-3 col-md-6">
+                <div class="col-md-offset-4 col-md-8 col-xs-8 col-xs-offset-4">
                     <div class="checkbox">
                         <label>
                             <input ng-model="userToSave.changepass" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> El usuario deberá cambiar su contraseña al siguiente inicio de sesión
@@ -82,14 +85,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3">
-                        <button class="btn btn-raised btn-primary" ng-click="nuevoUsuario()">Nuevo usuario</button>
-                        <button class="btn btn-raised btn-primary" ng-click="guardarUsuario()" ng-disabled=" validadUsuario()">Guardar usuario</button>
+                    <div class="col-md-8 col-xs-10 col-md-offset-4 col-xs-offset-2">
+                        <button class="btn btn-raised btn-primary" ng-click="nuevoUsuario()">Nuevo</button>
+                        <button class="btn btn-raised btn-primary" ng-click="guardarUsuario()" ng-disabled=" validadUsuario()">Guardar</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    </div>
+    
+    
+   
 
     <div class="modal fade" id="confirm-delete" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -100,7 +108,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-xs-12">
                             <label>Esta seguro que quiere eliminar el usuario {{ userSelected.Login }}?</label>
                         </div>
 

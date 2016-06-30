@@ -88,7 +88,7 @@
                 <header class="header">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
                                 <div class="navbar navbar-default ">
                                     <div class="container-fluid">
                                         <div class="navbar-header">
@@ -101,7 +101,7 @@
                                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
-                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 && !isAdmin"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
