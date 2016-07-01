@@ -1,36 +1,37 @@
-﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-    <div class="col-md-4 col-md-offset-1">
-        <div class="row">
-            <form class="">
-                <div class="form-group label-floating">
-                    <label for="consultorioID" class="col-md-2 control-label">Buscar</label>
-                    <div class="col-md-10">
-                        <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
-                    </div>
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-5 col-xs-11 ">
+            <div class="row">
+                <form class="">
+                    <div class="form-group label-floating">
+                        <label for="consultorioID" class="col-md-2 control-label">Buscar</label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
+                        </div>
 
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <table class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Login</th>
+                            <th>Nombre de Clinica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="clinica in allClinicas" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
+                            <td>{{clinica.Login}}</td>
+                            <td>{{clinica.Nombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado)">Eliminar clinica</button>
+                <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar clinica</button>
+            </div>
         </div>
-        <div class="row" style="margin-top: 15px;">
-            <table class="table table-hover tableStyle">
-                <thead>
-                    <tr>
-                        <th>Login</th>
-                        <th>Nombre de Clinica</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="clinica in allClinicas" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
-                        <td>{{clinica.Login}}</td>
-                        <td>{{clinica.Nombre}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado)">Eliminar clinica</button>
-            <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar clinica</button>
-        </div>
-    </div>
-    <div class="col-md-7">
+    <div class="col-md-6 col-md-offset-1 col-xs-11">
         <div class="row">
             <form class="form-horizontal">
                 <div class="form-group">
@@ -44,6 +45,23 @@
                     <label for="inpLoginClinic" class="col-md-3 control-label">Login Clinica: </label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="inpLoginClinic" ng-model="clinicToSave.Login" ng-disabled="clinicToSave.Status==2">
+                    </div>
+                </div>
+                 <div class="form-group" >
+                    <div class="col-md-3 control-label"></div>
+                    <div class="col-md-5">
+                        <div class="fileupload-buttonbar">
+                            <span class="btn btn-primary fileinput-button">
+                                <i class="fa fa-plus-circle" style="display: initial !important"></i>
+                                <span style="display: initial !important">Seleccione Logo...</span>
+                                <input id="fileupload" type="file" name="files[]" >
+                            </span>
+                            <br />
+                            <div id="progress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>
+                            <div id="files" class="files"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -165,31 +183,18 @@
                         <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                     </div>
                 </div>
-                <div class="form-group" ng-hide="clinicToSave.Status==2">
-                    <div class="col-md-3 control-label"></div>
-                    <div class="col-md-5">
-                        <div class="fileupload-buttonbar">
-                            <span class="btn btn-primary fileinput-button">
-                                <i class="fa fa-plus-circle" style="display:initial !important"></i>
-                                <span style="display:initial !important">Seleccione Logo...</span>
-                                <input id="fileupload" type="file" name="files[]" multiple>
-                            </span>
-                            <br />
-                            <div id="progress" class="progress">
-                                <div class="progress-bar progress-bar-success"></div>
-                            </div>
-                            <div id="files" class="files"></div>
-                        </div>
+               
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
+                        <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
                     </div>
                 </div>
             </form>
         </div>
+
+
     </div>
-    <div class="form-group">
-        <div class="col-md-9 col-md-offset-3">
-            <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
-            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
-        </div>
     </div>
 </div>
 <div class="modal fade" id="confirm-delete" role="dialog">

@@ -99,6 +99,7 @@
         public string Latitud { get; set; }
         public string Longitud { get; set; }
         public byte[] logoImagen { get; set; }
+        public string NombreArchivo { get; set; }
         public string Descripcion { get; set; }
         public string Direccion { get; set; }
         public string Nit { get; set; }

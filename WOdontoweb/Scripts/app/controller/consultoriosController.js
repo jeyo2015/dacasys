@@ -6,6 +6,7 @@
         url: '/Empresa/UploadFiles',
         done: function (event, data) {
             if (data.result.isUploaded) {
+                $scope.clinicToSave.NombreArchivo = data.result.name;
                 $("#files").html(data.result.name);
             }
         },
@@ -167,7 +168,8 @@
             Consultorios: [],
             Trabajos: [],
             Telefonos: [],
-            Status: 1
+            Status: 1,
+            NombreArchivo:""
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
