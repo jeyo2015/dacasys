@@ -4,6 +4,10 @@
     $('#fileupload').fileupload({
         dataType: 'json',
         url: '/Empresa/UploadFiles',
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 10000000, // 10 MB
+        minFileSize: undefined,
+        maxNumberOfFiles: 1,
         done: function (event, data) {
             if (data.result.isUploaded) {
                 $scope.clinicToSave.NombreArchivo = data.result.name;
