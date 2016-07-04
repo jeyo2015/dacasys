@@ -14,7 +14,7 @@
         #region VariableGlobales
 
         readonly static ContextoDataContext dataContext = new ContextoDataContext();
-
+        private static int diferenciaDeHoras = ControlBitacora.ObtenerDirefenciaHora();
         #endregion
 
         #region Metodos Publicos
@@ -114,9 +114,9 @@
                 id_cliente = loginCliente
             };
             var auxHora = citaDto.HoraInicioString.Split(':');
-            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]) + diferenciaDeHoras, Convert.ToInt32(auxHora[1]), 0);
             auxHora = citaDto.HoraFinString.Split(':');
-            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]) + diferenciaDeHoras, Convert.ToInt32(auxHora[1]), 0);
             cita.fecha = fechaCita;
             cita.estado = true;
             cita.atendido = false;
@@ -133,19 +133,10 @@
                 return false;
             }
         }
-        public static int ObtenerDirefenciaHora()
-        {
-            var sql = from p in dataContext.ParametroSistemas
-                      where p.Elemento == "DiferenciaHora"
-                      select p;
-            if (!sql.Any()) return 0;
-            var valorI = sql.First().ValorI;
-            if (valorI != null) return (int)valorI;
-            return 0;
-        }
+
         public static List<AgendaDto> ObtenerAgendaDelDia(DateTime fechaCita, int idConsultorio, int tiempoConsulta)
         {
-            fechaCita = fechaCita.AddHours(ObtenerDirefenciaHora());
+            fechaCita = fechaCita.AddHours(diferenciaDeHoras);
             var query = (from c in dataContext.Cita
                          from cp in dataContext.Cliente_Paciente
                          from p in dataContext.Paciente
@@ -154,7 +145,7 @@
                          && cp.id_usuariocliente == c.id_cliente
                          && cp.IsPrincipal == true
                          && p.id_paciente == cp.id_paciente
-                         && c.estado == true
+                         && c.estado
                          select new AgendaDto()
                          {
                              IdCita = c.idcita,
@@ -167,11 +158,13 @@
                          });
 
             var dateValue = DateTime.Parse(fechaCita.ToString("yyyy-MM-dd"), CultureInfo.InvariantCulture);
-           var timeOfDay = DateTime.Now.TimeOfDay;
+            var nombreDia = dateValue.ToString("dddd", new CultureInfo("es-ES"));
+            var timeOfDay = DateTime.Now.TimeOfDay.Add(new TimeSpan(diferenciaDeHoras, 0, 0));
             var horarioConsultorio = (from h in dataContext.Horario
-                                      where h.iddia == (int)dateValue.DayOfWeek
-                                      && h.idempresa == idConsultorio
-                                      && h.estado
+                                      from d in dataContext.Dia
+                                      where h.idempresa == idConsultorio
+                                      && h.estado && d.descripcion == nombreDia
+                                      && h.iddia == d.iddia
                                       select h).OrderBy(o => o.hora_inicio);
             var listaRetorno = new List<AgendaDto>();
             var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);
@@ -242,8 +235,8 @@
                     join clinica in dataContext.Clinica on empresa.ID equals clinica.ID
                     join clinicaPaciente in dataContext.Cliente_Paciente on cita.id_cliente equals clinicaPaciente.id_usuariocliente
                     join paciente in dataContext.Paciente on clinicaPaciente.id_paciente equals paciente.id_paciente
-                    where cita.estado == true && clinicaPaciente.id_usuariocliente == loginCliente
-                    && empresa.Estado == true && paciente.estado == true && clinica.Estado == true && empresa.ID != 1
+                    where cita.estado && clinicaPaciente.id_usuariocliente == loginCliente
+                    && empresa.Estado && paciente.estado  && clinica.Estado  && empresa.ID != 1
                     && cita.atendido == false && clinicaPaciente.IsPrincipal == true
                     select new CitasDelClienteDto()
                     {

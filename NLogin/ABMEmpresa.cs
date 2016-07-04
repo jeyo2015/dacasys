@@ -659,6 +659,7 @@ namespace NLogin
                         Login = x.Login,
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
+                        logoImagen =x.ImagenLogo != null? x.ImagenLogo.ToArray():null,
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,

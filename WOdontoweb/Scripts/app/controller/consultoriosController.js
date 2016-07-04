@@ -53,13 +53,13 @@
         $scope.listaMarcadores.push(marker);
     }
 
-    $scope.abrirModalDeMapa = function () {
+    $scope.abrirModalDeMapa = function() {
 
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
         CrearMarcador(0, $scope.latlngActual);
         map.setCenter($scope.latlngActual);
-    }
+    };
     function removerMarcador() {
         if ($scope.listaMarcadores) {
             for (var i = 0 ; i < $scope.listaMarcadores.length; i++) {
@@ -103,18 +103,19 @@
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
     }
-    $scope.salirModal = function () {
+
+    $scope.salirModal = function() {
         $("#modal-new-consultorio").modal("hide");
         $scope.consultorioToSave = null;
         $scope.consultorioSeleccionado = null;
-    }
+    };
 
-    $scope.abrirModaleliminarConsultorio = function () {
+    $scope.abrirModaleliminarConsultorio = function() {
         $("#confirmar-eliminar-consultorio").modal("show");
-    }
-    $scope.eliminarConsultorio = function () {
+    };
+    $scope.eliminarConsultorio = function() {
         $("#confirmar-eliminar-consultorio").modal("hide");
-        clinicaService.eliminarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
+        clinicaService.eliminarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function(result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
                 cargar_todas_clinicas(true);
@@ -123,10 +124,10 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
 
-    $scope.habilitarConsultorio = function () {
-        clinicaService.habilitarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
+    $scope.habilitarConsultorio = function() {
+        clinicaService.habilitarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function(result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
                 //cargarConsultoriosClinica();
@@ -137,23 +138,19 @@
                 toastr.error(result.Message);
             }
         });
-    }
-    function cargarConsultoriosClinica() {
-        clinicaService.obtenerConsultoriosPorClinica($scope.clinicaSelected.IDClinica).then(function (result) {
-            $scope.clinicToSave.Consultorios = result;
-        });
-    }
+    };
+   
     $scope.salirModalUbicacion = function () {
 
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $('#modal-mapa-ubicacion').modal('hide');
     };
-    $scope.insertarUbicacionClinica = function () {
+    $scope.insertarUbicacionClinica = function() {
 
         $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
         $scope.clinicToSave.Longitud = angular.copy($scope.latlngActual.lng());
         $('#modal-mapa-ubicacion').modal('hide');
-    }
+    };
     function prepararNuevaClinica() {
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
@@ -525,14 +522,14 @@
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         $scope.consultorioSeleccionado.State = 2;
     }
-    $scope.abrirModalModificarConsultorio = function () {
+    $scope.abrirModalModificarConsultorio = function() {
         $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
-        $scope.intervaloSelected = $scope.intervalos.where(function (intervalo) {
+        $scope.intervaloSelected = $scope.intervalos.where(function(intervalo) {
             return intervalo.ID == $scope.consultorioToSave.IDIntervalo
         })[0];
         matchearTrabajoConsultorio();
         $("#modal-new-consultorio").modal("show");
-    }
+    };
     function matchearTrabajoConsultorio() {
         var CantTrabajos = $scope.clinicToSave.Trabajos.length;
         for (var i = 0; i < CantTrabajos ; i++) {
