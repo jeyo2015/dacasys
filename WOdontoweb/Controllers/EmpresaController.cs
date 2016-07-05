@@ -15,7 +15,9 @@ namespace WOdontoweb.Controllers
         public JsonResult ObtenerClinicas()
         {
             var result = ABMEmpresa.ObtenerClinicas();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult =  Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
         public JsonResult ObtenerConsultorioPorId(int idConsultorio)

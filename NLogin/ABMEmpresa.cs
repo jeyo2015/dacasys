@@ -410,6 +410,24 @@ namespace NLogin
                         Trabajos = ObtenerTrabajosConsultorio(c.ID)
                     }).ToList();
         }
+
+        public static string ConvertImageToBase64String(byte[] image)
+        {
+            var binaryData = image;
+            try
+            {
+                var base64String = System.Convert.ToBase64String(binaryData,
+                    0,
+                    binaryData.Length);
+                return "data:image/png;base64," + base64String;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+
+        }
+
         public static ClinicaDto ObtenerConsultorioConClinica(int idConsultorio)
         {
             return (from c in dataContext.Empresa
@@ -430,7 +448,7 @@ namespace NLogin
                         Login = cli.Login,
                         Longitud = cli.Longitud.ToString(),
                         Nombre = cli.Nombre,
-                        logoImagen = cli.ImagenLogo != null ? cli.ImagenLogo.ToArray() : null,
+                        LogoParaMostrar = cli.ImagenLogo != null ? ConvertImageToBase64String(cli.ImagenLogo.ToArray()) : null,
                         Consultorios = ObtenerConsultorioPorID(idConsultorio),
                         Trabajos = ObtenerTrabajosClinica(cli.ID),
                         Status = 0,
@@ -710,7 +728,7 @@ namespace NLogin
                         Login = x.Login,
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
-                        logoImagen = x.ImagenLogo != null ? x.ImagenLogo.ToArray() : null,
+                        LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
