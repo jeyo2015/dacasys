@@ -29,6 +29,7 @@
 
     public class ConsultorioDto
     {
+        public bool EsConsultorioDefault { get; set; }
         public int IDConsultorio { get; set; }
         public int TiempoCita { get; set; }
         public string Login { get; set; }
@@ -93,6 +94,7 @@
 
     public class ClinicaDto
     {
+        public bool EsConsultorioDefault { get; set; }
         public int IDClinica { get; set; }
         public string Nombre { get; set; }
         public string Login { get; set; }

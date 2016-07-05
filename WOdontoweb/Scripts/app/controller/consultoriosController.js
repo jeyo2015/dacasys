@@ -490,11 +490,7 @@
             || $scope.rolSelected == null;
     };
 
-    $scope.openModalNewRol = function () {
-        $scope.nombrerol = "";
-        $scope.message = "";
-        $('#new-rol').modal('show');
-    };
+    
 
     $scope.openModalConfirmDelele = function () {
         $('#confirm-delete').modal('show');

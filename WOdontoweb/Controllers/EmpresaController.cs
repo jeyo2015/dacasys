@@ -44,6 +44,8 @@ namespace WOdontoweb.Controllers
 
         public JsonResult InsertarNuevaClinica(ClinicaDto clinicaDto)
         {
+            var imageByte = Session[clinicaDto.NombreArchivo];
+            clinicaDto.logoImagen = (byte[])imageByte;
             var insert = ABMEmpresa.InsertarClinica(clinicaDto, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
@@ -51,11 +53,14 @@ namespace WOdontoweb.Controllers
                 Data = insert,
                 Success = insert == 1
             };
+            Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ModificarClinica(ClinicaDto clinicaDto)
         {
+            var imageByte = Session[clinicaDto.NombreArchivo];
+            clinicaDto.logoImagen = (byte[])imageByte;
             var insert = ABMEmpresa.ModificarClinica(clinicaDto, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
@@ -63,6 +68,7 @@ namespace WOdontoweb.Controllers
                 Data = insert,
                 Success = insert == 1
             };
+            Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -148,6 +154,14 @@ namespace WOdontoweb.Controllers
             var result = ABMEmpresa.ObtenerConsultoriosPorClinica(pIDClinica);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult ObtenerConsultorioConClinica(int pIdConsultorio)
+        {
+            var result = ABMEmpresa.ObtenerConsultorioConClinica(pIdConsultorio);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         public virtual ActionResult UploadFiles()

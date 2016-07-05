@@ -11,13 +11,13 @@ namespace NLogin
     using NEventos;
     using System.Data.Linq;
     using Herramientas;
-    
+
 
     public class ABMEmpresa
     {
         #region VariablesGlogales
 
-      readonly static ContextoDataContext dataContext = new ContextoDataContext();
+        readonly static ContextoDataContext dataContext = new ContextoDataContext();
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace NLogin
         {
             return Converter<Licencia>.Convert(ObtenerLicenciaPorId(idClinica).ToList());
         }
-        
+
         public static List<EmpresaClinicaDto> ObtenerConsultoriosPorCliente(string loginCliente)
         {
             return (from empresa in dataContext.Empresa
@@ -58,7 +58,7 @@ namespace NLogin
                         TiempoCita = tiempoConsulta.Value
                     }).ToList();
         }
-        
+
         /// <summary>
         /// Permite InsertarModulo una nueva Empresa
         /// </summary>
@@ -364,7 +364,6 @@ namespace NLogin
             }
             return 0;
         }
-
         public static ConsultorioDto ObtenerConsultorioPorId(int idConsultorio)
         {
             return (from c in dataContext.Empresa
@@ -385,6 +384,58 @@ namespace NLogin
                         Login = c.Login,
                         NIT = c.NIT,
                         Telefonos = ObtenerTelefonosConsultorios(c.ID, c.IDClinica)
+                    }).FirstOrDefault();
+        }
+
+        public static List<ConsultorioDto> ObtenerConsultorioPorID(int pIdConsultorio)
+        {
+            return (from c in dataContext.Empresa
+                    from tc in dataContext.Tiempo_Consulta
+                    where c.ID == pIdConsultorio
+                    && tc.ID == c.IDIntervalo
+                    select new ConsultorioDto()
+                    {
+                        Email = c.Email,
+                        Estado = c.Estado,
+                        TiempoCita = tc.Value,
+                        FechaCreacion = c.FechaCreacion,
+                        FechaModificacion = c.FechaModificacion,
+                        IDClinica = c.IDClinica,
+                        IDConsultorio = c.ID,
+                        IDIntervalo = c.IDIntervalo,
+                        IDUsuarioCreador = c.IDUsuarioCreador,
+                        Login = c.Login,
+                        NIT = c.NIT,
+                        Telefonos = ObtenerTelefonosConsultorios(c.ID, c.IDClinica),
+                        Trabajos = ObtenerTrabajosConsultorio(c.ID)
+                    }).ToList();
+        }
+        public static ClinicaDto ObtenerConsultorioConClinica(int idConsultorio)
+        {
+            return (from c in dataContext.Empresa
+
+                    from cli in dataContext.Clinica
+                    where c.ID == idConsultorio
+                    && cli.ID == c.IDClinica
+                    && c.Estado
+                    select new ClinicaDto()
+                    {
+                        Descripcion = cli.Descripcion,
+                        Direccion = cli.Direccion,
+                        Estado = cli.Estado,
+                        FechaCreacion = cli.FechaCreacion,
+                        FechaModificacion = cli.FechaDeModificacion,
+                        IDClinica = cli.ID,
+                        Latitud = cli.Latitud.ToString(),
+                        Login = cli.Login,
+                        Longitud = cli.Longitud.ToString(),
+                        Nombre = cli.Nombre,
+                        logoImagen = cli.ImagenLogo != null ? cli.ImagenLogo.ToArray() : null,
+                        Consultorios = ObtenerConsultorioPorID(idConsultorio),
+                        Trabajos = ObtenerTrabajosClinica(cli.ID),
+                        Status = 0,
+                        Telefonos = ObtenerTelefonosClinica(cli.ID),
+                        EsConsultorioDefault = c.Login == cli.Login
                     }).FirstOrDefault();
         }
 
@@ -415,12 +466,12 @@ namespace NLogin
         public static List<TiempoConsultaDto> ObtenerIntervalosDeTiempo()
         {
             return (from inte in dataContext.Tiempo_Consulta
-                   select new TiempoConsultaDto()
-                   {
-                       ID = inte.ID,
+                    select new TiempoConsultaDto()
+                    {
+                        ID = inte.ID,
                         Descripcion = inte.Descripcion,
                         Value = inte.Value
-                   }).ToList();
+                    }).ToList();
         }
 
         public static List<ConsultorioDto> ObtenerConsultorios(int idClinica)
@@ -659,7 +710,7 @@ namespace NLogin
                         Login = x.Login,
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
-                        logoImagen =x.ImagenLogo != null? x.ImagenLogo.ToArray():null,
+                        logoImagen = x.ImagenLogo != null ? x.ImagenLogo.ToArray() : null,
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
@@ -691,7 +742,7 @@ namespace NLogin
                         Telefonos = ObtenerTelefonosClinica(x.ID)
                     }).ToList();
         }
-        
+
         /// <summary>
         /// Devuelve una empresa segun su ID
         /// </summary>
@@ -701,7 +752,7 @@ namespace NLogin
         {
             return Converter<Empresa>.Convert(ObtenerEmpresaPorId(idEmpresa).ToList());
         }
-        
+
         public static Clinica ObtenerClinica(int idClinica)
         {
             return (from c in dataContext.Clinica
@@ -726,7 +777,7 @@ namespace NLogin
         #endregion
 
         #region Metodos Privados
-        
+
         private static void InsertarTrabajosClinica(List<TrabajosClinicaDto> listaTrabajos, string idUsuario, int idClinica)
         {
             if (listaTrabajos == null) return;
@@ -842,7 +893,7 @@ namespace NLogin
             }
 
         }
-        
+
         /// <summary>
         /// Busca una empresa segun el parametro que reciba, busca por nombre y login
         /// excepto la default
@@ -864,7 +915,7 @@ namespace NLogin
                    select l;
 
         }
-        
+
         /// <summary>
         /// Metodo privado que devuelve un consultorio 
         /// </summary>
@@ -878,8 +929,8 @@ namespace NLogin
                    select e;
 
         }
-        
-      
+
+
 
         /// <summary>
         /// Crea la licencia a la nueva empresa

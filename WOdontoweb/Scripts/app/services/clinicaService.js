@@ -104,4 +104,11 @@
         });
         return d.promise;
     };
+    this.obtenerConsultorioConClinica = function (pIDConsultorio) {
+        var d = $q.defer();
+        $http.get('Empresa/ObtenerConsultorioConClinica?pIdConsultorio=' + pIDConsultorio).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
 });

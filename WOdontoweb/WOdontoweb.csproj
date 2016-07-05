@@ -232,6 +232,7 @@
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
     <Content Include="Scripts\app\partials\comentario.html" />
+    <Content Include="Scripts\app\partials\miConsultorioPerfil.html" />
     <Content Include="Scripts\app\partials\misCitas.html" />
     <Content Include="Scripts\app\partials\paciente.html" />
     <Content Include="Scripts\app\partials\horario.html" />
