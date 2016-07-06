@@ -165,7 +165,7 @@
                                       where h.idempresa == idConsultorio
                                       && h.estado && d.descripcion == nombreDia
                                       && h.iddia == d.iddia
-                                      select h).OrderBy(o => o.hora_inicio);
+                                      select h).OrderBy(o => o.num_horario);
             var listaRetorno = new List<AgendaDto>();
             var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);
             var numeroCita = 1;
@@ -176,21 +176,21 @@
                 {
                     var cita = query.Where(x => x.HoraInicio == aux).FirstOrDefault();
                     listaRetorno.Add(new AgendaDto()
-                    {
-                        HoraInicio = aux,
-                        LoginCliente = cita != null ? cita.LoginCliente : "",
-                        HoraFin = aux.Add(tiempoCita),
-                        IDHorario = horario.idhorario,
-                        IdCita = cita != null ? cita.IdCita : "",
-                        IDConsultorio = idConsultorio,
-                        EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
-                        HoraInicioString = aux.ToString(),
-                        HoraFinString = aux.Add(tiempoCita).ToString(),
-                        Paciente = cita != null ? ObtenerPacienteCita(cita.LoginCliente) : null,
-                        NumeroCita = numeroCita,
-                        EstaAtendida = cita != null ? cita.EstaAtendida : false,
-                        EsTarde = fechaCita <= DateTime.Now ? aux < timeOfDay ? true : false : false
-                    });
+                   {
+                       HoraInicio = aux,
+                       LoginCliente = cita != null ? cita.LoginCliente : "",
+                       HoraFin = aux.Add(tiempoCita),
+                       IDHorario = horario.idhorario,
+                       IdCita = cita != null ? cita.IdCita : "",
+                       IDConsultorio = idConsultorio,
+                       EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
+                       HoraInicioString = aux.ToString(),
+                       HoraFinString = aux.Add(tiempoCita).ToString(),
+                       Paciente = cita != null ? ObtenerPacienteCita(cita.LoginCliente) : null,
+                       NumeroCita = numeroCita,
+                       EstaAtendida = cita != null ? cita.EstaAtendida : false,
+                       EsTarde = dateValue.Date < DateTime.Now.Date ? true : !((dateValue.Date == DateTime.Now.Date && aux > timeOfDay) || dateValue.Date > DateTime.Now.Date)
+                   });
                     aux = aux.Add(tiempoCita);
                     numeroCita++;
                 }
@@ -236,7 +236,7 @@
                     join clinicaPaciente in dataContext.Cliente_Paciente on cita.id_cliente equals clinicaPaciente.id_usuariocliente
                     join paciente in dataContext.Paciente on clinicaPaciente.id_paciente equals paciente.id_paciente
                     where cita.estado && clinicaPaciente.id_usuariocliente == loginCliente
-                    && empresa.Estado && paciente.estado  && clinica.Estado  && empresa.ID != 1
+                    && empresa.Estado && paciente.estado && clinica.Estado && empresa.ID != 1
                     && cita.atendido == false && clinicaPaciente.IsPrincipal == true
                     select new CitasDelClienteDto()
                     {
