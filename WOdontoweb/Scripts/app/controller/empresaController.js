@@ -55,17 +55,22 @@
     init();
     function init() {
         $scope.listaMarcadores = [];
-        prepararDtoConsultorio();
+      
         clinicaService.getIntervalosTiempo().then(function (resultIntervalo) {
-            debugger;
+          
             $scope.intervalos = resultIntervalo;
             clinicaService.obtenerConsultorioConClinica($rootScope.sessionDto.IDConsultorio).then(function (result) {
                 $scope.clinicaParaModificar = result;
+                debugger;
+                $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
+                $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(".", ",");
+                $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicaParaModificar.Latitud.replace(',', '.')), parseFloat($scope.clinicaParaModificar.Longitud.replace(',', '.')));
+                InicializarMapa();
                 seleccionarIntervalo();
 
             });
         });
-        InicializarMapa();
+       
     }
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
@@ -104,7 +109,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
-        CrearMarcador(0, latlng);
+      
         google.maps.event.addListener(map, 'click', function (event) {
             removerMarcador();
             CrearMarcador(0, event.latLng)
@@ -377,13 +382,11 @@
     }
 
     $scope.guardarClinica = function () {
-
-
-        // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
+        $scope.clinicaParaModificar.Consultorios[0].IDIntervalo = angular.copy($scope.intervaloSelected.ID);
         clinicaService.modificarClinica($scope.clinicaParaModificar).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
-              
+
             } else {
                 toastr.error(result.Message);
             }

@@ -126,11 +126,7 @@ namespace NLogin
                 clinicaCurrent.Nombre = clinicaDto.Nombre;
                 clinicaCurrent.IDUsuarioCreacion = idUsuario;
                 clinicaCurrent.Login = clinicaDto.Login;
-                if (clinicaDto.logoImagen == null)
-                {
-                    clinicaCurrent.ImagenLogo = null;
-                }
-                else
+                if (clinicaDto.logoImagen != null)
                 {
                     Binary vbi = new Binary(clinicaDto.logoImagen);
                     clinicaCurrent.ImagenLogo = vbi;
@@ -144,10 +140,14 @@ namespace NLogin
                 try
                 {
 
-                    ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
+                   
                     InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
                     InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
+                    foreach (var consultorio in clinicaDto.Consultorios) {
+                        ModificarConsultorio(consultorio, idUsuario);
+                    }
                     dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
                     //clinicaDto.Consultorios[0].idClinica = clinicaDto.idClinica;
                     // clinicaDto.Consultorios[0].Login = clinicaDto.Login + "1";
                     // clinicaDto.Consultorios[0].IDUsuarioCreador = idUsuario;
