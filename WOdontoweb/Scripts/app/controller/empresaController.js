@@ -87,7 +87,7 @@
     }
 
     $scope.abrirModalDeMapa = function () {
-
+        if (!$scope.clinicaParaModificar.EsConsultorioDefault) return;
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
         CrearMarcador(0, $scope.latlngActual);

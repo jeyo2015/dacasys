@@ -42,6 +42,9 @@
         cargar_clinicas();
     };
 
+
+
+
     $scope.seleccionaCita = function (cita) {
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;

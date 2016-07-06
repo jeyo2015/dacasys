@@ -6,7 +6,7 @@
                     <h4>Datos de la clinica</h4>
                     <div class="col-md-4 col-xs-3">
 
-                        <img style="height: 60px" data-ng-src="{{clinicaParaModificar.LogoParaMostrar}}" alt="Image Thumbnail Gadget ">
+                        <img style="height: 100px; width: 100px" data-ng-src="{{clinicaParaModificar.LogoParaMostrar}}" alt="Logo de la clinica">
                     </div>
                     <div class="col-md-8 col-xs-9">
                         <div class="fileupload-buttonbar">
@@ -26,59 +26,59 @@
                 <div class="form-group">
                     <label for="inpNombreClinicaid" class="col-md-4 col-xs-3 control-label">Nombre Clinica:</label>
                     <div class="col-md-8 col-xs-9">
-                        <input type="text" class="form-control" id="inpNombreClinicaid" ng-model="clinicaParaModificar.Nombre">
+                        <input type="text" class="form-control" id="inpNombreClinicaid" ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Nombre">
                     </div>
                 </div>
                 <div class="form-group">
 
                     <label for="Password3" class="col-md-4 col-xs-3 control-label">Descripcion</label>
                     <div class="col-md-8 col-xs-9">
-                        <textarea class="form-control" ng-model="clinicaParaModificar.Descripcion" id="Password3" />
+                        <textarea class="form-control"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Descripcion" id="Password3" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="Password2" class="col-md-4 col-xs-3 control-label">Direccion:</label>
                     <div class="col-md-8 col-xs-9">
-                        <input type="text" class="form-control" ng-model="clinicaParaModificar.Direccion" id="Password2">
+                        <input type="text" class="form-control"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Direccion" id="Password2">
                     </div>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                     <label for="lnkMapa" class="col-md-4 col-xs-3 control-label">Ubicacion</label>
                     <div class="col-md-8 col-xs-9">
-                        <a class="btn  btn-link" id="lnkMapa" ng-click="abrirModalDeMapa()">Ver mapa</a>
+                        <a class="btn  btn-link" id="lnkMapa"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-click="abrirModalDeMapa()">Ver mapa</a>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
-                  
-                        <label for="tableTelefonosClinicaID" class="col-md-4 col-xs-3 control-label">Telefonos</label>
-                        <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
-                            <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Telefono</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="telefono in clinicaParaModificar.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
-                                        <td>{{telefono.Nombre}}</td>
-                                        <td>{{telefono.Telefono}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-1 col-xs-1">
-                            <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                            <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                            <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-                        </div>
-                    
+
+                    <label for="tableTelefonosClinicaID" class="col-md-4 col-xs-3 control-label">Telefonos</label>
+                    <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
+                        <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Telefono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="telefono in clinicaParaModificar.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
+                                    <td>{{telefono.Nombre}}</td>
+                                    <td>{{telefono.Telefono}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-1 col-xs-1" ng-show="clinicaParaModificar.EsConsultorioDefault">
+                        <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                        <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                        <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                    </div>
+
                 </div>
                 <div class="form-group" ng-hide="clinicaParaModificar.Trabajos.length>0|| trabajoClinicaSelected!= null">
                     <label for="inputTrabajo" class="col-md-4 col-xs-3 control-label">Trabajos:</label>
                     <div class="col-md-7 col-xs-8">
-                        <input type="text" class="form-control" id="inputTrabajo" ng-model="primerTrabajo">
+                        <input type="text" class="form-control" id="inputTrabajo"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="primerTrabajo">
                     </div>
 
                     <div class="col-md-1 col-xs-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
@@ -86,31 +86,30 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="clinicaParaModificar.Trabajos.length>0 || trabajoClinicaSelected!= null">
-                   
-                        <label for="tablaTrabajosClinicaId" class="col-md-4 col-xs-3 control-label">Trabajos</label>
-                        <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
-                            <table class="table table-hover tableStyle scroll">
-                                <tbody id="tablaTrabajosClinicaId">
-                                    <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
-                                        <td>{{trabajo.Descripcion}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-1 col-xs-1">
-                            <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                            <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                            <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-                        </div>
+
+                    <label for="tablaTrabajosClinicaId" class="col-md-4 col-xs-3 control-label">Trabajos</label>
+                    <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
+                        <table class="table table-hover tableStyle scroll">
+                            <tbody id="tablaTrabajosClinicaId">
+                                <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                    <td>{{trabajo.Descripcion}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-               
-               
+                    <div class="col-md-1 col-xs-1" ng-show="clinicaParaModificar.EsConsultorioDefault">
+                        <span  ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                        <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                        <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                    </div>
+                </div>
+
             </form>
         </div>
         <div class="col-md-6  col-xs-11">
             <div class="row">
                 <form class="form-horizontal">
-                      <h4>Datos del consultorio</h4>
+                    <h4>Datos del consultorio</h4>
                     <div class="form-group">
                         <label for="inputNit" class="col-md-4 control-label">NIT consultorio:</label>
                         <div class="col-md-8">
@@ -129,51 +128,51 @@
                             <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                         </div>
                     </div>
-                        <div class="form-group">
-                            <label for="Table1" class="col-md-4 control-label">Seleccione trabajo</label>
-                            <div class="col-md-6">
-                                <table id="Table1" class="table table-hover tableStyle scroll">
+                    <div class="form-group">
+                        <label for="Table1" class="col-md-4 control-label">Seleccione trabajo</label>
+                        <div class="col-md-6">
+                            <table id="Table1" class="table table-hover tableStyle scroll">
+                                <tbody>
+                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos">
+                                        <td>
+                                            <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
+                                        </td>
+                                        <td>{{trabajo.Descripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="tableTelefonosID" class="col-md-4 control-label">Telefonos</label>
+                            <div class="col-md-6 col-xs-11" style="max-height: 150px; overflow-y: auto">
+                                <table id="tableTelefonosID" class="table table-hover tableStyleTelefono " id="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Telefono</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos">
-                                            <td>
-                                                <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
-                                            </td>
-                                            <td>{{trabajo.Descripcion}}</td>
+                                        <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
+                                            <td>{{telefono.Nombre}}</td>
+                                            <td>{{telefono.Telefono}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="tableTelefonosID" class="col-md-4 control-label">Telefonos</label>
-                                <div class="col-md-6 col-xs-11" style="max-height: 150px; overflow-y: auto">
-                                    <table id="tableTelefonosID" class="table table-hover tableStyleTelefono " id="table2">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Telefono</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
-                                                <td>{{telefono.Nombre}}</td>
-                                                <td>{{telefono.Telefono}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-1 col=xs=1">
-                                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-circle iconStyle"></i></span>
-                                    <ul class="dropdown-menu">
-                                        <li ng-click="addRowTable()"><a>Nuevo</a></li>
-                                        <li ng-click="addRowTableFromClinica()"><a>Desde Clinica</a></li>
-                                    </ul>
-                                    <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                                    <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-                                </div>
+                            <div class="col-md-1 col=xs=1">
+                                <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-circle iconStyle"></i></span>
+                                <ul class="dropdown-menu">
+                                    <li ng-click="addRowTable()"><a>Nuevo</a></li>
+                                    <li ng-click="addRowTableFromClinica()"><a>Desde Clinica</a></li>
+                                </ul>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
                             </div>
                         </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
                             <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>

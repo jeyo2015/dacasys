@@ -15,7 +15,7 @@ namespace WOdontoweb.Controllers
         public JsonResult ObtenerClinicas()
         {
             var result = ABMEmpresa.ObtenerClinicas();
-            var jsonResult =  Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
@@ -154,14 +154,18 @@ namespace WOdontoweb.Controllers
         public JsonResult ObtenerConsultoriosPorClinica(int pIDClinica)
         {
             var result = ABMEmpresa.ObtenerConsultoriosPorClinica(pIDClinica);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
 
         public JsonResult ObtenerConsultorioConClinica(int pIdConsultorio)
         {
             var result = ABMEmpresa.ObtenerConsultorioConClinica(pIdConsultorio);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
 
