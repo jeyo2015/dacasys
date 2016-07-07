@@ -97,16 +97,16 @@
         });
         return d.promise;
     };
-    this.obtenerConsultoriosPorClinica = function (pIDClinica) {
+    this.obtenerConsultoriosPorClinica = function (pIdClinica) {
         var d = $q.defer();
-        $http.get('Empresa/ObtenerConsultoriosPorClinica?pIDClinica=' + pIDClinica).success(function (data) {
+        $http.get('Empresa/ObtenerConsultoriosPorClinica?pIDClinica=' + pIdClinica).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
-    this.obtenerConsultorioConClinica = function (pIDConsultorio) {
+    this.obtenerConsultorioConClinica = function (pIdConsultorio) {
         var d = $q.defer();
-        $http.get('Empresa/ObtenerConsultorioConClinica?pIdConsultorio=' + pIDConsultorio).success(function (data) {
+        $http.get('Empresa/ObtenerConsultorioConClinica?pIdConsultorio=' + pIdConsultorio).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

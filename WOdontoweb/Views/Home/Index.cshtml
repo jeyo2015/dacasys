@@ -58,7 +58,7 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
                                             <ul id="menuPerfil" class="dropdown-menu pull-right">
                                                 <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
-                                                <li class="withoutborderNS"><a  href="#miConsultorioPerfil"><span>Configurar consultorio</span> </a></li>
+                                                <li class="withoutborderNS"><a href="#miConsultorioPerfil"><span>Configurar consultorio</span> </a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
@@ -119,6 +119,13 @@
             </div>
         </div>
         <div ng-view class=" row">
+        </div>
+        <div class=" row" style="text-align: center;">
+            <span class="text-center" style="color: #3B3B3C; font-family: Tahoma;font-size: 11px;font-weight: bold;text-align: center;"> Desarrollado por DACASYS</span>
+           
+        </div>
+        <div class=" row" style="text-align: center;">
+             <span style="color: #3B3B3C; font-family: Tahoma;font-size: 11px;font-weight: bold;text-align: center;">www.dacasys.com - 77390401 - 65051550</span>
         </div>
     </div>
     <div ng-controller="loginController">
@@ -407,7 +414,7 @@
             </div>
         </div>
     </div>
-  
+
     <div ng-controller="editarPacienteController">
         <div class="modal fade" id="modal-editar-paciente" role="dialog">
             <div class="modal-dialog ">
@@ -525,6 +532,7 @@
     <script src="@Url.Content("~/Scripts/app/controller/consultasController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/directives/filterList.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/directives/minHeigth.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/clinicaService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/inicioClienteController.js")"></script>
