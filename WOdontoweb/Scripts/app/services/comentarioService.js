@@ -1,7 +1,7 @@
 ﻿app.service("comentarioService", function ($http, $q, $rootScope) {
     this.obtenerComentariosPorEmpresa = function (idConsultorio) {
         var d = $q.defer();
-        $http.post('Paciente/ObtenerComentariosPorEmpresa', { idConsultorio: idConsultorio }).success(function (data) {
+        $http.get('Paciente/ObtenerComentariosPorEmpresa?idConsultorio=' + idConsultorio).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

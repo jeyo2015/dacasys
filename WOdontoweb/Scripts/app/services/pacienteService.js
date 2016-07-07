@@ -1,28 +1,28 @@
 ﻿app.service("pacienteService", function ($http, $q, $rootScope) {
     this.obtenerClientesPorEmpresa = function (idConsultorio) {
         var d = $q.defer();
-        $http.post('Paciente/ObtenerClientesPorEmpresa', { idConsultorio: idConsultorio }).success(function (data) {
+        $http.get('Paciente/ObtenerClientesPorEmpresa?idConsultorio=' + idConsultorio).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
     this.obtenerPacientesPorCliente = function (loginCliente) {
         var d = $q.defer();
-        $http.post('Paciente/ObtenerPacientesPorCliente', { loginCliente: loginCliente }).success(function (data) {
+        $http.get('Paciente/ObtenerPacientesPorCliente?loginCliente=' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
     this.obtenerPacientesPorClienteCita = function (loginCliente) {
         var d = $q.defer();
-        $http.post('Paciente/ObtenerPacientesPorClienteCita', { loginCliente: loginCliente }).success(function (data) {
+        $http.get('Paciente/ObtenerPacientesPorClienteCita?loginCliente' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
     this.obtenerPacientePorId = function (loginCliente) {
         var d = $q.defer();
-        $http.post('Paciente/ObtenerPacientesPorId', { loginCliente: loginCliente }).success(function (data) {
+        $http.get('Paciente/ObtenerPacientesPorId?loginCliente' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
