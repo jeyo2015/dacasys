@@ -45,9 +45,6 @@
 
         public static List<ModulosTree> GetModulos(int idRol)
         {
-            //var moduloOfRol = (from mr in dataContext.Rol_Modulo
-            //                   where mr.IDRol == idRol
-            //                   select mr).ToList();
             return (from m in dataContext.Modulo
                     select m).Select(x =>
                         new ModulosTree()
@@ -55,7 +52,7 @@
                             ID = x.ID,
                             IsChecked = isModuloChecked(x.ID, idRol),
                             Nombre = x.Texto,
-                            Hijos = getFormularios(idRol, x.ID),
+                            Hijos = ObtenerFormularios(idRol, x.ID),
                             IsCollapsed = false
                         }).ToList();
         }
@@ -109,33 +106,22 @@
                       select m;
             if (pinsert)
             {
-                if (!sql.Any())
+                if (sql.Any()) return;
+                var vrol_modulo = new Rol_Modulo { IDModulo = idModulo, IDRol = idRol };
+                try
                 {
-                    var vrol_modulo = new Rol_Modulo { IDModulo = idModulo, IDRol = idRol };
-                    try
-                    {
-                        dataContext.Rol_Modulo.InsertOnSubmit(vrol_modulo);
-                        dataContext.SubmitChanges();
-                        ControlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", idUsuario);
-                    }
-                    catch (Exception) { }
+                    dataContext.Rol_Modulo.InsertOnSubmit(vrol_modulo);
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se inserto un nuevo Rol_Modulo", idUsuario);
                 }
+                catch (Exception) { }
             }
             else
-            {//elimina
-                if (sql.Any())
-                {
-                    dataContext.Rol_Modulo.DeleteOnSubmit(sql.First());
-                    dataContext.SubmitChanges();
-                }
-
+            {
+                if (!sql.Any()) return;
+                dataContext.Rol_Modulo.DeleteOnSubmit(sql.First());
+                dataContext.SubmitChanges();
             }
-            // DataTable vDTFormularios = Get_Formulariosp(idRol, idModulo,idDacasys);
-            //   foreach (DataRow formulario in vDTFormularios.Rows)
-            //  {
-            //      Insertar_EliminarFormulario(idRol, (int)formulario[0], idUsuario, pinsert,idDacasys);
-            // }
-
         }
 
         /// <summary>
@@ -153,26 +139,22 @@
                       select f;
             if (pinsert)
             {
-                if (!sql.Any())
+                if (sql.Any()) return;
+                var vrol_formulario = new Rol_Formulario();
+                vrol_formulario.IDFormulario = idFormulario;
+                vrol_formulario.IDRol = idRol;
+                try
                 {
-                    Rol_Formulario vrol_formulario = new Rol_Formulario();
-                    vrol_formulario.IDFormulario = idFormulario;
-                    vrol_formulario.IDRol = idRol;
-                    try
-                    {
-                        dataContext.Rol_Formulario.InsertOnSubmit(vrol_formulario);
-                        dataContext.SubmitChanges();
-                    }
-                    catch (Exception) { }
+                    dataContext.Rol_Formulario.InsertOnSubmit(vrol_formulario);
+                    dataContext.SubmitChanges();
                 }
+                catch (Exception) { }
             }
             else
             {
-                if (sql.Any())
-                {
-                    dataContext.Rol_Formulario.DeleteOnSubmit(sql.First());
-                    dataContext.SubmitChanges();
-                }
+                if (!sql.Any()) return;
+                dataContext.Rol_Formulario.DeleteOnSubmit(sql.First());
+                dataContext.SubmitChanges();
             }
         }
 
@@ -190,26 +172,22 @@
                       select c;
             if (pinsert)
             {
-                if (!sql.Any())
+                if (sql.Any()) return;
+                var vrol_componente = new Rol_Componente();
+                vrol_componente.ID_Componente = idComponente;
+                vrol_componente.ID_Rol = idRol;
+                try
                 {
-                    Rol_Componente vrol_componente = new Rol_Componente();
-                    vrol_componente.ID_Componente = idComponente;
-                    vrol_componente.ID_Rol = idRol;
-                    try
-                    {
-                        dataContext.Rol_Componente.InsertOnSubmit(vrol_componente);
-                        dataContext.SubmitChanges();
-                    }
-                    catch (Exception) { }
+                    dataContext.Rol_Componente.InsertOnSubmit(vrol_componente);
+                    dataContext.SubmitChanges();
                 }
+                catch (Exception) { }
             }
             else
             {
-                if (sql.Any())
-                {
-                    dataContext.Rol_Componente.DeleteOnSubmit(sql.First());
-                    dataContext.SubmitChanges();
-                }
+                if (!sql.Any()) return;
+                dataContext.Rol_Componente.DeleteOnSubmit(sql.First());
+                dataContext.SubmitChanges();
             }
         }
 
@@ -228,30 +206,27 @@
                       where r.ID == idRol
                       select r;
 
-            if (sql.Any())
+            if (!sql.Any()) return 3;
+            var vUs = from us in dataContext.UsuarioEmpleado
+                      where us.IDRol == idRol
+                      select us;
+            if (vUs.Any())
             {
-                var vUs = from us in dataContext.UsuarioEmpleado
-                          where us.IDRol == idRol
-                          select us;
-                if (vUs.Any())
-                {
-                    return 4;
-                }
-
-                try
-                {
-                    dataContext.Rol.DeleteOnSubmit(sql.First());
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se elimino Rol", idUsuario);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NLogin", "ABMRol", "Eliminar", ex);
-                    return 2;
-                }
+                return 4;
             }
-            return 3;
+
+            try
+            {
+                dataContext.Rol.DeleteOnSubmit(sql.First());
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se elimino Rol", idUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMRol", "Eliminar", ex);
+                return 2;
+            }
         }
 
         /// <summary>
@@ -259,7 +234,7 @@
         /// </summary>
         /// <param name="idEmpresa">Id del consultorio</param>
         /// <returns></returns>
-        public static List<RolDto> Get_Roles(int idEmpresa)
+        public static List<RolDto> ObtenerRoles(int idEmpresa)
         {
             return (from r in dataContext.Rol
                     where r.IDEmpresa == idEmpresa
@@ -272,47 +247,8 @@
                     }).ToList();
         }
 
-        public static List<ModulosTree> getComponenentes(int idRol, int idFormulario)
-        {
-            var componenteOfRol = (from cr in dataContext.Rol_Componente
-                                   where cr.ID_Rol == idRol
-                                   select cr).ToList();
-            return (from c in dataContext.Componente
-                    where c.IDFormulario == idFormulario
-                    select c).Select(x =>
-                    new ModulosTree()
-                    {
-                        ID = x.ID,
-                        IsChecked = isComponenteChecked(x.ID, idRol),
-                        Nombre = x.Texto,
-                        Hijos = new List<ModulosTree>(),
-                        IsCollapsed = false
-                    }).ToList();
-
-        }
-
-        public static List<ModulosTree> getFormularios(int idRol, int idModulo)
-        {
-            var formulariosOfRol = (from fr in dataContext.Rol_Formulario
-                                    where fr.IDRol == idRol
-                                    select fr).ToList();
-
-            return (from f in dataContext.Fomulario
-                    where f.IDModulo == idModulo
-                    select f).Select(x =>
-                            new ModulosTree()
-                            {
-                                ID = x.ID,
-                                Nombre = x.Texto,
-                                IsChecked = isFormularioChecked(x.ID, idRol),
-                                Hijos = getComponenentes(idRol, x.ID),
-                                IsCollapsed = false
-                            }).ToList();
-        }
-
         public static bool ModificarPermisos(List<ModulosTree> modulos, int idRol)
         {
-            //  var isDone = true;
             foreach (var modulo in modulos)
             {
                 if (modulo.IsChecked)
@@ -521,6 +457,37 @@
                 dataContext.Rol_Modulo.InsertOnSubmit(mr);
             }
 
+        }
+
+        private static List<ModulosTree> ObtenerComponenentes(int idRol, int idFormulario)
+        {
+            return (from c in dataContext.Componente
+                    where c.IDFormulario == idFormulario
+                    select c).Select(x =>
+                    new ModulosTree()
+                    {
+                        ID = x.ID,
+                        IsChecked = isComponenteChecked(x.ID, idRol),
+                        Nombre = x.Texto,
+                        Hijos = new List<ModulosTree>(),
+                        IsCollapsed = false
+                    }).ToList();
+
+        }
+
+        private static List<ModulosTree> ObtenerFormularios(int idRol, int idModulo)
+        {
+            return (from f in dataContext.Fomulario
+                    where f.IDModulo == idModulo
+                    select f).Select(x =>
+                            new ModulosTree()
+                            {
+                                ID = x.ID,
+                                Nombre = x.Texto,
+                                IsChecked = isFormularioChecked(x.ID, idRol),
+                                Hijos = ObtenerComponenentes(idRol, x.ID),
+                                IsCollapsed = false
+                            }).ToList();
         }
 
         #endregion

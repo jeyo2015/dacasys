@@ -15,6 +15,34 @@
         public int IDRol { get; set; }
     }
 
+    public class SessionPermisosDto
+    {
+        public List<ModuloDto> Modulos { get; set; }
+        public List<FormularioDto> Formularios { get; set; }
+        public List<ComponenteDto> Componentes { get; set; }
+    }
+
+    public class ModuloDto
+    {
+        public int IdModulo { get; set; }
+        public string NombreModulo { get; set; }
+        public bool TienePermiso { get; set; }
+    }
+
+    public class FormularioDto
+    {
+        public int IdFormulario { get; set; }
+        public string NombreFormulario { get; set; }
+        public bool TienePermiso { get; set; }
+    }
+
+    public class ComponenteDto
+    {
+        public int IdComponente { get; set; }
+        public string NombreComponente { get; set; }
+        public bool TienePermiso { get; set; }
+    }
+
     public class UsuarioDto
     {
         public string Nombre { get; set; }
@@ -141,18 +169,21 @@
         public List<NotificacionesConsultorioDto> Notificaciones { get; set; }
         public int CantidadNuevasNotificaciones { get; set; }
     }
+
     public class RolDto
     {
         public int ID { get; set; }
         public string Nombre { get; set; }
         public int IDEmpresa { get; set; }
     }
+
     public class TiempoConsultaDto
     {
         public int ID { get; set; }
         public string Descripcion { get; set; }
         public int Value { get; set; }
     }
+
     public class PacienteDto
     {
         public string LoginCliente { get; set; }

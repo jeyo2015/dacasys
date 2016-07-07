@@ -2459,22 +2459,6 @@ C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NConsul
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NConsulta\obj\Debug\NConsulta.dll
 C:\Users\Geovanna\Documents\Visual Studio 2012\Projects\WOdontoweb250416\NConsulta\obj\Debug\NConsulta.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NConsulta.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NConsulta.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\DataTableConverter.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Datos.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Herramientas.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NAgenda.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NEventos.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NLogin.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Datos.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Herramientas.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NAgenda.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NEventos.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NLogin.pdb
-D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
-D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.dll
-D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Debug\NConsulta.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Debug\NConsulta.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Debug\DataTableConverter.dll
@@ -2491,3 +2475,19 @@ D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Debug\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NConsulta.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NConsulta.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\DataTableConverter.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Datos.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Herramientas.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NAgenda.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NEventos.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NLogin.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Datos.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\Herramientas.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NAgenda.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NEventos.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\bin\Debug\NLogin.pdb
+D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
+D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.dll
+D:\Geovi\Dacasys2705\dacasys\NConsulta\obj\Debug\NConsulta.pdb

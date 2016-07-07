@@ -10,7 +10,7 @@
     {
         public JsonResult GetAllRolOfClinic(int idClinic)
         {
-            var result = ABMRol.Get_Roles(idClinic);
+            var result = ABMRol.ObtenerRoles(idClinic);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
