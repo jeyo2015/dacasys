@@ -6,9 +6,9 @@
         });
         return d.promise;
     };
-    this.getUsuarioConsultorio = function (pLogin, pIDEmpresa) {
+    this.getUsuarioConsultorio = function (pLogin, pIdEmpresa) {
         var d = $q.defer();
-        $http.get('Usuarios/GetUsuarioConsultorio?pLogin=' + pLogin + '&pIDEmpresa=' + pIDEmpresa).success(function (data) {
+        $http.get('Usuarios/GetUsuarioConsultorio?pLogin=' + pLogin + '&pIDEmpresa=' + pIdEmpresa).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

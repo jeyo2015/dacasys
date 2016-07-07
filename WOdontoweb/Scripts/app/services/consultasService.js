@@ -12,7 +12,7 @@
         var fechaSplit = fecha.split('/');
         var fechaConvertida = fechaSplit ? new Date(fechaSplit[2], fechaSplit[1] - 1, fechaSplit[0]) : new Date();
 
-        $http.get('Consultas/GetCitasDelDia?pfecha=' + fechaConvertida + '&pIdConsultorio=' + '&ptiempoConsulta='+ tiempoConsulta).success(function (data) {
+        $http.get('Consultas/GetCitasDelDia?pfecha=' + fecha + '&pIdConsultorio=' + idConsultorio+'&ptiempoConsulta=' + tiempoConsulta).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
