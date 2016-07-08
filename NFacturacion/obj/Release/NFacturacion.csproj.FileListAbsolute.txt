@@ -1,1 +1,2 @@
 D:\DACASYS\Clone1506\dacasys\NFacturacion\obj\Release\NFacturacion.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Release\NFacturacion.csprojResolveAssemblyReference.cache

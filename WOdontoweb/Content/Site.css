@@ -557,3 +557,10 @@ input:-webkit-autofill
 .nav-tabs > li.disabled > a:hover {
   color: rgba(255, 255, 255, 0.5);
 }
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+.divContent {
+    background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 5px;
+}

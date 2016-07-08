@@ -14,3 +14,6 @@ D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Release\NConsulta.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Release\NConsulta.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Release\NConsulta.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.pdb

@@ -37,6 +37,17 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult EnviarSolicitudConsultorio(NotificacionesConsultorioDto pNotificacion)
+        {
+            var success = ABMNotificacionesConsultorio.EnviarSolicitudConsultorio(pNotificacion);
+            var result = new ResponseModel()
+            {
+                Message = success?"Se envio la solicitud":"No se pudo enviar la solicitud, por favor intente nuevamente",
+                Data = success ,
+                Success = success
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult CancelarSolicitudPaciente(NotificacionesConsultorioDto pNotificacion)
         {
             var success = ABMNotificacionesConsultorio.CancelarSolicitudPaciente(pNotificacion);

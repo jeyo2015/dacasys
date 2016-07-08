@@ -14,8 +14,16 @@
         return d.promise;
     };
     this.aceptarSolicitudPaciente = function (pNotificacion) {
-        var d = $q.defer();// GetAllRolOfClinic(int idClinic)
-        $http.post('NotificacionConsultorio/AceptarSolicitudPaciente', { pNotificacion:pNotificacion}).success(function (data) {
+        var d = $q.defer();
+        $http.post('NotificacionConsultorio/AceptarSolicitudPaciente', { pNotificacion: pNotificacion }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+
+    this.enviarSolicitudConsultorio = function (pNotificacion) {
+        var d = $q.defer();
+        $http.post('NotificacionConsultorio/EnviarSolicitudConsultorio', { pNotificacion: pNotificacion }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

@@ -12,3 +12,6 @@ D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NAgenda\obj\Release\NAgenda.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NAgenda\obj\Release\NAgenda.dll
 D:\DACASYS\Clone1506\dacasys\NAgenda\obj\Release\NAgenda.pdb
+E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.dll
+E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.pdb

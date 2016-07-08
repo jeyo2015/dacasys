@@ -1609,3 +1609,15 @@ D:\Geovi\Dacasys2705\dacasys\NLogin\bin\Debug\NEventos.pdb
 D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.dll
 D:\Geovi\Dacasys2705\dacasys\NLogin\obj\Debug\NLogin.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NLogin.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NLogin.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\DataTableConverter.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Datos.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Herramientas.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NEventos.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NEventos.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.pdb

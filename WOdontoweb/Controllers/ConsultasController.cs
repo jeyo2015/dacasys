@@ -9,9 +9,10 @@
 
     public class ConsultasController : Controller
     {
-        public JsonResult GetCitasDelDia(DateTime pfecha, int pIdConsultorio, int ptiempoConsulta)
+        public JsonResult GetCitasDelDia(string pfecha, int pIdConsultorio, int ptiempoConsulta)
         {
-            var result = ABMCita.ObtenerAgendaDelDia(pfecha, pIdConsultorio, ptiempoConsulta);
+            var splitFecha = pfecha.Split('/');
+            var result = ABMCita.ObtenerAgendaDelDia(new DateTime(Convert.ToInt16(splitFecha[2]),Convert.ToInt16(splitFecha[1]),Convert.ToInt16(splitFecha[0])), pIdConsultorio, ptiempoConsulta);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -21,6 +22,11 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult VerificarClienteEnConsultorio(int pIdConsultorio, string pLoginCliente)
+        {
+            var result = ABMCita.VerificarClienteEnConsultorio(pIdConsultorio, pLoginCliente);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetHistoricoDetalle(HistoricoPacienteDto pHistorico)
         {
             var result = ABMHistoricoDet.ObtenerHistoricoDetalle(pHistorico.IdConsultorio, pHistorico.IdPaciente, pHistorico.NumeroHistorico);

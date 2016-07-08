@@ -227,6 +227,14 @@
                 }
             } return 0;
         }
+        public static bool VerificarClienteEnConsultorio(int pIdConsultorio, string pLoginCliente)
+        {
+           return (from cc in dataContext.Empresa_Cliente
+                       where cc.id_empresa ==pIdConsultorio && cc.id_usuariocliente==pLoginCliente
+                       select cc).Any();
+        }
+
+
 
         public static List<CitasDelClienteDto> ObtenerCitasPorCliente(string loginCliente)
         {

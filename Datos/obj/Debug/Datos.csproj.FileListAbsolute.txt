@@ -9,3 +9,9 @@ D:\Geovi\Dacasys2705\dacasys\Datos\bin\Debug\Datos.pdb
 D:\Geovi\Dacasys2705\dacasys\Datos\obj\Debug\Datos.csprojResolveAssemblyReference.cache
 D:\Geovi\Dacasys2705\dacasys\Datos\obj\Debug\Datos.dll
 D:\Geovi\Dacasys2705\dacasys\Datos\obj\Debug\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\Datos\bin\Debug\Datos.dll.config
+E:\DACASYS\Clone3105\dacasys\Datos\bin\Debug\Datos.dll
+E:\DACASYS\Clone3105\dacasys\Datos\bin\Debug\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\Datos\obj\Debug\Datos.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\Datos\obj\Debug\Datos.dll
+E:\DACASYS\Clone3105\dacasys\Datos\obj\Debug\Datos.pdb

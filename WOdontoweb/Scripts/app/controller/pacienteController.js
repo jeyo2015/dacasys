@@ -85,6 +85,8 @@
             IsPrincipal: false,
             IDEmpresa: $rootScope.sessionDto.IDConsultorio
         };
+        $scope.selectSexo = null;
+        $scope.selectTipoSangre = null;
     }
 
     $scope.nuevoPaciente = function () {

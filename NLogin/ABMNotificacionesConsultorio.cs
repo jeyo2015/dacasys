@@ -120,6 +120,27 @@
             }
         }
 
+        public static bool EnviarSolicitudConsultorio(NotificacionesConsultorioDto notificacionesConsultorioDto)
+        {
+            var notificacion = new NotificacionConsultorio();
+            notificacion.Estado = 1;
+            notificacion.Fecha = DateTime.Now;
+            notificacion.IDConsultorio = notificacionesConsultorioDto.IDConsultorio;
+            notificacion.LoginUsuario = notificacionesConsultorioDto.LoginUsuario;
+            notificacion.TipoNotificacion = 1;
+            try
+            {
+                dataContext.NotificacionConsultorio.InsertOnSubmit(notificacion);
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se envio una notificacion", notificacionesConsultorioDto.LoginUsuario);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMNotificaciones", "EnviarSolicitudConsultorio", ex);
+                return false;
+            }
+        }
         #endregion
     }
 }

@@ -9,9 +9,6 @@
 
     this.getCitasDelDia = function (fecha, idConsultorio, tiempoConsulta) {
         var d = $q.defer();
-        var fechaSplit = fecha.split('/');
-        var fechaConvertida = fechaSplit ? new Date(fechaSplit[2], fechaSplit[1] - 1, fechaSplit[0]) : new Date();
-
         $http.get('Consultas/GetCitasDelDia?pfecha=' + fecha + '&pIdConsultorio=' + idConsultorio+'&ptiempoConsulta=' + tiempoConsulta).success(function (data) {
             d.resolve(data);
         });
@@ -20,6 +17,13 @@
     this.getHistoricoPaciente = function (idPaciente, idConsultorio) {
         var d = $q.defer();
         $http.get('Consultas/GetHistoricoPaciente?pIdPaciente=' + idPaciente + '&pIdConsultorio=' + idConsultorio).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.verificarClienteEnConsultorio = function (idConsultorio, loginCliente) {
+        var d = $q.defer();
+        $http.get('Consultas/VerificarClienteEnConsultorio?pIdConsultorio=' + idConsultorio + '&pLoginCliente=' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

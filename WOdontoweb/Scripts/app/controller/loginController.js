@@ -63,7 +63,7 @@
             pacienteService.insertarPaciente($scope.pacienteParaGuardar).then(function (result) {
                 if (result.Data == 1) {
                     toastr.success(result.Message);
-                    $("#modal-login-cliente").modal('hide');
+                    $("#modal-registrarse").modal('hide');
                 } else {
                     toastr.error(result.Message);
                 }
@@ -72,6 +72,8 @@
 
     };
     $scope.openModalregistrarCliente = function () {
+        $scope.usuario = "";
+        $scope.pass = "";
         prepararNuevoCliente();
         $("#modal-login-cliente").modal('hide');
         $("#modal-registrarse").modal('show');
@@ -176,6 +178,11 @@
                             $scope.showMessage = false;
                         }
                         getNotificaciones();
+                    } else {
+                        if ($rootScope.sessionDto.ChangePass) {
+                            $('#modal-renovar').modal('show');
+                            $scope.showMessage = false;
+                        }
                     }
 
                     break;
@@ -300,7 +307,9 @@
             return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa == 0;
         } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
-
+    $scope.validarCamposInicioCliente = function () {
+        return $scope.usuario.length == 0 || $scope.pass.length == 0;
+    };
     $scope.validarCamposPerfil = function () {
         if ($scope.userToSave) {
             return $scope.userToSave.Nombre.length == 0 || $scope.userToSave.Password.length == 0 || $scope.userToSave.ConfirmPass.length == 0;

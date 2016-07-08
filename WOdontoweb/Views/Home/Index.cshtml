@@ -129,7 +129,7 @@
         </div>
     </div>
     <div ng-controller="loginController">
-        <div class="modal fade" id="modal-login" role="dialog">
+        <div class="modal fade " tabindex="-1" id="modal-login"  backdrop="static" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -315,7 +315,7 @@
                     <div class="modal-footer">
                         <button class="btn btn-primary" ng-click="openModalregistrarCliente()">Registrarse</button>
 
-                        <button class="btn btn-primary" ng-click="ingresar()" ng-disabled="validarCampos()">Ingresar</button>
+                        <button class="btn btn-primary" ng-click="ingresar()" ng-disabled="validarCamposInicioCliente()">Ingresar</button>
                     </div>
                 </div>
             </div>

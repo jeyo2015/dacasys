@@ -1,4 +1,4 @@
-﻿app.controller("inicioClienteController", function (clinicaService, $scope, $rootScope, consultasService, loginService) {
+﻿app.controller("inicioClienteController", function (clinicaService, $scope, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
     init();
     var map;
     var infoWindow;
@@ -46,23 +46,54 @@
 
 
     $scope.seleccionaCita = function (cita) {
+        if (cita.EsTarde) {
+            toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
+            return;
+        }
+        else
+            if (cita.EstaOcupada) {
+                toastr.warning("La fecha y hora seleccionado se encuentra ocupado");
+                return;
+            }
+
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
+            $scope.loginEmpresa = "";
+
             $rootScope.isAdmin = false;
             $("#modal-login-cliente").modal('show');
         } else {
-            $scope.citaSeleted = cita;
-            alertaEstadoCita();
+            consultasService.verificarClienteEnConsultorio($scope.consultorioSeleccionado.IDConsultorio, $rootScope.sessionDto.loginUsuario).then(function (result) {
+
+                if (result == "true") {
+                    $scope.citaSeleted = cita;
+
+                } else {
+                    $scope.citaSeleted = null;
+                    $("#enviar-notificacion").modal('show');
+                }
+
+            });
+
+
+
+
         }
     };
 
-    function alertaEstadoCita() {
-        if ($scope.citaSeleted.EsTarde)
-            toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
-        else
-            if ($scope.citaSeleted.EstaAtendida)
-                toastr.warning("La cita seleccionada ya fue atendida");
-    }
+    $scope.agendarCita = function () {
+        consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                cargarCitasDelDia();
+
+                $scope.citaSeleted = null;
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
+
     function cargar_clinicas() {
         clinicaService.getAllClinicasHabilitadas().then(function (result) {
             $scope.clinicas = result;
@@ -74,6 +105,8 @@
         $scope.verConsultorio = true;
         $("#modal-ver-mas").modal('show');
     }
+
+
 
     $scope.mostrarHorarios = function (consultorio) {
         $scope.consultorioSeleccionado = consultorio;
@@ -141,6 +174,30 @@
         $scope.citaSeleted = null;
         $("#modal-ver-mas").modal('hide');
     }
+    $scope.cerrarSolicitud = function () {
+        $("#enviar-notificacion").modal('hide');
+    }
+    $scope.enviarNotificacion = function () {
+        var notificacion = {
+            IDNotificacion: -1,
+            IDConsultorio: $scope.consultorioSeleccionado.IDConsultorio,
+            NombreUsuario: "",
+            TipoNotificacion: 1,
+            LoginUsuario: $rootScope.sessionDto.loginUsuario,
+            FechaNotificacion: null,
+            EstadoNotificacion: 1
+        }
+
+        notificacionesConsultorioService.enviarSolicitudConsultorio(notificacion).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                $scope.citaSeleted = null;
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    }
+
     $scope.validarCamposCita = function () {
         return $scope.citaSeleted == null || $scope.citaSeleted.EstaOcupada;
     };

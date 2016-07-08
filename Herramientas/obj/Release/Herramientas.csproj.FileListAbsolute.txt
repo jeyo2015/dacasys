@@ -13,3 +13,8 @@ D:\DACASYS\Clone1506\dacasys\Herramientas\bin\Release\Herramientas.pdb
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Release\Herramientas.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Release\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Release\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\Herramientas\bin\Release\Herramientas.dll
+E:\DACASYS\Clone3105\dacasys\Herramientas\bin\Release\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Release\Herramientas.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Release\Herramientas.dll
+E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Release\Herramientas.pdb
