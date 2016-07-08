@@ -27,6 +27,13 @@
     <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
 </head>
 <body>
+
+    <div id="divLoaderfull" class="loader" loader>
+        <div>
+            <span>
+                <img src="@Url.Content("../../Content/img/ajax-loader.gif")" />Cargando.. </span>
+        </div>
+    </div>
     <div id="containerTotal">
         <div class="row" id="headerTotal">
             <div id="header-1">
@@ -48,14 +55,14 @@
                                                 <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
                                                 <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
                                                     <a href="#">{{noti.NombreUsuario}}
-                                                        <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
+                                                            <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
                                                         <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-cog"></i><span class="caret"></span></a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-cog"></i><span class="caret"></span></a>
                                             <ul id="menuPerfil" class="dropdown-menu pull-right">
                                                 <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
                                                 <li class="withoutborderNS"><a href="#miConsultorioPerfil"><span>Configurar consultorio</span> </a></li>
@@ -121,18 +128,19 @@
         <div ng-view class=" row">
         </div>
         <div class=" row" style="text-align: center;">
-            <span class="text-center" style="color: #3B3B3C; font-family: Tahoma;font-size: 11px;font-weight: bold;text-align: center;"> Desarrollado por DACASYS</span>
-           
+            <span class="text-center" style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">Desarrollado por DACASYS</span>
+
         </div>
         <div class=" row" style="text-align: center;">
-             <span style="color: #3B3B3C; font-family: Tahoma;font-size: 11px;font-weight: bold;text-align: center;">www.dacasys.com - 77390401 - 65051550</span>
+            <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">www.dacasys.com - 77390401 - 65051550</span>
         </div>
     </div>
     <div ng-controller="loginController">
-        <div class="modal fade " tabindex="-1" id="modal-login"  backdrop="static" role="dialog">
+        <div class="modal fade" id="modal-login" data-backdrop="static" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Ingresar a Odontoweb</h4>
                     </div>
                     <div class="modal-body">
@@ -416,10 +424,11 @@
     </div>
 
     <div ng-controller="editarPacienteController">
-        <div class="modal fade" id="modal-editar-paciente" role="dialog">
+        <div class="modal fade" id="modal-editar-paciente" data-backdrop="static" role="dialog">
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Datos paciente</h4>
                     </div>
                     <div class="modal-body">

@@ -4,7 +4,7 @@
     function init() {
         $scope.loginEmpresa = "";
         $scope.usuario = "";
-        $scope.pass = "";
+        $rootScope.pass = "";
         $rootScope.isAdmin = true;
         $scope.isUser = -1;
         $scope.newPass = "";
@@ -72,8 +72,8 @@
 
     };
     $scope.openModalregistrarCliente = function () {
-        $scope.usuario = "";
-        $scope.pass = "";
+        $rootScope.usuario = "";
+        $rootScope.pass = "";
         prepararNuevoCliente();
         $("#modal-login-cliente").modal('hide');
         $("#modal-registrarse").modal('show');
@@ -108,7 +108,7 @@
         $scope.loginEmpresa = "";
         $scope.usuario = "";
         $scope.pass = "";
-        $scope.isAdmin = true;
+        $rootScope.isAdmin = true;
         $scope.isUser = -1;
         $scope.message = "";
         if ($rootScope.sessionDto.loginUsuario == "")
@@ -148,25 +148,25 @@
                 case 1:
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
-                    $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.usuario = "";
+                    $rootScope.pass = "";
 
                     break;
                 case 0:
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
-                    $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.usuario = "";
+                    $rootScope.pass = "";
                     break;
                 case 2:
                     $("#usuarioID").focus();
-                    $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.usuario = "";
+                    $rootScope.pass = "";
                     break;
                 case 4:
                     $("#passwordID").focus();
 
-                    $scope.pass = "";
+                    $rootScope.pass = "";
                     break;
                 case 3:
 
@@ -200,14 +200,14 @@
                 return;
             }
         }
-        if ($scope.usuario.length == 0) {
+        if ($rootScope.usuario.length == 0) {
             $scope.message = "Ingrese su login de usuario por favor";
             $rootScope.sessionDto.Verificar = 2;
             $("#usuarioID").focus();
             return;
         }
 
-        loginService.forgotPass($scope.loginEmpresa, $scope.usuario).then(function (result) {
+        loginService.forgotPass($scope.loginEmpresa, $rootScope.usuario).then(function (result) {
             $scope.message = result.Message;
 
             switch (result.Data) {
@@ -215,28 +215,28 @@
                     toastr.success(result.Message);
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.pass = "";
                     $('#modal-login').modal('hide');
                     break;
                 case 2:
                     toastr.error(result.Message);
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.pass = "";
                     break;
                 case 1:
                     $scope.sessionDto.Verificar = 2;
 
                     $("#usuarioID").focus();
                     $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.pass = "";
                     break;
                 case 0:
                     $scope.sessionDto.Verificar = 1;
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $scope.pass = "";
+                    $rootScope.pass = "";
                     break;
             }
         });
@@ -304,7 +304,7 @@
 
     $scope.validarCampos = function () {
         if ($scope.isAdmin) {
-            return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa == 0;
+            return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
         } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposInicioCliente = function () {

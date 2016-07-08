@@ -169,15 +169,16 @@
             openInfoWindow(marker);
         });
     }
-    $scope.cerrarModalVerMas = function () {
+
+    $scope.cerrarModalVerMas = function() {
         $scope.clinicaSeleccionada = null;
         $scope.citaSeleted = null;
         $("#modal-ver-mas").modal('hide');
-    }
-    $scope.cerrarSolicitud = function () {
+    };
+    $scope.cerrarSolicitud = function() {
         $("#enviar-notificacion").modal('hide');
-    }
-    $scope.enviarNotificacion = function () {
+    };
+    $scope.enviarNotificacion = function() {
         var notificacion = {
             IDNotificacion: -1,
             IDConsultorio: $scope.consultorioSeleccionado.IDConsultorio,
@@ -186,17 +187,19 @@
             LoginUsuario: $rootScope.sessionDto.loginUsuario,
             FechaNotificacion: null,
             EstadoNotificacion: 1
-        }
+        };
 
-        notificacionesConsultorioService.enviarSolicitudConsultorio(notificacion).then(function (result) {
+        notificacionesConsultorioService.enviarSolicitudConsultorio(notificacion).then(function(result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 $scope.citaSeleted = null;
+              
             } else {
                 toastr.error(result.Message);
             }
+            $("#enviar-notificacion").modal('hide');
         });
-    }
+    };
 
     $scope.validarCamposCita = function () {
         return $scope.citaSeleted == null || $scope.citaSeleted.EstaOcupada;
