@@ -1,4 +1,6 @@
-﻿namespace WOdontoweb.Controllers
+﻿using Herramientas;
+
+namespace WOdontoweb.Controllers
 {
     using System;
     using System.Web.Mvc;
@@ -9,14 +11,17 @@
     {
         public JsonResult GetSessionDto()
         {
-            var sessionDto = new Herramientas.SessionDto();
-            sessionDto.loginUsuario = Session["loginusuario"] == null ? "" : Session["loginusuario"].ToString();
-            sessionDto.IDConsultorio = Session["IDConsultorio"] == null ? -1 : Convert.ToInt32(Session["IDConsultorio"].ToString());
-            sessionDto.IDClinica = Session["IDClinica"] == null ? -1 : Convert.ToInt32(Session["IDClinica"].ToString());
-            sessionDto.Nombre = Session["NombreUser"] == null ? "" : Session["NombreUser"].ToString();
-            sessionDto.IDRol = Session["IDRol"] == null ? -1 : Convert.ToInt32(Session["IDRol"].ToString());
-            sessionDto.IsDacasys = Session["IsDacasys"] == null ? false : Convert.ToBoolean(Session["IsDacasys"].ToString());
-            sessionDto.ChangePass = Session["changePass"] == null ? false : Convert.ToBoolean(Session["changePass"].ToString());
+            var sessionDto = new Herramientas.SessionDto
+            {
+                loginUsuario = Session["loginusuario"] == null ? "" : Session["loginusuario"].ToString(),
+                IDConsultorio = Session["IDConsultorio"] == null ? -1 : Convert.ToInt32(Session["IDConsultorio"].ToString()),
+                IDClinica = Session["IDClinica"] == null ? -1 : Convert.ToInt32(Session["IDClinica"].ToString()),
+                Nombre = Session["NombreUser"] == null ? "" : Session["NombreUser"].ToString(),
+                IDRol = Session["IDRol"] == null ? -1 : Convert.ToInt32(Session["IDRol"].ToString()),
+                IsDacasys = Session["IsDacasys"] != null && Convert.ToBoolean(Session["IsDacasys"].ToString()),
+                ChangePass = Session["changePass"] != null && Convert.ToBoolean(Session["changePass"].ToString()),
+            };
+            sessionDto.Permisos = Seguridad.ObtenerPermisos(sessionDto.IDRol);
             return Json(sessionDto, JsonRequestBehavior.AllowGet);
         }
 
@@ -131,10 +136,11 @@
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
                         Session["changePass"] = sessionDto.ChangePass;
                         Session["IDRol"] = sessionDto.IDRol;
+                        Session["Permisos"] = Seguridad.ObtenerPermisos(sessionDto.IDRol);
                         break;
                     case 4:
                         message = "Contrasena incorrecta";
-                         sessionDto.IDClinica = -1;
+                        sessionDto.IDClinica = -1;
                         sessionDto.IDConsultorio = -1;
                         sessionDto.IDRol = -1;
                         break;

@@ -361,7 +361,7 @@
                     return 8;
             }
 
-            if (pacienteDto.Ci != null)
+            if (pacienteDto.Ci != null && pacienteDto.IdPaciente == 0)
             {
                 var sql = from us in dataContext.Paciente where us.ci == pacienteDto.Ci select us;
                 if (sql.Any())

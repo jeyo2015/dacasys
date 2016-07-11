@@ -98,12 +98,6 @@
         <elementListCompartment Id="2cdb7f0e-6f97-4672-bee2-114d06a6178c" absoluteBounds="12.765, 1.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="af34830c-b608-40d2-baa4-ac30837b574d" absoluteBounds="12.75, 4.75, 2, 1.7708968098958327">
-      <DataClassMoniker Name="/ContextoDataContext/Fomulario" />
-      <nestedChildShapes>
-        <elementListCompartment Id="de735255-d61f-46ad-a049-ed2820367003" absoluteBounds="12.765, 5.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="c5913145-dc1f-4629-a3ff-552c2a04a7c7" absoluteBounds="6.75, 12.75, 2, 2.3478011067708344">
       <DataClassMoniker Name="/ContextoDataContext/Historico_Paciente" />
       <nestedChildShapes>
@@ -249,5 +243,11 @@
         <classShapeMoniker Id="96d986b6-dc59-4a85-8689-acc74c5f2b56" />
       </nodes>
     </associationConnector>
+    <classShape Id="ab85be47-720d-4ed5-bb01-b470c388adcf" absoluteBounds="12.125, 4.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/ContextoDataContext/Formulario" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ccdc65bf-2329-47a3-b476-7c1bd17bbf5c" absoluteBounds="12.14, 5.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

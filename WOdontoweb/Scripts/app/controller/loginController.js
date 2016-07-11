@@ -25,7 +25,48 @@
 
     $scope.cerrarModalRegistrar = function () {
         $("#modal-registrarse").modal('hide');
-    }
+    };
+
+    $rootScope.validarPermisoModulo = function (nombreModulo) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+                return modulo.NombreModulo == nombreModulo;
+            });
+            return listModulo.length <= 0 ? false : listModulo[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoFormulario = function (nombreFormulario) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listFormulario = $rootScope.sessionDto.Permisos.Formularios.where(function (formulario) {
+                return formulario.NombreFormulario == nombreFormulario;
+            });
+            return listFormulario.length <= 0 ? false : listFormulario[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoComponente = function (nombreComponente) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
+                return componente.NombreComponente == nombreComponente;
+            });
+            return listComponente.length <= 0 ? false : listComponente[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.primerModulo = function () {
+        var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+            return modulo.TienePermiso === true;
+        });
+        return listModulo.length <= 0 ? 'inicioCliente' : listModulo[0].NombreModulo;
+    };
+
     function prepararNuevoCliente() {
         $scope.pacienteParaGuardar = {
             LoginCliente: '',
@@ -44,6 +85,7 @@
             IDEmpresa: -1
         };
     };
+
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
@@ -71,26 +113,30 @@
         }
 
     };
+
     $scope.openModalregistrarCliente = function () {
         $rootScope.usuario = "";
         $rootScope.pass = "";
         prepararNuevoCliente();
         $("#modal-login-cliente").modal('hide');
         $("#modal-registrarse").modal('show');
-    }
+    };
+
     $rootScope.enterLogIn = function (keyEvent) {
         if (keyEvent.which === 13)
             $scope.ingresar();
     };
+
     $rootScope.getClass = function (path) {
         return ($location.path().substr(0, path.length) === path) ? 'active' : '';
     };
+
     function getNotificaciones() {
         if ($rootScope.sessionDto.IDConsultorio != -1)
             notificacionesConsultorioService.getSolicitudesPacientes($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
                 $rootScope.NotificacionesConsultorio = result;
                 if ($rootScope.sessionDto.IDRol != null) {
-                    $location.path('/consultas');
+                    $location.path('/' + $rootScope.primerModulo());
                 }
             });
     }
@@ -139,9 +185,7 @@
 
     $scope.ingresar = function () {
         var verificar = loginService.ingresar($scope.loginEmpresa, $scope.usuario, $scope.pass);
-
         verificar.then(function (result) {
-
             $scope.message = result.Message;
             $rootScope.sessionDto = result.Data;
             switch (result.Data.Verificar) {
@@ -169,7 +213,6 @@
                     $rootScope.pass = "";
                     break;
                 case 3:
-
                     $('#modal-login-cliente').modal('hide');
                     $('#modal-login').modal('hide');
                     if ($scope.isAdmin) {
@@ -184,7 +227,6 @@
                             $scope.showMessage = false;
                         }
                     }
-
                     break;
             }
 
@@ -209,7 +251,6 @@
 
         loginService.forgotPass($scope.loginEmpresa, $rootScope.usuario).then(function (result) {
             $scope.message = result.Message;
-
             switch (result.Data) {
                 case 3:
                     toastr.success(result.Message);
@@ -307,9 +348,11 @@
             return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
         } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
+
     $scope.validarCamposInicioCliente = function () {
         return $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
+
     $scope.validarCamposPerfil = function () {
         if ($scope.userToSave) {
             return $scope.userToSave.Nombre.length == 0 || $scope.userToSave.Password.length == 0 || $scope.userToSave.ConfirmPass.length == 0;

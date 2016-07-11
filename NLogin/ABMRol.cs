@@ -342,12 +342,12 @@
         private static void Insertar_Formularios(int idRol, string idUsuario, int idDacasys)
         {
             bool vDacasys = Convert.ToBoolean(idDacasys);
-            var vFormularios = from formularios in dataContext.Fomulario
+            var vFormularios = from formularios in dataContext.Formulario
                                where formularios.dacasys == vDacasys
                                select formularios;
             if (vDacasys)
 
-                vFormularios = from formularios in dataContext.Fomulario
+                vFormularios = from formularios in dataContext.Formulario
                                select formularios;
 
             foreach (var formulario in vFormularios)
@@ -477,7 +477,7 @@
 
         private static List<ModulosTree> ObtenerFormularios(int idRol, int idModulo)
         {
-            return (from f in dataContext.Fomulario
+            return (from f in dataContext.Formulario
                     where f.IDModulo == idModulo
                     select f).Select(x =>
                             new ModulosTree()

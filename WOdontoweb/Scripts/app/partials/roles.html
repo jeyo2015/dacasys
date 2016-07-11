@@ -1,8 +1,7 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth >
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-show="validarPermisoFormulario('frmRoles')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-11 ">
             <div class="row">
-
                 <form class="">
                     <div class="form-group label-floating">
                         <label for="buscarRolID" class="col-md-2  control-label">Buscar</label>
@@ -22,36 +21,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="rol in allRoles  " ng-class="{selectElement:rolSelected.ID==rol.ID}" ng-click="selectRol(rol)">
-                                <td>{{rol.Nombre}} 
+                            <tr ng-repeat="rol in allRoles" ng-class="{selectElement:rolSelected.ID==rol.ID}" ng-click="selectRol(rol)">
+                                <td>
+                                    {{rol.Nombre}}
                                 </td>
                             </tr>
                         </tbody>
 
                     </table>
                 </div>
-                <button class="btn btn-raised btn-primary" ng-click="openModalNewRol()">Nuevo </button>
-                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="rolSelected==null">Eliminar </button>
+                <button class="btn btn-raised btn-primary" ng-click="openModalNewRol()" ng-disabled="!validarPermisoComponente('btnNuevoRol')">Nuevo </button>
+                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="rolSelected==null || !validarPermisoComponente('btnModificarRol')">Eliminar </button>
             </div>
-
         </div>
-          <div class="col-md-6 col-md-offset-1 col-xs-11 ">
+        <div class="col-md-6 col-md-offset-1 col-xs-11 ">
             <div class="row">
                 {{rolSelected.Nombre}}
             </div>
             <div class="row col-md-10 " style="height: 370px">
-
-
-
                 <ul class="nav nav-list" style="max-height: 380px; overflow-y: auto; padding-left: 20px;">
                     <li ng-repeat=" modulo in modulosAsignados ">
                         <i class=" fa fa-plus-square" data-ng-show="modulo.Hijos.length && modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
                         <i class="fa fa-minus-square" data-ng-show="modulo.Hijos.length && !modulo.IsCollapsed " data-ng-click="selectNodeHead(modulo)"></i>
-
                         <label style="padding-left: 10px">
                             <input ng-model="modulo.IsChecked" type="checkbox"><span class="check"></span> {{modulo.Nombre}}
                         </label>
-
                         <ul data-ng-hide="modulo.IsCollapsed" class="nav nav-list tree">
                             <li style="padding-left: 15px;" ng-repeat=" formulario in modulo.Hijos ">
                                 <i class=" fa fa-plus-square" data-ng-show="formulario.Hijos.length && formulario.IsCollapsed " data-ng-click="selectNodeHead(formulario)"></i>
@@ -69,10 +63,9 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
-            <button class="btn btn-raised btn-primary" ng-disabled="rolSelected==null" ng-click="modificarPermisos()">Guardar Cambios</button>
+            <button class="btn btn-raised btn-primary" ng-disabled="rolSelected==null || !validarPermisoComponente('btnModificarRol')" ng-click="modificarPermisos()">Guardar Cambios</button>
         </div>
     </div>
     <div class="modal fade" id="new-rol" data-backdrop="static" role="dialog">
@@ -97,9 +90,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" ng-click="crearNewRol()" ng-disabled="nombrerol.length==0">Aceptar</button>
@@ -119,9 +110,7 @@
                         <div class="col-md-12">
                             <label>Esta seguro que quiere eliminar el rol {{ rolSelected.Nombre }}?</label>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" ng-click="EliminarRol()">Si</button>
