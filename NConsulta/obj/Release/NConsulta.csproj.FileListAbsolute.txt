@@ -1,12 +1,10 @@
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NConsulta.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NConsulta.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\DataTableConverter.dll
-D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\DLogin.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NAgenda.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NEventos.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NLogin.dll
-D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\DLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Herramientas.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NAgenda.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\NEventos.pdb
@@ -17,3 +15,5 @@ D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Release\NConsulta.pdb
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.dll
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.pdb
+D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Datos.pdb

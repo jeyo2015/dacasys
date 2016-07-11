@@ -1,10 +1,11 @@
-﻿<div class="col-md-10 col-md-offset-1" id="mapa" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
+﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " id="mapa" >
 </div>
 
-<div class="modal fade" id="modal-ver-mas" role="dialog">
+<div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Clinica {{clinicaSeleccionada.Nombre}}</h4>
             </div>
             <div class="modal-body">
@@ -67,7 +68,7 @@
                                         </div>
                                     </div>
                                 </form>
-                               
+
                             </div>
 
 
@@ -78,10 +79,31 @@
             </div>
 
             <div class="modal-footer">
-                 <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="validarCamposCita()">Agendar</button>
-                    <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
+                <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="citaSeleted== null">Agendar</button>
+                <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="enviar-notificacion" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Enviar solicitud</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Usted no pertenece a este consultorio. Desea enviar una solicitud para pertenecer al consultorio? </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="enviarNotificacion()">Enviar solicitud</button>
+                <button class="btn btn-danger" ng-click="cerrarSolicitud()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

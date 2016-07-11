@@ -1,18 +1,23 @@
-﻿app.controller("usuariosController", function (usuariosService, rolesService, $scope, $rootScope) {
+﻿app.controller("usuariosController", function (usuariosService, rolesService, $scope, $rootScope, loginService) {
     init();
 
     function init() {
         $scope.allUsers = [];
         $scope.subString = "";
-        cargar_todos_los_usuarios();
         $scope.message = "";
         $scope.userSelected = null;
         $scope.nombrerol = "";
         $scope.rolesConsultorio = [];
-        cargar_roles_empresa();
         $scope.rolSelected = null;
-        prepararNuevoUsuario();
-        $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                cargar_todos_los_usuarios();
+                cargar_roles_empresa();
+                prepararNuevoUsuario();
+                $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+            });
+        }
     };
 
     function prepararNuevoUsuario() {

@@ -1,7 +1,5 @@
 D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\NEventos.dll
 D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\NEventos.pdb
-D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\DLogin.dll
-D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\DLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NEventos\obj\Release\NEventos.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NEventos\obj\Release\NEventos.dll
 D:\DACASYS\Clone1506\dacasys\NEventos\obj\Release\NEventos.pdb
@@ -10,3 +8,5 @@ E:\DACASYS\Clone3105\dacasys\NEventos\bin\Release\NEventos.pdb
 E:\DACASYS\Clone3105\dacasys\NEventos\obj\Release\NEventos.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NEventos\obj\Release\NEventos.dll
 E:\DACASYS\Clone3105\dacasys\NEventos\obj\Release\NEventos.pdb
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\NEventos\bin\Release\Datos.pdb

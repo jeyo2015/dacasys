@@ -136,7 +136,8 @@ namespace WOdontoweb.Controllers
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
                         Session["changePass"] = sessionDto.ChangePass;
                         Session["IDRol"] = sessionDto.IDRol;
-                        Session["Permisos"] = Seguridad.ObtenerPermisos(sessionDto.IDRol);
+                        sessionDto.Permisos = Seguridad.ObtenerPermisos(sessionDto.IDRol);
+                        Session["Permisos"] = sessionDto.Permisos;
                         break;
                     case 4:
                         message = "Contrasena incorrecta";

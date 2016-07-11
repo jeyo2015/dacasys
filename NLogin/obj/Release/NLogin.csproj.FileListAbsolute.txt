@@ -1,10 +1,8 @@
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\NLogin.dll
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\DataTableConverter.dll
-D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\DLogin.dll
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\NEventos.dll
-D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\DLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Herramientas.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\NEventos.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\obj\Release\NLogin.csprojResolveAssemblyReference.cache
@@ -13,3 +11,5 @@ D:\DACASYS\Clone1506\dacasys\NLogin\obj\Release\NLogin.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Release\NLogin.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Release\NLogin.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Release\NLogin.pdb
+D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Datos.pdb

@@ -10,6 +10,7 @@
             dateFormat: "dd/mm/yy",
             defaultDate: $scope.dateSelected,
             onSelect: function (date) {
+
                 $scope.dateSelected = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
                 var aux = ObtenerFechaDesdeStrint($scope.dateSelected);
                 $scope.dateSelectedString = $scope.diasDeSemana[aux.getDay() % 7] + " " + $scope.dateSelected;
@@ -29,10 +30,12 @@
 
     function cargarConsultorio() {
         if ($rootScope.consultorioActual == undefined)
-            clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
-                $rootScope.consultorioActual = result;
-                cargarCitasDelDia();
-            });
+            if ($rootScope.sessionDto.IDConsultorio) {
+                clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
+                    $rootScope.consultorioActual = result;
+                    cargarCitasDelDia();
+                });
+            }
         else
             consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
                 $scope.citasDelDia = result;
@@ -40,11 +43,13 @@
     }
 
     function cargarCitasDelDia() {
-        if ($rootScope.sessionDto.IDConsultorio && $rootScope.consultorioActual.TiempoCita) {
-            consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
-                $scope.citasDelDia = result;
-                $scope.citaSeleccionada = null;
-            });
+        if ($rootScope.validarPermisoComponente('dpCalendario')) {
+            if ($rootScope.sessionDto.IDConsultorio && $rootScope.consultorioActual.TiempoCita) {
+                consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
+                    $scope.citasDelDia = result;
+                    $scope.citaSeleccionada = null;
+                });
+            }
         }
     }
 

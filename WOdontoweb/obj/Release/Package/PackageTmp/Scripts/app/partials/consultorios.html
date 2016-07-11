@@ -1,232 +1,205 @@
-﻿<div class="col-md-10 col-md-offset-1" style="background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 30px;">
-    <div class="col-md-4 col-md-offset-1">
-        <div class="row">
-            <form class="">
-                <div class="form-group label-floating">
-                    <label for="consultorioID" class="col-md-2 control-label">Buscar</label>
-                    <div class="col-md-10">
-                        <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
-                    </div>
-
-                </div>
-            </form>
-        </div>
-
-        <div class="row" style="margin-top: 15px;">
-            <table class="table table-hover tableStyle">
-                <thead>
-                    <tr>
-                        <th>Login</th>
-                        <th>Nombre de Clinica</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="clinica in allClinicas  " ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
-                        <td>{{clinica.Login}}
-                        </td>
-                        <td>{{clinica.Nombre}}
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-
-
-            <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado)">Eliminar clinica</button>
-            <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar clinica</button>
-        </div>
-
-    </div>
-    <div class="col-md-7">
-
-         <div class="row">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label for="inpNombreClinicaid" class="col-md-3 control-label">Nombre Clinica:</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="inpNombreClinicaid" ng-model="clinicToSave.Nombre">
-                    </div>
-                </div>
-
-                <div id="grpLoginClinic" class="form-group">
-                    <label for="inpLoginClinic" class="col-md-3 control-label">Login Clinica: </label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="inpLoginClinic" ng-model="clinicToSave.Login" ng-disabled="clinicToSave.Status==2">
-                    </div>
-                </div>
-                <div class="form-group">
-
-                    <label for="inputPassword3" class="col-md-3 control-label">Descripcion</label>
-                    <div class="col-md-9">
-                        <textarea class="form-control" ng-model="clinicToSave.Descripcion" id="Password3" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Password2" class="col-md-3 control-label">Direccion:</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="clinicToSave.Direccion" id="Password2">
-                    </div>
-                </div>
-
-                <div class="form-group" ng-hide="clinicToSave.Trabajos.length>0|| trabajoClinicaSelected!= null">
-                    <label for="inputTrabajo" class="col-md-3 control-label">Trabajos:</label>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" id="inputTrabajo" ng-model="primerTrabajo">
-                    </div>
-
-                    <div class="col-md-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
-                        <span ng-click="addTrabajo()"><i class="fa fa-check iconStyle"></i></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-md-3 control-label">Ubicacion</label>
-                    <div class="col-md-9">
-                        <a id="lnkMapa" ng-click="abrirModalDeMapa()">Ver mapa</a>
-                    </div>
-                </div>
-                <div class="row" ng-show="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
-                    <div class="col-md-12">
-
-                        <label for="inputPassword3" class="col-md-3 control-label">Trabajos</label>
-                        <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
-                            <table class="table table-hover tableStyle scroll">
-                                <!--<thead>
-                                    <tr>
-                                        <th>Trabajos</th>
-                                    </tr>
-                                </thead>-->
-                                <tbody id="tablaTrabajosClinicaId">
-                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
-                                        <td>{{trabajo.Descripcion}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="col-md-1">
-                            <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                            <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                            <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-show="validarPermisoFormulario('frmConsultores')">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-5 col-xs-11 ">
+            <div class="row">
+                <form class="">
+                    <div class="form-group label-floating">
+                        <label for="consultorioID" class="col-md-2 control-label">Buscar</label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
                         </div>
 
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="inputPassword3" class="col-md-3 control-label">Telefonos</label>
-                        <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
-                            <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Telefono</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="telefono in clinicToSave.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
-                                        <td>{{telefono.Nombre}}
-                                        </td>
-                                        <td>{{telefono.Telefono}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div class="col-md-1">
-                            <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                            <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                            <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row" ng-show=" clinicToSave.Status==2">
-                    <div class="col-md-12">
-
-                        <div class="col-md-10 ">
-                            <table class="table table-hover tableStyle">
-                                <thead>
-                                    <tr>
-                                        <th>Login Consultorio</th>
-                                        <th>Nit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
-                                        <td>{{consultorio.Login}}
-                                        </td>
-                                        <td>{{consultorio.NIT}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div class=" col-md-1">
-
-                            <a data-toggle="modal" ng-click="openModalNewConsultorio()" title="Agregar un consultorio"><i class="fa fa-plus-circle iconStyle"></i></a>
-                            <a data-toggle="modal" title="Editar el consultorio" ng-show="consultorioSeleccionado!= null && consultorioSeleccionado.Estado " ng-click="abrirModalModificarConsultorio()"><i class="fa fa-pencil-square-o iconStyle"></i></a>
-                            <a title="Deshabilitar el consultorio" data-toggle="modal" ng-show="consultorioSeleccionado!= null &&  consultorioSeleccionado.Estado" ng-click="abrirModaleliminarConsultorio()"><i class="fa fa-trash iconStyle"></i></a>
-                            <a title="Habilitar el consultorio" ng-show="consultorioSeleccionado!= null &&  !consultorioSeleccionado.Estado" ng-click="habilitarConsultorio()"><i class="fa fa-refresh iconStyle"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                    <label for="inputPassword3" class="col-md-3 control-label">NIT consultorio:</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="consultorioToSave.NIT" id="Text1">
-                    </div>
-                </div>
-                <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                    <label for="inputPassword3" class="col-md-3 control-label">Email consultorio:</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="consultorioToSave.Email" id="Text2">
-                    </div>
-                </div>
-                <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                    <label for="idIntervalo" class="col-md-3 control-label">Tiempo consulta:</label>
-                    <div class="col-md-9">
-                        <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected">
-                        </select>
-
-                    </div>
-                </div>
-                <!-- <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                    <label for="inputPassword3" class="col-md-3 control-label">Seleccione trabajo</label>
-                    <div class="col-md-7">
-                        <table id="Table2" class="table table-hover tableStyle scroll">
-                            <tbody>
-                                <tr ng-repeat="trabajo in clinicToSave.Trabajos  " ng-click="selectConsultorio(trabajo)">
-                                    <td>
-                                        <input type="checkbox" ng-click="selectTrabajoConsultorio(trabajo, e)" />
-                                    </td>
-                                    <td>{{trabajo.Descripcion}}
-                                    </td>
-
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-
-                </div>-->
+                </form>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <table class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Login</th>
+                            <th>Nombre de Clinica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="clinica in allClinicas" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
+                            <td>{{clinica.Login}}</td>
+                            <td>{{clinica.Nombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado) || !validarPermisoComponente('btnEliminarClinica')">Eliminar clinica</button>
+                <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar clinica</button>
             </div>
         </div>
+        <div class="col-md-6 col-md-offset-1 col-xs-11">
+            <div class="row">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inpNombreClinicaid" class="col-md-3 control-label">Nombre Clinica:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="inpNombreClinicaid" ng-model="clinicToSave.Nombre">
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-9 col-md-offset-3">
-                <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()">Nueva clinica</button>
-                <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
+                    <div id="grpLoginClinic" class="form-group">
+                        <label for="inpLoginClinic" class="col-md-3 control-label">Login Clinica: </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="inpLoginClinic" ng-model="clinicToSave.Login" ng-disabled="clinicToSave.Status==2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+
+                            <img style="height: 100px; width: 100px" data-ng-src="{{clinicToSave.LogoParaMostrar}}" alt="Image Thumbnail Gadget ">
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="fileupload-buttonbar">
+                                <span class="btn btn-primary fileinput-button">
+                                    <i class="fa fa-plus-circle" style="display: initial !important"></i>
+                                    <span style="display: initial !important">Seleccione Logo...</span>
+                                    <input id="fileupload" type="file" name="files[]">
+                                </span>
+                                <br />
+                                <div id="progress" class="progress">
+                                    <div class="progress-bar progress-bar-success"></div>
+                                </div>
+                                <div id="files" class="files"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label for="Password3" class="col-md-3 control-label">Descripcion</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" ng-model="clinicToSave.Descripcion" id="Password3" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password2" class="col-md-3 control-label">Direccion:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="clinicToSave.Direccion" id="Password2">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="clinicToSave.Trabajos.length>0|| trabajoClinicaSelected!= null">
+                        <label for="inputTrabajo" class="col-md-3 control-label">Trabajos:</label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="inputTrabajo" ng-model="primerTrabajo">
+                        </div>
+
+                        <div class="col-md-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
+                            <span ng-click="addTrabajo()"><i class="fa fa-check iconStyle"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lnkMapa" class="col-md-3 control-label">Ubicacion</label>
+                        <div class="col-md-9">
+                            <a id="lnkMapa" ng-click="abrirModalDeMapa()">Ver mapa</a>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
+                        <div class="col-md-12">
+                            <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Trabajos</label>
+                            <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
+                                <table class="table table-hover tableStyle scroll">
+                                    <tbody id="tablaTrabajosClinicaId">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                            <td>{{trabajo.Descripcion}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-1">
+                                <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                                <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="tableTelefonosClinicaID" class="col-md-3 control-label">Telefonos</label>
+                            <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
+                                <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Telefono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="telefono in clinicToSave.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
+                                            <td>{{telefono.Nombre}}</td>
+                                            <td>{{telefono.Telefono}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-1">
+                                <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show=" clinicToSave.Status==2">
+                        <div class="col-md-12">
+                            <div class="col-md-10 ">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Login Consultorio</th>
+                                            <th>Nit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
+                                            <td>{{consultorio.Login}}</td>
+                                            <td>{{consultorio.NIT}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class=" col-md-1">
+                                <a data-toggle="modal" ng-click="openModalNewConsultorio()" title="Agregar un consultorio" ng-hide="!validarPermisoComponente('btnNuevoConsultorio')"><i class="fa fa-plus-circle iconStyle"></i></a>
+                                <a data-toggle="modal" title="Editar el consultorio" ng-show="consultorioSeleccionado!= null && consultorioSeleccionado.Estado && validarPermisoComponente('btnModificarConsultorio')" ng-click="abrirModalModificarConsultorio()"><i class="fa fa-pencil-square-o iconStyle"></i></a>
+                                <a title="Deshabilitar el consultorio" data-toggle="modal" ng-show="consultorioSeleccionado!= null &&  consultorioSeleccionado.Estado && validarPermisoComponente('btnEliminarConsultorio')" ng-click="abrirModaleliminarConsultorio()"><i class="fa fa-trash iconStyle"></i></a>
+                                <a title="Habilitar el consultorio" ng-show="consultorioSeleccionado!= null && !consultorioSeleccionado.Estado && validarPermisoComponente('btnEliminarConsultorio')" ng-click="habilitarConsultorio()"><i class="fa fa-refresh iconStyle"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                        <label for="inputNit" class="col-md-3 control-label">NIT consultorio:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="consultorioToSave.NIT" id="inputNit">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                        <label for="inputEmail" class="col-md-3 control-label">Email consultorio:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="consultorioToSave.Email" id="inputEmail">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                        <label for="idIntervalo" class="col-md-3 control-label">Tiempo consulta:</label>
+                        <div class="col-md-9">
+                            <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()" ng-disabled="!validarPermisoComponente('btnNuevaClinica')">Nueva clinica</button>
+                            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()" ng-disabled="!validarPermisoComponente('btnModificarClinica')">Guardar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
     </div>
 </div>
-
-<div class="modal fade" id="confirm-delete" role="dialog">
+<div class="modal fade" id="confirm-delete"  data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -238,9 +211,7 @@
                     <div class="col-md-12">
                         <label>Esta seguro que quiere deshabilitar la clinica {{ clinicaSelected.Nombre }}?</label>
                     </div>
-
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="eliminarClinica()">Si</button>
@@ -250,7 +221,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="confirmar-eliminar-consultorio" role="dialog">
+<div class="modal fade" id="confirmar-eliminar-consultorio" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -262,30 +233,25 @@
                     <div class="col-md-12">
                         <label>Esta seguro que quiere deshabilitar el consultorio {{ consultorioSeleccionado.Login }}?</label>
                     </div>
-
                 </div>
-
             </div>
             <div class="modal-footer">
-                <button class="btn  btn-primary" ng-click="eliminarConsultorio()">Aceptar</button>
+                <button class="btn btn-primary" ng-click="eliminarConsultorio()">Aceptar</button>
                 <button class="btn btn-danger" ng-click="salirModalElimnar()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-new-consultorio" role="dialog">
-    <div class="modal-dialog">
 
+<div class="modal fade" id="modal-new-consultorio" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-
                 <h4 class="modal-title">Agregar Consultorio a la clinica {{clinicToSave.Nombre}}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-
-
                         <div class="form-group">
                             <label for="consultorioID" class="col-md-3 control-label">Login Consultorio:</label>
                             <div class="col-md-9">
@@ -307,33 +273,27 @@
                         <div class="form-group">
                             <label for="idIntervalo" class="col-md-3 control-label">Tiempo consulta:</label>
                             <div class="col-md-9">
-                                <select class="form-control" id="idIntervalo" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected">
-                                </select>
-
+                                <select class="form-control" id="idIntervalo" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword3" class="col-md-3 control-label">Seleccione trabajo</label>
+                            <label for="Table1" class="col-md-3 control-label">Seleccione trabajo</label>
                             <div class="col-md-7">
                                 <table id="Table1" class="table table-hover tableStyle scroll">
                                     <tbody>
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos  ">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos">
                                             <td>
                                                 <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
                                             </td>
-                                            <td>{{trabajo.Descripcion}}
-                                            </td>
-
+                                            <td>{{trabajo.Descripcion}}</td>
                                         </tr>
                                     </tbody>
-
                                 </table>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="inputPassword3" class="col-md-3 control-label">Telefonos</label>
+                                <label for="tableTelefonosID" class="col-md-3 control-label">Telefonos</label>
                                 <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
                                     <table id="tableTelefonosID" class="table table-hover tableStyleTelefono " id="table2">
                                         <thead>
@@ -344,54 +304,41 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
-                                                <td>{{telefono.Nombre}}
-                                                </td>
-                                                <td>{{telefono.Telefono}}
-                                                </td>
+                                                <td>{{telefono.Nombre}}</td>
+                                                <td>{{telefono.Telefono}}</td>
                                             </tr>
                                         </tbody>
-
                                     </table>
                                 </div>
                                 <div class="col-md-1">
                                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-circle iconStyle"></i></span>
-
                                     <ul class="dropdown-menu">
                                         <li ng-click="addRowTable()"><a>Nuevo</a></li>
                                         <li ng-click="addRowTableFromClinica()"><a>Desde Clinica</a></li>
-
                                     </ul>
                                     <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                                     <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
             <div class="modal-footer">
-                <button class="btn  btn-primary" ng-click="guardarConsultorio()">Guardar</button>
+                <button class="btn btn-primary" ng-click="guardarConsultorio()">Guardar</button>
                 <button class="btn btn-danger" ng-click="salirModal()">Cancelar</button>
             </div>
         </div>
     </div>
-
 </div>
 
-<div class="modal fade" id="modal-mapa-ubicacion" role="dialog">
+<div class="modal fade" id="modal-mapa-ubicacion"data-backdrop="static"  role="dialog">
     <div class="modal-dialog">
-
-
         <div class="modal-content">
             <div class="modal-header">
-
                 <h4 class="modal-title">Seleccione una ubicacion en el mapa {{clinicToSave.Nombre}}</h4>
             </div>
             <div class="modal-body">
-
                 <div id="mapaConsultorio" style="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
                 </div>
             </div>
@@ -401,6 +348,4 @@
             </div>
         </div>
     </div>
-
 </div>
-

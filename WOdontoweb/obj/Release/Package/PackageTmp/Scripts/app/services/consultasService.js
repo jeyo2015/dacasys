@@ -1,17 +1,29 @@
 ﻿app.service("consultasService", function ($http, $q) {
+    function noCache() {
+        return '?nochace=' + new Date().getTime();
+    }
+
+    function noCacheParameter() {
+        return '&nochace=' + new Date().getTime();
+    }
+
     this.getCitasDelDia = function (fecha, idConsultorio, tiempoConsulta) {
         var d = $q.defer();
-        var fechaSplit = fecha.split('/');
-        var fechaConvertida = fechaSplit ? new Date(fechaSplit[2], fechaSplit[1] - 1, fechaSplit[0]) : new Date();
-
-        $http.post('Consultas/GetCitasDelDia', { pfecha: fechaConvertida, pIdConsultorio: idConsultorio, ptiempoConsulta: tiempoConsulta }).success(function (data) {
+        $http.get('Consultas/GetCitasDelDia?pfecha=' + fecha + '&pIdConsultorio=' + idConsultorio+'&ptiempoConsulta=' + tiempoConsulta + noCacheParameter()).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
     this.getHistoricoPaciente = function (idPaciente, idConsultorio) {
         var d = $q.defer();
-        $http.post('Consultas/GetHistoricoPaciente', { pIdPaciente: idPaciente, pIdConsultorio: idConsultorio }).success(function (data) {
+        $http.get('Consultas/GetHistoricoPaciente?pIdPaciente=' + idPaciente + '&pIdConsultorio=' + idConsultorio).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.verificarClienteEnConsultorio = function (idConsultorio, loginCliente) {
+        var d = $q.defer();
+        $http.get('Consultas/VerificarClienteEnConsultorio?pIdConsultorio=' + idConsultorio + '&pLoginCliente=' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

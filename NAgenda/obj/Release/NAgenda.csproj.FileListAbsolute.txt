@@ -1,11 +1,9 @@
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NAgenda.dll
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NAgenda.pdb
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\DataTableConverter.dll
-D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\DLogin.dll
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NEventos.dll
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NLogin.dll
-D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\DLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\Herramientas.pdb
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NEventos.pdb
 D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\NLogin.pdb
@@ -15,3 +13,5 @@ D:\DACASYS\Clone1506\dacasys\NAgenda\obj\Release\NAgenda.pdb
 E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.dll
 E:\DACASYS\Clone3105\dacasys\NAgenda\obj\Release\NAgenda.pdb
+D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\Datos.dll
+D:\DACASYS\Clone1506\dacasys\NAgenda\bin\Release\Datos.pdb

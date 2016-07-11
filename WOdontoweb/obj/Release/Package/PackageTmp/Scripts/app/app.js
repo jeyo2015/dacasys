@@ -34,6 +34,10 @@ app.config(['$routeProvider',
            when('/horario', {
                templateUrl: 'Scripts/app/partials/horario.html'
            }).
+           when('/miConsultorioPerfil', {
+               templateUrl: 'Scripts/app/partials/miConsultorioPerfil.html',
+               controller: 'empresaController'
+           }).
           when('/paciente', {
               templateUrl: 'Scripts/app/partials/paciente.html'
           }).
@@ -59,12 +63,25 @@ app.factory('injectorDacasys', ['$rootScope', '$q', function ($rootScope, $q) {
     var numLoadings = 0;
     var sessionInjector = {
         request: function (config) {
+
+            var urlRequest = config.url.split('/');
+            if (urlRequest[urlRequest.length - 1] != 'DeshabilitarNuevasNotificaciones') {
+                $("#divLoaderfull").show();
+                numLoadings++;
+            }
+
             config.url = $("#basePath").attr("href") + config.url;
             return config;
         },
         response: function (response) {
+            numLoadings = numLoadings > 0 ? --numLoadings : 0;
+            if (numLoadings === 0) {
+                numLoadings = 0;
+                setTimeout(function () { $("#divLoaderfull").hide(); }, 500);
+            }
+
             return response;
-            { }
+
         }
     };
     return sessionInjector;

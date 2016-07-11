@@ -7,7 +7,7 @@
         return d.promise;
     };
     this.insertarRol = function (nombreRol, IdConsultorio) {
-        var d = $q.defer();// GetAllRolOfClinic(int idClinic)
+        var d = $q.defer();
         $http.post('Roles/InsertarNuevoRol', { nombreRol: nombreRol, pIdConsultorio: IdConsultorio }).success(function (data) {
             d.resolve(data);
         });
@@ -28,7 +28,7 @@
         return d.promise;
     };
     this.getModulos = function (pIdRol) {
-        var d = $q.defer();// GetAllRolOfClinic(int idClinic)
+        var d = $q.defer();
         $http.get('Roles/GetModulos?pidrol=' + pIdRol).success(function (data) {
             d.resolve(data);
         });
