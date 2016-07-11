@@ -9,7 +9,7 @@
 
     this.getCitasDelDia = function (fecha, idConsultorio, tiempoConsulta) {
         var d = $q.defer();
-        $http.get('Consultas/GetCitasDelDia?pfecha=' + fecha + '&pIdConsultorio=' + idConsultorio+'&ptiempoConsulta=' + tiempoConsulta).success(function (data) {
+        $http.get('Consultas/GetCitasDelDia?pfecha=' + fecha + '&pIdConsultorio=' + idConsultorio+'&ptiempoConsulta=' + tiempoConsulta + noCacheParameter()).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
