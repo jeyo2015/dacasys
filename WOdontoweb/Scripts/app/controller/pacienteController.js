@@ -50,6 +50,7 @@
     };
 
     $scope.seleccionarCliente = function (cliente) {
+        $scope.pacienteSelected = null;
         $rootScope.LoginCliente = cliente.LoginCliente;
         $scope.clienteSelected = cliente;
         $scope.pacienteParaGuardar = angular.copy($scope.clienteSelected);
