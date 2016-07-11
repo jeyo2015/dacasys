@@ -421,7 +421,7 @@ namespace NLogin
                     binaryData.Length);
                 return "data:image/png;base64," + base64String;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return string.Empty;
             }

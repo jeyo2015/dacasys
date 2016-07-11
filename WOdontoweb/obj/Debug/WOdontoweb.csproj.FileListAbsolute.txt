@@ -122,9 +122,9 @@ E:\DACASYS\Clone3105\dacasys\WOdontoweb\bin\es\EntityFramework.resources.dll
 E:\DACASYS\Clone3105\dacasys\WOdontoweb\bin\es\System.Web.Providers.resources.dll
 E:\DACASYS\Clone3105\dacasys\WOdontoweb\obj\Debug\WOdontoweb.dll
 E:\DACASYS\Clone3105\dacasys\WOdontoweb\obj\Debug\WOdontoweb.pdb
-D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll.config
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.dll
+D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\WOdontoweb.pdb
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\Antlr3.Runtime.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DotNetOpenAuth.AspNet.dll
 D:\Geovi\Dacasys2705\dacasys\WOdontoweb\bin\DotNetOpenAuth.Core.dll

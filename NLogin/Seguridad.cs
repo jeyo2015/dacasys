@@ -38,7 +38,7 @@
                                          TienePermiso = permiso != null
                                      };
 
-                var listFormulario = from fomulario in dataContext.Fomulario
+                var listFormulario = from fomulario in dataContext.Formulario
                                      join rolFormulario in dataContext.Rol_Formulario on fomulario.ID equals rolFormulario.IDFormulario into rolFormularios
                                      from permiso in rolFormularios.Where(x => x.IDRol == idRol).DefaultIfEmpty()
                                      select new FormularioDto()

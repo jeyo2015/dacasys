@@ -30,10 +30,12 @@
 
     function cargarConsultorio() {
         if ($rootScope.consultorioActual == undefined)
-            clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
-                $rootScope.consultorioActual = result;
-                cargarCitasDelDia();
-            });
+            if ($rootScope.sessionDto.IDConsultorio) {
+                clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
+                    $rootScope.consultorioActual = result;
+                    cargarCitasDelDia();
+                });
+            }
         else
             consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
                 $scope.citasDelDia = result;

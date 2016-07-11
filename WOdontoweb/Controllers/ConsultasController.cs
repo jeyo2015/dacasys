@@ -27,6 +27,7 @@
             var result = ABMCita.VerificarClienteEnConsultorio(pIdConsultorio, pLoginCliente);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetHistoricoDetalle(HistoricoPacienteDto pHistorico)
         {
             var result = ABMHistoricoDet.ObtenerHistoricoDetalle(pHistorico.IdConsultorio, pHistorico.IdPaciente, pHistorico.NumeroHistorico);
