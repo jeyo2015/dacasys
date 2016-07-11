@@ -5,7 +5,6 @@
                 <div class="form-group">
                     <h4>Datos de la clinica</h4>
                     <div class="col-md-4 col-xs-3">
-
                         <img style="height: 100px; width: 100px" data-ng-src="{{clinicaParaModificar.LogoParaMostrar}}" alt="Logo de la clinica">
                     </div>
                     <div class="col-md-8 col-xs-9">
@@ -48,9 +47,7 @@
                         <a class="btn  btn-link" id="lnkMapa"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-click="abrirModalDeMapa()">Ver mapa</a>
                     </div>
                 </div>
-
                 <div class="form-group">
-
                     <label for="tableTelefonosClinicaID" class="col-md-4 col-xs-3 control-label">Telefonos</label>
                     <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
                         <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
@@ -73,20 +70,17 @@
                         <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                         <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
                     </div>
-
                 </div>
                 <div class="form-group" ng-hide="clinicaParaModificar.Trabajos.length>0|| trabajoClinicaSelected!= null">
                     <label for="inputTrabajo" class="col-md-4 col-xs-3 control-label">Trabajos:</label>
                     <div class="col-md-7 col-xs-8">
                         <input type="text" class="form-control" id="inputTrabajo"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="primerTrabajo">
                     </div>
-
                     <div class="col-md-1 col-xs-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
                         <span ng-click="addTrabajo()"><i class="fa fa-check iconStyle"></i></span>
                     </div>
                 </div>
                 <div class="form-group" ng-show="clinicaParaModificar.Trabajos.length>0 || trabajoClinicaSelected!= null">
-
                     <label for="tablaTrabajosClinicaId" class="col-md-4 col-xs-3 control-label">Trabajos</label>
                     <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
                         <table class="table table-hover tableStyle scroll">
@@ -175,28 +169,22 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()">Guardar </button>
+                            <button class="btn btn-raised btn-primary" ng-click="guardarClinica()" ng-disabled="!validarPermisoComponente('btnGuardarConsultorio')">Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
-
-
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="modal-mapa-ubicacion" role="dialog">
     <div class="modal-dialog">
-
-
         <div class="modal-content">
             <div class="modal-header">
-
                 <h4 class="modal-title">Seleccione una ubicacion en el mapa {{clinicaParaModificar.Nombre}}</h4>
             </div>
             <div class="modal-body">
-
                 <div id="mapaConsultorio" style="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
                 </div>
             </div>
@@ -206,6 +194,4 @@
             </div>
         </div>
     </div>
-
 </div>
-

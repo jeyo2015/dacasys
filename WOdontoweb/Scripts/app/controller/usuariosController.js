@@ -42,9 +42,11 @@
     }
 
     function cargar_todos_los_usuarios() {
-        var user = usuariosService.getAllUsers($rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $scope.allUsers = result;
-        });
+        if ($rootScope.sessionDto.IDConsultorio) {
+            var user = usuariosService.getAllUsers($rootScope.sessionDto.IDConsultorio).then(function (result) {
+                $scope.allUsers = result;
+            });
+        }
     }
 
     $scope.selectUser = function (user) {

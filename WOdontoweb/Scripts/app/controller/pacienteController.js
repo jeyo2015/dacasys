@@ -56,6 +56,7 @@
         $scope.pacienteParaGuardar.State = 2;
         $scope.selectSexo = cliente.Sexo;
         $scope.selectTipoSangre = cliente.TipoSangre;
+        $scope.pacienteParaGuardar.IsPrincipal = true;
         cargarPacientes();
     };
 
@@ -65,6 +66,7 @@
         $scope.pacienteParaGuardar = angular.copy($scope.pacienteSelected);
         $scope.pacienteParaGuardar.State = 2;
         $scope.selectSexo = paciente.Sexo;
+        $scope.pacienteParaGuardar.IsPrincipal = false;
         $scope.selectTipoSangre = paciente.TipoSangre;
     };
 
@@ -95,9 +97,9 @@
         $scope.pacienteParaGuardar.IsPrincipal = false;
     };
 
-    $scope.validarCliente = function () {
+    $scope.validarCliente = function() {
         return !$scope.pacienteParaGuardar.IsPrincipal;
-    }
+    };
 
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar.IsPrincipal) {

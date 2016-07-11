@@ -27,7 +27,6 @@
     <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
 </head>
 <body>
-
     <div id="divLoaderfull" class="loader" loader>
         <div>
             <span>
@@ -46,26 +45,25 @@
                             <div class="col-xs-9 col-md-9">
                                 <div class="get-touch">
                                     <ul>
-                                        @*   <li><a><i class="fa fa-phone"></i>76643214</a></li>
-                                            <li><a href="#."><i class="fa fa-envelope-o"></i>odontoweb@dacasys.com</a></li>*@
                                         <li ng-hide="sessionDto.loginUsuario.length>0"><a ng-click=" showModal($event)"><i class="fa fa-sign-in"></i>Ingresar</a></li>
-                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
+                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1 && validarPermisoModulo('notificaciones')">
                                             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="desabilitarNuevasNotificaciones($event)"><i class="fa fa-user-plus"></i><span ng-show="NotificacionesConsultorio.CantidadNuevasNotificaciones>0" class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a>
-                                            <ul id="menuPerfil" class="dropdown-menu pull-right">
+                                            <ul id="menuPerfil" class="dropdown-menu pull-right" ng-show="validarPermisoFormulario('liNotificaciones')">
                                                 <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
                                                 <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
-                                                    <a href="#">{{noti.NombreUsuario}}
-                                                            <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)">Confirmar</button>
-                                                        <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)">Eliminar solicitud</button>
+                                                    <a href="#">
+                                                        {{noti.NombreUsuario}}
+                                                        <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnAceptarPaciente')">Confirmar</button>
+                                                        <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnCancelar')">Eliminar solicitud</button>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-cog"></i><span class="caret"></span></a>
+                                        <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1 && validarPermisoModulo('configuracion')">
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i><span class="caret"></span></a>
                                             <ul id="menuPerfil" class="dropdown-menu pull-right">
-                                                <li class="withoutborderNS"><a href="#horario"><span>Configurar horarios</span> </a></li>
-                                                <li class="withoutborderNS"><a href="#miConsultorioPerfil"><span>Configurar consultorio</span> </a></li>
+                                                <li class="withoutborderNS" ng-show="validarPermisoFormulario('liConfiguracionHorarios')"><a href="#horario"><span>Configurar horarios</span> </a></li>
+                                                <li class="withoutborderNS" ng-show="validarPermisoFormulario('liConfigurararConsultorio')"><a href="#miConsultorioPerfil"><span>Configurar consultorio</span> </a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown" ng-show="sessionDto.loginUsuario.length>0 && sessionDto.IDConsultorio!=-1">
@@ -82,7 +80,6 @@
                                                 <li class="withoutborder"><a ng-click="cerrarSesion($event)" href="#">Cerrar Sesion</a></li>
                                             </ul>
                                         </li>
-                                        @*<li ng-hide="!sessionDto.loginUsuario.length>0"><a href="#."><i class="fa fa-user-plus"></i><span class="badge badgePosition">{{NotificacionesConsultorio.CantidadNuevasNotificaciones}}</span></a></li>*@
                                     </ul>
                                 </div>
                             </div>
@@ -107,14 +104,14 @@
                                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
-                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
-                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
-                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
-                                                <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
-                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
-                                                <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
-                                                <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0 "><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
+                                                <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('consultas')"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('usuarios')"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
+                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
+                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys || !validarPermisoModulo('consultorios')"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
+                                                <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('paciente')"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
+                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('comentario')"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
+                                                <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
+                                                <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -129,7 +126,6 @@
         </div>
         <div class=" row" style="text-align: center;">
             <span class="text-center" style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">Desarrollado por DACASYS</span>
-
         </div>
         <div class=" row" style="text-align: center;">
             <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">www.dacasys.com - 77390401 - 65051550</span>

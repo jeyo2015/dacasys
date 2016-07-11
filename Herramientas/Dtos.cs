@@ -13,6 +13,7 @@
         public int Verificar { get; set; }
         public bool ChangePass { get; set; }
         public int IDRol { get; set; }
+        public SessionPermisosDto Permisos { get; set; }
     }
 
     public class SessionPermisosDto

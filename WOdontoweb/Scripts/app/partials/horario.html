@@ -1,6 +1,6 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent"  min-heigth ng-controller="horarioController">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-controller="horarioController" ng-show="validarPermisoFormulario('liConfiguracionHorarios')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
-      <div class="col-md-5 col-xs-11 ">
+        <div class="col-md-5 col-xs-11 ">
             <div class="row">
                 <div class="form-group label-floating">
                     <label for="buscarHorarioID" class="col-md-2 col-xs-2 control-label">Buscar</label>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="row">
-                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="horarioSelected==null">Eliminar</button>
+                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="horarioSelected==null || !validarPermisoComponente('btnEliminarHorario')">Eliminar</button>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-11 ">
@@ -69,12 +69,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                       <div class="col-md-8 col-xs-12 col-md-offset-4 ">
-                            <button class="btn btn-raised btn-primary " ng-click="nuevoHorario()">Nuevo</button>
-                            <button class="btn btn-raised btn-primary " ng-click="guardarHorario()" ng-disabled="validarCamposHorario()">Guardar</button>
-
+                        <div class="col-md-8 col-xs-12 col-md-offset-4 ">
+                            <button class="btn btn-raised btn-primary " ng-click="nuevoHorario()" ng-disabled="!validarPermisoComponente('btnNuevoHorario')">Nuevo</button>
+                            <button class="btn btn-raised btn-primary " ng-click="guardarHorario()" ng-disabled="validarCamposHorario() || !validarPermisoComponente('btnModificarHorario')">Guardar</button>
                         </div>
-
                     </div>
                 </form>
             </div>

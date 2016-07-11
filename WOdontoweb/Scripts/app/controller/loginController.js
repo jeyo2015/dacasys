@@ -25,7 +25,49 @@
 
     $scope.cerrarModalRegistrar = function () {
         $("#modal-registrarse").modal('hide');
-    }
+    };
+
+    $rootScope.validarPermisoModulo = function (nombreModulo) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+                return modulo.NombreModulo == nombreModulo;
+            });
+            return listModulo.length <= 0 ? false : listModulo[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoFormulario = function (nombreFormulario) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listFormulario = $rootScope.sessionDto.Permisos.Formularios.where(function (formulario) {
+                return formulario.NombreFormulario == nombreFormulario;
+            });
+            return listFormulario.length <= 0 ? false : listFormulario[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoComponente = function (nombreComponente) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
+                return componente.NombreComponente == nombreComponente;
+            });
+            return listComponente.length <= 0 ? false : listComponente[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.primerModulo = function () {
+        var nombreModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+            if (modulo.TienePermiso) return modulo.NombreModulo;
+            return '';
+        });
+        return nombreModulo;
+    };
+
     function prepararNuevoCliente() {
         $scope.pacienteParaGuardar = {
             LoginCliente: '',
@@ -44,6 +86,7 @@
             IDEmpresa: -1
         };
     };
+    
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
@@ -71,20 +114,24 @@
         }
 
     };
-    $scope.openModalregistrarCliente = function () {
+
+    $scope.openModalregistrarCliente = function() {
         $rootScope.usuario = "";
         $rootScope.pass = "";
         prepararNuevoCliente();
         $("#modal-login-cliente").modal('hide');
         $("#modal-registrarse").modal('show');
-    }
+    };
+    
     $rootScope.enterLogIn = function (keyEvent) {
         if (keyEvent.which === 13)
             $scope.ingresar();
     };
+    
     $rootScope.getClass = function (path) {
         return ($location.path().substr(0, path.length) === path) ? 'active' : '';
     };
+    
     function getNotificaciones() {
         if ($rootScope.sessionDto.IDConsultorio != -1)
             notificacionesConsultorioService.getSolicitudesPacientes($rootScope.sessionDto.IDConsultorio, 1).then(function (result) {
@@ -139,9 +186,7 @@
 
     $scope.ingresar = function () {
         var verificar = loginService.ingresar($scope.loginEmpresa, $scope.usuario, $scope.pass);
-
         verificar.then(function (result) {
-
             $scope.message = result.Message;
             $rootScope.sessionDto = result.Data;
             switch (result.Data.Verificar) {
@@ -169,7 +214,6 @@
                     $rootScope.pass = "";
                     break;
                 case 3:
-
                     $('#modal-login-cliente').modal('hide');
                     $('#modal-login').modal('hide');
                     if ($scope.isAdmin) {
@@ -184,7 +228,6 @@
                             $scope.showMessage = false;
                         }
                     }
-
                     break;
             }
 
@@ -209,7 +252,6 @@
 
         loginService.forgotPass($scope.loginEmpresa, $rootScope.usuario).then(function (result) {
             $scope.message = result.Message;
-
             switch (result.Data) {
                 case 3:
                     toastr.success(result.Message);

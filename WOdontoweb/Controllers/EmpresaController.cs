@@ -1,6 +1,4 @@
-﻿
-
-namespace WOdontoweb.Controllers
+﻿namespace WOdontoweb.Controllers
 {
     using System;
     using System.IO;
