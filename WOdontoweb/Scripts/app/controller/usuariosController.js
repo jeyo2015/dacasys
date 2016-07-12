@@ -9,17 +9,23 @@
         $scope.nombrerol = "";
         $scope.rolesConsultorio = [];
         $scope.rolSelected = null;
+      
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
-                cargar_todos_los_usuarios();
-                cargar_roles_empresa();
-                prepararNuevoUsuario();
-                $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+                inicializarDatos();
             });
+        } else {
+            inicializarDatos();
         }
     };
 
+    function inicializarDatos() {
+        cargar_todos_los_usuarios();
+        cargar_roles_empresa();
+        prepararNuevoUsuario();
+        $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+    }
     function prepararNuevoUsuario() {
         $scope.userSelected = null;
         $scope.userToSave = {

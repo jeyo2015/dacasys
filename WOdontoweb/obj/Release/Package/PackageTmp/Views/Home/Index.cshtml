@@ -30,7 +30,7 @@
     <div id="divLoaderfull" class="loader" loader>
         <div>
             <span>
-                <img src="@Url.Content("../../Content/img/ajax-loader.gif")" />Cargando.. </span>
+                <img src="@Url.Content("~/Content/img/ajax-loader.gif")" />Cargando.. </span>
         </div>
     </div>
     <div id="containerTotal">
@@ -103,11 +103,11 @@
                                         </div>
                                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                                             <ul class="nav navbar-nav">
-                                                <li ng-class="getClass('/inicioCliente')" ng-hide="sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
+                                                <li ng-class="getClass('/inicioCliente')" ng-hide="!sessionDto || sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('consultas')"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('usuarios')"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
-                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys || !validarPermisoModulo('consultorios')"><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
+                                                <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys && validarPermisoModulo('consultorios') && sessionDto.IDConsultorio!=-1 "><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                                 <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('paciente')"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
                                                 <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('comentario')"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
                                                 <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>

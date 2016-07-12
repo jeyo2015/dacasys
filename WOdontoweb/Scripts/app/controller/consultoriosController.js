@@ -1,4 +1,4 @@
-﻿app.controller("consultoriosController", function (clinicaService, $scope, $compile) {
+﻿app.controller("consultoriosController", function (clinicaService, $scope, $compile, $rootScope, loginService) {
     init();
 
     $('#fileupload').fileupload({
@@ -32,13 +32,24 @@
     function init() {
         $scope.listaMarcadores = [];
         $scope.allClinicas = [];
-        cargar_todas_clinicas(false);
+        
         $scope.clinicaSelected = null;
-        prepararNuevaClinica();
-        InicializarMapa();
+       
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                inicializarDatos();
+            });
+        } else {
+            inicializarDatos();
+        }
 
     };
-
+    function inicializarDatos() {
+        prepararNuevaClinica();
+        InicializarMapa();
+        cargar_todas_clinicas(false);
+    }
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
         var marker = new google.maps.Marker({

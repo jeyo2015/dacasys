@@ -7,14 +7,14 @@
         return href[0] + '//' + href[2] + '/';
     }
     function init() {
-        loginService.getSessionDto().then(function (result) {
-            $rootScope.sessionDto = result;
-            if ($rootScope.sessionDto.ChangePass) {
-                $scope.showMessage = false;
-                $('#modal-renovar').modal('show');
-                prepararNuevoPerfil();
-            }
-        });
+
+
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+
+            });
+        }
         $scope.consultorioSeleccionado = null;
         $scope.verConsultorio = true;
         $scope.dateSelected = moment().format('DD/MM/YYYY');
@@ -114,13 +114,12 @@
         cargarCitasDelDia();
     }
     function cargarCitasDelDia() {
-        //if ($scope.miConsultorioSelected.IDEmpresa && $scope.miConsultorioSelected.TiempoCita) {
         consultasService.getCitasDelDia($scope.dateSelected, $scope.consultorioSeleccionado.IDConsultorio, $scope.consultorioSeleccionado.TiempoCita).then(function (result) {
             $scope.citasDelDia = result;
             $scope.citaSeleted = null;
             $scope.verConsultorio = false;
         });
-        //}
+
     }
 
     function openInfoWindow(marker) {
@@ -170,15 +169,15 @@
         });
     }
 
-    $scope.cerrarModalVerMas = function() {
+    $scope.cerrarModalVerMas = function () {
         $scope.clinicaSeleccionada = null;
         $scope.citaSeleted = null;
         $("#modal-ver-mas").modal('hide');
     };
-    $scope.cerrarSolicitud = function() {
+    $scope.cerrarSolicitud = function () {
         $("#enviar-notificacion").modal('hide');
     };
-    $scope.enviarNotificacion = function() {
+    $scope.enviarNotificacion = function () {
         var notificacion = {
             IDNotificacion: -1,
             IDConsultorio: $scope.consultorioSeleccionado.IDConsultorio,
@@ -189,11 +188,11 @@
             EstadoNotificacion: 1
         };
 
-        notificacionesConsultorioService.enviarSolicitudConsultorio(notificacion).then(function(result) {
+        notificacionesConsultorioService.enviarSolicitudConsultorio(notificacion).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 $scope.citaSeleted = null;
-              
+
             } else {
                 toastr.error(result.Message);
             }

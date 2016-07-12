@@ -13,3 +13,12 @@ E:\DACASYS\Clone3105\dacasys\NLogin\obj\Release\NLogin.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Release\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Datos.dll
 D:\DACASYS\Clone1506\dacasys\NLogin\bin\Release\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NLogin.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NLogin.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\DataTableConverter.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Datos.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Herramientas.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NEventos.dll
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NEventos.pdb

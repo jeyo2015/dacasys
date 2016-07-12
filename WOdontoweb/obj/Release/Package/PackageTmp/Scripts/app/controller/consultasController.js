@@ -1,4 +1,4 @@
-﻿app.controller("consultasController", function (consultasService, pacienteService, clinicaService, $scope, $compile, $rootScope) {
+﻿app.controller("consultasController", function (consultasService, pacienteService, clinicaService, $scope, $compile, $rootScope, loginService) {
     init();
 
     function init() {
@@ -19,8 +19,13 @@
 
             }
         });
-        $("#datepicker").datepicker("setDate", $scope.dateSelected);
-        cargarConsultorio();
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                cargarConsultorio();
+                $("#datepicker").datepicker("setDate", $scope.dateSelected);
+            });
+        }
     };
 
     function ObtenerFechaDesdeStrint(dateString) {
@@ -36,10 +41,10 @@
                     cargarCitasDelDia();
                 });
             }
-        else
-            consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
-                $scope.citasDelDia = result;
-            });
+            else
+                consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
+                    $scope.citasDelDia = result;
+                });
     }
 
     function cargarCitasDelDia() {

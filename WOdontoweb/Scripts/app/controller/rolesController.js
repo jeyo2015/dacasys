@@ -1,13 +1,21 @@
-﻿app.controller("rolesController", function (rolesService, $scope,$rootScope) {
+﻿app.controller("rolesController", function (rolesService, $scope, $rootScope, loginService) {
     init();
 
     function init() {
         $scope.allRoles = [];
         $scope.subString = "";
-        cargar_todos_los_roles();
+      
         $scope.message = "";
         $scope.rolSelected = null;
         $scope.nombrerol = "";
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                cargar_todos_los_roles();
+            });
+        } else {
+            cargar_todos_los_roles();
+        }
     };
 
     function cargar_todos_los_roles() {

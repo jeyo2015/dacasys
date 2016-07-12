@@ -17,3 +17,16 @@ E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.dll
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Release\NConsulta.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Datos.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Release\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NConsulta.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NConsulta.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\DataTableConverter.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\Datos.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\Herramientas.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NAgenda.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NEventos.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NLogin.dll
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NAgenda.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NEventos.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Release\NLogin.pdb
