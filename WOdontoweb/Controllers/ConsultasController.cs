@@ -34,9 +34,12 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarCitaPaciente(AgendaDto pcita, DateTime pFecha, string pIdCliente)
+        public JsonResult InsertarCitaPaciente(AgendaDto pcita, string pFechastring, string pIdCliente)
         {
-            var insert = ABMCita.InsertarCita(pcita, pIdCliente, pFecha, Session["loginusuario"].ToString()); ;
+            var splitFecha = pFechastring.Split('/');
+            var pFecha = new DateTime(Convert.ToInt16(splitFecha[2]), Convert.ToInt16(splitFecha[1]),
+                Convert.ToInt16(splitFecha[0]));
+            var insert = ABMCita.InsertarCita(pcita, pIdCliente, pFecha, Session["loginusuario"].ToString()); 
             var result = new ResponseModel()
             {
                 Message = insert ? "Se agendo correctamente la cita" : "No se pudo agendar la cita, por favor intente de nuevo",
