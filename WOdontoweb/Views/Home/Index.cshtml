@@ -105,6 +105,7 @@
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="!sessionDto || sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('consultas')"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('cuentas')"><a href="#cuentas"><i class="fa fa-calendar iconMenu "></i>Cuentas por Cobrar</a></li>
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('usuarios')"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys && validarPermisoModulo('consultorios') && sessionDto.IDConsultorio!=-1 "><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
@@ -531,6 +532,7 @@
     <script src="@Url.Content("~/Scripts/app/services/loginService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/miConsultorioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/misCitasController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/cuentasPorCobrarController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/rolesService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>

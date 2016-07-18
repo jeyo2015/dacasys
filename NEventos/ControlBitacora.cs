@@ -36,7 +36,8 @@
             }
         }
 
-        public static int ObtenerDirefenciaHora()
+        public static int 
+            ObtenerDirefenciaHora()
         {
             var sql = from p in dataContext.ParametroSistemas
                       where p.Elemento == "DiferenciaHora"

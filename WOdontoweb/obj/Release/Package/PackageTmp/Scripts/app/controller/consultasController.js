@@ -25,6 +25,9 @@
                 cargarConsultorio();
                 $("#datepicker").datepicker("setDate", $scope.dateSelected);
             });
+        } else {
+            cargarConsultorio();
+            $("#datepicker").datepicker("setDate", $scope.dateSelected);
         }
     };
 
@@ -34,20 +37,21 @@
     }
 
     function cargarConsultorio() {
-        if ($rootScope.consultorioActual == undefined)
+        if ($rootScope.consultorioActual == undefined) {
             if ($rootScope.sessionDto.IDConsultorio) {
                 clinicaService.getConsultorioByID($rootScope.sessionDto.IDConsultorio).then(function (result) {
                     $rootScope.consultorioActual = result;
                     cargarCitasDelDia();
                 });
             }
-            else
-                consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {
-                    $scope.citasDelDia = result;
-                });
+        } else {
+            cargarCitasDelDia();
+        }
+               
     }
 
     function cargarCitasDelDia() {
+
         if ($rootScope.validarPermisoComponente('dpCalendario')) {
             if ($rootScope.sessionDto.IDConsultorio && $rootScope.consultorioActual.TiempoCita) {
                 consultasService.getCitasDelDia($scope.dateSelected, $rootScope.sessionDto.IDConsultorio, $rootScope.consultorioActual.TiempoCita).then(function (result) {

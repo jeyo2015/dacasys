@@ -16,6 +16,28 @@
         public SessionPermisosDto Permisos { get; set; }
     }
 
+    public class CuentasPorCobrarDto
+    {
+        public int ID { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Monto { get; set; }
+        public int IDTrabajo { get; set; }
+        public decimal Saldo { get; set; }
+        public int Estado { get; set; }
+        public string Login { get; set; }
+        public int IDConsultorio { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public PacienteDto Cliente { get; set; }
+        public List<CuentasPorCobrarDetalleDto> Detalle { get; set; }
+    }
+    public class CuentasPorCobrarDetalleDto
+    {
+        public int ID { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Monto { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public int IDCuentasPorCobrar { get; set; }
+    }
     public class SessionPermisosDto
     {
         public List<ModuloDto> Modulos { get; set; }
@@ -108,7 +130,7 @@
     {
         public int ID { get; set; }
         public int IDConsultorio { get; set; }
-       
+
         public int State { get; set; }
     }
 

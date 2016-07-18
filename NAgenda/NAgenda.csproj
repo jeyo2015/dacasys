@@ -77,6 +77,7 @@
     <Compile Include="ABMCita.cs" />
     <Compile Include="ABMDia.cs" />
     <Compile Include="ABMHorario.cs" />
+    <Compile Include="ABMCuentas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

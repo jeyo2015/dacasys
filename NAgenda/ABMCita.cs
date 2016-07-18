@@ -8,6 +8,7 @@
     using NLogin;
     using Herramientas;
     using Datos;
+    using System.Data.Linq;
 
     public class ABMCita
     {
@@ -106,6 +107,7 @@
 
         public static bool InsertarCita(AgendaDto citaDto, string loginCliente, DateTime fechaCita, string idUsuario)
         {
+            
             var cita = new Cita
             {
                 idcita = ObtenerCodigo(citaDto.NumeroCita, fechaCita, citaDto.IDConsultorio),
@@ -114,9 +116,10 @@
                 id_cliente = loginCliente
             };
             var auxHora = citaDto.HoraInicioString.Split(':');
-            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]) + diferenciaDeHoras, Convert.ToInt32(auxHora[1]), 0);
+            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]) , Convert.ToInt32(auxHora[1]), 0);
             auxHora = citaDto.HoraFinString.Split(':');
-            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]) + diferenciaDeHoras, Convert.ToInt32(auxHora[1]), 0);
+            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]) , Convert.ToInt32(auxHora[1]), 0);
+          
             cita.fecha = fechaCita;
             cita.estado = true;
             cita.atendido = false;
@@ -124,7 +127,7 @@
             {
                 dataContext.Cita.InsertOnSubmit(cita);
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se actualizo corretamente el estado atendido", idUsuario);
+                ControlBitacora.Insertar("Se inserto una nueva cita correctamente", idUsuario);
                 return true;
             }
             catch (Exception ex)
@@ -166,6 +169,8 @@
                                       && h.estado && d.descripcion == nombreDia
                                       && h.iddia == d.iddia
                                       select h).OrderBy(o => o.num_horario);
+            dataContext.Refresh(RefreshMode.OverwriteCurrentValues, horarioConsultorio);
+          
             var listaRetorno = new List<AgendaDto>();
             var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);
             var numeroCita = 1;

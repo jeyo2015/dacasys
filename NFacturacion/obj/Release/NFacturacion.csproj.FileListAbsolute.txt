@@ -1,2 +1,11 @@
 D:\DACASYS\Clone1506\dacasys\NFacturacion\obj\Release\NFacturacion.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Release\NFacturacion.csprojResolveAssemblyReference.cache
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\NFacturacion.dll
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\NFacturacion.pdb
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\DataTableConverter.dll
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\Datos.dll
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\NEventos.dll
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\Datos.pdb
+E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Release\NEventos.pdb
+E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Release\NFacturacion.dll
+E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Release\NFacturacion.pdb

@@ -83,4 +83,35 @@
     $scope.selectNodeHead = function (tree) {
         tree.IsCollapsed = !tree.IsCollapsed;
     }
+   
+    $scope.formularioChecked = function (modulo,formulario, event) {
+        if (event.currentTarget.checked) 
+            modulo.IsChecked = true;
+        seleccionarHijosComponente(formulario.Hijos, event.currentTarget.checked);
+    }
+    function seleccionarHijosComponente(componentes, check) {
+        var cantidadComponentes = componentes.length;
+        if (cantidadComponentes > 0) {
+            for (var i = 0; i < cantidadComponentes; i++)
+                componentes[i].IsChecked = check;
+        }
+    }
+    $scope.seleccionarComponentePadres = function (modulo, formulario, event) {
+        if (event.currentTarget.checked) {
+            formulario.IsChecked = true;
+            modulo.IsChecked = true;
+        }
+    }
+    $scope.moduloChecked = function (modulo, event) {
+     
+        var cantidadFormularios = modulo.Hijos.length;
+        if (cantidadFormularios > 0) {
+            for (var i = 0; i < cantidadFormularios; i++) {
+                modulo.Hijos[i].IsChecked = event.currentTarget.checked;
+                seleccionarHijosComponente(modulo.Hijos[i].Hijos, event.currentTarget.checked);
+            }
+               
+        }
+     
+    }
 });

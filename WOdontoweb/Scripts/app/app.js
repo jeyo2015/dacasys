@@ -11,6 +11,10 @@ app.config(['$routeProvider',
             templateUrl: 'Scripts/app/partials/consultorios.html',
             controller: 'consultoriosController'
         }).
+           when('/cuentas', {
+               templateUrl: 'Scripts/app/partials/cuentasPorCobrar.html',
+               controller: 'cuentasPorCobrarController'
+           }).
            when('/miperfil', {
                templateUrl: 'Scripts/app/partials/miperfil.html',
                controller: 'miperfilController'

@@ -1,14 +1,25 @@
-﻿app.controller("horarioController", function (horarioService, $scope, $rootScope) {
+﻿app.controller("horarioController", function (horarioService, $scope, $rootScope, loginService) {
     init();
 
     function init() {
         $scope.message = "";
         $scope.userSelected = null;
+          if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                inicializarDatos();
+            });
+        } else {
+            inicializarDatos();
+        }
+
+       
+    };
+    function inicializarDatos() {
         prepararNuevoHorario();
         cargarHorarios();
         cargarDias();
-    };
-
+    }
     function prepararNuevoHorario() {
         $scope.horarioParaGuardar = {
             NumHorario: 1,

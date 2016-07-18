@@ -32,5 +32,15 @@ namespace Datos.Properties {
                 return ((string)(this["db_dentistaConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True")]
+        public string db_dentistaConnectionString1 {
+            get {
+                return ((string)(this["db_dentistaConnectionString1"]));
+            }
+        }
     }
 }

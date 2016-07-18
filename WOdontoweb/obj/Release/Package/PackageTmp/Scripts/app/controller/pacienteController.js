@@ -1,13 +1,24 @@
-﻿app.controller("pacienteController", function (pacienteService, $scope, $rootScope) {
+﻿app.controller("pacienteController", function (pacienteService, $scope, $rootScope, loginService) {
     init();
 
     function init() {
         $scope.message = "";
         $scope.userSelected = null;
-        prepararNuevoCliente();
-        cargarClientes();
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                inicializarDatos();
+            });
+        } else {
+            inicializarDatos();
+        }
+
     };
 
+    function inicializarDatos() {
+        prepararNuevoCliente();
+        cargarClientes();
+    }
     function prepararNuevoCliente() {
         $scope.userSelected = null;
         $scope.pacienteParaGuardar = {
@@ -98,7 +109,7 @@
         $scope.pacienteParaGuardar.IsPrincipal = false;
     };
 
-    $scope.validarCliente = function() {
+    $scope.validarCliente = function () {
         return $scope.pacienteParaGuardar.IsPrincipal && $scope.pacienteParaGuardar.State == 1;
     };
 
