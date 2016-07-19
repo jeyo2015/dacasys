@@ -29,10 +29,11 @@
             Saldo: 0,
             Estado: 1,
             Login: "",
+            State: 1,
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
         };
 
-     
+
         $("#descriptionID").focus();
     }
 
@@ -109,28 +110,32 @@
         });
     };
 
-    $scope.guardarUsuario = function () {
+    $scope.guardarCuenta = function () {
         $scope.userToSave.IDRol = $scope.rolSelected.ID;
-        if ($scope.userToSave.State == 1) {
-            usuariosService.insertarUsuario($scope.userToSave).then(function (result) {
+        if ($scope.cuentaParaGuardar.State == 1) {
+            cuentasService.insertarCuenta($scope.cuentaParaGuardar).then(function (result) {
                 if (result.Data == 1) {
-                    $scope.allUsers.push(angular.copy($scope.userToSave));
-                    toastr.success(result.Message);
-                    prepararNuevoUsuario();
+                  toastr.success(result.Message);
+                  prepararNuevaCuenta();
+                    inicializarDatos();
                 } else {
                     toastr.error(result.Message);
                 }
             });
         } else {
-            usuariosService.modificarUsuario($scope.userToSave).then(function (result) {
+            cuentasService.modificarCuenta($scope.cuentaParaGuardar).then(function (result) {
                 if (result.Data == 1) {
-                    cargar_todos_los_usuarios();
+                    inicializarDatos();
                     toastr.success(result.Message);
-                    prepararNuevoUsuario();
+                    prepararNuevaCuenta();
                 } else {
                     toastr.error(result.Message);
                 }
             });
         }
+    };
+
+    $scope.seleccionarPago = function(pago) {
+        $scope.pagoSeleccionado = pago;
     };
 });
