@@ -322,3 +322,4 @@ E:\DACASYS\Clone3105\dacasys\Herramientas\bin\Debug\Herramientas.dll
 E:\DACASYS\Clone3105\dacasys\Herramientas\bin\Debug\Herramientas.pdb
 E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Debug\Herramientas.dll
 E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Debug\Herramientas.pdb
+E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache

@@ -58,6 +58,17 @@
                     }).ToList();
         }
 
+        public static List<TrabajosDto> GetTrabajosConsultorio(int pIdConsultorio) {
+            return (from tc in dataContext.TrabajosConsultorio
+                    from t in dataContext.Trabajos
+                    where t.ID == tc.IDTrabajo
+                    && tc.IDConsultorio == pIdConsultorio
+                    select new TrabajosDto
+                    {
+                        Descripcion = t.Descripcion,
+                        ID = t.ID
+                    }).ToList();
+        }
         public static List<CuentasPorCobrarDto> ObtenerCuentasPorCobrarPorConsultorio(int pConsultorio)
         {
             return (from c in dataContext.CuentasPorCobrar
@@ -89,6 +100,10 @@
             dataContext.Pago.InsertOnSubmit(vPago);
             try
             {
+                var pago = from c in dataContext.CuentasPorCobrar
+                          where c.ID == pPago.IDCuentasPorCobrar
+                          select c;
+                pago.First().Saldo = pago.First().Saldo - pPago.Monto;
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
                 return true;
@@ -107,11 +122,12 @@
 
             if (sql.Any())
             {
-                dataContext.Pago.DeleteOnSubmit(sql.FirstOrDefault());
-                try
+                sql.First().Monto = pPago.Monto;
+                sql.First().Descripcion = pPago.Descripcion;
+                  try
                 {
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se elimino un pago", idUsuario);
+                    ControlBitacora.Insertar("Se modifico pago", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
@@ -146,7 +162,77 @@
             }
             return false;
         }
+        public static bool InsertarUnaCuenta(CuentasPorCobrarDetalleDto pPago, string pIdUsuario)
+        {
+            var vPago = new Pago();
+            vPago.Monto = pPago.Monto;
+            vPago.IDCuentaPorCobrar = pPago.IDCuentasPorCobrar;
+            vPago.FechaPago = DateTime.Now;
+            vPago.Descripcion = pPago.Descripcion;
+            dataContext.Pago.InsertOnSubmit(vPago);
+            try
+            {
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NAgenda", "ABMCuentas", "Insertar un pago", ex);
+                return false;
+            }
+        }
+        public static bool ModificarCuenta(CuentasPorCobrarDto pCuenta, string idUsuario)
+        {
+            var sql = from c in dataContext.CuentasPorCobrar
+                      where c.ID == pCuenta.ID
+                      select c;
 
+            if (sql.Any())
+            {
+                sql.First().Descripcion = pCuenta.Descripcion;
+                sql.First().IDTrabajo = pCuenta.IDTrabajo;
+                sql.First().Login = pCuenta.Login;
+                sql.First().Monto = pCuenta.Monto;
+                sql.First().Saldo = pCuenta.Saldo;
+                try
+                {
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se elimino un pago", idUsuario);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NAgenda", "ABMCuenta", "Modificar Pago", ex);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public static bool EliminarCuentaPorCobrar(int pIdCuenta, string idUsuario)
+        {
+            var sql = from c in dataContext.CuentasPorCobrar
+                      where c.ID == pIdCuenta
+                      select c;
+
+            if (sql.Any())
+            {
+                dataContext.CuentasPorCobrar.DeleteOnSubmit(sql.First());
+                try
+                {
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se elimino una cuenta", idUsuario);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NAgenda", "ABMCuenta", "EliminarCuentaPorCobrar", ex);
+                    return false;
+                }
+            }
+            return false;
+        }
         #endregion
 
 

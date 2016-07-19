@@ -146,6 +146,7 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\ConsultasController.cs" />
+    <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\PacienteController.cs" />
     <Compile Include="Controllers\NotificacionConsultorioController.cs" />

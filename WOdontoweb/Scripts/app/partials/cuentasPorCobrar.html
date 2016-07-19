@@ -15,17 +15,18 @@
                 <table class="table table-hover tableStyle">
                     <thead>
                         <tr>
-                            <th>Login</th>
-                            <th>Nombre de usuario</th>
+                            <th>Fecha</th>
+                            <th>Nombre de cliente</th>
+                            <th>Saldo cuenta</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-class="{selectElement:userSelected.Login==user.Login}" ng-repeat="user in allUsers |filterByWords:subString:'IDRol,IDEmpresa,ConfirmPass,Estado,FechaCreacion,Password,State,changepass'  " ng-click="selectUser(user)">
-                            <td>
-                                {{user.Login}}
+                        <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'IDRol,IDEmpresa,ConfirmPass,Estado,FechaCreacion,Password,State,changepass'  " ng-click="seleccionarCuenta(cuenta)">
+                            <td>{{cuenta.FechaCreacion}}
                             </td>
-                            <td>
-                                {{user.Nombre}}
+                            <td>{{cuenta.Cliente.Nombre}}  {{cuenta.Cliente.Apellido}}
+                            </td>
+                            <td>{{cuenta.Saldo}}
                             </td>
                         </tr>
                     </tbody>
@@ -35,58 +36,46 @@
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-11">
             <div class="row">
-                <div class="col-md-6 col-xs-6">
-                    Datos de usuario
+                <div class="col-md-12 col-xs-12">
+                    Datos de la cuenta por cobrar
                 </div>
             </div>
             <div class="row">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="nombreId" class="col-md-4 control-label">Nombre completo:</label>
+                        <label for="nombreId" class="col-md-4 control-label">Descripcion</label>
                         <div class="col-md-8 ">
                             <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4  control-label">Login: </label>
+                   <div class="form-group">
+                        <label for="inputPassword3" class="col-md-4 control-label">Trabajo</label>
                         <div class="col-md-8 ">
-                            {{UserToSave.State}}
-                            <input type="text" class="form-control" id="inputPassword3" ng-model="userToSave.Login" ng-disabled="userToSave.State==2">
+                            <select class="form-control" ng-options="trabajo.Descripcion for trabajo in trabajosConsultorio" ng-model="rolSelected"></select>
+
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="Password2" class="col-md-4  control-label">Contraseña:</label>
+                        <label for="inputPassword3" class="col-md-4 control-label">Cliente</label>
+                        <div class="col-md-8 ">
+                            <select class="form-control" ng-options="cliente.Ci  for cliente in clientesConsultorio" ng-model="rolSelected"></select>
+
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="montoInput" class="col-md-4  control-label">Monto:</label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control" ng-model="userToSave.Password" id="Password2">
+                            <input type="text" class="form-control" ng-model="userToSave.Password" id="montoInput">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Password1" class="col-md-4  control-label">Repita contrasena:</label>
-                        <div class="col-md-8 ">
-                            <input type="password" class="form-control" id="Password1" ng-model="userToSave.ConfirmPass">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4 control-label">Rol de usuario:</label>
-                        <div class="col-md-8 ">
-                            <select class="form-control" ng-options="rol.Nombre for rol in rolesConsultorio" ng-model="rolSelected"></select>
-
-                        </div>
-                    </div>
-                    <div class="col-md-offset-4 col-md-8 col-xs-12 ">
-                        <div class="checkbox">
-                            <label>
-                                <input ng-model="userToSave.changepass" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> El usuario deberá cambiar su contraseña al siguiente inicio de sesión
-                            </label>
-
-                        </div>
-                    </div>
+                   
                     <div class="form-group">
                         <div class="col-md-8 col-xs-12 col-md-offset-4 ">
-                            <button class="btn btn-raised btn-primary" ng-click="nuevoUsuario()" ng-disabled="!validarPermisoComponente('btnNuevoUsuario')">
+                            <button class="btn btn-raised btn-primary" ng-click="nuevoCuenta()" ng-disabled="!validarPermisoComponente('btnNuevoPago')">
                                 Nuevo
                             </button>
-                            <button class="btn btn-raised btn-primary" ng-click="guardarUsuario()" ng-disabled="validadUsuario() || !validarPermisoComponente('btnModificarUsuario')">Guardar</button>
+                            <button class="btn btn-raised btn-primary" ng-click="guardarCuenta()" ng-disabled="!validarPermisoComponente('btnModificarPago')">Guardar</button>
                         </div>
                     </div>
                 </form>

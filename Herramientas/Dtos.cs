@@ -133,7 +133,12 @@
 
         public int State { get; set; }
     }
+    public class TrabajosDto
+    {
+        public int ID { get; set; }
+        public string Descripcion { get; set; }
 
+    }
     public class TrabajosClinicaDto
     {
         public int IDClinica { get; set; }

@@ -1,23 +1,21 @@
-﻿app.controller("cuentasPorCobrarController", function (cuentasService, rolesService, $scope, $rootScope, loginService) {
+﻿app.controller("cuentasPorCobrarController", function (cuentasService, pacienteService, $scope, $rootScope, loginService) {
     init();
 
     function init() {
-        $scope.allUsers = [];
-        $scope.subString = "";
-        $scope.message = "";
-        $scope.userSelected = null;
-        $scope.nombrerol = "";
-        $scope.rolesConsultorio = [];
-        $scope.rolSelected = null;
       
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
-                inicializarDatos();
+                cargarCuentasPorCobrar();
+                cargarTrabajosConsultorio();
+                cargarClientesPaciente();
             });
         } else {
-            inicializarDatos();
+            cargarCuentasPorCobrar();
+            cargarTrabajosConsultorio();
+            cargarClientesPaciente();
         }
+
     };
 
     function inicializarDatos() {
@@ -46,18 +44,24 @@
         prepararNuevoUsuario();
     };
 
-    function cargar_roles_empresa() {
-        rolesService.getAllRols($rootScope.sessionDto.IDConsultorio).then(function (result) {
-            $scope.rolesConsultorio = result;
+    function cargarCuentasPorCobrar() {
+        cuentasService.obtenerCuentasPorCobrarPorConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $scope.cuentasPorCobrarConsultorio = result.select(function (cuenta) {
+                cuenta.FechaCreacion = moment(cuenta.FechaCreacion).format('DD/MM/YYYY');
+                return cuenta;
+            });
         });
     }
 
-    function cargar_todos_los_usuarios() {
-        if ($rootScope.sessionDto.IDConsultorio) {
-            var user = usuariosService.getAllUsers($rootScope.sessionDto.IDConsultorio).then(function (result) {
-                $scope.allUsers = result;
-            });
-        }
+    function cargarClientesPaciente() {
+        pacienteService.obtenerClientesPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $scope.clientesConsultorio = result;
+        });
+    }
+    function cargarTrabajosConsultorio() {
+        cuentasService.getTrabajosConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
+            $scope.trabajosConsultorio = result;
+        });
     }
 
     $scope.selectUser = function (user) {

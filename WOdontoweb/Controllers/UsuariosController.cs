@@ -30,7 +30,7 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarNuevoUsuario(UsuarioDto pUsuario)
+        public JsonResult Insertar(UsuarioDto pUsuario)
         {
             var insert = ABMUsuarioEmpleado.Insertar(pUsuario.Nombre, pUsuario.Login, pUsuario.IDEmpresa, pUsuario.IDRol,
                 pUsuario.Password, pUsuario.ConfirmPass, pUsuario.changepass, Session["loginusuario"].ToString());

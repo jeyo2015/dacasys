@@ -1,14 +1,14 @@
 ﻿app.service("cuentasService", function ($http, $q) {
-    this.getAllUsers = function (idEmpresa) {
+    this.obtenerCuentasPorCobrarPorConsultorio = function (pIdConsultorio) {
         var d = $q.defer();
-        $http.get('Usuarios/GetUsersOfClinic?idClinic=' + idEmpresa).success(function (data) {
+        $http.get('Cuentas/ObtenerCuentasPorCobrarPorConsultorio?IdConsultorio=' + pIdConsultorio).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
-    this.getUsuarioConsultorio = function (pLogin, pIdEmpresa) {
+    this.getTrabajosConsultorio = function (pIdConsultorio) {
         var d = $q.defer();
-        $http.get('Usuarios/GetUsuarioConsultorio?pLogin=' + pLogin + '&pIDEmpresa=' + pIdEmpresa).success(function (data) {
+        $http.get('Cuentas/GetTrabajosConsultorio?IdConsultorio=' + pIdConsultorio ).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
