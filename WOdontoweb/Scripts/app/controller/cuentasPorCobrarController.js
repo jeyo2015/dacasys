@@ -2,46 +2,42 @@
     init();
 
     function init() {
-      
+
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
-                cargarCuentasPorCobrar();
-                cargarTrabajosConsultorio();
-                cargarClientesPaciente();
+                inicializarDatos();
             });
         } else {
-            cargarCuentasPorCobrar();
-            cargarTrabajosConsultorio();
-            cargarClientesPaciente();
+            inicializarDatos();
         }
 
     };
 
     function inicializarDatos() {
-        cargar_todos_los_usuarios();
-        cargar_roles_empresa();
-        prepararNuevoUsuario();
-        $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+        cargarCuentasPorCobrar();
+        cargarTrabajosConsultorio();
+        cargarClientesPaciente();
     }
-    function prepararNuevoUsuario() {
-        $scope.userSelected = null;
-        $scope.userToSave = {
-            Nombre: "",
-            Password: "",
+    function prepararNuevaCuenta() {
+        $scope.cuentaSeleccionada = null;
+        $scope.cuentaParaGuardar = {
+            ID: -1,
+            Descripcion: "",
+            Monto: 0,
+            IDTrabajo: -1,
+            Saldo: 0,
+            Estado: 1,
             Login: "",
-            State: 1,
-            IDRol: -1,
-            IDEmpresa: $rootScope.sessionDto.IDConsultorio,
-            changepass: false
+            IDConsultorio: $rootScope.sessionDto.IDConsultorio,
         };
 
-        $scope.rolSelected = null;
-        $("#nombreId").focus();
+     
+        $("#descriptionID").focus();
     }
 
-    $scope.nuevoUsuario = function () {
-        prepararNuevoUsuario();
+    $scope.nuevoCuenta = function () {
+        prepararNuevaCuenta();
     };
 
     function cargarCuentasPorCobrar() {
