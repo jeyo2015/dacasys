@@ -31,7 +31,7 @@
                 {
                     EnviarCorreoCancelacion(citaDto.Paciente, motivo);
                     cita.estado = false;
-                    cita.libre = !isLibre;
+                    cita.libre = isLibre;
                 }
                 else
                 {
@@ -107,7 +107,7 @@
 
         public static bool InsertarCita(AgendaDto citaDto, string loginCliente, DateTime fechaCita, string idUsuario)
         {
-            
+
             var cita = new Cita
             {
                 idcita = ObtenerCodigo(citaDto.NumeroCita, fechaCita, citaDto.IDConsultorio),
@@ -116,10 +116,10 @@
                 id_cliente = loginCliente
             };
             var auxHora = citaDto.HoraInicioString.Split(':');
-            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]) , Convert.ToInt32(auxHora[1]), 0);
+            cita.hora_inicio = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
             auxHora = citaDto.HoraFinString.Split(':');
-            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]) , Convert.ToInt32(auxHora[1]), 0);
-          
+            cita.hora_fin = new TimeSpan(Convert.ToInt32(auxHora[0]), Convert.ToInt32(auxHora[1]), 0);
+
             cita.fecha = fechaCita;
             cita.estado = true;
             cita.atendido = false;
@@ -148,7 +148,7 @@
                          && cp.id_usuariocliente == c.id_cliente
                          && cp.IsPrincipal == true
                          && p.id_paciente == cp.id_paciente
-                         && c.estado
+
                          select new AgendaDto()
                          {
                              IdCita = c.idcita,
@@ -157,9 +157,10 @@
                              HoraFin = c.hora_fin,
                              HoraInicio = c.hora_inicio,
                              LoginCliente = c.id_cliente,
-                             Estalibre = c.libre
+                             Estalibre = c.libre,
+                             EstaEliminada = !c.estado
                          });
-
+            // dataContext.Refresh(RefreshMode.OverwriteCurrentValues, query);
             var dateValue = DateTime.Parse(fechaCita.ToString("yyyy-MM-dd"), CultureInfo.InvariantCulture);
             var nombreDia = dateValue.ToString("dddd", new CultureInfo("es-ES"));
             var timeOfDay = DateTime.Now.TimeOfDay.Add(new TimeSpan(diferenciaDeHoras, 0, 0));
@@ -170,7 +171,7 @@
                                       && h.iddia == d.iddia
                                       select h).OrderBy(o => o.num_horario);
             dataContext.Refresh(RefreshMode.OverwriteCurrentValues, horarioConsultorio);
-          
+
             var listaRetorno = new List<AgendaDto>();
             var tiempoCita = new TimeSpan(0, tiempoConsulta, 0);
             var numeroCita = 1;
@@ -180,22 +181,48 @@
                 while (aux < horario.hora_fin)
                 {
                     var cita = query.Where(x => x.HoraInicio == aux).FirstOrDefault();
-                    listaRetorno.Add(new AgendaDto()
-                   {
-                       HoraInicio = aux,
-                       LoginCliente = cita != null ? cita.LoginCliente : "",
-                       HoraFin = aux.Add(tiempoCita),
-                       IDHorario = horario.idhorario,
-                       IdCita = cita != null ? cita.IdCita : "",
-                       IDConsultorio = idConsultorio,
-                       EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
-                       HoraInicioString = aux.ToString(),
-                       HoraFinString = aux.Add(tiempoCita).ToString(),
-                       Paciente = cita != null ? ObtenerPacienteCita(cita.LoginCliente) : null,
-                       NumeroCita = numeroCita,
-                       EstaAtendida = cita != null ? cita.EstaAtendida : false,
-                       EsTarde = dateValue.Date < DateTime.Now.Date ? true : !((dateValue.Date == DateTime.Now.Date && aux > timeOfDay) || dateValue.Date > DateTime.Now.Date)
-                   });
+                    if (cita != null && cita.EstaEliminada && !cita.Estalibre)
+                    {
+                        listaRetorno.Add(new AgendaDto()
+                        {
+                            HoraInicio = aux,
+                            LoginCliente = "Ocupado",
+                            HoraFin = aux.Add(tiempoCita),
+                            IDHorario = horario.idhorario,
+                            IdCita = "",
+                            IDConsultorio = idConsultorio,
+                            EstaOcupada = true,
+                            HoraInicioString = aux.ToString(),
+                            HoraFinString = aux.Add(tiempoCita).ToString(),
+                            Paciente = new PacienteDto() { NombrePaciente = "Ocupado" },
+                            NumeroCita = numeroCita,
+                            EstaEliminada = true,
+                            EstaAtendida = false,
+                            EsTarde = dateValue.Date < DateTime.Now.Date ? true : !((dateValue.Date == DateTime.Now.Date && aux > timeOfDay) || dateValue.Date > DateTime.Now.Date)
+                        });
+                    }
+                    else
+                    {
+                      
+                            listaRetorno.Add(new AgendaDto()
+                            {
+                                HoraInicio = aux,
+                                LoginCliente = cita != null ? cita.LoginCliente : "",
+                                HoraFin = aux.Add(tiempoCita),
+                                IDHorario = horario.idhorario,
+                                IdCita = cita != null ? cita.IdCita : "",
+                                IDConsultorio = idConsultorio,
+                                EstaOcupada = cita != null ? cita.Estalibre ? false : true : false,
+                                HoraInicioString = aux.ToString(),
+                                HoraFinString = aux.Add(tiempoCita).ToString(),
+                                Paciente = cita != null && !cita.EstaEliminada? ObtenerPacienteCita(cita.LoginCliente) : null,
+                                NumeroCita = numeroCita,
+                                EstaEliminada = false,
+                                EstaAtendida = cita != null ? cita.EstaAtendida : false,
+                                EsTarde = dateValue.Date < DateTime.Now.Date ? true : !((dateValue.Date == DateTime.Now.Date && aux > timeOfDay) || dateValue.Date > DateTime.Now.Date)
+                            });
+                    }
+
                     aux = aux.Add(tiempoCita);
                     numeroCita++;
                 }
@@ -234,9 +261,9 @@
         }
         public static bool VerificarClienteEnConsultorio(int pIdConsultorio, string pLoginCliente)
         {
-           return (from cc in dataContext.Empresa_Cliente
-                       where cc.id_empresa ==pIdConsultorio && cc.id_usuariocliente==pLoginCliente
-                       select cc).Any();
+            return (from cc in dataContext.Empresa_Cliente
+                    where cc.id_empresa == pIdConsultorio && cc.id_usuariocliente == pLoginCliente
+                    select cc).Any();
         }
 
 

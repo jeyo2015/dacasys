@@ -69,11 +69,12 @@
     };
 
     function mostrarAdvertenciasEstadoCita() {
-        if ($scope.citaSeleccionada.EsTarde)
+        if ($scope.citaSeleccionada.EsTarde || $scope.citaSeleccionada.EstaEliminada)
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
         else
             if ($scope.citaSeleccionada.EstaAtendida)
                 toastr.warning("La cita seleccionada ya fue atendida");
+        
     }
 
     $scope.showModalPacientes = function () {
@@ -109,6 +110,7 @@
     }
 
     function cargarPacientesEmpresa(modalOpen) {
+        debugger;
         pacienteService.obtenerClientesPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.pacientesConsultorio = result;
             if (modalOpen.length > 0) {
@@ -214,7 +216,7 @@
     };
 
     $scope.eliminarCitaPaciente = function () {
-        consultasService.eliminarCitaPaciente($scope.citaSeleccionada, $scope.horaLibre, $scope.motivoCancelacion).then(function (result) {
+        consultasService.eliminarCitaPaciente($scope.citaSeleccionada, !$scope.horaLibre, $scope.motivoCancelacion).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 cargarCitasDelDia();
@@ -228,6 +230,7 @@
     };
 
     function getPacientesByCliente(modalOpen) {
+        debugger;
         pacienteService.obtenerPacientesPorClienteCita($scope.citaSeleccionada.LoginCliente).then(function (result) {
             $scope.pacientesClienteSeleccionado = result;
             if (modalOpen.length > 0) {

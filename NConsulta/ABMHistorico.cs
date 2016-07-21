@@ -110,8 +110,8 @@
         public static List<HistoricoPacienteDto> ObtenerHistoricoPaciente(int pIDpaciente, int pIDEmpresa)
         {
             return (from p in dataContext.Historico_Paciente
-                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente &&
-                    p.estado == true
+                    where p.id_empresa == pIDEmpresa && p.id_paciente == pIDpaciente
+                    
                     select new HistoricoPacienteDto()
                     {
                         CitasRealizadas = p.citas_realizadas,
@@ -123,7 +123,8 @@
                         NumeroHistorico = p.numero,
                         TituloHistorico = p.titulo_numero,
                         EstadoABM = 0,
-                        DetalleHistorico = ObtenerHistoricoDetalle(p.id_empresa, p.id_paciente, p.numero)
+                        DetalleHistorico = ObtenerHistoricoDetalle(p.id_empresa, p.id_paciente, p.numero),
+                        EstadoString = p.estado?"Abierto":"Cerrado"
                     }).ToList();
         }
 

@@ -124,6 +124,7 @@
         public PacienteDto Paciente { get; set; }
         public int NumeroCita { get; set; }
         public bool EsTarde { get; set; }
+        public bool EstaEliminada { get; set; }
     }
 
     public class TrabajosConsultorioDto
@@ -243,6 +244,7 @@
         public bool Estado { get; set; }
         public string TituloHistorico { get; set; }
         public int EstadoABM { get; set; }
+        public string EstadoString { get; set; }
         public List<HistoricoDetallePacienteDto> DetalleHistorico { get; set; }
     }
 
