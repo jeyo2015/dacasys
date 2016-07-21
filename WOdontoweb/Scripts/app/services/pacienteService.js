@@ -13,16 +13,16 @@
         });
         return d.promise;
     };
-    this.obtenerPacientesPorClienteCita = function (loginCliente) {
+    this.obtenerPacientesPorClienteCita = function (ploginCliente) {
         var d = $q.defer();
-        $http.get('Paciente/ObtenerPacientesPorClienteCita?loginCliente' + loginCliente).success(function (data) {
+        $http.get('Paciente/ObtenerPacientesPorClienteCita?loginCliente=' + ploginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
     this.obtenerPacientePorId = function (loginCliente) {
         var d = $q.defer();
-        $http.get('Paciente/ObtenerPacientesPorId?loginCliente' + loginCliente).success(function (data) {
+        $http.get('Paciente/ObtenerPacientesPorId?loginCliente=' + loginCliente).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

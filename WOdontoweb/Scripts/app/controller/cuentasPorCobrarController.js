@@ -21,12 +21,14 @@
         cargarClientesPaciente();
     }
     function prepararNuevaCuenta() {
-
+        $scope.cuentaSeleccionada = null;
         $scope.cuentaParaGuardar = {
+            ID: -1,
             Descripcion: "",
             Monto: 0,
             IDTrabajo: -1,
             Saldo: 0,
+            Estado: 1,
             Login: "",
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
             State: 1
@@ -142,7 +144,7 @@
             cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
                 if (result.Data) {
                     inicializarDatos();
-                    toastr.success(result.Message);
+                  toastr.success(result.Message);
                     prepararNuevaCuenta();
                     $('#nuevo-pago').modal('hide');
                 } else {
@@ -187,5 +189,9 @@
                 }
             });
         }
+    };
+
+    $scope.seleccionarPago = function(pago) {
+        $scope.pagoSeleccionado = pago;
     };
 });
