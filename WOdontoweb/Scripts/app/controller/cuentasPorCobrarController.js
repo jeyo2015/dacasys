@@ -15,6 +15,7 @@
     };
 
     function inicializarDatos() {
+        prepararNuevaCuenta();
         cargarCuentasPorCobrar();
         cargarTrabajosConsultorio();
         cargarClientesPaciente();
@@ -34,15 +35,31 @@
         $scope.pagoSelecionado = null;
         $("#descripcionId").focus();
     }
+    function prepararNuevoPago() {
 
-    $scope.nuevoUsuario = function () {
-        prepararNuevoUsuario();
+        $scope.pagoParaGuardar = {
+            Descripcion: "",
+            Monto: 0,
+            IDCuentasPorCobrar: $scope.cuentaSeleccionada.ID,
+            State: 1
+        }
+       
+        $scope.pagoSelecionado = null;
+        $("#descripcionId").focus();
+    }
+
+    $scope.nuevaCuenta = function () {
+        prepararNuevaCuenta();
     };
 
     function cargarCuentasPorCobrar() {
         cuentasService.obtenerCuentasPorCobrarPorConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.cuentasPorCobrarConsultorio = result.select(function (cuenta) {
                 cuenta.FechaCreacion = moment(cuenta.FechaCreacion).format('DD/MM/YYYY');
+                cuenta.Detalle = cuenta.Detalle.select(function (detalle) {
+                    detalle.FechaCreacion = moment(detalle.FechaCreacion).format('DD/MM/YYYY');
+                    return detalle;
+                });
                 return cuenta;
             });
         });
@@ -59,19 +76,30 @@
         });
     }
 
-    $scope.selectUser = function (user) {
-        $scope.userSelected = user;
-        $scope.userToSave = angular.copy($scope.userSelected);
-        $scope.userToSave.State = 2;
-        $scope.userToSave.ConfirmPass = angular.copy($scope.userToSave.Password);
-        selectRol();
+    $scope.seleccionarCuenta = function (cuenta) {
+        $scope.cuentaSeleccionada = cuenta;
+        $scope.cuentaParaGuardar = angular.copy($scope.cuentaSeleccionada);
+        $scope.cuentaParaGuardar.State = 2;
+        selectTrabajo();
+        selectCliente();
     };
-
-    function selectRol() {
-        var selectRolUser = $scope.rolesConsultorio.where(function (item) {
-            return item.ID == $scope.userToSave.IDRol;
+    $scope.seleccionarPago = function (pago) {
+        $scope.pagoSeleccionado = pago;
+        $scope.pagoParaGuardar = angular.copy($scope.pagoSeleccionado);
+        $scope.pagoParaGuardar.State = 2;
+      
+    };
+    function selectTrabajo() {
+        var selectTrabajo = $scope.trabajosConsultorio.where(function (item) {
+            return item.ID == $scope.cuentaParaGuardar.IDTrabajo;
         });
-        $scope.rolSelected = selectRolUser[0];
+        $scope.trabajoSeleccionado = selectTrabajo[0];
+    }
+    function selectCliente() {
+        var selectCliente = $scope.clientesConsultorio.where(function (item) {
+            return item.Login == $scope.cuentaParaGuardar.Login;
+        });
+        $scope.clienteSeleccionado = selectCliente[0];
     }
 
     $scope.validadUsuario = function () {
@@ -80,19 +108,19 @@
             || $scope.rolSelected == null;
     };
 
-    $scope.openModalNewRol = function () {
-        $scope.nombrerol = "";
-        $scope.message = "";
-        $('#new-rol').modal('show');
+    $scope.mostrarModalPago = function () {
+        prepararNuevoPago();
+        $('#nuevo-pago').modal('show');
     };
 
     $scope.openModalConfirmDelele = function () {
         $('#confirm-delete').modal('show');
     };
 
-    $scope.closeWarnig = function () {
-        $scope.userSelected = null;
-        $('#confirm-delete').modal('hide');
+    $scope.closeWarnig = function (modal) {
+        $scope.pagoSeleccionado = null;
+        
+        $(modal).modal('hide');
     };
 
     $scope.eliminarUsuario = function () {
@@ -108,11 +136,39 @@
         });
     };
 
-    $scope.guardarUsuario = function () {
-        $scope.userToSave.IDRol = $scope.rolSelected.ID;
+    $scope.guardarNuevoPago = function () {
+       
+        if ($scope.pagoParaGuardar.State == 1) {
+            cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
+                if (result.Data) {
+                    inicializarDatos();
+                    toastr.success(result.Message);
+                    prepararNuevaCuenta();
+                    $('#nuevo-pago').modal('hide');
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+        } else {
+            cuentasService.modificarPago($scope.pagoParaGuardar).then(function (result) {
+                if (result.Data) {
+                    inicializarDatos();
+                    toastr.success(result.Message);
+                    $('#nuevo-pago').modal('hide');
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+        }
+    };
+
+    $scope.guardarCuenta = function () {
+        debugger;
+        $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
+        $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
         if ($scope.cuentaParaGuardar.State == 1) {
-            cuentasService.insertarNuevoPago($scope.cuentaParaGuardar).then(function (result) {
-                if (result.Data == 1) {
+            cuentasService.insertarNuevaCuenta($scope.cuentaParaGuardar).then(function (result) {
+                if (result.Data) {
                     inicializarDatos();
                     toastr.success(result.Message);
                     prepararNuevaCuenta();
@@ -121,11 +177,11 @@
                 }
             });
         } else {
-            cuentasService.modificarUsuario($scope.userToSave).then(function (result) {
-                if (result.Data == 1) {
-                    cargar_todos_los_usuarios();
+            cuentasService.modificarCuenta($scope.cuentaParaGuardar).then(function (result) {
+                if (result.Data) {
+                    inicializarDatos();
                     toastr.success(result.Message);
-                    prepararNuevoUsuario();
+                    prepararNuevaCuenta();
                 } else {
                     toastr.error(result.Message);
                 }

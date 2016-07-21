@@ -34,13 +34,13 @@
             var insert = ABMCuenta.InsertarUnPago(pPago, Session["loginusuario"].ToString());
             var result = new ResponseModel()
             {
-                Message = insert? "Se inserto correctamente el usuario" : "No se pudo insertar el usuario, intente de nuevo por favor",
+                Message = insert? "Se inserto correctamente el pago" : "No se pudo insertar el pago, intente de nuevo por favor",
                 Data = insert
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarNuevoPago(CuentasPorCobrarDto pCuenta)
+        public JsonResult InsertarNuevaCuenta(CuentasPorCobrarDto pCuenta)
         {
             var insert = ABMCuenta.InsertarUnaCuenta(pCuenta, Session["loginusuario"].ToString());
             var result = new ResponseModel()
@@ -50,6 +50,25 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-       
+        public JsonResult ModificarPago(CuentasPorCobrarDetalleDto pPago)
+        {
+            var insert = ABMCuenta.ModificarPago(pPago, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert ? "Se modifico correctamente el pago" : "No se pudo modificar el pago, intente de nuevo por favor",
+                Data = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ModificarCuenta(CuentasPorCobrarDto pCuenta)
+        {
+            var insert = ABMCuenta.ModificarCuenta(pCuenta, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert ? "Se modifico correctamente la cuenta" : "No se pudo modificar la cuenta, intente de nuevo por favor",
+                Data = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

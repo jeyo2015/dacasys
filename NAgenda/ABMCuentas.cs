@@ -58,7 +58,8 @@
                     }).ToList();
         }
 
-        public static List<TrabajosDto> GetTrabajosConsultorio(int pIdConsultorio) {
+        public static List<TrabajosDto> GetTrabajosConsultorio(int pIdConsultorio)
+        {
             return (from tc in dataContext.TrabajosConsultorio
                     from t in dataContext.Trabajos
                     where t.ID == tc.IDTrabajo
@@ -101,8 +102,8 @@
             try
             {
                 var pago = from c in dataContext.CuentasPorCobrar
-                          where c.ID == pPago.IDCuentasPorCobrar
-                          select c;
+                           where c.ID == pPago.IDCuentasPorCobrar
+                           select c;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
@@ -124,7 +125,7 @@
             {
                 sql.First().Monto = pPago.Monto;
                 sql.First().Descripcion = pPago.Descripcion;
-                  try
+                try
                 {
                     dataContext.SubmitChanges();
                     ControlBitacora.Insertar("Se modifico pago", idUsuario);
@@ -197,17 +198,24 @@
                 sql.First().Descripcion = pCuenta.Descripcion;
                 sql.First().IDTrabajo = pCuenta.IDTrabajo;
                 sql.First().Login = pCuenta.Login;
+                if (pCuenta.Monto > sql.First().Monto)
+                    sql.First().Saldo = sql.First().Saldo + (pCuenta.Monto - sql.First().Monto);
+                else
+                {
+                    if (pCuenta.Monto < sql.First().Monto)
+                        sql.First().Saldo = sql.First().Saldo - (sql.First().Monto - pCuenta.Monto);
+                }
                 sql.First().Monto = pCuenta.Monto;
-                sql.First().Saldo = pCuenta.Saldo;
+                //sql.First().Saldo = pCuenta.Saldo;
                 try
                 {
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se elimino una cuenta", idUsuario);
+                    ControlBitacora.Insertar("Se modifico una cuenta", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    ControlLogErrores.Insertar("NAgenda", "ABMCuenta", "Modificar Pago", ex);
+                    ControlLogErrores.Insertar("NAgenda", "ABMCuenta", "ModificarCuenta", ex);
                     return false;
                 }
             }

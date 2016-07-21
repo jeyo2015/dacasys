@@ -20,16 +20,30 @@
         });
         return d.promise;
     };
-    this.insertarNuevoPago = function (pCuenta) {
+    this.insertarNuevaCuenta = function (pCuenta) {
         var d = $q.defer();
-        $http.post('Cuentas/InsertarNuevoPago', { pCuenta: pCuenta }).success(function (data) {
+        $http.post('Cuentas/InsertarNuevaCuenta', { pCuenta: pCuenta }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
     };
-    this.modificarUsuario = function (usuario) {
+    this.insertarNuevoPago = function (pPago) {
         var d = $q.defer();
-        $http.post('Usuarios/ModificarUsuario', { pUsuario: usuario }).success(function (data) {
+        $http.post('Cuentas/InsertarNuevoPago', { pPago: pPago }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.modificarPago = function (pPago) {
+        var d = $q.defer();
+        $http.post('Cuentas/ModificarPago', { pPago: pPago }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.modificarCuenta = function (pCuenta) {
+        var d = $q.defer();
+        $http.post('Cuentas/ModificarCuenta', { pCuenta: pCuenta }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;
