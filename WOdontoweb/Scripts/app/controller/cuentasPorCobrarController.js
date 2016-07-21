@@ -45,7 +45,7 @@
             IDCuentasPorCobrar: $scope.cuentaSeleccionada.ID,
             State: 1
         }
-       
+
         $scope.pagoSelecionado = null;
         $("#descripcionId").focus();
     }
@@ -89,7 +89,7 @@
         $scope.pagoSeleccionado = pago;
         $scope.pagoParaGuardar = angular.copy($scope.pagoSeleccionado);
         $scope.pagoParaGuardar.State = 2;
-      
+
     };
     function selectTrabajo() {
         var selectTrabajo = $scope.trabajosConsultorio.where(function (item) {
@@ -121,7 +121,7 @@
 
     $scope.closeWarnig = function (modal) {
         $scope.pagoSeleccionado = null;
-        
+
         $(modal).modal('hide');
     };
 
@@ -139,12 +139,12 @@
     };
 
     $scope.guardarNuevoPago = function () {
-       
+
         if ($scope.pagoParaGuardar.State == 1) {
             cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
                 if (result.Data) {
                     inicializarDatos();
-                  toastr.success(result.Message);
+                    toastr.success(result.Message);
                     prepararNuevaCuenta();
                     $('#nuevo-pago').modal('hide');
                 } else {
@@ -191,7 +191,7 @@
         }
     };
 
-    $scope.seleccionarPago = function(pago) {
+    $scope.seleccionarPago = function (pago) {
         $scope.pagoSeleccionado = pago;
     };
 });
