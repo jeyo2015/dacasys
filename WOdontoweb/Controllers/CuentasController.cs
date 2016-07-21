@@ -40,6 +40,16 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult InsertarNuevoPago(CuentasPorCobrarDto pCuenta)
+        {
+            var insert = ABMCuenta.InsertarUnaCuenta(pCuenta, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert ? "Se inserto correctamente la cuenta" : "No se pudo insertar la cuenta, intente de nuevo por favor",
+                Data = insert
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
        
     }
 }

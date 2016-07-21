@@ -20,9 +20,9 @@
         });
         return d.promise;
     };
-    this.insertarUsuario = function (usuario) {
+    this.insertarNuevoPago = function (pCuenta) {
         var d = $q.defer();
-        $http.post('Usuarios/InsertarNuevoUsuario', { pUsuario: usuario }).success(function (data) {
+        $http.post('Cuentas/InsertarNuevoPago', { pCuenta: pCuenta }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

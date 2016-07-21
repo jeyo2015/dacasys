@@ -2,42 +2,37 @@
     init();
 
     function init() {
-      
+
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
-                cargarCuentasPorCobrar();
-                cargarTrabajosConsultorio();
-                cargarClientesPaciente();
+                inicializarDatos();
             });
         } else {
-            cargarCuentasPorCobrar();
-            cargarTrabajosConsultorio();
-            cargarClientesPaciente();
+            inicializarDatos();
         }
 
     };
 
     function inicializarDatos() {
-        cargar_todos_los_usuarios();
-        cargar_roles_empresa();
-        prepararNuevoUsuario();
-        $scope.idEmpresa = $rootScope.sessionDto.IDConsultorio;
+        cargarCuentasPorCobrar();
+        cargarTrabajosConsultorio();
+        cargarClientesPaciente();
     }
-    function prepararNuevoUsuario() {
-        $scope.userSelected = null;
-        $scope.userToSave = {
-            Nombre: "",
-            Password: "",
-            Login: "",
-            State: 1,
-            IDRol: -1,
-            IDEmpresa: $rootScope.sessionDto.IDConsultorio,
-            changepass: false
-        };
+    function prepararNuevaCuenta() {
 
-        $scope.rolSelected = null;
-        $("#nombreId").focus();
+        $scope.cuentaParaGuardar = {
+            Descripcion: "",
+            Monto: 0,
+            IDTrabajo: -1,
+            Saldo: 0,
+            Login: "",
+            IDConsultorio: $rootScope.sessionDto.IDConsultorio,
+            State: 1
+        }
+        $scope.cuentaSeleccionada = null;
+        $scope.pagoSelecionado = null;
+        $("#descripcionId").focus();
     }
 
     $scope.nuevoUsuario = function () {
@@ -115,18 +110,18 @@
 
     $scope.guardarUsuario = function () {
         $scope.userToSave.IDRol = $scope.rolSelected.ID;
-        if ($scope.userToSave.State == 1) {
-            usuariosService.insertarUsuario($scope.userToSave).then(function (result) {
+        if ($scope.cuentaParaGuardar.State == 1) {
+            cuentasService.insertarNuevoPago($scope.cuentaParaGuardar).then(function (result) {
                 if (result.Data == 1) {
-                    $scope.allUsers.push(angular.copy($scope.userToSave));
+                    inicializarDatos();
                     toastr.success(result.Message);
-                    prepararNuevoUsuario();
+                    prepararNuevaCuenta();
                 } else {
                     toastr.error(result.Message);
                 }
             });
         } else {
-            usuariosService.modificarUsuario($scope.userToSave).then(function (result) {
+            cuentasService.modificarUsuario($scope.userToSave).then(function (result) {
                 if (result.Data == 1) {
                     cargar_todos_los_usuarios();
                     toastr.success(result.Message);

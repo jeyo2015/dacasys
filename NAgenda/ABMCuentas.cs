@@ -162,23 +162,27 @@
             }
             return false;
         }
-        public static bool InsertarUnaCuenta(CuentasPorCobrarDetalleDto pPago, string pIdUsuario)
+        public static bool InsertarUnaCuenta(CuentasPorCobrarDto pCuenta, string pIdUsuario)
         {
-            var vPago = new Pago();
-            vPago.Monto = pPago.Monto;
-            vPago.IDCuentaPorCobrar = pPago.IDCuentasPorCobrar;
-            vPago.FechaPago = DateTime.Now;
-            vPago.Descripcion = pPago.Descripcion;
-            dataContext.Pago.InsertOnSubmit(vPago);
+            var vCuenta = new CuentasPorCobrar();
+            vCuenta.Saldo = pCuenta.Monto;
+            vCuenta.Monto = pCuenta.Monto;
+            vCuenta.IDTrabajo = pCuenta.IDTrabajo;
+            vCuenta.Login = pCuenta.Login;
+            vCuenta.IDConsultorio = pCuenta.IDConsultorio;
+            vCuenta.FechaRegistro = DateTime.Now;
+            vCuenta.Descripcion = pCuenta.Descripcion;
+            vCuenta.Estado = 1;
+            dataContext.CuentasPorCobrar.InsertOnSubmit(vCuenta);
             try
             {
                 dataContext.SubmitChanges();
-                ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
+                ControlBitacora.Insertar("Se inserto una cuenta", pIdUsuario);
                 return true;
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NAgenda", "ABMCuentas", "Insertar un pago", ex);
+                ControlLogErrores.Insertar("NAgenda", "ABMCuentas", "InsertarUnaCuenta", ex);
                 return false;
             }
         }
@@ -198,7 +202,7 @@
                 try
                 {
                     dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se elimino un pago", idUsuario);
+                    ControlBitacora.Insertar("Se elimino una cuenta", idUsuario);
                     return true;
                 }
                 catch (Exception ex)
