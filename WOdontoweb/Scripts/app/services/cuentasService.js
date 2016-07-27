@@ -13,9 +13,9 @@
         });
         return d.promise;
     };
-    this.eliminarUsuario = function (usario) {
+    this.eliminarPago = function (IdPago) {
         var d = $q.defer();
-        $http.post('Usuarios/EliminarUsuario', { pUsuario: usario }).success(function (data) {
+        $http.post('Cuentas/EliminarPago', { pIdPago: IdPago }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

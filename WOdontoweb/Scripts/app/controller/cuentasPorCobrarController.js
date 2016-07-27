@@ -35,10 +35,12 @@
         }
         $scope.cuentaSeleccionada = null;
         $scope.pagoSelecionado = null;
+        $scope.trabajoSeleccionado = null;
+        $scope.clienteSeleccionado = null;
         $("#descripcionId").focus();
     }
     function prepararNuevoPago() {
-
+      
         $scope.pagoParaGuardar = {
             Descripcion: "",
             Monto: 0,
@@ -79,6 +81,7 @@
     }
 
     $scope.seleccionarCuenta = function (cuenta) {
+        debugger;
         $scope.cuentaSeleccionada = cuenta;
         $scope.cuentaParaGuardar = angular.copy($scope.cuentaSeleccionada);
         $scope.cuentaParaGuardar.State = 2;
@@ -98,8 +101,9 @@
         $scope.trabajoSeleccionado = selectTrabajo[0];
     }
     function selectCliente() {
+        debugger;
         var selectCliente = $scope.clientesConsultorio.where(function (item) {
-            return item.Login == $scope.cuentaParaGuardar.Login;
+            return item.LoginCliente == $scope.cuentaParaGuardar.Login;
         });
         $scope.clienteSeleccionado = selectCliente[0];
     }
@@ -114,9 +118,13 @@
         prepararNuevoPago();
         $('#nuevo-pago').modal('show');
     };
-
+    $scope.mostrarModalEditarPago = function () {
+      
+        $('#nuevo-pago').modal('show');
+    };
+    
     $scope.openModalConfirmDelele = function () {
-        $('#confirm-delete').modal('show');
+        $('#eliminar-pago').modal('show');
     };
 
     $scope.closeWarnig = function (modal) {
@@ -139,7 +147,7 @@
     };
 
     $scope.guardarNuevoPago = function () {
-
+        
         if ($scope.pagoParaGuardar.State == 1) {
             cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
                 if (result.Data) {
@@ -190,8 +198,18 @@
             });
         }
     };
-
-    $scope.seleccionarPago = function (pago) {
-        $scope.pagoSeleccionado = pago;
-    };
+    $scope.eliminarPago = function () {
+        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
+            if (result.Data) {
+                inicializarDatos();
+                toastr.success(result.Message);
+                $('#nuevo-pago').modal('hide');
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    }
+    //$scope.seleccionarPago = function (pago) {
+    //    $scope.pagoSeleccionado = pago;
+    //};
 });

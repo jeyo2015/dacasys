@@ -54,7 +54,8 @@
                         Descripcion = p.Descripcion,
                         FechaCreacion = p.FechaPago,
                         ID = p.ID,
-                        Monto = p.Monto
+                        Monto = p.Monto,
+                        IDCuentasPorCobrar = pIDCuenta
                     }).ToList();
         }
 
@@ -87,7 +88,8 @@
                         Cliente = ObtenerDatosCliente(c.Login),
                         Monto = c.Monto,
                         Saldo = c.Saldo,
-                        Detalle = ObtenerDetalles(c.ID)
+                        Detalle = ObtenerDetalles(c.ID),
+                        Login = c.Login
                     }).ToList();
         }
 
@@ -123,8 +125,14 @@
 
             if (sql.Any())
             {
+
+                var pago = from c in dataContext.CuentasPorCobrar
+                           where c.ID == pPago.IDCuentasPorCobrar
+                           select c;
+                pago.First().Saldo = pago.First().Saldo + sql.First().Monto;
                 sql.First().Monto = pPago.Monto;
                 sql.First().Descripcion = pPago.Descripcion;
+                pago.First().Saldo = pago.First().Saldo - pPago.Monto;
                 try
                 {
                     dataContext.SubmitChanges();
@@ -151,6 +159,10 @@
                 dataContext.Pago.DeleteOnSubmit(sql.FirstOrDefault());
                 try
                 {
+                    var pago = from c in dataContext.CuentasPorCobrar
+                               where c.ID == sql.FirstOrDefault().IDCuentaPorCobrar
+                               select c;
+                    pago.First().Saldo = pago.First().Saldo + sql.FirstOrDefault().Monto;
                     dataContext.SubmitChanges();
                     ControlBitacora.Insertar("Se elimino un pago", idUsuario);
                     return true;
