@@ -20,6 +20,13 @@
         });
         return d.promise;
     };
+    this.eliminarCuenta = function (IdCuenta) {
+        var d = $q.defer();
+        $http.post('Cuentas/EliminarCuenta', { pIdCuenta: IdCuenta }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.insertarNuevaCuenta = function (pCuenta) {
         var d = $q.defer();
         $http.post('Cuentas/InsertarNuevaCuenta', { pCuenta: pCuenta }).success(function (data) {

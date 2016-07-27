@@ -183,8 +183,8 @@
             });
         }
     };
-    $scope.eliminarPago = function () {
-        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
+    $scope.eliminarPago = function() {
+        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function(result) {
             if (result.Data) {
                 inicializarDatos();
                 toastr.success(result.Message);
@@ -193,7 +193,18 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
+    $scope.eliminarCuenta = function() {
+        cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function(result) {
+            if (result.Data) {
+                inicializarDatos();
+                toastr.success(result.Message);
+                $('#eliminar-cuenta').modal('hide');
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
     //$scope.seleccionarPago = function (pago) {
     //    $scope.pagoSeleccionado = pago;
     //};

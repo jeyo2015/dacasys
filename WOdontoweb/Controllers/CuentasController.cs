@@ -28,6 +28,16 @@
           };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult EliminarCuenta(int pIdCuenta)
+        {
+            var viel = ABMCuenta.EliminarCuentaPorCobrar(pIdCuenta, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = viel ? "Se elimino correctamente la cuenta" : "No se pudo eliminar la cuenta, intente de nuevo por favor.",
+                Data = viel
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult InsertarNuevoPago(CuentasPorCobrarDetalleDto pPago)
         {
