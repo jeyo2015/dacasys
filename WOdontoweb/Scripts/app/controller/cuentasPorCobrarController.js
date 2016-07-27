@@ -79,7 +79,63 @@
             $scope.trabajosConsultorio = result;
         });
     }
+    /*
+    USE [db_dentista]
+GO
 
+
+    SET ANSI_NULLS ON
+    GO
+
+    SET QUOTED_IDENTIFIER ON
+    GO
+
+    CREATE TABLE [dbo].[CuentasPorCobrar](
+        [Descripcion] [text] NOT NULL,
+        [Monto] [decimal](18, 3) NOT NULL,
+        [FechaRegistro] [date] NOT NULL,
+        [Login] [nvarchar](50) NOT NULL,
+        [IDTrabajo] [int] NOT NULL,
+        [Saldo] [decimal](18, 3) NOT NULL,
+        [IDConsultorio] [int] NOT NULL,
+        [Estado] [int] NOT NULL,
+        [ID] [int] IDENTITY(1,1) NOT NULL,
+     CONSTRAINT [PK_CuentasPorCobrar] PRIMARY KEY CLUSTERED 
+    (
+        [ID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+    GO
+    USE [db_dentista]
+GO
+
+
+    SET ANSI_NULLS ON
+    GO
+
+    SET QUOTED_IDENTIFIER ON
+    GO
+
+    CREATE TABLE [dbo].[Pago](
+        [ID] [int] IDENTITY(1,1) NOT NULL,
+        [IDCuentaPorCobrar] [int] NOT NULL,
+        [Descripcion] [text] NOT NULL,
+        [Monto] [decimal](18, 3) NOT NULL,
+        [FechaPago] [date] NOT NULL,
+     CONSTRAINT [PK_Pago] PRIMARY KEY CLUSTERED 
+    (
+        [ID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+    GO
+
+
+
+
+
+    */
     $scope.seleccionarCuenta = function (cuenta) {
         debugger;
         $scope.cuentaSeleccionada = cuenta;
