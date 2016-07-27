@@ -40,7 +40,7 @@
         $("#descripcionId").focus();
     }
     function prepararNuevoPago() {
-      
+
         $scope.pagoParaGuardar = {
             Descripcion: "",
             Monto: 0,
@@ -79,65 +79,8 @@
             $scope.trabajosConsultorio = result;
         });
     }
-    /*
-    USE [db_dentista]
-GO
-
-
-    SET ANSI_NULLS ON
-    GO
-
-    SET QUOTED_IDENTIFIER ON
-    GO
-
-    CREATE TABLE [dbo].[CuentasPorCobrar](
-        [Descripcion] [text] NOT NULL,
-        [Monto] [decimal](18, 3) NOT NULL,
-        [FechaRegistro] [date] NOT NULL,
-        [Login] [nvarchar](50) NOT NULL,
-        [IDTrabajo] [int] NOT NULL,
-        [Saldo] [decimal](18, 3) NOT NULL,
-        [IDConsultorio] [int] NOT NULL,
-        [Estado] [int] NOT NULL,
-        [ID] [int] IDENTITY(1,1) NOT NULL,
-     CONSTRAINT [PK_CuentasPorCobrar] PRIMARY KEY CLUSTERED 
-    (
-        [ID] ASC
-    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
-    GO
-    USE [db_dentista]
-GO
-
-
-    SET ANSI_NULLS ON
-    GO
-
-    SET QUOTED_IDENTIFIER ON
-    GO
-
-    CREATE TABLE [dbo].[Pago](
-        [ID] [int] IDENTITY(1,1) NOT NULL,
-        [IDCuentaPorCobrar] [int] NOT NULL,
-        [Descripcion] [text] NOT NULL,
-        [Monto] [decimal](18, 3) NOT NULL,
-        [FechaPago] [date] NOT NULL,
-     CONSTRAINT [PK_Pago] PRIMARY KEY CLUSTERED 
-    (
-        [ID] ASC
-    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
-    GO
-
-
-
-
-
-    */
     $scope.seleccionarCuenta = function (cuenta) {
-        debugger;
+
         $scope.cuentaSeleccionada = cuenta;
         $scope.cuentaParaGuardar = angular.copy($scope.cuentaSeleccionada);
         $scope.cuentaParaGuardar.State = 2;
@@ -151,17 +94,16 @@ GO
 
     };
     function selectTrabajo() {
-        var selectTrabajo = $scope.trabajosConsultorio.where(function (item) {
+        var selectTrabajoitem = $scope.trabajosConsultorio.where(function (item) {
             return item.ID == $scope.cuentaParaGuardar.IDTrabajo;
         });
-        $scope.trabajoSeleccionado = selectTrabajo[0];
+        $scope.trabajoSeleccionado = selectTrabajoitem[0];
     }
     function selectCliente() {
-        debugger;
-        var selectCliente = $scope.clientesConsultorio.where(function (item) {
+        var selectClienteitem = $scope.clientesConsultorio.where(function (item) {
             return item.LoginCliente == $scope.cuentaParaGuardar.Login;
         });
-        $scope.clienteSeleccionado = selectCliente[0];
+        $scope.clienteSeleccionado = selectClienteitem[0];
     }
 
     $scope.validadUsuario = function () {
@@ -175,10 +117,10 @@ GO
         $('#nuevo-pago').modal('show');
     };
     $scope.mostrarModalEditarPago = function () {
-      
+
         $('#nuevo-pago').modal('show');
     };
-    
+
     $scope.openModalConfirmDelele = function () {
         $('#eliminar-pago').modal('show');
     };
@@ -189,21 +131,8 @@ GO
         $(modal).modal('hide');
     };
 
-    $scope.eliminarUsuario = function () {
-        usuariosService.eliminarUsuario($scope.userToSave).then(function (result) {
-            if (result.Data == 1) {
-                $('#confirm-delete').modal('hide');
-                cargar_todos_los_usuarios();
-                prepararNuevoUsuario();
-                toastr.success(result.Message);
-            } else {
-                toastr.error(result.Message);
-            }
-        });
-    };
-
     $scope.guardarNuevoPago = function () {
-        
+
         if ($scope.pagoParaGuardar.State == 1) {
             cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
                 if (result.Data) {
@@ -259,7 +188,7 @@ GO
             if (result.Data) {
                 inicializarDatos();
                 toastr.success(result.Message);
-                $('#nuevo-pago').modal('hide');
+                $('#eliminar-pago').modal('hide');
             } else {
                 toastr.error(result.Message);
             }
