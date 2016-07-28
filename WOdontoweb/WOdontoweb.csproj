@@ -234,6 +234,7 @@
     <Content Include="Scripts\app\controller\consultasController.js" />
     <Content Include="Scripts\app\controller\consultoriosController.js" />
     <Content Include="Scripts\app\controller\comentarioController.js" />
+    <Content Include="Scripts\app\controller\cuentasPorPagarController.js" />
     <Content Include="Scripts\app\controller\cuentasPorCobrarController.js" />
     <Content Include="Scripts\app\controller\misCitasController.js" />
     <Content Include="Scripts\app\controller\editarPacienteController.js" />
@@ -280,6 +281,7 @@
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Scripts\app\partials\consultas.html" />
     <Content Include="Scripts\app\partials\comentario.html" />
+    <Content Include="Scripts\app\partials\cuentasPorPagar.html" />
     <Content Include="Scripts\app\partials\cuentasPorCobrar.html" />
     <Content Include="Scripts\app\partials\miConsultorioPerfil.html" />
     <Content Include="Scripts\app\partials\misCitas.html" />

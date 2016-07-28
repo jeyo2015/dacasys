@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db_dentista" Class="ContextoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True" SettingsObjectName="Datos.Properties.Settings" SettingsPropertyName="db_dentistaConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=db_dentista;Integrated Security=True" SettingsObjectName="Datos.Properties.Settings" SettingsPropertyName="db_dentistaConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Antecedentes" Member="Antecedentes">
     <Type Name="Antecedentes">
       <Column Name="id_paciente" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -355,7 +355,6 @@
   </Table>
   <Table Name="dbo.CuentasPorCobrar" Member="CuentasPorCobrar">
     <Type Name="CuentasPorCobrar">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Descripcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Monto" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
       <Column Name="FechaRegistro" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
@@ -364,6 +363,7 @@
       <Column Name="Saldo" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
       <Column Name="IDConsultorio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

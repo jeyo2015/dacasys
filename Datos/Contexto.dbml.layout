@@ -243,10 +243,10 @@
         <elementListCompartment Id="ccdc65bf-2329-47a3-b476-7c1bd17bbf5c" absoluteBounds="12.14, 5.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2439a702-e5ad-4cb4-a68a-f8d669e37ae4" absoluteBounds="9.125, 2.875, 2, 2.5401025390625">
+    <classShape Id="935959ae-5785-4f4c-a858-97834a960d91" absoluteBounds="5.125, 2.75, 2, 2.5401025390625">
       <DataClassMoniker Name="/ContextoDataContext/CuentasPorCobrar" />
       <nestedChildShapes>
-        <elementListCompartment Id="852db3ad-4f8d-4977-aee3-6b64fd7a670e" absoluteBounds="9.14, 3.335, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="84f5c5cd-e70b-4133-8afb-9879d46d2655" absoluteBounds="5.14, 3.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -12,7 +12,11 @@
             var result = ABMCuenta.ObtenerCuentasPorCobrarPorConsultorio(IdConsultorio);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult ObtenerCuentasPorPagaPorCliente(string pLogin)
+        {
+            var result = ABMCuenta.ObtenerCuentasPorPagarCliente(pLogin);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetTrabajosConsultorio(int IdConsultorio)
         {
             var result = ABMCuenta.GetTrabajosConsultorio(IdConsultorio);

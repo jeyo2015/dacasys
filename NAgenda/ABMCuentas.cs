@@ -19,7 +19,7 @@
         #endregion
 
         #region Metodos Publicos
-        public static PacienteDto ObtenerDatosCliente(String pLogin)
+        public static String ObtenerDatosCliente(String pLogin)
         {
             return (from clientePaciente in dataContext.Cliente_Paciente
                     from paciente in dataContext.Paciente
@@ -43,7 +43,7 @@
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
                         IsPrincipal = clientePaciente.IsPrincipal ?? false
-                    }).FirstOrDefault();
+                    }).FirstOrDefault().NombrePaciente;
         }
         public static List<CuentasPorCobrarDetalleDto> ObtenerDetalles(int pIDCuenta)
         {
@@ -73,6 +73,8 @@
         }
         public static List<CuentasPorCobrarDto> ObtenerCuentasPorCobrarPorConsultorio(int pConsultorio)
         {
+
+
             return (from c in dataContext.CuentasPorCobrar
 
                     where c.IDConsultorio == pConsultorio
@@ -85,11 +87,41 @@
                         ID = c.ID,
                         IDConsultorio = c.IDConsultorio,
                         IDTrabajo = c.IDTrabajo,
-                        Cliente = ObtenerDatosCliente(c.Login),
+                        NombreCliente = ObtenerDatosCliente(c.Login),
                         Monto = c.Monto,
                         Saldo = c.Saldo,
                         Detalle = ObtenerDetalles(c.ID),
                         Login = c.Login
+                    }).ToList();
+        }
+        public static List<CuentasPorCobrarDto> ObtenerCuentasPorPagarCliente(string pLogin)
+        {
+
+
+            return (from c in dataContext.CuentasPorCobrar
+                    from t in dataContext.Trabajos
+                    from e in dataContext.Empresa
+                    from cl in dataContext.Clinica
+                    where c.Login == pLogin
+                    && t.ID == c.IDTrabajo
+                    && e.ID == c.IDConsultorio
+                    && cl.ID== e.IDClinica
+                    && c.Estado == 1
+                    select new CuentasPorCobrarDto
+                    {
+                        Descripcion = c.Descripcion,
+                        Estado = c.Estado,
+                        FechaCreacion = c.FechaRegistro,
+                        ID = c.ID,
+                        IDConsultorio = c.IDConsultorio,
+                        IDTrabajo = c.IDTrabajo,
+                        NombreCliente = ObtenerDatosCliente(c.Login),
+                        Monto = c.Monto,
+                        Saldo = c.Saldo,
+                        Detalle = ObtenerDetalles(c.ID),
+                        Login = c.Login,
+                        TrabajoDescripcion = t.Descripcion,
+                        NombreConsultorio = cl.Nombre
                     }).ToList();
         }
 

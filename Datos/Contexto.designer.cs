@@ -153,7 +153,7 @@ namespace Datos
     #endregion
 		
 		public ContextoDataContext() : 
-				base(global::Datos.Properties.Settings.Default.db_dentistaConnectionString1, mappingSource)
+				base(global::Datos.Properties.Settings.Default.db_dentistaConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -1540,7 +1540,7 @@ namespace Datos
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImagenLogo", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImagenLogo", DbType="Image", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary ImagenLogo
 		{
 			get
@@ -6744,8 +6744,6 @@ namespace Datos
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ID;
-		
 		private string _Descripcion;
 		
 		private decimal _Monto;
@@ -6762,12 +6760,12 @@ namespace Datos
 		
 		private int _Estado;
 		
+		private int _ID;
+		
     #region Definiciones de métodos de extensibilidad
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
     partial void OnDescripcionChanging(string value);
     partial void OnDescripcionChanged();
     partial void OnMontoChanging(decimal value);
@@ -6784,31 +6782,13 @@ namespace Datos
     partial void OnIDConsultorioChanged();
     partial void OnEstadoChanging(int value);
     partial void OnEstadoChanged();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
     #endregion
 		
 		public CuentasPorCobrar()
 		{
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Descripcion", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
@@ -6967,6 +6947,26 @@ namespace Datos
 					this._Estado = value;
 					this.SendPropertyChanged("Estado");
 					this.OnEstadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
 				}
 			}
 		}

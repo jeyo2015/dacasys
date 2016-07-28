@@ -12,26 +12,31 @@
                 </form>
             </div>
             <div class="row" style="margin-top: 15px;">
-                <table class="table table-hover tableStyle">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Nombre de cliente</th>
-                            <th>Saldo cuenta</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'IDRol,IDEmpresa,ConfirmPass,Estado,FechaCreacion,Password,State,changepass'  " ng-click="seleccionarCuenta(cuenta)">
-                            <td>{{cuenta.FechaCreacion}}
-                            </td>
-                            <td>{{cuenta.Cliente.Nombre}}  {{cuenta.Cliente.Apellido}}
-                            </td>
-                            <td>{{cuenta.Saldo}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="cuentaSeleccionada==null ">Eliminar</button>
+                <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                    <table class="table table-hover tableStyle">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Nombre de cliente</th>
+                                <th>Monto</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'ID,Descripcion,IDTrabajo,Estado,Detalle,TrabajoDescripcion,Login'  " ng-click="seleccionarCuenta(cuenta)">
+                                <td>{{cuenta.FechaCreacion}}
+                                </td>
+                                <td>{{cuenta.NombreCliente}}
+                                </td>
+                                <td>{{cuenta.Monto}}
+                                </td>
+                                <td>{{cuenta.Saldo}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="cuentaSeleccionada==null ">Eliminar</button>
+                </div>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-11">
@@ -101,10 +106,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-8 col-xs-12 col-md-offset-4 ">
-                            <button class="btn btn-raised btn-primary" ng-click="nuevaCuenta()">
-                                Nuevo
-                            </button>
-                            <button class="btn btn-raised btn-primary" ng-click="guardarCuenta()">Guardar</button>
+                            <button class="btn btn-raised btn-primary" ng-click="nuevaCuenta()">Nuevo</button>
+                            <button class="btn btn-raised btn-primary" ng-disabled="validarGuardarCuenta()" ng-click="guardarCuenta()">Guardar</button>
                         </div>
                     </div>
                 </form>
@@ -134,8 +137,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="guardarNuevoPago()">Guardar</button>
-                    <button class="btn btn-danger" ng-click="closeWarnig()">Cancelar</button>
+                    <button class="btn btn-primary" ng-disabled="pagoParaGuardar.Descripcion.length==0 || pagoParaGuardar.Monto==0" ng-click="guardarNuevoPago()">Guardar</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig('#nuevo-pago')">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -161,7 +164,7 @@
             </div>
         </div>
     </div>
-     <div class="modal fade" id="eliminar-pago" data-backdrop="static" role="dialog">
+    <div class="modal fade" id="eliminar-pago" data-backdrop="static" role="dialog">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">

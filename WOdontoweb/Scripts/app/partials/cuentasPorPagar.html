@@ -1,0 +1,92 @@
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth>
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-12 col-xs-12 ">
+            <div class="row">
+                <form class="">
+                    <div class="form-group label-floating">
+                        <label for="buscarUusarioID" class="col-md-2 col-xs-2 control-label">Buscar</label>
+                        <div class="col-md-10 col-xs-10">
+                            <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                    <table class="table table-hover tableStyle">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Consultorio</th>
+                                <th>Descripcion</th>
+                                <th>Trabajo</th>
+                                <th>Monto</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr title="Doble click para ver detalle" ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorPagar |filterByWords:subString:'ID,IDTrabajo,Estado,Detalle,NombreCliente,Login'  " ng-dblclick="seleccionarCuenta(cuenta)">
+                                <td>{{cuenta.FechaCreacion}}
+                                </td>
+                                 <td>{{cuenta.NombreConsultorio}}
+                                </td>
+                                <td>{{cuenta.Descripcion}}
+                                </td>
+                                <td>{{cuenta.TrabajoDescripcion}}
+                                </td>
+                                <td>{{cuenta.Monto}}
+                                </td>
+                                <td>{{cuenta.Saldo}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="detalle-cuenta" data-backdrop="static" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Detalle de la cuenta por pagar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <table class="table table-hover tableStyle">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripcion</th>
+                                    <th>Monto </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="pago in cuentaSeleccionada.Detalle   ">
+                                    <td>{{pago.FechaCreacion}}
+                                    </td>
+                                    <td>{{pago.Descripcion}}
+                                    </td>
+
+                                    <td>{{pago.Monto}}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="closeWarnig('#detalle-cuenta')">Aceptar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

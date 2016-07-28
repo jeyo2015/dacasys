@@ -28,6 +28,7 @@
     };
 
     $scope.seleccionarCita = function (cita) {
+       
         $scope.miCitaSelected = cita;
     };
 

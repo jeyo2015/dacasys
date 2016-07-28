@@ -6,6 +6,13 @@
         });
         return d.promise;
     };
+    this.obtenerCuentasPorPagaPorCliente = function (pLogin) {
+        var d = $q.defer();
+        $http.get('Cuentas/ObtenerCuentasPorPagaPorCliente?pLogin=' + pLogin).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.getTrabajosConsultorio = function (pIdConsultorio) {
         var d = $q.defer();
         $http.get('Cuentas/GetTrabajosConsultorio?IdConsultorio=' + pIdConsultorio ).success(function (data) {

@@ -166,7 +166,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="historico in historicosPaciente |filterByWords:subString:'IdConsultorio,IdPaciente,NumeroHistorico,FechaCreacion,EstimacionCitas,CitasRealizadas,Estado,EstadoABM'  " ng-dblclick="mostrarDetalleHistorico(historico)">
+                                        <tr title="Doble click para mostrar el historico" ng-repeat="historico in historicosPaciente |filterByWords:subString:'IdConsultorio,IdPaciente,NumeroHistorico,FechaCreacion,EstimacionCitas,CitasRealizadas,Estado,EstadoABM'  " ng-dblclick="mostrarDetalleHistorico(historico)">
                                             <td>{{historico.FechaCreacion}}
                                             </td>
                                             <td>{{historico.TituloHistorico}}

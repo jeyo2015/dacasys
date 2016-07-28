@@ -122,7 +122,7 @@
     };
 
     $scope.openModalConfirmDelele = function () {
-        $('#eliminar-pago').modal('show');
+        $('#eliminar-cuenta').modal('show');
     };
 
     $scope.closeWarnig = function (modal) {
@@ -194,6 +194,11 @@
             }
         });
     };
+    $scope.validarGuardarCuenta = function () {
+        if ($scope.cuentaParaGuardar == undefined) return true;
+        return $scope.cuentaParaGuardar.Descripcion.length == 0 || $scope.cuentaParaGuardar.Monto == 0 ||
+            $scope.clienteSeleccionado == null || $scope.trabajoSeleccionado == null;
+    }
     $scope.eliminarCuenta = function() {
         cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function(result) {
             if (result.Data) {

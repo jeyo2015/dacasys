@@ -22,12 +22,15 @@
         public string Descripcion { get; set; }
         public decimal Monto { get; set; }
         public int IDTrabajo { get; set; }
+        public string TrabajoDescripcion { get; set; }
+        public string NombreConsultorio { get; set; }
         public decimal Saldo { get; set; }
         public int Estado { get; set; }
         public string Login { get; set; }
+        public string NombreCliente { get; set; }
         public int IDConsultorio { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public PacienteDto Cliente { get; set; }
+       // public PacienteDto Cliente { get; set; }
         public List<CuentasPorCobrarDetalleDto> Detalle { get; set; }
     }
     public class CuentasPorCobrarDetalleDto
