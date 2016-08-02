@@ -150,7 +150,9 @@
                         Detalle = ObtenerDetalles(c.ID),
                         Login = c.Login,
                         TrabajoDescripcion = t.Descripcion,
-                        NombreConsultorio = cl.Nombre
+                        NombreConsultorio = cl.Nombre,
+                        EstadoShort = GetEstadoShort(c.Estado),
+                        EstadoFull = GetEstadoFull(c.Estado)
                     }).ToList();
         }
 
@@ -168,7 +170,7 @@
                            where c.ID == pPago.IDCuentasPorCobrar
                            select c;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
-                pago.First().Estado = pago.First().Saldo == pago.First().Monto ? 1 : 0;
+                pago.First().Estado = pago.First().Saldo == 0? 1 : 0;
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
                 return true;
@@ -195,7 +197,7 @@
                 sql.First().Monto = pPago.Monto;
                 sql.First().Descripcion = pPago.Descripcion;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
-                pago.First().Estado = pago.First().Saldo == pago.First().Monto ? 1 : 0;
+                pago.First().Estado = pago.First().Saldo == 0 ? 1 : 0;
                 try
                 {
                     dataContext.SubmitChanges();
