@@ -1,6 +1,6 @@
 ﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth >
-    <div class="col-md-12 col-xs-12 ">
-        <div class="col-md-6 col-xs-11 ">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-5 col-xs-11 ">
             <form class="form-horizontal">
                 <div class="form-group">
                     <h4>Datos de la clinica</h4>
@@ -23,33 +23,33 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inpNombreClinicaid" class="col-md-4 col-xs-3 control-label">Nombre Clinica:</label>
-                    <div class="col-md-8 col-xs-9">
+                    <label for="inpNombreClinicaid" class="col-md-4  control-label">Nombre Clinica:</label>
+                    <div class="col-md-8 ">
                         <input type="text" class="form-control" id="inpNombreClinicaid" ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Nombre">
                     </div>
                 </div>
                 <div class="form-group">
 
-                    <label for="Password3" class="col-md-4 col-xs-3 control-label">Descripcion</label>
-                    <div class="col-md-8 col-xs-9">
+                    <label for="Password3" class="col-md-4  control-label">Descripcion</label>
+                    <div class="col-md-8 ">
                         <textarea class="form-control"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Descripcion" id="Password3" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Password2" class="col-md-4 col-xs-3 control-label">Direccion:</label>
-                    <div class="col-md-8 col-xs-9">
+                    <label for="Password2" class="col-md-4 control-label">Direccion:</label>
+                    <div class="col-md-8 ">
                         <input type="text" class="form-control"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="clinicaParaModificar.Direccion" id="Password2">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="lnkMapa" class="col-md-4 col-xs-3 control-label">Ubicacion</label>
-                    <div class="col-md-8 col-xs-9">
+                    <label for="lnkMapa" class="col-md-4  control-label">Ubicacion</label>
+                    <div class="col-md-8 ">
                         <a class="btn  btn-link" id="lnkMapa"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-click="abrirModalDeMapa()">Ver mapa</a>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="tableTelefonosClinicaID" class="col-md-4 col-xs-3 control-label">Telefonos</label>
-                    <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
+                    <label for="tableTelefonosClinicaID" class="col-md-4  control-label">Telefonos</label>
+                    <div class="col-md-7 " style="max-height: 150px; overflow-y: auto">
                         <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
                             <thead>
                                 <tr>
@@ -72,17 +72,17 @@
                     </div>
                 </div>
                 <div class="form-group" ng-hide="clinicaParaModificar.Trabajos.length>0|| trabajoClinicaSelected!= null">
-                    <label for="inputTrabajo" class="col-md-4 col-xs-3 control-label">Trabajos:</label>
-                    <div class="col-md-7 col-xs-8">
+                    <label for="inputTrabajo" class="col-md-4 control-label">Trabajos:</label>
+                    <div class="col-md-7 ">
                         <input type="text" class="form-control" id="inputTrabajo"  ng-disabled="!clinicaParaModificar.EsConsultorioDefault" ng-model="primerTrabajo">
                     </div>
-                    <div class="col-md-1 col-xs-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
+                    <div class="col-md-1 " ng-show="primerTrabajo.length>0" title="Agregar trabajo">
                         <span ng-click="addTrabajo()"><i class="fa fa-check iconStyle"></i></span>
                     </div>
                 </div>
                 <div class="form-group" ng-show="clinicaParaModificar.Trabajos.length>0 || trabajoClinicaSelected!= null">
-                    <label for="tablaTrabajosClinicaId" class="col-md-4 col-xs-3 control-label">Trabajos</label>
-                    <div class="col-md-7 col-xs-8" style="max-height: 150px; overflow-y: auto">
+                    <label for="tablaTrabajosClinicaId" class="col-md-4  control-label">Trabajos</label>
+                    <div class="col-md-7 " style="max-height: 150px; overflow-y: auto">
                         <table class="table table-hover tableStyle scroll">
                             <tbody id="tablaTrabajosClinicaId">
                                 <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
@@ -91,7 +91,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-1 col-xs-1" ng-show="clinicaParaModificar.EsConsultorioDefault">
+                    <div class="col-md-1 " ng-show="clinicaParaModificar.EsConsultorioDefault">
                         <span  ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
                         <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                         <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
@@ -100,7 +100,7 @@
 
             </form>
         </div>
-        <div class="col-md-6  col-xs-11">
+         <div class="col-md-6 col-md-offset-1 col-xs-11">
             <div class="row">
                 <form class="form-horizontal">
                     <h4>Datos del consultorio</h4>
@@ -156,7 +156,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-1 col=xs=1">
+                            <div class="col-md-1 col-xs-1">
                                 <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-circle iconStyle"></i></span>
                                 <ul class="dropdown-menu">
                                     <li ng-click="addRowTable()"><a>Nuevo</a></li>

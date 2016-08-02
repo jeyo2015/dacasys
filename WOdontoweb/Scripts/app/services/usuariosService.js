@@ -22,7 +22,7 @@
     };
     this.insertarUsuario = function (usuario) {
         var d = $q.defer();
-        $http.post('Usuarios/InsertarNuevoUsuario', { pUsuario: usuario }).success(function (data) {
+        $http.post('Usuarios/Insertar', { pUsuario: usuario }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

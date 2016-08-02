@@ -20,7 +20,7 @@
         });
         return d.promise;
     };
-    this.getIntervalosTiempo = function (idEmpresa) {
+    this.getIntervalosTiempo = function () {
         var d = $q.defer();
         $http.get('Empresa/ObtenerIntervalosDeTiempo').success(function (data) {
             d.resolve(data);
