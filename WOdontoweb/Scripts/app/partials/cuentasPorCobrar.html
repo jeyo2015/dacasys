@@ -18,8 +18,8 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Nombre de cliente</th>
-                                <th>Monto</th>
                                 <th>Saldo</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,9 +28,9 @@
                                 </td>
                                 <td>{{cuenta.NombreCliente}}
                                 </td>
-                                <td>{{cuenta.Monto}}
-                                </td>
                                 <td>{{cuenta.Saldo}}
+                                </td>
+                                <td>{{cuenta.EstadoShort}}
                                 </td>
                             </tr>
                         </tbody>
@@ -48,35 +48,35 @@
             <div class="row">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="nombreId" class="col-md-4 control-label">Descripcion</label>
-                        <div class="col-md-8 ">
-                            <input type="text" class="form-control" id="descriptionID" ng-model="cuentaParaGuardar.Descripcion">
+                        <label for="nombreId" class="col-md-3 control-label">Descripcion</label>
+                        <div class="col-md-9 ">
+                            <input type="text" class="form-control" id="descriptionID" ng-disabled="cuentaParaGuardar.Estado!=0" ng-model="cuentaParaGuardar.Descripcion">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4 control-label">Trabajo</label>
-                        <div class="col-md-8 ">
-                            <select class="form-control" ng-options="trabajo.Descripcion for trabajo in trabajosConsultorio" ng-model="trabajoSeleccionado"></select>
+                        <label for="inputPassword3" class="col-md-3 control-label">Trabajo</label>
+                        <div class="col-md-9 ">
+                            <select class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-options="trabajo.Descripcion for trabajo in trabajosConsultorio" ng-model="trabajoSeleccionado"></select>
 
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4 control-label">Cliente</label>
-                        <div class="col-md-8 ">
-                            <select class="form-control" ng-options="cliente.Ci  for cliente in clientesConsultorio" ng-model="clienteSeleccionado"></select>
+                        <label for="inputPassword3" class="col-md-3 control-label">Cliente</label>
+                        <div class="col-md-9 ">
+                            <select class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-options="cliente.Ci  for cliente in clientesConsultorio" ng-model="clienteSeleccionado"></select>
 
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="montoInput" class="col-md-4  control-label">Monto:</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="cuentaParaGuardar.Monto" id="montoInput">
+                        <label for="montoInput" class="col-md-3  control-label">Monto:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-model="cuentaParaGuardar.Monto" id="montoInput">
                         </div>
                     </div>
                     <div class="form-group" ng-hide="cuentaParaGuardar.State==1">
-                        <label for="montoInput" class="col-md-4  control-label">Saldo:</label>
-                        <div class="col-md-8">
+                        <label for="montoInput" class="col-md-3  control-label">Saldo:</label>
+                        <div class="col-md-9">
                             <input type="text" readonly="readonly" class="form-control" ng-model="cuentaParaGuardar.Saldo" id="Text1">
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             </table>
                         </div>
                         <div class="col-md-1 col-xs-1 ">
-                            <span ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                            <span ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>
                             <span ng-show="pagoSeleccionado!= null" ng-click="mostrarModalEditarPago()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                             <span ng-show="pagoSeleccionado != null " ng-click="openModalConfirmDelelePago()" style="display: none;"><i class="fa fa-trash iconStyle"></i></span>
                         </div>

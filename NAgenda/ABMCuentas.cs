@@ -78,11 +78,13 @@
             return (from c in dataContext.CuentasPorCobrar
 
                     where c.IDConsultorio == pConsultorio
-                    && c.Estado == 1
+
                     select new CuentasPorCobrarDto
                     {
                         Descripcion = c.Descripcion,
                         Estado = c.Estado,
+                        EstadoShort = GetEstadoShort(c.Estado),
+                        EstadoFull = GetEstadoFull(c.Estado),
                         FechaCreacion = c.FechaRegistro,
                         ID = c.ID,
                         IDConsultorio = c.IDConsultorio,
@@ -93,6 +95,33 @@
                         Detalle = ObtenerDetalles(c.ID),
                         Login = c.Login
                     }).ToList();
+        }
+
+        private static string GetEstadoFull(int pEstado)
+        {
+            switch (pEstado)
+            {
+                case 0:
+                    return "Pendiente";
+                case 1:
+                    return "Cancelado";
+                case 2:
+                    return "Anulado";
+            }
+            return "";
+        }
+        private static string GetEstadoShort(int pEstado)
+        {
+            switch (pEstado)
+            {
+                case 0:
+                    return "PN";
+                case 1:
+                    return "CL";
+                case 2:
+                    return "AN";
+            }
+            return "";
         }
         public static List<CuentasPorCobrarDto> ObtenerCuentasPorPagarCliente(string pLogin)
         {
@@ -105,8 +134,8 @@
                     where c.Login == pLogin
                     && t.ID == c.IDTrabajo
                     && e.ID == c.IDConsultorio
-                    && cl.ID== e.IDClinica
-                    && c.Estado == 1
+                    && cl.ID == e.IDClinica
+                    && c.Estado != 2
                     select new CuentasPorCobrarDto
                     {
                         Descripcion = c.Descripcion,
@@ -121,7 +150,9 @@
                         Detalle = ObtenerDetalles(c.ID),
                         Login = c.Login,
                         TrabajoDescripcion = t.Descripcion,
-                        NombreConsultorio = cl.Nombre
+                        NombreConsultorio = cl.Nombre,
+                        EstadoShort = GetEstadoShort(c.Estado),
+                        EstadoFull = GetEstadoFull(c.Estado)
                     }).ToList();
         }
 
@@ -139,6 +170,7 @@
                            where c.ID == pPago.IDCuentasPorCobrar
                            select c;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
+                pago.First().Estado = pago.First().Saldo == 0? 1 : 0;
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
                 return true;
@@ -165,6 +197,7 @@
                 sql.First().Monto = pPago.Monto;
                 sql.First().Descripcion = pPago.Descripcion;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
+                pago.First().Estado = pago.First().Saldo == 0 ? 1 : 0;
                 try
                 {
                     dataContext.SubmitChanges();
@@ -188,6 +221,7 @@
 
             if (sql.Any())
             {
+
                 dataContext.Pago.DeleteOnSubmit(sql.FirstOrDefault());
                 try
                 {
@@ -217,7 +251,7 @@
             vCuenta.IDConsultorio = pCuenta.IDConsultorio;
             vCuenta.FechaRegistro = DateTime.Now;
             vCuenta.Descripcion = pCuenta.Descripcion;
-            vCuenta.Estado = 1;
+            vCuenta.Estado = 0;
             dataContext.CuentasPorCobrar.InsertOnSubmit(vCuenta);
             try
             {
@@ -274,7 +308,8 @@
 
             if (sql.Any())
             {
-                dataContext.CuentasPorCobrar.DeleteOnSubmit(sql.First());
+                sql.First().Estado = 2;
+
                 try
                 {
                     dataContext.SubmitChanges();

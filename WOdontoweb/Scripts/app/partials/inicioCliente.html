@@ -1,11 +1,11 @@
-﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " id="mapa" >
+﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " id="mapa">
 </div>
 
 <div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Clinica {{clinicaSeleccionada.Nombre}}</h4>
             </div>
             <div class="modal-body">
@@ -103,6 +103,69 @@
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="enviarNotificacion()">Enviar solicitud</button>
                 <button class="btn btn-danger" ng-click="cerrarSolicitud()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ejemplo" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Enviar solicitud</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 col-xs-3">
+                        <img style="height: 48px; width: 66px; border:1px solid #3B3B3C" data-ng-src="{{clinicaSeleccionada.LogoParaMostrar}}" alt="Logo de la clinica">
+                    </div>
+                    <div class="col-md-8 col-xs-8">
+                        <div class="row">
+                            <h4 style="font-weight: bold; margin-bottom: 0px">{{clinicaSeleccionada.Nombre}} </h4>
+                            <span>{{clinicaSeleccionada.Descripcion}} </span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-md-12 col-xs-12">
+                       <i class="fa fa-phone" aria-hidden="true"><label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label></i> 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="enviarNotificacion()">Enviar solicitud</button>
+                <button class="btn btn-danger" ng-click="cerrarSolicitud()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="modal-comentario" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ingrese su comentario</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="comentario" class="col-md-3 control-label">Comentario</label>
+                                    <div class="col-md-9">
+                                        <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="guardarComentario()" ng-disabled="validarCamposComentario()">Aceptar</button>
+                    <button class="btn btn-primary" ng-click="cerrarModalComentario()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>

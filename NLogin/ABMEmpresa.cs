@@ -140,10 +140,11 @@ namespace NLogin
                 try
                 {
 
-                   
+
                     InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
                     InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
-                    foreach (var consultorio in clinicaDto.Consultorios) {
+                    foreach (var consultorio in clinicaDto.Consultorios)
+                    {
                         ModificarConsultorio(consultorio, idUsuario);
                     }
                     dataContext.SubmitChanges();
@@ -739,8 +740,9 @@ namespace NLogin
         public static List<ClinicaDto> ObtenerClinicasHabilitadas()
         {
             return (from c in dataContext.Clinica
-                    where !c.Login.ToUpper().Equals("DACASYS")
-                    && !c.Login.ToUpper().Equals("DEFAULT")
+                    where
+                        //  !c.Login.ToUpper().Equals("DACASYS")                     && 
+                    !c.Login.ToUpper().Equals("DEFAULT")
                     && c.Estado == true
                     select c).Select(x => new ClinicaDto()
                     {
@@ -757,6 +759,7 @@ namespace NLogin
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
+                        LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
                         Telefonos = ObtenerTelefonosClinica(x.ID)
                     }).ToList();
         }

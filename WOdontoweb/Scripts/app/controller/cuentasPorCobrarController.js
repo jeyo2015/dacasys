@@ -28,7 +28,7 @@
             Monto: 0,
             IDTrabajo: -1,
             Saldo: 0,
-            Estado: 1,
+            Estado: 0,
             Login: "",
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
             State: 1
@@ -86,13 +86,17 @@
         $scope.cuentaParaGuardar.State = 2;
         selectTrabajo();
         selectCliente();
+        $scope.pagoSelecionado = null;
     };
-    $scope.seleccionarPago = function (pago) {
-        $scope.pagoSeleccionado = pago;
-        $scope.pagoParaGuardar = angular.copy($scope.pagoSeleccionado);
-        $scope.pagoParaGuardar.State = 2;
 
+    $scope.seleccionarPago = function (pago) {
+        if ($scope.cuentaParaGuardar.Estado == 0) {
+            $scope.pagoSeleccionado = pago;
+            $scope.pagoParaGuardar = angular.copy($scope.pagoSeleccionado);
+            $scope.pagoParaGuardar.State = 2;
+        }
     };
+
     function selectTrabajo() {
         var selectTrabajoitem = $scope.trabajosConsultorio.where(function (item) {
             return item.ID == $scope.cuentaParaGuardar.IDTrabajo;
@@ -187,8 +191,8 @@
             });
         }
     };
-    $scope.eliminarPago = function() {
-        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function(result) {
+    $scope.eliminarPago = function () {
+        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
             if (result.Data) {
                 inicializarDatos();
                 toastr.success(result.Message);
@@ -201,10 +205,10 @@
     $scope.validarGuardarCuenta = function() {
         if ($scope.cuentaParaGuardar == undefined) return true;
         return $scope.cuentaParaGuardar.Descripcion.length == 0 || $scope.cuentaParaGuardar.Monto == 0 ||
-            $scope.clienteSeleccionado == null || $scope.trabajoSeleccionado == null;
+            $scope.clienteSeleccionado == null || $scope.trabajoSeleccionado == null || $scope.cuentaParaGuardar.Estado != 0;
     };
-    $scope.eliminarCuenta = function() {
-        cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function(result) {
+    $scope.eliminarCuenta = function () {
+        cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function (result) {
             if (result.Data) {
                 inicializarDatos();
                 toastr.success(result.Message);

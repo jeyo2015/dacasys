@@ -30,6 +30,8 @@
         public string NombreCliente { get; set; }
         public int IDConsultorio { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public string EstadoShort { get; set; }
+        public string EstadoFull { get; set; }
        // public PacienteDto Cliente { get; set; }
         public List<CuentasPorCobrarDetalleDto> Detalle { get; set; }
     }

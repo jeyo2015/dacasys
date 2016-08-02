@@ -1,4 +1,4 @@
-﻿app.controller("inicioClienteController", function (clinicaService, $scope, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
+﻿app.controller("inicioClienteController", function (clinicaService, $scope, $compile, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
     init();
     var map;
     var infoWindow;
@@ -96,12 +96,13 @@
 
     function cargar_clinicas() {
         clinicaService.getAllClinicasHabilitadas().then(function (result) {
+           
             $scope.clinicas = result;
             crearTodosLosMarkers();
         });
     }
 
-    function abrirModalVerMasClinica() {
+    $scope.abrirModalVerMasClinica = function() {
         $scope.verConsultorio = true;
         $("#modal-ver-mas").modal('show');
     }
@@ -121,29 +122,81 @@
         });
 
     }
-
+    $scope.test = function () {
+        $('#ejemplo').modal('show');
+    }
     function openInfoWindow(marker) {
+        debugger;
         point = marker.getPosition();
+        //var htmlElement = '<div ng-click="test()" class="infowindow"></div>'
+        $scope.telefonosClinicaSeleccionada = "";
+        for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
+            if (i > 0)
+                $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
+            $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + $scope.clinicaSeleccionada.Telefonos[i].Telefono;
+        }
+       
         ///var telefonos = telefono.toString().split('#');
-        var htlml = '<div id="contentInfoWindow" class="row ">\
-                        <div class="col-md-12">\
-                    <span>Nombre:'  + $scope.clinicaSeleccionada.Nombre +
-                    '</span>\
-                     </div>\
-     <button id="test" class="btn btn-link"  >Ver mas </button>\
-                      </div> ';
-        infoWindow.setContent([
-           htlml
-        ].join(''));
+        var htmlElement = '<div id="contentInfoWindow" class="row " style="height: 130px; width: 250px">\
+                                <div class="row">\
+                                     <div class="col-md-4 col-xs-3">\
+                                         <img style="height: 48px; width: 65px; border:1px solid #3B3B3C" data-ng-src="{{clinicaSeleccionada.LogoParaMostrar}}" alt="Logo de la clinica">\
+                                     </div>\
+                                     <div class="col-md-8 col-xs-8">\
+                                         <div class="row">\
+                                              <h4 title="{{clinicaSeleccionada.Nombre}}" class="cortar" style="font-weight:bold; margin-bottom:0px"> Clinica {{clinicaSeleccionada.Nombre}} </h4>\
+                                              <label title="{{clinicaSeleccionada.Descripcion}}" class="cortar">{{clinicaSeleccionada.Descripcion}}</label>\
+                                         </div>\
+                                     </div>\
+                                </div>\
+                                <div class="row" >\
+                                     <div class="col-md-12 col-xs-12">\
+                                         <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>\
+                                     </div>\
+                                </div>\
+                                <div class="row" >\
+                                     <div class="col-md-4 col-xs-12">\
+                                         <a id="test"  ng-click="abrirModalVerMasClinica()" >Ver mas </a>\
+                                     </div>\
+                                 </div>\
+                           </div> ';
 
-        google.maps.event.addListener(infoWindow, 'domready', function () {
-            $('#test').click(function () {
-                abrirModalVerMasClinica();
-            });
-        });
+        var compiled = $compile(htmlElement)($scope)
+        infoWindow.setContent(compiled[0]);
+        $scope.$apply();
+        //google.maps.event.addListener(infoWindow, 'domready', function () {
+        //    $('#test').click(function () {
+        //        abrirModalVerMasClinica();
+        //    });
+        //});
         infoWindow.open(map, marker);
 
 
+    }
+    function prepararNuevoComentario() {
+        $scope.comentarioParaGuardar = {
+            LoginCliente: $rootScope.sessionDto.loginUsuario,
+            Comentario: '',
+            State: 1,
+            IsVisible: true,
+            IDEmpresa: $scope.consultorioSeleccionado.IDEmpresa
+        };
+    }
+    $scope.validarCamposComentario = function () {
+        return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
+    };
+
+    $scope.mostrarModalComentario = function () {
+        if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
+            $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
+            $scope.loginEmpresa = "";
+
+            $rootScope.modalComentario = true;
+            $("#modal-login-cliente").modal('show');
+        } else {
+            prepararNuevoComentario();
+            $("#modal-comentario").modal('show');
+        }
     }
     function crearTodosLosMarkers() {
         angular.forEach($scope.clinicas, function (clinica, index) {
@@ -217,7 +270,7 @@
         infoWindow = new google.maps.InfoWindow();
         google.maps.event.addListener(map, 'click', function () {
             closeInfoWindow();
-            Cambiar_Imagenes();
+            // Cambiar_Imagenes();
         });
 
     }
