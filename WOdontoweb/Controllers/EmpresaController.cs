@@ -27,7 +27,9 @@
         public JsonResult ObtenerClinicasHabilitadas()
         {
             var result = ABMEmpresa.ObtenerClinicasHabilitadas();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
         public JsonResult ObtenerTrabajosClinica(int idClinica)
