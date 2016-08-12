@@ -96,13 +96,13 @@
 
     function cargar_clinicas() {
         clinicaService.getAllClinicasHabilitadas().then(function (result) {
-           
+
             $scope.clinicas = result;
             crearTodosLosMarkers();
         });
     }
 
-    $scope.abrirModalVerMasClinica = function() {
+    $scope.abrirModalVerMasClinica = function () {
         $scope.verConsultorio = true;
         $("#modal-ver-mas").modal('show');
     }
@@ -126,17 +126,18 @@
         $('#ejemplo').modal('show');
     }
     function openInfoWindow(marker) {
-        debugger;
+
         point = marker.getPosition();
-        //var htmlElement = '<div ng-click="test()" class="infowindow"></div>'
+
         $scope.telefonosClinicaSeleccionada = "";
+        console.log($scope.clinicaSeleccionada);
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
             if (i > 0)
                 $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
             $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + $scope.clinicaSeleccionada.Telefonos[i].Telefono;
         }
-       
-        ///var telefonos = telefono.toString().split('#');
+
+
         var htmlElement = '<div id="contentInfoWindow" class="row " style="height: 130px; width: 250px">\
                                 <div class="row">\
                                      <div class="col-md-4 col-xs-3">\
@@ -164,11 +165,6 @@
         var compiled = $compile(htmlElement)($scope)
         infoWindow.setContent(compiled[0]);
         $scope.$apply();
-        //google.maps.event.addListener(infoWindow, 'domready', function () {
-        //    $('#test').click(function () {
-        //        abrirModalVerMasClinica();
-        //    });
-        //});
         infoWindow.open(map, marker);
 
 

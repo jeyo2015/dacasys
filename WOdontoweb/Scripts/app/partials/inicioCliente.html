@@ -17,13 +17,25 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="row" style="margin-top: 5px;">
-                    <div class="col-md-12 col-xs-12">
-                        <i class="fa fa-phone" aria-hidden="true">
-                            <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label></i>
+                <div id="grpLoginClinic" class="form-group">
+                    <label for="inpLoginClinic" class="col-md-3 control-label">Telefonos </label>
+                    <div class="col-md-9">
+                        <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>
                     </div>
                 </div>
-                
+                <div class="form-group">
+                    <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Trabajos</label>
+                    <div class="col-md-8" style="max-height: 150px; overflow-y: auto">
+                        <table class="table table-hover tableStyle scroll">
+                            <tbody id="tablaTrabajosClinicaId">
+                                <tr ng-repeat="trabajo in clinicaSeleccionada.Trabajos  ">
+                                    <td>{{trabajo.Descripcion}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
 
                 <!-- Only required for left/right tabs -->
                 <!--  <ul class="nav nav-tabs">
@@ -94,7 +106,7 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="citaSeleted== null">Agendar</button>
+              <!--  <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="citaSeleted== null">Agendar</button>-->
                 <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
             </div>
         </div>
