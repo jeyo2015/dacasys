@@ -56,7 +56,7 @@
         public static bool Modificar(HorarioDto horarioDto, string idUsuario)
         {
             var sql = from h in dataContext.Horario
-                      where h.idhorario == horarioDto.IDHorario 
+                      where h.idhorario == horarioDto.IDHorario
                       select h;
 
             if (!sql.Any()) return false;
@@ -64,7 +64,7 @@
             sql.First().hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio);
             sql.First().iddia = horarioDto.IDDia;
             sql.First().num_horario = horarioDto.NumHorario;
-               
+
             try
             {
                 dataContext.SubmitChanges();
@@ -111,6 +111,26 @@
             return false;
         }
 
+        public static void ObtenerHorarioParaMostrarMapa(int idConsultorio)
+        {
+            var horariosConsultorio = (from h in dataContext.Horario
+                                       from d in dataContext.Dia
+                                       where d.iddia == h.iddia
+                                       && h.idempresa == idConsultorio
+                                       && h.estado
+                                       select new HorarioDto
+                                       {
+                                           Estado = h.estado,
+                                           HoraFinSpan = h.hora_fin,
+                                           HoraInicioSpan = h.hora_inicio,
+                                           IDDia = h.iddia,
+                                           NombreDia = d.nombre_corto,
+                                           IDEmpresa = idConsultorio
+                                       }).OrderBy(o => o.IDDia).GroupBy(g => new {g.HoraInicioSpan, g.HoraFinSpan}).Select(
+                                           gr => gr.ToList()).ToList();
+
+            
+        }
         public static List<HorarioDto> ObtenerHorariosPorEmpresa(int idEmpresa)
         {
             return (from h in dataContext.Horario
