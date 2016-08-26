@@ -1,4 +1,7 @@
-﻿namespace NLogin
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
+
+namespace NLogin
 {
     using System;
     using System.Linq;
@@ -90,6 +93,7 @@
             try
             {
                 dataContext.SubmitChanges();
+                EnviarCorreoAceptacion(notificacionesConsultorioDto.LoginUsuario, notificacionesConsultorioDto.IDConsultorio);
                 return true;
             }
             catch (Exception ex)
@@ -97,6 +101,35 @@
                 ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "AceptarSolicitudPaciente", ex);
                 return false;
             }
+        }
+
+        private static void EnviarCorreoAceptacion(string pLogin, int pIdConsultorio)
+        {
+            var paciente = (from p in dataContext.Paciente
+                from pc in dataContext.Cliente_Paciente
+                where pc.id_usuariocliente == pLogin
+                      && pc.IsPrincipal == true
+                      && p.id_paciente == pc.id_paciente
+                select p).FirstOrDefault();
+            var consultorio = (from c in dataContext.Empresa
+                from cc in dataContext.Clinica
+                where c.ID == pIdConsultorio
+                      && cc.ID == c.IDClinica
+                select new ConsultorioDto()
+                {
+                    NombreClinica = cc.Nombre,
+                    Login = c.Login
+                }).FirstOrDefault();
+            if (paciente != null && consultorio != null)
+            {
+                var mensajeConfirmacion = "Su solicitud al consultorio " + consultorio.Login + " de la clinica " +
+                                          consultorio.NombreClinica + " ha sido aceptada. "+
+                                           "\nSaludos,\nOdontoweb";
+                var vSMTP = new SMTP();
+                vSMTP.Datos_Mensaje(paciente.email, mensajeConfirmacion, "Solicitud aceptada -  ODONTOWEB");
+                vSMTP.Enviar_Mail();
+            }
+
         }
 
         public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto notificacionesConsultorioDto)
