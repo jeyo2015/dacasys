@@ -239,14 +239,14 @@
                 return;
             }
         }
-        if ($rootScope.usuario.length == 0) {
+        if ($scope.usuario.length == 0) {
             $scope.message = "Ingrese su login de usuario por favor";
             $rootScope.sessionDto.Verificar = 2;
             $("#usuarioID").focus();
             return;
         }
 
-        loginService.forgotPass($scope.loginEmpresa, $rootScope.usuario).then(function (result) {
+        loginService.forgotPass($scope.loginEmpresa, $scope.usuario).then(function (result) {
             $scope.message = result.Message;
 
             switch (result.Data) {
@@ -254,28 +254,28 @@
                     toastr.success(result.Message);
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.pass = "";
                     $('#modal-login').modal('hide');
                     break;
                 case 2:
                     toastr.error(result.Message);
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.pass = "";
                     break;
                 case 1:
                     $scope.sessionDto.Verificar = 2;
 
                     $("#usuarioID").focus();
                     $scope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.pass = "";
                     break;
                 case 0:
                     $scope.sessionDto.Verificar = 1;
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
                     $scope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.pass = "";
                     break;
             }
         });

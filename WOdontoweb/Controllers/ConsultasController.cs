@@ -15,6 +15,13 @@
             var result = ABMCita.ObtenerAgendaDelDia(new DateTime(Convert.ToInt16(splitFecha[2]),Convert.ToInt16(splitFecha[1]),Convert.ToInt16(splitFecha[0])), pIdConsultorio, ptiempoConsulta);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ObtenerHorarioParaMostrarMapa(int pIdConsultorio)
+        {
+
+           var result=  ABMHorario.ObtenerHorarioParaMostrarMapa(pIdConsultorio);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult GetHistoricoPaciente(int pIdPaciente, int pIdConsultorio)
         {

@@ -10,51 +10,44 @@ app.config(['$routeProvider',
         when('/consultorios', {
             templateUrl: 'Scripts/app/partials/consultorios.html',
             controller: 'consultoriosController'
-        }).
-           when('/miperfil', {
-               templateUrl: 'Scripts/app/partials/miperfil.html',
-               controller: 'miperfilController'
-           }).
-           when('/roles', {
-               templateUrl: 'Scripts/app/partials/roles.html',
-               controller: 'rolesController'
-           }).
-           when('/consultas', {
-               templateUrl: 'Scripts/app/partials/consultas.html',
-               controller: 'consultasController'
-           }).
-          when('/inicioCliente', {
-              templateUrl: 'Scripts/app/partials/inicioCliente.html',
-              controller: 'inicioClienteController'
-          }).
-           when('/usuarios', {
-               templateUrl: 'Scripts/app/partials/usuarios.html',
-               controller: 'usuariosController'
-           }).
-           when('/horario', {
-               templateUrl: 'Scripts/app/partials/horario.html'
-           }).
-           when('/miConsultorioPerfil', {
-               templateUrl: 'Scripts/app/partials/miConsultorioPerfil.html',
-               controller: 'empresaController'
-           }).
-          when('/paciente', {
-              templateUrl: 'Scripts/app/partials/paciente.html'
-          }).
-          when('/comentario', {
-              templateUrl: 'Scripts/app/partials/comentario.html'
-          }).
-          when('/miConsultorio', {
-              templateUrl: 'Scripts/app/partials/miConsultorio.html'
-          }).
-          when('/misCitas', {
-              templateUrl: 'Scripts/app/partials/misCitas.html'
-          }).
-      when('/consultas', {
-          templateUrl: 'Scripts/app/partials/consultas.html',
-          controller: 'consultasController'
-      }).
-        otherwise({
+        }).when('/cuentas', {
+            templateUrl: 'Scripts/app/partials/cuentasPorCobrar.html',
+            controller: 'cuentasPorCobrarController'
+        }).when('/cuentasPorPagar', {
+            templateUrl: 'Scripts/app/partials/cuentasPorPagar.html',
+            controller: 'cuentasPorPagarController'
+        }).when('/miperfil', {
+            templateUrl: 'Scripts/app/partials/miperfil.html',
+            controller: 'miperfilController'
+        }).when('/roles', {
+            templateUrl: 'Scripts/app/partials/roles.html',
+            controller: 'rolesController'
+        }).when('/consultas', {
+            templateUrl: 'Scripts/app/partials/consultas.html',
+            controller: 'consultasController'
+        }).when('/inicioCliente', {
+            templateUrl: 'Scripts/app/partials/inicioCliente.html',
+            controller: 'inicioClienteController'
+        }).when('/usuarios', {
+            templateUrl: 'Scripts/app/partials/usuarios.html',
+            controller: 'usuariosController'
+        }).when('/horario', {
+            templateUrl: 'Scripts/app/partials/horario.html'
+        }).when('/miConsultorioPerfil', {
+            templateUrl: 'Scripts/app/partials/miConsultorioPerfil.html',
+            controller: 'empresaController'
+        }).when('/paciente', {
+            templateUrl: 'Scripts/app/partials/paciente.html'
+        }).when('/comentario', {
+            templateUrl: 'Scripts/app/partials/comentario.html'
+        }).when('/miConsultorio', {
+            templateUrl: 'Scripts/app/partials/miConsultorio.html'
+        }).when('/misCitas', {
+            templateUrl: 'Scripts/app/partials/misCitas.html'
+        }).when('/consultas', {
+            templateUrl: 'Scripts/app/partials/consultas.html',
+            controller: 'consultasController'
+        }).otherwise({
             redirectTo: 'inicioCliente'
         });
   }]);

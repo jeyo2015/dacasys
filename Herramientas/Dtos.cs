@@ -32,7 +32,7 @@
         public DateTime FechaCreacion { get; set; }
         public string EstadoShort { get; set; }
         public string EstadoFull { get; set; }
-       // public PacienteDto Cliente { get; set; }
+        // public PacienteDto Cliente { get; set; }
         public List<CuentasPorCobrarDetalleDto> Detalle { get; set; }
     }
     public class CuentasPorCobrarDetalleDto
@@ -101,6 +101,7 @@
         public int State { get; set; }
         public List<TelefonoDto> Telefonos { get; set; }
         public List<TrabajosConsultorioDto> Trabajos { get; set; }
+        public List<HorarioMapaDto> HorarioParaMapa { get; set; }
     }
 
     public class TelefonoDto
@@ -266,8 +267,23 @@
         public bool CerrarHistorico { get; set; }
     }
 
+    public class HorarioMapa
+    {
+        public int IdDia { get; set; }
+        public string NombreCorto { get; set; }
+        public bool hasFriend { get; set; }
+        public List<HorarioDto> Horarios { get; set; }
+    }
+    public class HorarioMapaDto
+    {
+        public List<HorarioDto> Horarios { get; set; }
+        //public List<DiaDto> Dias { get; set; }
+        public string Dias { get; set; }
+    }
     public class HorarioDto
     {
+        public TimeSpan HoraInicioSpan { get; set; }
+        public TimeSpan HoraFinSpan { get; set; }
         public string HoraInicio { get; set; }
         public string HoraFin { get; set; }
         public int NumHorario { get; set; }
