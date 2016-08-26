@@ -101,6 +101,7 @@
         public int State { get; set; }
         public List<TelefonoDto> Telefonos { get; set; }
         public List<TrabajosConsultorioDto> Trabajos { get; set; }
+        public List<HorarioMapaDto> HorarioParaMapa { get; set; }
     }
 
     public class TelefonoDto
@@ -269,16 +270,15 @@
     public class HorarioMapa
     {
         public int IdDia { get; set; }
-        public int NombreCorto { get; set; }
+        public string NombreCorto { get; set; }
+        public bool hasFriend { get; set; }
         public List<HorarioDto> Horarios { get; set; }
     }
     public class HorarioMapaDto
     {
-        public TimeSpan HoraInicioSpan { get; set; }
-        public TimeSpan HoraFinSpan { get; set; }
-        public string HoraInicio { get; set; }
-        public string HoraFin { get; set; }
-        public List<DiaDto> Dias { get; set; }
+        public List<HorarioDto> Horarios { get; set; }
+        //public List<DiaDto> Dias { get; set; }
+        public string Dias { get; set; }
     }
     public class HorarioDto
     {

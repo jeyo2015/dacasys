@@ -1,0 +1,188 @@
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-show="validarPermisoFormulario('frmUsuarios')">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-5 col-xs-11 ">
+            <div class="row">
+                <form class="">
+                    <div class="form-group label-floating">
+                        <label for="buscarUusarioID" class="col-md-2 col-xs-2 control-label">Buscar</label>
+                        <div class="col-md-10 col-xs-10">
+                            <input type="text" ng-model="subString" class="form-control" id="buscarUusarioID">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                    <table class="table table-hover tableStyle">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Nombre de cliente</th>
+                                <th>Monto</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'ID,Descripcion,IDTrabajo,Estado,Detalle,TrabajoDescripcion,Login'  " ng-click="seleccionarCuenta(cuenta)">
+                                <td>{{cuenta.FechaCreacion}}
+                                </td>
+                                <td>{{cuenta.NombreCliente}}
+                                </td>
+                                <td>{{cuenta.Monto}}
+                                </td>
+                                <td>{{cuenta.Saldo}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="cuentaSeleccionada==null ">Eliminar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-md-offset-1 col-xs-11">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    Datos de la cuenta por cobrar
+                </div>
+            </div>
+            <div class="row">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nombreId" class="col-md-4 control-label">Descripcion</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control" id="descriptionID" ng-model="cuentaParaGuardar.Descripcion">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-md-4 control-label">Trabajo</label>
+                        <div class="col-md-8 ">
+                            <select class="form-control" ng-options="trabajo.Descripcion for trabajo in trabajosConsultorio" ng-model="trabajoSeleccionado"></select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-md-4 control-label">Cliente</label>
+                        <div class="col-md-8 ">
+                            <select class="form-control" ng-options="cliente.Ci  for cliente in clientesConsultorio" ng-model="clienteSeleccionado"></select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="montoInput" class="col-md-4  control-label">Monto:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="cuentaParaGuardar.Monto" id="montoInput">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="cuentaParaGuardar.State==1">
+                        <label for="montoInput" class="col-md-4  control-label">Saldo:</label>
+                        <div class="col-md-8">
+                            <input type="text" readonly="readonly" class="form-control" ng-model="cuentaParaGuardar.Saldo" id="Text1">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="cuentaParaGuardar.State==1">
+                        <label class="col-md-3 control-label">Detalle de la cuenta</label>
+                        <div class="col-md-8 col-xs-8">
+                            <table id="pacientes" class="table table-hover tableStyle scroll">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat=" pago in cuentaParaGuardar.Detalle" ng-click="seleccionarPago(pago)">
+                                        <td>{{pago.FechaCreacion}}</td>
+                                        <td>{{pago.Monto}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-1 col-xs-1 ">
+                            <span ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                            <span ng-show="pagoSeleccionado!= null" ng-click="mostrarModalEditarPago()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                            <span ng-show="pagoSeleccionado != null " ng-click="openModalConfirmDelele()" style="display: none;"><i class="fa fa-trash iconStyle"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-8 col-xs-12 col-md-offset-4 ">
+                            <button class="btn btn-raised btn-primary" ng-click="nuevaCuenta()">Nuevo</button>
+                            <button class="btn btn-raised btn-primary" ng-disabled="validarGuardarCuenta()" ng-click="guardarCuenta()">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="nuevo-pago" data-backdrop="static" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Pago</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="desInput" class="col-md-4  control-label">Descripion:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Descripcion" id="desInput">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label for="montoInputp" class="col-md-4  control-label">Monto:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Monto" id="montoInputp">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-disabled="pagoParaGuardar.Descripcion.length==0 || pagoParaGuardar.Monto==0" ng-click="guardarNuevoPago()">Guardar</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig('#nuevo-pago')">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eliminar-cuenta" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar cuenta</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <label>Esta seguro que quiere elimnar la cuenta seleccionada?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarCuenta()">Si</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig('#eliminar-cuenta')">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eliminar-pago" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar pago</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <label>Esta seguro que quiere eliminar el pago seleccionado?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarPago()">Si</button>
+                    <button class="btn btn-danger" ng-click="closeWarnig('#eliminar-pago')">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

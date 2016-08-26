@@ -513,10 +513,90 @@ namespace NLogin
                         NIT = e.NIT,
                         Telefonos = ObtenerTelefonosConsultorios(e.ID, idClinica),
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),
-                        TiempoCita = tc.Value
+                        TiempoCita = tc.Value,
+                        HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID)
                     }).ToList();
         }
+        public static List<HorarioMapaDto> ObtenerHorarioParaMostrarMapa(int idConsultorio)
+        {
+            var horariosConsultorio = (from h in dataContext.Horario
+                                       from d in dataContext.Dia
+                                       where d.iddia == h.iddia
+                                       && h.idempresa == idConsultorio
+                                       && h.estado
+                                       select new HorarioDto
+                                       {
+                                           Estado = h.estado,
+                                           HoraFinSpan = h.hora_fin,
+                                           HoraInicioSpan = h.hora_inicio,
+                                           IDDia = h.iddia,
+                                           HoraInicio = h.hora_inicio.Hours + ":" + h.hora_inicio.Minutes,
+                                           HoraFin = h.hora_fin.Hours + ":" + h.hora_fin.Minutes,
+                                           NombreDia = d.nombre_corto,
+                                           IDEmpresa = idConsultorio
+                                       }).OrderBy(o => o.IDDia).GroupBy(g => new { g.IDDia, g.NombreDia }).Select(
+                                           gr => new HorarioMapa
+                                           {
+                                               IdDia = gr.Key.IDDia,
+                                               NombreCorto = gr.Key.NombreDia,
+                                               Horarios = gr.ToList()
+                                           }).ToList();
 
+            var xxx = horariosConsultorio.Count();
+            List<HorarioMapaDto> listaRetornar = new List<HorarioMapaDto>();
+            for (int i = 0; i < xxx; i++)
+            {
+                var horarioActual = horariosConsultorio[i];
+                if (!horariosConsultorio[i].hasFriend)
+                {
+                    //List<DiaDto> dias = new List<DiaDto>(){ 
+                    //     new DiaDto(){
+                    //         IDDia=horarioActual.IdDia,
+                    //     NombreCorto = horarioActual.NombreCorto                        
+                    //     }
+                    //    };
+                    string dias = horarioActual.NombreCorto;
+                    for (int j = i + 1; j < xxx; j++)
+                    {
+
+                        if (compararHorarios(horarioActual, horariosConsultorio[j]))
+                        {
+                            horariosConsultorio[j].hasFriend = true;
+                            
+                                dias = dias + "-" + horariosConsultorio[j].NombreCorto;
+                            
+                               
+                            //dias.Add(new DiaDto
+                            //{
+                            //    IDDia = horariosConsultorio[j].IdDia,
+                            //    NombreCorto = horariosConsultorio[j].NombreCorto
+                            //});
+                        }
+                    }
+                    listaRetornar.Add(new HorarioMapaDto()
+                    {
+                        Dias = dias,
+                        Horarios = horarioActual.Horarios
+                    });
+                }
+            }
+            return listaRetornar;
+        }
+
+        private static bool compararHorarios(HorarioMapa horarioActual, HorarioMapa horarioSiguiente)
+        {
+            if (horarioActual.Horarios.Count() != horarioSiguiente.Horarios.Count())
+                return false;
+            var cantidadHorariosDia = horarioActual.Horarios.Count();
+            for (int i = 0; i < cantidadHorariosDia; i++)
+            {
+                if (!horarioActual.Horarios[i].HoraInicioSpan.Equals(horarioSiguiente.Horarios[i].HoraInicioSpan))
+                    return false;
+                if (!horarioActual.Horarios[i].HoraFinSpan.Equals(horarioSiguiente.Horarios[i].HoraFinSpan))
+                    return false;
+            }
+            return true;
+        }
         private static List<TrabajosConsultorioDto> ObtenerTrabajosConsultorio(int idConsultorio)
         {
             return (from tc in dataContext.TrabajosConsultorio

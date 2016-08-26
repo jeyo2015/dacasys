@@ -105,13 +105,15 @@
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="!sessionDto || sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('consultas')"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
+                                                 <li ng-class="getClass('/cuentas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('cuentas')"><a href="#cuentas"><i class="fa fa-usd iconMenu "></i>Cuentas por Cobrar</a></li>
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('usuarios')"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
                                                 <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys && validarPermisoModulo('consultorios') && sessionDto.IDConsultorio!=-1 "><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Consultorios</a></li>
                                                 <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('paciente')"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
-                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('comentario')"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
+                                                <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('comentarios')"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
                                                 <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
                                                 <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
+                                                 <li ng-class="getClass('/cuentasPorPagar')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#cuentasPorPagar"><i class="fa fa-usd iconMenu "></i>Mis cuentas por pagar</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -128,7 +130,7 @@
             <span class="text-center" style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">Desarrollado por DACASYS</span>
         </div>
         <div class=" row" style="text-align: center;">
-            <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">www.dacasys.com - 77390401 - 65051550</span>
+            <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;"><a href="www.dacasys.com"> www.dacasys.com</a>  - 77390401 - 65051550</span>
         </div>
     </div>
     <div ng-controller="loginController">
@@ -531,11 +533,14 @@
     <script src="@Url.Content("~/Scripts/app/services/loginService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/miConsultorioController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/misCitasController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/cuentasPorCobrarController.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/controller/cuentasPorPagarController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/rolesController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/rolesService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultasController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
+     <script src="@Url.Content("~/Scripts/app/services/cuentasService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/directives/filterList.js")"></script>
     <script src="@Url.Content("~/Scripts/app/directives/minHeigth.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>

@@ -18,8 +18,8 @@
         public JsonResult ObtenerHorarioParaMostrarMapa(int pIdConsultorio)
         {
 
-             ABMHorario.ObtenerHorarioParaMostrarMapa(pIdConsultorio);
-            return Json(null, JsonRequestBehavior.AllowGet);
+           var result=  ABMHorario.ObtenerHorarioParaMostrarMapa(pIdConsultorio);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

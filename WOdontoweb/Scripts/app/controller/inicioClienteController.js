@@ -27,7 +27,6 @@
                 $scope.$apply();
             }
         });
-
         $('#dtpFecha').val(moment().format('DD/MM/YYYY'));
         $rootScope.path = baseUrl();
         $("#mapa").ready(function () {
@@ -41,9 +40,6 @@
 
         cargar_clinicas();
     };
-
-
-
 
     $scope.seleccionaCita = function (cita) {
         if (cita.EsTarde) {

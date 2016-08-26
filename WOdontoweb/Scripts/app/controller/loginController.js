@@ -5,7 +5,7 @@
         $scope.loginEmpresa = "";
         $scope.usuario = "";
         $rootScope.pass = "";
-        $rootScope.isAdmin = true;
+        $rootScope.isAdmin = false;
         $scope.isUser = -1;
         $scope.newPass = "";
         $scope.ConfirmPass = "";
