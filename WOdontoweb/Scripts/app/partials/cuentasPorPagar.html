@@ -10,8 +10,10 @@
                         </div>
                     </div>
                 </form>
+                 <button class="btn btn-raised btn-primary" ng-disabled="cuentaSeleccionada== null" ng-click="mostrarDetalleCuenta()">Ver detalle</button>
             </div>
             <div class="row" style="margin-top: 15px;">
+               
                 <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                     <table class="table table-hover tableStyle">
                         <thead>
@@ -26,10 +28,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr title="Doble click para ver detalle" ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorPagar |filterByWords:subString:'ID,IDTrabajo,Estado,Detalle,NombreCliente,Login'  " ng-dblclick="seleccionarCuenta(cuenta)">
+                            <tr title="Doble click para ver detalle" ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorPagar |filterByWords:subString:'ID,IDTrabajo,Estado,Detalle,NombreCliente,Login'  " ng-click="seleccionarCuenta(cuenta)">
                                 <td>{{cuenta.FechaCreacion}}
                                 </td>
-                                 <td>{{cuenta.NombreConsultorio}}
+                                <td>{{cuenta.NombreConsultorio}}
                                 </td>
                                 <td>{{cuenta.Descripcion}}
                                 </td>
@@ -39,7 +41,7 @@
                                 </td>
                                 <td>{{cuenta.Saldo}}
                                 </td>
-                                 <td>{{cuenta.EstadoFull}}
+                                <td>{{cuenta.EstadoFull}}
                                 </td>
                             </tr>
                         </tbody>

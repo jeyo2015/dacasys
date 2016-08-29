@@ -207,19 +207,19 @@
                                   <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
                                     <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Citas estimadas</label>
                                     <div class="col-md-9 col-xs-9">
-                                        <input ng-model="historicoPacienteSeleccionado.EstimacionCitas" ng-disabled="true" class="form-control" id="Textarea1" /> 
+                                        <input ng-model="historicoPacienteSeleccionado.EstimacionCitas" ng-disabled="true" class="form-control" id="Textarea1"  /> 
                                     </div>
                                 </div>
                                 <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
                                     <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Trabajo realizado</label>
                                     <div class="col-md-9 col-xs-9">
-                                        <textarea ng-model="historicoDetalleNuevo.TrabajoRealizado" class="form-control" id="trabajoRealizadoId"> </textarea>
+                                        <textarea ng-model="historicoDetalleNuevo.TrabajoRealizado" class="form-control" id="trabajoRealizadoId" validate="text-number" required> </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
                                     <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Trabajo a realizar</label>
                                     <div class="col-md-9 col-xs-9">
-                                        <textarea ng-model="historicoDetalleNuevo.TrabajoARealizar" class="form-control" id="trabajoRealizar"> </textarea>
+                                        <textarea ng-model="historicoDetalleNuevo.TrabajoARealizar" class="form-control" id="trabajoRealizar" validate="text-number" required> </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
@@ -280,13 +280,13 @@
                         <div class="form-group ">
                             <label for="titutoHistoricoID" class="col-md-2 control-label">Titulo historico</label>
                             <div class="col-md-10">
-                                <input type="text" ng-model="historicoNuevo.TituloHistorico" class="form-control" id="titutoHistoricoID">
+                                <input type="text" ng-model="historicoNuevo.TituloHistorico" class="form-control" id="titutoHistoricoID" validate="text-number" required>
                             </div>
                         </div>
                         <div class="form-group ">
                             <label for="citasEstimadasID" class="col-md-2 control-label">Citas estimadas</label>
                             <div class="col-md-10">
-                                <input type="text" ng-model="historicoNuevo.EstimacionCitas" class="form-control" id="citasEstimadasID">
+                                <input type="text" ng-model="historicoNuevo.EstimacionCitas" class="form-control" id="citasEstimadasID" validate="number" required>
                             </div>
                         </div>
                     </div>

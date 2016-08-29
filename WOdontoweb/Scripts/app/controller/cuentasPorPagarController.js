@@ -18,10 +18,15 @@
 
         $(modal).modal('hide');
     };
-    $scope.seleccionarCuenta = function (cuenta) {
+    $scope.seleccionarCuenta = function(cuenta) {
         $scope.cuentaSeleccionada = cuenta;
+
+    };
+
+    $scope.mostrarDetalleCuenta = function() {
         $('#detalle-cuenta').modal('show');
-    }
+    };
+
     function cargarCuentasPorPagar() {
         cuentasService.obtenerCuentasPorPagaPorCliente($rootScope.sessionDto.loginUsuario).then(function (result) {
             $scope.cuentasPorPagar = result.select(function (cuenta) {

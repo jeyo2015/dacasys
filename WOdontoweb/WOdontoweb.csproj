@@ -249,6 +249,7 @@
     <Content Include="Scripts\app\directives\minHeigth.js" />
     <Content Include="Scripts\app\directives\loader.js" />
     <Content Include="Scripts\app\directives\filterList.js" />
+    <Content Include="Scripts\app\directives\validation.js" />
     <Content Include="Scripts\app\libs\Bootstrap\css\bootstrap-material-design.css" />
     <Content Include="Scripts\app\libs\Bootstrap\css\bootstrap-material-design.min.css" />
     <Content Include="Scripts\app\libs\Bootstrap\css\bootstrap-theme.css" />
@@ -287,6 +288,7 @@
     <Content Include="Scripts\app\partials\misCitas.html" />
     <Content Include="Scripts\app\partials\paciente.html" />
     <Content Include="Scripts\app\partials\horario.html" />
+    <Content Include="Scripts\app\partials\requiredField.html" />
     <Content Include="Scripts\app\services\consultasService.js" />
     <Content Include="Scripts\app\services\comentarioService.js" />
     <Content Include="Scripts\app\services\cuentasService.js" />
