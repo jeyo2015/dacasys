@@ -47,7 +47,7 @@
         } else {
             cargarCitasDelDia();
         }
-               
+
     }
 
     function cargarCitasDelDia() {
@@ -69,12 +69,12 @@
     };
 
     function mostrarAdvertenciasEstadoCita() {
-        if ($scope.citaSeleccionada.EsTarde || $scope.citaSeleccionada.EstaEliminada)
+        if ($scope.citaSeleccionada.EsTarde )
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
         else
             if ($scope.citaSeleccionada.EstaAtendida)
                 toastr.warning("La cita seleccionada ya fue atendida");
-        
+
     }
 
     $scope.showModalPacientes = function () {
@@ -91,8 +91,8 @@
         $("#modal-cancelar-cita").modal("show");
     };
 
-    $scope.mostrarHistorico = function (paciente) {
-        $scope.pacienteParaAtender = paciente;
+    $scope.mostrarHistorico = function () {
+        //$scope.pacienteParaAtender = paciente;
         cargarHistoricoPaciente("#modal-historico-paciente");
     };
 
@@ -122,17 +122,22 @@
     $scope.closeModal = function (modal) {
         $("#" + modal).modal("hide");
         $scope.citaSeleccionada = null;
+        $scope.pacienteParaAtender = null;
+        $scope.historicoPacienteSeleccionado = null;
     };
 
     $scope.closeModalDetalle = function () {
         $("#modal-detalle-historico").modal('hide');
         $("#modal-historico-paciente").modal('show');
+        $scope.historicoPacienteSeleccionado = null;
     };
 
     $scope.seleccionarPaciente = function (paciente) {
         $scope.pacienteSeleccionado = paciente;
     };
-
+    $scope.seleccionarPacienteParaAtender = function (paciente) {
+        $scope.pacienteParaAtender = paciente;
+    };
     $scope.mostrarModalNuevoHistorico = function () {
         prepararNuevoHistoricoDto();
         $("#modal-historico-paciente").modal("hide");
@@ -165,8 +170,11 @@
         };
     }
 
-    $scope.mostrarDetalleHistorico = function (historico) {
+    $scope.seleccionarHistoricoPaciente = function (historico) {
         $scope.historicoPacienteSeleccionado = angular.copy(historico);
+    }
+    $scope.mostrarDetalleHistorico = function () {
+
         $scope.historicoDetalleSeleccionado = angular.copy($scope.historicoPacienteSeleccionado.DetalleHistorico);
         prepararNuevoHistoricoDetalleDto();
         $("#modal-detalle-historico").modal('show');
@@ -186,7 +194,17 @@
             }
         });
     };
-
+    $scope.habilitarHora = function () {
+        consultasService.habilitarHora($scope.citaSeleccionada).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                cargarCitasDelDia();
+               
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
     function prepararNuevoHistoricoDetalleDto() {
         $scope.historicoDetalleNuevo = {
             IdConsultorio: $rootScope.sessionDto.IDConsultorio,

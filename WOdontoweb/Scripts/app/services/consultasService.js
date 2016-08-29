@@ -57,6 +57,14 @@
         });
         return d.promise;
     };
+    this.habilitarHora = function (cita) {
+        var d = $q.defer();
+
+        $http.post('Consultas/HabilitarHora', { pcita: cita }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.eliminarCitaPaciente = function (cita, libre, motivo) {
         var d = $q.defer();
         $http.post('Consultas/EliminarCitaPaciente', { pcita: cita, pLibre: libre, pMotivo: motivo }).success(function (data) {

@@ -10,6 +10,7 @@
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde " class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientes()" ng-disabled="!validarPermisoComponente('btnAgendarCita')">Agendar cita</button>
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && !citaSeleccionada.EstaEliminada" class="btn col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1  btn-raised btn-primary " ng-click="showModalCancelarCita()" ng-disabled="!validarPermisoComponente('btnCancelarCita')">Cancelar cita</button>
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && !citaSeleccionada.EstaEliminada" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientesCliente()" ng-disabled="!validarPermisoComponente('btnAtenderCita')">Atender cita</button>
+                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && citaSeleccionada.EstaEliminada" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="habilitarHora()" ng-disabled="!validarPermisoComponente('btnAtenderCita')">Habilitar hora</button>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-12">
@@ -23,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)" style="cursor: pointer">
+                            <tr ng-class="{selectElement:citaSeleccionada.HoraInicio==cita.HoraInicio}" ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)" style="cursor: pointer">
                                 <td>
                                     <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde && !cita.EstaAtendida , 'label-default':cita.EsTarde || cita.EstaAtendida}">{{ cita.HoraInicioString}} </span>
                                 </td>
@@ -69,7 +70,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-class="{selectElement:pacienteSeleccionado.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesConsultorio |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-click="seleccionarPaciente(paciente)">
+                                        <tr style="cursor: pointer" ng-class="{selectElement:pacienteSeleccionado.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesConsultorio |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-click="seleccionarPaciente(paciente)">
                                             <td>{{paciente.Ci}}
                                             </td>
                                             <td>{{paciente.NombrePaciente}}
@@ -117,7 +118,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-class="{selectElement:pacienteSeleccionado.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesClienteSeleccionado |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-dblclick="mostrarHistorico(paciente)">
+                                        <tr style="cursor: pointer" ng-class="{selectElement:pacienteParaAtender.LoginCliente==paciente.LoginCliente}" ng-repeat="paciente in pacientesClienteSeleccionado |filterByWords:subString:'Telefono,Email,Direccion,Estado,TipoSangre,Antecedentes'  " ng-click="seleccionarPacienteParaAtender(paciente)">
                                             <td>{{paciente.Ci}}
                                             </td>
                                             <td>{{paciente.NombrePaciente}}
@@ -132,7 +133,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="closeModal('modal-seleccionar-paciente')" ng-disabled="validarCampos()">Cancelar</button>
+                <button class="btn btn-primary" ng-click="mostrarHistorico()" ng-disabled="pacienteParaAtender==null">Aceptar</button>
+                <button class="btn btn-danger" ng-click="closeModal('modal-seleccionar-paciente')" ng-disabled="validarCampos()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -166,7 +168,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr title="Doble click para mostrar el historico" ng-repeat="historico in historicosPaciente |filterByWords:subString:'IdConsultorio,IdPaciente,NumeroHistorico,FechaCreacion,EstimacionCitas,CitasRealizadas,Estado,EstadoABM'  " ng-dblclick="mostrarDetalleHistorico(historico)">
+                                        <tr ng-class="{selectElement:historicoPacienteSeleccionado.IdConsultorio==historico.IdConsultorio && historicoPacienteSeleccionado.IdPaciente==historico.IdPaciente && historicoPacienteSeleccionado.NumeroHistorico==historico.NumeroHistorico}" style="cursor: pointer" title="Doble click para mostrar el historico" ng-repeat="historico in historicosPaciente |filterByWords:subString:'IdConsultorio,IdPaciente,NumeroHistorico,FechaCreacion,EstimacionCitas,CitasRealizadas,Estado,EstadoABM'  " ng-click="seleccionarHistoricoPaciente(historico)">
                                             <td>{{historico.FechaCreacion}}
                                             </td>
                                             <td>{{historico.TituloHistorico}}
@@ -184,6 +186,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="mostrarModalNuevoHistorico()">Crear nuevo historico</button>
+                 <button class="btn btn-primary" ng-disabled="historicoPacienteSeleccionado==null" ng-click="mostrarDetalleHistorico()">Ver historico</button>
                 <button class="btn btn-danger" ng-click="closeModal('modal-historico-paciente')" ng-disabled="validarCampos()">Cancelar</button>
             </div>
         </div>
@@ -201,6 +204,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
+                                  <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
+                                    <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Citas estimadas</label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input ng-model="historicoPacienteSeleccionado.EstimacionCitas" ng-disabled="true" class="form-control" id="Textarea1" /> 
+                                    </div>
+                                </div>
                                 <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
                                     <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Trabajo realizado</label>
                                     <div class="col-md-9 col-xs-9">
@@ -233,7 +242,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="historicoDet in historicoDetalleSeleccionado  ">
+                                        <tr style="cursor: pointer" ng-repeat="historicoDet in historicoDetalleSeleccionado  ">
                                             <td>{{historicoDet.NumeroDetalle}}
                                             </td>
                                             <td>{{historicoDet.TrabajoRealizado}}

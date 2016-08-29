@@ -1,4 +1,4 @@
-﻿app.controller("inicioClienteController", function (clinicaService, $scope, $compile, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
+﻿app.controller("inicioClienteController", function (clinicaService, comentarioService, $scope, $compile, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
     init();
     var map;
     var infoWindow;
@@ -113,13 +113,13 @@
         });
     }
 
-    $scope.abrirModalVerMasClinica = function() {
+    $scope.abrirModalVerMasClinica = function () {
         $scope.verConsultorio = true;
         $("#modal-ver-mas").modal('show');
     };
 
 
-    $scope.mostrarHorarios = function(consultorio) {
+    $scope.mostrarHorarios = function (consultorio) {
         $scope.consultorioSeleccionado = consultorio;
 
         cargarCitasDelDia();
@@ -134,7 +134,7 @@
 
     }
 
-   
+
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
@@ -179,20 +179,13 @@
 
 
     }
-    function prepararNuevoComentario() {
-        $scope.comentarioParaGuardar = {
-            LoginCliente: $rootScope.sessionDto.loginUsuario,
-            Comentario: '',
-            State: 1,
-            IsVisible: true,
-            IDEmpresa: $scope.consultorioSeleccionado.IDEmpresa
-        };
-    }
+
     $scope.validarCamposComentario = function () {
         return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
     };
 
-    $scope.mostrarModalComentario = function() {
+    $scope.mostrarModalComentario = function (consultorio) {
+        $scope.consultorioSeleccionado = angular.copy(consultorio);
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
             $scope.loginEmpresa = "";
@@ -215,7 +208,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         google.maps.event.addListener(marker, 'click', function () {
@@ -225,6 +218,7 @@
             })[0];
             $scope.$apply();
             openInfoWindow(marker);
+            marker.setIcon('desarrollo/Content/img/markerselect.png');
         });
     }
 
@@ -264,6 +258,7 @@
     };
     function closeInfoWindow() {
         infoWindow.close();
+       // marker.setIcon('desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -285,8 +280,30 @@
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         cargarCitasDelDia();
     };
-   
-     $scope.cerrarModalHorarios = function() {
+    function prepararNuevoComentario() {
+        $scope.comentarioParaGuardar = {
+            LoginCliente: $rootScope.sessionDto.loginUsuario,
+            Comentario: '',
+            State: 1,
+            IsVisible: true,
+            IDEmpresa: $scope.consultorioSeleccionado.IDConsultorio
+        };
+    }
+
+    $scope.guardarComentario = function () {
+        if ($scope.comentarioParaGuardar.State == 1) {
+            comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
+                if (result.Data == 1) {
+
+                    toastr.success(result.Message);
+                    $("#modal-comentario").modal('hide');
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+        }
+    };
+    $scope.cerrarModalHorarios = function () {
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };

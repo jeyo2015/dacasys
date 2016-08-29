@@ -532,7 +532,7 @@
     $scope.abrirModalModificarConsultorio = function() {
         $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
         $scope.intervaloSelected = $scope.intervalos.where(function(intervalo) {
-            return intervalo.ID == $scope.consultorioToSave.IDIntervalo
+            return intervalo.ID == $scope.consultorioToSave.IDIntervalo;
         })[0];
         matchearTrabajoConsultorio();
         $("#modal-new-consultorio").modal("show");
@@ -585,6 +585,7 @@
                     if (result.Success) {
                         toastr.success(result.Message);
                         prepararNuevaClinica();
+                        cargar_todas_clinicas();
                     } else {
                         toastr.error(result.Message);
                     }

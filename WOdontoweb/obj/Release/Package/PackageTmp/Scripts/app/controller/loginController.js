@@ -5,7 +5,7 @@
         $scope.loginEmpresa = "";
         $scope.usuario = "";
         $rootScope.pass = "";
-        $rootScope.isAdmin = true;
+        $rootScope.isAdmin = false;
         $scope.isUser = -1;
         $scope.newPass = "";
         $scope.ConfirmPass = "";
@@ -144,6 +144,7 @@
     };
 
     $rootScope.validarPermisoComponente = function (nombreComponente) {
+        debugger;
         if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
             var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
                 return componente.NombreComponente == nombreComponente;

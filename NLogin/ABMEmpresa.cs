@@ -82,8 +82,8 @@ namespace NLogin
                 Binary vbi = new Binary(clinicaDto.logoImagen);
                 vClinicaDefault.ImagenLogo = vbi;
             }
-            vClinicaDefault.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 8);
-            vClinicaDefault.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 8);
+            vClinicaDefault.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 6);
+            vClinicaDefault.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 6);
             vClinicaDefault.CantidadConsultorios = 1;
             vClinicaDefault.Descripcion = clinicaDto.Descripcion;
             vClinicaDefault.Direccion = clinicaDto.Direccion;

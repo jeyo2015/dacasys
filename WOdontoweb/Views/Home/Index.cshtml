@@ -51,8 +51,7 @@
                                             <ul id="menuPerfil" class="dropdown-menu pull-right" ng-show="validarPermisoFormulario('liNotificaciones')">
                                                 <li class="withoutborderNS" ng-show="NotificacionesConsultorio.Notificaciones.length== 0"><a><span>No hay solicitudes pendientes</span> </a></li>
                                                 <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
-                                                    <a href="#">
-                                                        {{noti.NombreUsuario}}
+                                                    <a href="#">{{noti.NombreUsuario}}
                                                         <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnAceptarPaciente')">Confirmar</button>
                                                         <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnCancelar')">Eliminar solicitud</button>
                                                     </a>
@@ -105,15 +104,15 @@
                                             <ul class="nav navbar-nav">
                                                 <li ng-class="getClass('/inicioCliente')" ng-hide="!sessionDto || sessionDto.IDRol != -1"><a href="#inicioCliente"><i class="fa fa-home iconMenu "></i>Inicio</a></li>
                                                 <li ng-class="getClass('/consultas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('consultas')"><a href="#consultas"><i class="fa fa-calendar iconMenu "></i>Consultas</a></li>
-                                                 <li ng-class="getClass('/cuentas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('cuentas')"><a href="#cuentas"><i class="fa fa-usd iconMenu "></i>Cuentas por Cobrar</a></li>
+                                                <li ng-class="getClass('/cuentas')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('cuentas')"><a href="#cuentas"><i class="fa fa-usd iconMenu "></i>Cuentas por Cobrar</a></li>
                                                 <li ng-class="getClass('/usuarios')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('usuarios')"><a href="#usuarios"><i class="fa fa-users iconMenu "></i>Usuarios</a></li>
-                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Roles</a></li>
+                                                <li ng-class="getClass('/roles')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('roles')"><a href="#roles"><i class="fa fa-user-md iconMenu "></i>Perfiles</a></li>
                                                 <li ng-class="getClass('/consultorios')" ng-show="sessionDto.IsDacasys && validarPermisoModulo('consultorios') && sessionDto.IDConsultorio!=-1 "><a href="#consultorios"><i class="fa fa-hospital-o iconMenu "></i>Clinicas</a></li>
                                                 <li ng-class="getClass('/paciente')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('paciente')"><a href="#paciente"><i class="fa fa-user iconMenu "></i>Pacientes</a></li>
                                                 <li ng-class="getClass('/comentario')" ng-hide="sessionDto.IDConsultorio==-1 || !validarPermisoModulo('comentarios')"><a href="#comentario"><i class="fa fa-align-justify iconMenu "></i>Comentarios</a></li>
                                                 <li ng-class="getClass('/miConsultorio')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#miConsultorio"><i class="fa fa-hospital-o iconMenu "></i>Mis consultorios</a></li>
                                                 <li ng-class="getClass('/misCitas')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#misCitas"><i class="fa fa-calendar-plus-o iconMenu "></i>Mis citas</a></li>
-                                                 <li ng-class="getClass('/cuentasPorPagar')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#cuentasPorPagar"><i class="fa fa-usd iconMenu "></i>Mis cuentas por pagar</a></li>
+                                                <li ng-class="getClass('/cuentasPorPagar')" ng-show="sessionDto.IDConsultorio==-1 && sessionDto.loginUsuario.length>0"><a href="#cuentasPorPagar"><i class="fa fa-usd iconMenu "></i>Mis cuentas por pagar</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -130,7 +129,7 @@
             <span class="text-center" style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;">Desarrollado por DACASYS</span>
         </div>
         <div class=" row" style="text-align: center;">
-            <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;"><a href="http://www.dacasys.com"> www.dacasys.com</a>  - 77390401 - 65051550</span>
+            <span style="color: #3B3B3C; font-family: Tahoma; font-size: 11px; font-weight: bold; text-align: center;"><a href="http://www.dacasys.com">www.dacasys.com</a>  - 77390401 - 65051550</span>
         </div>
     </div>
     <div ng-controller="loginController">
@@ -178,11 +177,8 @@
                                         <a ng-click=" renovarContrasena()" style="color: #D82756; font-size: 11px">Olvidaste tu constraseña?</a>
                                     </div>
                                     <div class="checkbox" style="margin-top: 20px">
-                                        <label ng-show="isAdmin">
-                                            <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Paciente
-                                        </label>
-                                        <label ng-show="!isAdmin">
-                                            <input ng-model="isAdmin" type="checkbox"><span class="check"></span> Soy Doctor
+                                        <label>
+                                            <input ng-model="isAdmin" type="checkbox"><span  style="margin-right:4px" class="check"></span> Soy Clinica
                                         </label>
                                     </div>
                                 </div>
@@ -285,7 +281,7 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Inicie sesion para continuar</h4>
                     </div>
                     <div class="modal-body">
@@ -541,7 +537,7 @@
     <script src="@Url.Content("~/Scripts/app/controller/usuariosController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultasController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/services/usuariosService.js")"></script>
-     <script src="@Url.Content("~/Scripts/app/services/cuentasService.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/services/cuentasService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/directives/filterList.js")"></script>
     <script src="@Url.Content("~/Scripts/app/directives/minHeigth.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/consultoriosController.js")"></script>

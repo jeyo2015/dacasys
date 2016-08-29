@@ -1,4 +1,4 @@
-﻿app.controller("empresaController", function (clinicaService, $scope, $rootScope, $compile) {
+﻿app.controller("empresaController", function (loginService,clinicaService, $scope, $rootScope, $compile) {
     function prepararDtoConsultorio() {
         $scope.consultorioParaGuardar = {
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
@@ -55,13 +55,27 @@
     init();
     function init() {
         $scope.listaMarcadores = [];
-      
-        clinicaService.getIntervalosTiempo().then(function (resultIntervalo) {
-          
+        
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                inicializarDatos();
+            });
+        } else {
+            inicializarDatos();
+        }
+
+       
+
+    }
+
+    function inicializarDatos() {
+
+         clinicaService.getIntervalosTiempo().then(function (resultIntervalo) {
+
             $scope.intervalos = resultIntervalo;
             clinicaService.obtenerConsultorioConClinica($rootScope.sessionDto.IDConsultorio).then(function (result) {
                 $scope.clinicaParaModificar = result;
-                debugger;
                 $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
                 $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(".", ",");
                 $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicaParaModificar.Latitud.replace(',', '.')), parseFloat($scope.clinicaParaModificar.Longitud.replace(',', '.')));
@@ -70,8 +84,8 @@
 
             });
         });
-       
     }
+
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
         var marker = new google.maps.Marker({
@@ -109,7 +123,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("mapaConsultorio"), myOptions);
-      
+
         google.maps.event.addListener(map, 'click', function (event) {
             removerMarcador();
             CrearMarcador(0, event.latLng)

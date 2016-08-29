@@ -585,6 +585,7 @@
                     if (result.Success) {
                         toastr.success(result.Message);
                         prepararNuevaClinica();
+                        cargar_todas_clinicas();
                     } else {
                         toastr.error(result.Message);
                     }

@@ -19,7 +19,31 @@
         #endregion
 
         #region Metodos Publicos
+        public static int HabilitarHora(AgendaDto citaDto, string idUsuario)
+        {
+            var cita = (from c in dataContext.Cita
+                        where c.idcita == citaDto.IdCita
+                        select c);
+            if (cita.Any())
+            {
 
+                cita.First().libre = true;
+                try
+                {
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se habilito la cita", idUsuario);
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NAgenda", "ABMCita", "Eliminar", ex);
+                    return 0;
+                }
+            }
+            else
+                return 2;
+        }
+       
         public static int EliminarCita(AgendaDto citaDto, string idUsuario, bool isLibre, string motivo)
         {
             var cita = (from c in dataContext.Cita
@@ -146,6 +170,7 @@
                          where c.idempresa == idConsultorio &&
                          c.fecha == fechaCita
                          && cp.id_usuariocliente == c.id_cliente
+                        // && ((!c.estado && !c.libre)
                          && cp.IsPrincipal == true
                          && p.id_paciente == cp.id_paciente
 
@@ -180,7 +205,7 @@
                 var aux = horario.hora_inicio;
                 while (aux < horario.hora_fin)
                 {
-                    var cita = query.Where(x => x.HoraInicio == aux).FirstOrDefault();
+                    var cita = query.Where(x => x.HoraInicio == aux && (!x.EstaEliminada ||(x.EstaEliminada && !x.Estalibre))).FirstOrDefault();
                     if (cita != null && cita.EstaEliminada && !cita.Estalibre)
                     {
                         listaRetorno.Add(new AgendaDto()
@@ -189,7 +214,7 @@
                             LoginCliente = "Ocupado",
                             HoraFin = aux.Add(tiempoCita),
                             IDHorario = horario.idhorario,
-                            IdCita = "",
+                            IdCita = cita.IdCita,
                             IDConsultorio = idConsultorio,
                             EstaOcupada = true,
                             HoraInicioString = aux.ToString(),

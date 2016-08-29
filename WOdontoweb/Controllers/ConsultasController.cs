@@ -55,6 +55,18 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult HabilitarHora(AgendaDto pcita)
+        {
+
+            var insert = ABMCita.HabilitarHora(pcita, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert==1 ? "Se habilito el horario correctamente" : "No se pudo habilitar la hora, por favor intente de nuevo",
+                Data = insert,
+                Success = insert==1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GuardarHistorico(HistoricoPacienteDto pHistorico)
         {

@@ -88,19 +88,18 @@
                                         {{h.HoraInicio}} - {{h.HoraFin}}
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <a ng-click="mostrarModalHorarios(clinicaSeleccionada.Consultorios[0])" style="font-style: italic; font-size: 10px; cursor: pointer">Agendar cita </a>
-                        </div>
+
                     </div>
                 </div>
             </div>
 
 
             <div class="modal-footer">
-                <!--  <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="citaSeleted== null">Agendar</button>-->
+                <button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalComentario(clinicaSeleccionada.Consultorios[0])">Dejar comentario</button>
+                <button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalHorarios(clinicaSeleccionada.Consultorios[0])">Agendar cita</button>
                 <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
             </div>
         </div>
@@ -302,7 +301,7 @@
                                             <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
                                         </td>
                                         <td>{{cita.Paciente.NombrePaciente}}
-                                                        </td>
+                                        </td>
                                     </tr>
                                 </tbody>
 
@@ -312,7 +311,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-               
+
                 <button class="btn btn-primary" ng-click="cerrarModalHorarios()">Cerrar</button>
             </div>
         </div>
