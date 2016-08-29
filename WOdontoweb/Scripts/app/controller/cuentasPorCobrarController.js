@@ -46,7 +46,7 @@
             Monto: 0,
             IDCuentasPorCobrar: $scope.cuentaSeleccionada.ID,
             State: 1
-        }
+        };
 
         $scope.pagoSelecionado = null;
         $("#descripcionId").focus();
@@ -55,9 +55,14 @@
     $scope.nuevaCuenta = function () {
         prepararNuevaCuenta();
     };
+    $scope.abrirModalNuevaCuenta = function () {
+        prepararNuevaCuenta();
+        $('#nueva-cuenta').modal('show');
+    };
 
     function cargarCuentasPorCobrar() {
         cuentasService.obtenerCuentasPorCobrarPorConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
+
             $scope.cuentasPorCobrarConsultorio = result.select(function (cuenta) {
                 cuenta.FechaCreacion = moment(cuenta.FechaCreacion).format('DD/MM/YYYY');
                 cuenta.Detalle = cuenta.Detalle.select(function (detalle) {
@@ -66,6 +71,7 @@
                 });
                 return cuenta;
             });
+
         });
     }
 
@@ -128,11 +134,11 @@
     $scope.openModalConfirmDelele = function () {
         $('#eliminar-cuenta').modal('show');
     };
-    
+
     $scope.openModalConfirmDelelePago = function () {
         $('#eliminar-pago').modal('show');
     };
-    
+
     $scope.closeWarnig = function (modal) {
         $scope.pagoSeleccionado = null;
 
@@ -165,8 +171,11 @@
         }
     };
 
+    $scope.abrirModalPagos = function() {
+        $('#detalle-cuenta').modal('show');
+    };
     $scope.guardarCuenta = function () {
-        debugger;
+       
         $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
         $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
         if ($scope.cuentaParaGuardar.State == 1) {
@@ -174,7 +183,7 @@
                 if (result.Data) {
                     inicializarDatos();
                     toastr.success(result.Message);
-                    prepararNuevaCuenta();
+                    $('#nueva-cuenta').modal('hide');
                 } else {
                     toastr.error(result.Message);
                 }
@@ -202,7 +211,7 @@
             }
         });
     };
-    $scope.validarGuardarCuenta = function() {
+    $scope.validarGuardarCuenta = function () {
         if ($scope.cuentaParaGuardar == undefined) return true;
         return $scope.cuentaParaGuardar.Descripcion.length == 0 || $scope.cuentaParaGuardar.Monto == 0 ||
             $scope.clienteSeleccionado == null || $scope.trabajoSeleccionado == null || $scope.cuentaParaGuardar.Estado != 0;

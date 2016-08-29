@@ -76,9 +76,9 @@
 
 
             return (from c in dataContext.CuentasPorCobrar
-
+                      from t in dataContext.Trabajos
                     where c.IDConsultorio == pConsultorio
-
+                    && c.IDTrabajo == t.ID
                     select new CuentasPorCobrarDto
                     {
                         Descripcion = c.Descripcion,
@@ -93,8 +93,9 @@
                         Monto = c.Monto,
                         Saldo = c.Saldo,
                         Detalle = ObtenerDetalles(c.ID),
-                        Login = c.Login
-                    }).ToList();
+                        Login = c.Login,
+                        TrabajoDescripcion = t.Descripcion
+                    }).OrderByDescending(o => o.FechaCreacion).ToList();
         }
 
         private static string GetEstadoFull(int pEstado)
