@@ -40,7 +40,7 @@
         $("#descripcionId").focus();
     }
     function prepararNuevoPago() {
-
+        $scope.mostrarLabelMonto = false;
         $scope.pagoParaGuardar = {
             Descripcion: "",
             Monto: 0,
@@ -146,7 +146,11 @@
     };
 
     $scope.guardarNuevoPago = function () {
-
+        if ($scope.pagoParaGuardar.Monto > $scope.cuentaSeleccionada.Saldo) {
+            $scope.mostrarLabelMonto = true;
+            $('#montoInputp').focus();
+            return;
+        }
         if ($scope.pagoParaGuardar.State == 1) {
             cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
                 if (result.Data) {
@@ -154,6 +158,8 @@
                     toastr.success(result.Message);
                     prepararNuevaCuenta();
                     $('#nuevo-pago').modal('hide');
+                    $('#detalle-cuenta').modal('hide');
+                    $scope.cuentaSeleccionada = null;
                 } else {
                     toastr.error(result.Message);
                 }
@@ -171,11 +177,11 @@
         }
     };
 
-    $scope.abrirModalPagos = function() {
+    $scope.abrirModalPagos = function () {
         $('#detalle-cuenta').modal('show');
     };
     $scope.guardarCuenta = function () {
-       
+
         $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
         $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
         if ($scope.cuentaParaGuardar.State == 1) {

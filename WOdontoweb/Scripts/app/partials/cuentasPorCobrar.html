@@ -135,7 +135,7 @@
                     <h4 class="modal-title">Detalle de la cuenta</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="col-md-12 col-xs-12">
+                    <div class="col-md-11 col-xs-11">
                         <table id="Table1" class="table table-hover tableStyle scroll">
                             <thead>
                                 <tr>
@@ -159,8 +159,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" ng-disabled="pagoParaGuardar.Descripcion.length==0 || pagoParaGuardar.Monto==0" ng-click="guardarNuevoPago()">Guardar</button>
-                    <button class="btn btn-danger" ng-click="closeWarnig('#nuevo-pago')">Cancelar</button>
+                  
+                    <button class="btn btn-primary" ng-click="closeWarnig('#detalle-cuenta')">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -174,17 +174,25 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="desInput" class="col-md-4  control-label">Descripion:</label>
+                        <label for="desInput" class="col-md-4  control-label">
+                            <required-field texto="Descripion:"></required-field>
+                        </label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Descripcion" id="desInput">
+                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Descripcion" required validate="text-number" id="desInput">
                         </div>
                     </div>
                     <div class="form-group">
 
-                        <label for="montoInputp" class="col-md-4  control-label">Monto:</label>
+                        <label for="montoInputp" class="col-md-4  control-label">
+                            <required-field texto="Monto:"></required-field>
+                        </label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Monto" id="montoInputp">
+                            <input type="text" class="form-control"  ng-model="pagoParaGuardar.Monto" id="montoInputp" required validate="number">
+                             <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
                         </div>
+                       <!-- <div class="col-md-10">
+                            <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
+                        </div>-->
                     </div>
                 </div>
                 <div class="modal-footer">

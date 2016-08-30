@@ -76,7 +76,7 @@
 
 
             return (from c in dataContext.CuentasPorCobrar
-                      from t in dataContext.Trabajos
+                    from t in dataContext.Trabajos
                     where c.IDConsultorio == pConsultorio
                     && c.IDTrabajo == t.ID
                     select new CuentasPorCobrarDto
@@ -165,13 +165,15 @@
             vPago.FechaPago = DateTime.Now;
             vPago.Descripcion = pPago.Descripcion;
             dataContext.Pago.InsertOnSubmit(vPago);
+
             try
             {
+                dataContext.SubmitChanges();
                 var pago = from c in dataContext.CuentasPorCobrar
                            where c.ID == pPago.IDCuentasPorCobrar
                            select c;
                 pago.First().Saldo = pago.First().Saldo - pPago.Monto;
-                pago.First().Estado = pago.First().Saldo == 0? 1 : 0;
+                pago.First().Estado = pago.First().Saldo == 0 ? 1 : 0;
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un pago", pIdUsuario);
                 return true;
