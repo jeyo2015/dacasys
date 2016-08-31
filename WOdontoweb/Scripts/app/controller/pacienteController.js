@@ -16,11 +16,15 @@
     };
 
     function inicializarDatos() {
+
         prepararNuevoCliente();
+        $scope.pacienteParaGuardar.IsPrincipal = true;
         cargarClientes();
     }
     function prepararNuevoCliente() {
         $scope.userSelected = null;
+        $scope.clienteDeotraEmpresa = false;
+        $scope.pacienteDeotraEmpresa = false;
         $scope.pacienteParaGuardar = {
             LoginCliente: '',
             Nombre: '',
@@ -110,11 +114,11 @@
     };
 
     $scope.validarCliente = function () {
-        return $scope.pacienteParaGuardar.IsPrincipal && $scope.pacienteParaGuardar.State == 1;
+        return $scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal && $scope.pacienteParaGuardar.State == 1;
     };
 
     $scope.validarCamposPaciente = function () {
-        if ($scope.pacienteParaGuardar.IsPrincipal) {
+        if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
         || $scope.pacienteParaGuardar.LoginCliente.length < 4 || $scope.pacienteParaGuardar.Ci.length < 7
         || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
@@ -152,6 +156,33 @@
     $scope.guardarPaciente = function () {
         $scope.pacienteParaGuardar.Sexo = $scope.selectSexo;
         $scope.pacienteParaGuardar.TipoSangre = $scope.selectTipoSangre;
+        //$scope.clienteDeotraEmpresa = result.LoginCliente == "" ? false : true;
+        //$scope.pacienteDeotraEmpresa = true;
+        if ($scope.clienteDeotraEmpresa) {
+            pacienteService.insertarclienteExistente($scope.pacienteParaGuardar).then(function (result) {
+                if (result.Data == 1) {
+                    cargarClientes();
+                    toastr.success(result.Message);
+                    prepararNuevoCliente();
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+            return;
+        }
+        if ($scope.pacienteDeotraEmpresa) {
+            pacienteService.insertarClientePacienteAntiguo($scope.pacienteParaGuardar).then(function (result) {
+                if (result.Data == 1) {
+                    cargarClientes();
+                    toastr.success(result.Message);
+                    prepararNuevoCliente();
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+            return;
+        }
+        
         if ($scope.pacienteParaGuardar.State == 1) {
             pacienteService.insertarPaciente($scope.pacienteParaGuardar).then(function (result) {
                 if (result.Data == 1) {
@@ -176,4 +207,31 @@
             });
         }
     };
+
+    $scope.buscarPaciente = function () {
+        pacienteService.obtenerPacientesPorCi($scope.pacienteParaGuardar.Ci).then(function (result) {
+            if (result != null) {
+                var existCliente = $scope.ListaCliente.where(function (item) {
+                    return item.LoginCliente == result.LoginCliente;
+                });
+                if (existCliente.length == 1) {
+                    toastr.warning("Este usuario ya se encuentra registrado en su consultorio");
+                    prepararNuevoCliente();
+                }
+
+                $scope.pacienteParaGuardar.Nombre = result.Nombre;
+                $scope.pacienteParaGuardar.Apellido = result.Apellido;
+                $scope.pacienteParaGuardar.Direccion = result.Direccion;
+                $scope.pacienteParaGuardar.Email = result.Email;
+                $scope.pacienteParaGuardar.Antecedentes = result.Antecedentes;
+                $scope.pacienteParaGuardar.Telefono = result.Telefono;
+                $scope.selectSexo = result.Sexo;
+                $scope.selectTipoSangre = result.TipoSangre;
+                $scope.pacienteParaGuardar.LoginCliente = result.LoginCliente;
+                $scope.pacienteParaGuardar.IdPaciente = result.IdPaciente;
+                $scope.clienteDeotraEmpresa = result.LoginCliente == "" ? false : true;
+                $scope.pacienteDeotraEmpresa = true;
+            }
+        });
+    }
 });

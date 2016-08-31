@@ -43,7 +43,7 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal??false
+                        IsPrincipal = clientePaciente.IsPrincipal ?? false
                     }).ToList();
         }
 
@@ -73,7 +73,7 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal??false
+                        IsPrincipal = clientePaciente.IsPrincipal ?? false
                     }).ToList();
 
         }
@@ -122,8 +122,37 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal??false
+                        IsPrincipal = clientePaciente.IsPrincipal ?? false
                     }).FirstOrDefault();
+
+        }
+
+        public static PacienteDto ObtenerPacientePorCi(string ci)
+        {
+            var pacienteQuery = (from paciente in dataContext.Paciente
+                                 where paciente.ci == ci
+                                 select new PacienteDto()
+                                 {
+                                     LoginCliente = "",
+                                     Antecedentes = paciente.antecedente,
+                                     Ci = paciente.ci,
+                                     Direccion = paciente.direccion,
+                                     Email = paciente.email,
+                                     Estado = paciente.estado,
+                                     NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                                     Nombre = paciente.nombre,
+                                     Apellido = paciente.apellido,
+                                     Telefono = paciente.nro_telefono,
+                                     TipoSangre = paciente.tipo_sangre,
+                                     IdPaciente = paciente.id_paciente,
+                                     Sexo = paciente.sexo.ToString()
+                                 }).FirstOrDefault();
+            var cliente = (from cp in dataContext.Cliente_Paciente
+                           where cp.id_paciente == pacienteQuery.IdPaciente
+                           && cp.IsPrincipal==true
+                           select cp).FirstOrDefault();
+            pacienteQuery.LoginCliente = cliente == null ? "" : cliente.id_usuariocliente;
+            return pacienteQuery;
 
         }
 
@@ -183,6 +212,82 @@
                 return 0;
             }
         }
+        public static int InsertarClientePacienteAntiguo(PacienteDto pacienteDto, string idUsuario)
+        {
+            var v = Validar(pacienteDto);
+            if (v != 0)
+                return v;
+            var sql = from e in dataContext.Paciente
+                      where e.id_paciente == pacienteDto.IdPaciente
+                      select e;
+            if (!sql.Any()) return 0;
+            sql.First().nombre = pacienteDto.Nombre;
+            sql.First().apellido = pacienteDto.Apellido;
+            sql.First().ci = pacienteDto.Ci;
+            sql.First().nro_telefono = pacienteDto.Telefono;
+            sql.First().direccion = pacienteDto.Direccion;
+            sql.First().email = pacienteDto.Email;
+            sql.First().tipo_sangre = pacienteDto.TipoSangre;
+            sql.First().sexo = char.Parse(pacienteDto.Sexo);
+            sql.First().antecedente = pacienteDto.Antecedentes;
+            try
+            {
+
+                dataContext.SubmitChanges();
+                var password = Encriptador.GenerarAleatoriamente();
+                ABMUsuarioCliente.Insertar(pacienteDto.LoginCliente, password, idUsuario);
+                AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
+                ABMUsuarioCliente.EnviarCorreoDeBienvenida(pacienteDto.IDEmpresa, pacienteDto.Email, password, pacienteDto.LoginCliente);
+                var existPaciente = (from cp in dataContext.Cliente_Paciente
+                                     where cp.id_paciente == pacienteDto.IdPaciente
+                                     select cp).FirstOrDefault();
+                if (existPaciente != null)
+                    dataContext.Cliente_Paciente.DeleteOnSubmit(existPaciente);
+                AsignarClientePaciente(pacienteDto.IdPaciente, pacienteDto.LoginCliente, pacienteDto.IsPrincipal, idUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "InsertarModulo", ex);
+                return 0;
+            }
+        }
+        public static int InsertarclienteExistente(PacienteDto pacienteDto, string idUsuario)
+        {
+            //var v = Validar(pacienteDto);
+            //if (v != 0)
+            //    return v;
+            var sql = from e in dataContext.Paciente
+                      where e.id_paciente == pacienteDto.IdPaciente
+                      select e;
+            if (!sql.Any()) return 0;
+            sql.First().nombre = pacienteDto.Nombre;
+            sql.First().apellido = pacienteDto.Apellido;
+            sql.First().ci = pacienteDto.Ci;
+            sql.First().nro_telefono = pacienteDto.Telefono;
+            sql.First().direccion = pacienteDto.Direccion;
+            sql.First().email = pacienteDto.Email;
+            sql.First().tipo_sangre = pacienteDto.TipoSangre;
+            sql.First().sexo = char.Parse(pacienteDto.Sexo);
+            sql.First().antecedente = pacienteDto.Antecedentes;
+            try
+            {
+
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se Inserto un nuevo Paciente", idUsuario);
+                AsignarEmpresaCliente(pacienteDto.IDEmpresa, pacienteDto.LoginCliente, "", idUsuario);
+                ///ABMUsuarioCliente.EnviarCorreoDeBienvenida(pacienteDto.IDEmpresa, pacienteDto.Email, password, pacienteDto.LoginCliente);
+
+                // AsignarClientePaciente(pacienteDto.IdPaciente, pacienteDto.LoginCliente, true, idUsuario);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NConsulta", "ABMPAciente", "InsertarModulo", ex);
+                return 0;
+            }
+        }
+
 
         /// <summary>
         /// Permite modificar los datos de un paciente

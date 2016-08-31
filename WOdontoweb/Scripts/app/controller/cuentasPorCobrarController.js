@@ -178,7 +178,7 @@
     };
 
     $scope.abrirModalPagos = function () {
-        $('#detalle-cuenta').modal('show');
+        $('#nueva-cuenta').modal('show');
     };
     $scope.guardarCuenta = function () {
 
@@ -200,6 +200,7 @@
                     inicializarDatos();
                     toastr.success(result.Message);
                     prepararNuevaCuenta();
+                    $('#nueva-cuenta').modal('hide');
                 } else {
                     toastr.error(result.Message);
                 }

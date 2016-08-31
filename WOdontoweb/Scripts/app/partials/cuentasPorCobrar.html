@@ -101,12 +101,14 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Descripcion</th>
                                         <th>Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat=" pago in cuentaParaGuardar.Detalle" ng-click="seleccionarPago(pago)">
                                         <td>{{pago.FechaCreacion}}</td>
+                                        <td>{{pago.Descripcion}}</td>
                                         <td>{{pago.Monto}}</td>
                                     </tr>
                                 </tbody>
@@ -140,12 +142,14 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
+                                    <th>Descripcion pago</th>
                                     <th>Monto</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat=" pago in cuentaSeleccionada.Detalle" ng-click="seleccionarPago(pago)">
                                     <td>{{pago.FechaCreacion}}</td>
+                                    <td>{{pago.Descripcion}}</td>
                                     <td>{{pago.Monto}}</td>
                                 </tr>
                             </tbody>
@@ -159,7 +163,7 @@
 
                 </div>
                 <div class="modal-footer">
-                  
+
                     <button class="btn btn-primary" ng-click="closeWarnig('#detalle-cuenta')">Aceptar</button>
                 </div>
             </div>
@@ -187,10 +191,10 @@
                             <required-field texto="Monto:"></required-field>
                         </label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control"  ng-model="pagoParaGuardar.Monto" id="montoInputp" required validate="number">
-                             <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
+                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Monto" id="montoInputp" required validate="number">
+                            <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
                         </div>
-                       <!-- <div class="col-md-10">
+                        <!-- <div class="col-md-10">
                             <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
                         </div>-->
                     </div>

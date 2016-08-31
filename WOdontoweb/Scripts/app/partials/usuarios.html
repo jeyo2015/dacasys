@@ -42,34 +42,35 @@
             <div class="row">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="nombreId" class="col-md-4 control-label">Nombre completo:</label>
+                        <label for="nombreId" class="col-md-4 control-label">
+                             <required-field texto="Nombre completo:"></required-field></label>
                         <div class="col-md-8 ">
-                            <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre">
+                            <input type="text" class="form-control" id="nombreId" ng-model="userToSave.Nombre" required validate="text" maxlength="100">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4  control-label">Login: </label>
+                        <label for="inputPassword3" class="col-md-4  control-label"> <required-field texto="Login:"></required-field> </label>
                         <div class="col-md-8 ">
                             {{UserToSave.State}}
-                            <input type="text" class="form-control" id="inputPassword3" ng-model="userToSave.Login" ng-disabled="userToSave.State==2">
+                            <input type="text" class="form-control" id="inputPassword3" ng-model="userToSave.Login" ng-disabled="userToSave.State==2" required validate="text-number" maxlength="50">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="Password2" class="col-md-4  control-label">Contraseña:</label>
+                        <label for="Password2" class="col-md-4  control-label"><required-field texto="Contraseña:"></required-field> </label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control" ng-model="userToSave.Password" id="Password2">
+                            <input type="password" class="form-control" ng-model="userToSave.Password" id="Password2" required  maxlength="100">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="Password1" class="col-md-4  control-label">Repita contrasena:</label>
+                        <label for="Password1" class="col-md-4  control-label"><required-field texto="Repita contrasena:"></required-field></label>
                         <div class="col-md-8 ">
-                            <input type="password" class="form-control" id="Password1" ng-model="userToSave.ConfirmPass">
+                            <input type="password" class="form-control" id="Password1" ng-model="userToSave.ConfirmPass" required  maxlength="100">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4 control-label">Rol de usuario:</label>
+                        <label for="inputPassword3" class="col-md-4 control-label"><required-field texto="Perfil de usuario:"></required-field></label>
                         <div class="col-md-8 ">
-                            <select class="form-control" ng-options="rol.Nombre for rol in rolesConsultorio" ng-model="rolSelected"></select>
+                            <select class="form-control" ng-options="rol.Nombre for rol in rolesConsultorio" ng-model="rolSelected" required></select>
 
                         </div>
                     </div>
