@@ -182,7 +182,7 @@
             });
             return;
         }
-        
+
         if ($scope.pacienteParaGuardar.State == 1) {
             pacienteService.insertarPaciente($scope.pacienteParaGuardar).then(function (result) {
                 if (result.Data == 1) {
@@ -209,14 +209,17 @@
     };
 
     $scope.buscarPaciente = function () {
+        debugger;
+        var ciTempo = angular.copy($scope.pacienteParaGuardar.Ci);
         pacienteService.obtenerPacientesPorCi($scope.pacienteParaGuardar.Ci).then(function (result) {
-            if (result != null) {
+            if (result.length >0) {
                 var existCliente = $scope.ListaCliente.where(function (item) {
                     return item.LoginCliente == result.LoginCliente;
                 });
                 if (existCliente.length == 1) {
                     toastr.warning("Este usuario ya se encuentra registrado en su consultorio");
                     prepararNuevoCliente();
+                    return;
                 }
 
                 $scope.pacienteParaGuardar.Nombre = result.Nombre;
@@ -231,6 +234,11 @@
                 $scope.pacienteParaGuardar.IdPaciente = result.IdPaciente;
                 $scope.clienteDeotraEmpresa = result.LoginCliente == "" ? false : true;
                 $scope.pacienteDeotraEmpresa = true;
+            } else {
+                prepararNuevoCliente();
+               
+                $scope.pacienteParaGuardar.IsPrincipal = true;
+                $scope.pacienteParaGuardar.Ci = ciTempo;
             }
         });
     }

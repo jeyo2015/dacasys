@@ -147,11 +147,14 @@
                                      IdPaciente = paciente.id_paciente,
                                      Sexo = paciente.sexo.ToString()
                                  }).FirstOrDefault();
-            var cliente = (from cp in dataContext.Cliente_Paciente
-                           where cp.id_paciente == pacienteQuery.IdPaciente
-                           && cp.IsPrincipal==true
-                           select cp).FirstOrDefault();
-            pacienteQuery.LoginCliente = cliente == null ? "" : cliente.id_usuariocliente;
+            if (pacienteQuery != null) {
+                var cliente = (from cp in dataContext.Cliente_Paciente
+                               where cp.id_paciente == pacienteQuery.IdPaciente
+                               && cp.IsPrincipal == true
+                               select cp).FirstOrDefault();
+                pacienteQuery.LoginCliente = cliente == null ? "" : cliente.id_usuariocliente;
+            }
+           
             return pacienteQuery;
 
         }

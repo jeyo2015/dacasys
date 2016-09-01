@@ -61,7 +61,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         map.setZoom(17);

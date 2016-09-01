@@ -26,13 +26,19 @@
         {
             try
             {
+                var xxx = (from h in dataContext.Horario
+                           where h.idempresa == horarioDto.IDEmpresa
+                           && h.iddia == horarioDto.IDDia
+                           && h.estado
+                           select h).ToList();
+
                 var vHorario = new Horario
                 {
                     hora_fin = TimeSpan.Parse(horarioDto.HoraFin),
                     hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio),
                     iddia = horarioDto.IDDia,
                     idempresa = horarioDto.IDEmpresa,
-                    num_horario = horarioDto.NumHorario,
+                    num_horario = xxx.Count() + 1,
                     estado = true
                 };
 
@@ -150,7 +156,7 @@
                     //     }
                     //    };
                     string dias = horarioActual.NombreCorto;
-                    for (int j = i+1; j < xxx; j++)
+                    for (int j = i + 1; j < xxx; j++)
                     {
 
                         if (compararHorarios(horarioActual, horariosConsultorio[j]))

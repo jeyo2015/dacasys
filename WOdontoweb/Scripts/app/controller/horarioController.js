@@ -93,7 +93,7 @@
     }
 
     $scope.validarCamposHorario = function () {
-        return $scope.horarioParaGuardar == null || $scope.diaSelected == null || $scope.numeroSelected == null
+        return $scope.horarioParaGuardar == null || $scope.diaSelected == null 
             || $scope.horarioParaGuardar.HoraInicio.length != 5 || $scope.horarioParaGuardar.HoraFin.length != 5;
     };
 

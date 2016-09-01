@@ -208,7 +208,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         google.maps.event.addListener(marker, 'click', function () {
@@ -218,6 +218,7 @@
             })[0];
             $scope.$apply();
             openInfoWindow(marker);
+            marker.setIcon('desarrollo/Content/img/markerselect.png');
         });
     }
 
@@ -257,6 +258,7 @@
     };
     function closeInfoWindow() {
         infoWindow.close();
+       // marker.setIcon('desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);

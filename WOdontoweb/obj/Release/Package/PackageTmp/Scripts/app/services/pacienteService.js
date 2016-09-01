@@ -20,6 +20,13 @@
         });
         return d.promise;
     };
+    this.obtenerPacientesPorCi = function (pCi) {
+        var d = $q.defer();
+        $http.get('Paciente/ObtenerPacientesPorCi?pCi=' + pCi).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.obtenerPacientePorId = function (loginCliente) {
         var d = $q.defer();
         $http.get('Paciente/ObtenerPacientesPorId?loginCliente=' + loginCliente).success(function (data) {
@@ -37,6 +44,20 @@
     this.insertarPaciente = function (paciente) {
         var d = $q.defer();
         $http.post('Paciente/InsertarNuevoPaciente', { pacienteDto: paciente }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.insertarclienteExistente = function (paciente) {
+        var d = $q.defer();
+        $http.post('Paciente/InsertarclienteExistente', { pacienteDto: paciente }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.insertarClientePacienteAntiguo = function (paciente) {
+        var d = $q.defer();
+        $http.post('Paciente/InsertarClientePacienteAntiguo', { pacienteDto: paciente }).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

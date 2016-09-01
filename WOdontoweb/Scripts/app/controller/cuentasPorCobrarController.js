@@ -41,6 +41,7 @@
     }
     function prepararNuevoPago() {
         $scope.mostrarLabelMonto = false;
+     
         $scope.pagoParaGuardar = {
             Descripcion: "",
             Monto: 0,
@@ -127,7 +128,7 @@
         $('#nuevo-pago').modal('show');
     };
     $scope.mostrarModalEditarPago = function () {
-
+        $scope.mostrarLabelMonto = false;
         $('#nuevo-pago').modal('show');
     };
 
@@ -158,7 +159,7 @@
                     toastr.success(result.Message);
                     prepararNuevaCuenta();
                     $('#nuevo-pago').modal('hide');
-                    $('#detalle-cuenta').modal('hide');
+                    $('#nueva-cuenta').modal('hide');
                     $scope.cuentaSeleccionada = null;
                 } else {
                     toastr.error(result.Message);
@@ -170,6 +171,7 @@
                     inicializarDatos();
                     toastr.success(result.Message);
                     $('#nuevo-pago').modal('hide');
+                    $('#nueva-cuenta').modal('hide');
                 } else {
                     toastr.error(result.Message);
                 }
@@ -213,6 +215,7 @@
                 inicializarDatos();
                 toastr.success(result.Message);
                 $('#eliminar-pago').modal('hide');
+                $('#nueva-cuenta').modal('hide');
             } else {
                 toastr.error(result.Message);
             }
