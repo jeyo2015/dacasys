@@ -273,6 +273,7 @@
             sql.First().tipo_sangre = pacienteDto.TipoSangre;
             sql.First().sexo = char.Parse(pacienteDto.Sexo);
             sql.First().antecedente = pacienteDto.Antecedentes;
+            sql.First().estado = true;
             try
             {
 
@@ -355,7 +356,7 @@
                 {
                     if (query.Any())
                     {
-                        ABMUsuarioCliente.Eliminar(query.First().id_usuariocliente);
+                        //ABMUsuarioCliente.Eliminar(query.First().id_usuariocliente);
                         EliminarEmpresaCliente(query.First().id_usuariocliente);
                     }
                 }

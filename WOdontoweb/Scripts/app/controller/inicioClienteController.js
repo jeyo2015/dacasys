@@ -55,7 +55,7 @@
         });
     };
     $scope.seleccionaCita = function (cita) {
-        debugger;
+  
         if (cita.EsTarde) {
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
             return;

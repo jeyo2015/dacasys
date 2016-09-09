@@ -1,16 +1,27 @@
-﻿app.controller("comentarioController", function (comentarioService, $scope, $rootScope) {
+﻿app.controller("comentarioController", function (loginService,comentarioService, $scope, $rootScope) {
     init();
 
     function init() {
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                inicializarDatos();
+            });
+        } else {
+            inicializarDatos();
+        }
+
+
+    };
+    function inicializarDatos() {
         $scope.message = "";
         $scope.userSelected = null;
         prepararNuevoComentario();
         cargarComentarios();
-    };
-
+    }
     function prepararNuevoComentario() {
         $scope.comentarioParaGuardar = {
-            LoginCliente: 'BB',
+            LoginCliente: $rootScope.sessionDto.loginUsuario,
             Comentario: '',
             State: 1,
             IsVisible: true,

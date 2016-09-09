@@ -208,11 +208,24 @@
         }
     };
 
-    $scope.buscarPaciente = function () {
-        debugger;
+    $('#inputCi').blur(function () {
+        buscarPaciente();
+        $scope.$apply();
+    });
+
+    function buscarPaciente() {
+
         var ciTempo = angular.copy($scope.pacienteParaGuardar.Ci);
         pacienteService.obtenerPacientesPorCi($scope.pacienteParaGuardar.Ci).then(function (result) {
-            if (result.length >0) {
+            debugger;
+            if (result.length == 0) {
+                prepararNuevoCliente();
+
+                $scope.pacienteParaGuardar.IsPrincipal = true;
+                $scope.pacienteParaGuardar.Ci = ciTempo;
+                return;
+            }
+            if (result != null) {
                 var existCliente = $scope.ListaCliente.where(function (item) {
                     return item.LoginCliente == result.LoginCliente;
                 });
@@ -234,11 +247,6 @@
                 $scope.pacienteParaGuardar.IdPaciente = result.IdPaciente;
                 $scope.clienteDeotraEmpresa = result.LoginCliente == "" ? false : true;
                 $scope.pacienteDeotraEmpresa = true;
-            } else {
-                prepararNuevoCliente();
-               
-                $scope.pacienteParaGuardar.IsPrincipal = true;
-                $scope.pacienteParaGuardar.Ci = ciTempo;
             }
         });
     }

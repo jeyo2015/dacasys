@@ -287,6 +287,10 @@
                         sql.First().Saldo = sql.First().Saldo - (sql.First().Monto - pCuenta.Monto);
                 }
                 sql.First().Monto = pCuenta.Monto;
+                if (sql.First().Saldo == 0)
+                {
+                    sql.First().Estado = 1;
+                }
                 //sql.First().Saldo = pCuenta.Saldo;
                 try
                 {

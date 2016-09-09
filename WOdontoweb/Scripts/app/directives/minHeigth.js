@@ -23,7 +23,7 @@
 
                 function executeResizeWithTime(time) {
                    
-                    setTimeout(function () { $(element).css({minHeight:newSize()})}, time);
+                    setTimeout(function () { $(element).css({ minHeight: newSize(), maxHeight: newSize() }) }, time);
                 }
 
             }

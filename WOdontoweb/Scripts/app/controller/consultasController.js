@@ -110,7 +110,7 @@
     }
 
     function cargarPacientesEmpresa(modalOpen) {
-        debugger;
+     
         pacienteService.obtenerClientesPorEmpresa($rootScope.sessionDto.IDConsultorio).then(function (result) {
             $scope.pacientesConsultorio = result;
             if (modalOpen.length > 0) {
@@ -248,7 +248,7 @@
     };
 
     function getPacientesByCliente(modalOpen) {
-        debugger;
+ 
         pacienteService.obtenerPacientesPorClienteCita($scope.citaSeleccionada.LoginCliente).then(function (result) {
             $scope.pacientesClienteSeleccionado = result;
             if (modalOpen.length > 0) {

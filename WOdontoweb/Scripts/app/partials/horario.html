@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>Dia</th>
-                                <th>Numero</th>
+                                
                                 <th>Hora Inicio</th>
                                 <th>Hora Final</th>
                             </tr>
@@ -23,7 +23,7 @@
                         <tbody>
                             <tr ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
                                 <td>{{horario.NombreDia}}</td>
-                                <td>{{horario.NumHorario}}</td>
+                                
                                 <td>{{horario.HoraInicio}}</td>
                                 <td>{{horario.HoraFin}}</td>
                             </tr>

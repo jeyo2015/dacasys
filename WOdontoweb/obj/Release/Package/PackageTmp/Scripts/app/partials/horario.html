@@ -10,12 +10,12 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 15px;">
-                <div class="col-md-12 col-xs-12" max-heigth-table style=" overflow-y: auto; padding-right: 0px;">
+                <div class="col-md-12 col-xs-12" max-heigth-table style="overflow-y: auto; padding-right: 0px;">
                     <table class="table table-hover tableStyle">
                         <thead>
                             <tr>
                                 <th>Dia</th>
-                                <th>Numero</th>
+                                
                                 <th>Hora Inicio</th>
                                 <th>Hora Final</th>
                             </tr>
@@ -23,7 +23,7 @@
                         <tbody>
                             <tr ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
                                 <td>{{horario.NombreDia}}</td>
-                                <td>{{horario.NumHorario}}</td>
+                                
                                 <td>{{horario.HoraInicio}}</td>
                                 <td>{{horario.HoraFin}}</td>
                             </tr>
@@ -57,15 +57,6 @@
                         <label for="horaFin" class="col-md-3 c  control-label">Hora Final: </label>
                         <div class="col-md-9  ">
                             <input type="text" ng-model="horarioParaGuardar.HoraFin" class="form-control" id="horaFin">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="selectNumero" class="col-md-3 control-label">Número:</label>
-                        <div class="col-md-9 ">
-                            <select class="form-control" id="selectNumero" ng-model="numeroSelected">
-                                <option value="1" selected="selected">1</option>
-                                <option value="2">2</option>
-                            </select>
                         </div>
                     </div>
                     <div class="form-group">

@@ -144,7 +144,7 @@
     };
 
     $rootScope.validarPermisoComponente = function (nombreComponente) {
-        debugger;
+ 
         if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
             var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
                 return componente.NombreComponente == nombreComponente;

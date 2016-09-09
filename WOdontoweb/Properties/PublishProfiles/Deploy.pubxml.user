@@ -66,16 +66,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>07/05/2016 19:07:21</publishTime>
     </File>
     <File Include="bin/NAgenda.dll">
-      <publishTime>08/31/2016 20:56:57</publishTime>
+      <publishTime>09/08/2016 22:50:27</publishTime>
     </File>
     <File Include="bin/NConsulta.dll">
-      <publishTime>08/31/2016 20:56:57</publishTime>
+      <publishTime>09/08/2016 22:50:28</publishTime>
     </File>
     <File Include="bin/NEventos.dll">
       <publishTime>08/31/2016 20:56:56</publishTime>
     </File>
     <File Include="bin/NLogin.dll">
-      <publishTime>08/31/2016 20:56:56</publishTime>
+      <publishTime>09/08/2016 22:50:27</publishTime>
     </File>
     <File Include="bin/Org.Mentalis.Security.Cryptography.dll">
       <publishTime>07/05/2016 19:07:21</publishTime>
@@ -114,7 +114,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>07/05/2016 19:07:22</publishTime>
     </File>
     <File Include="bin/WOdontoweb.dll">
-      <publishTime>08/31/2016 20:56:58</publishTime>
+      <publishTime>09/08/2016 22:50:29</publishTime>
     </File>
     <File Include="Content/fontAwesome/css/font-awesome.css">
       <publishTime>05/31/2016 20:56:27</publishTime>
@@ -348,16 +348,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>07/27/2016 20:51:38</publishTime>
     </File>
     <File Include="Scripts/app/controller/comentarioController.js">
-      <publishTime>06/17/2016 20:52:36</publishTime>
+      <publishTime>09/08/2016 21:21:40</publishTime>
     </File>
     <File Include="Scripts/app/controller/consultasController.js">
-      <publishTime>08/27/2016 23:35:02</publishTime>
+      <publishTime>09/03/2016 19:32:09</publishTime>
     </File>
     <File Include="Scripts/app/controller/consultoriosController.js">
       <publishTime>08/28/2016 00:14:08</publishTime>
     </File>
     <File Include="Scripts/app/controller/cuentasPorCobrarController.js">
-      <publishTime>08/30/2016 19:14:53</publishTime>
+      <publishTime>09/03/2016 22:03:46</publishTime>
     </File>
     <File Include="Scripts/app/controller/cuentasPorPagarController.js">
       <publishTime>08/29/2016 21:19:41</publishTime>
@@ -369,22 +369,22 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>08/31/2016 20:56:03</publishTime>
     </File>
     <File Include="Scripts/app/controller/horarioController.js">
-      <publishTime>07/11/2016 22:47:13</publishTime>
+      <publishTime>08/31/2016 21:36:41</publishTime>
     </File>
     <File Include="Scripts/app/controller/inicioClienteController.js">
-      <publishTime>08/31/2016 20:55:47</publishTime>
+      <publishTime>09/03/2016 19:32:09</publishTime>
     </File>
     <File Include="Scripts/app/controller/loginController.js">
-      <publishTime>08/17/2016 22:51:59</publishTime>
+      <publishTime>09/03/2016 19:32:09</publishTime>
     </File>
     <File Include="Scripts/app/controller/miconsultorioController.js">
-      <publishTime>08/31/2016 20:56:11</publishTime>
+      <publishTime>09/01/2016 19:09:28</publishTime>
     </File>
     <File Include="Scripts/app/controller/misCitasController.js">
       <publishTime>07/27/2016 21:14:09</publishTime>
     </File>
     <File Include="Scripts/app/controller/pacienteController.js">
-      <publishTime>08/31/2016 20:42:10</publishTime>
+      <publishTime>09/03/2016 20:39:20</publishTime>
     </File>
     <File Include="Scripts/app/controller/rolesController.js">
       <publishTime>07/16/2016 19:16:57</publishTime>
@@ -399,7 +399,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/31/2016 20:56:28</publishTime>
     </File>
     <File Include="Scripts/app/directives/minHeigth.js">
-      <publishTime>07/07/2016 20:05:10</publishTime>
+      <publishTime>09/08/2016 22:37:54</publishTime>
     </File>
     <File Include="Scripts/app/directives/validation.js">
       <publishTime>08/29/2016 21:19:41</publishTime>
@@ -498,22 +498,22 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/31/2016 20:56:28</publishTime>
     </File>
     <File Include="Scripts/app/partials/comentario.html">
-      <publishTime>07/11/2016 21:55:26</publishTime>
+      <publishTime>09/08/2016 22:39:29</publishTime>
     </File>
     <File Include="Scripts/app/partials/consultas.html">
-      <publishTime>08/29/2016 21:19:41</publishTime>
+      <publishTime>09/08/2016 22:40:25</publishTime>
     </File>
     <File Include="Scripts/app/partials/consultorios.html">
-      <publishTime>08/29/2016 21:19:41</publishTime>
+      <publishTime>09/08/2016 22:40:25</publishTime>
     </File>
     <File Include="Scripts/app/partials/cuentasPorCobrar.html">
-      <publishTime>08/30/2016 19:24:37</publishTime>
+      <publishTime>09/03/2016 22:01:19</publishTime>
     </File>
     <File Include="Scripts/app/partials/cuentasPorPagar.html">
-      <publishTime>08/29/2016 21:19:41</publishTime>
+      <publishTime>09/08/2016 22:40:22</publishTime>
     </File>
     <File Include="Scripts/app/partials/horario.html">
-      <publishTime>07/11/2016 21:55:26</publishTime>
+      <publishTime>09/08/2016 22:15:21</publishTime>
     </File>
     <File Include="Scripts/app/partials/inicioCliente.html">
       <publishTime>08/27/2016 18:36:52</publishTime>
@@ -525,25 +525,25 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/31/2016 20:56:28</publishTime>
     </File>
     <File Include="Scripts/app/partials/miconsultorio.html">
-      <publishTime>07/07/2016 20:05:10</publishTime>
+      <publishTime>09/08/2016 22:43:00</publishTime>
     </File>
     <File Include="Scripts/app/partials/miConsultorioPerfil.html">
-      <publishTime>07/30/2016 22:12:01</publishTime>
+      <publishTime>09/08/2016 22:43:00</publishTime>
     </File>
     <File Include="Scripts/app/partials/misCitas.html">
-      <publishTime>07/27/2016 21:13:19</publishTime>
+      <publishTime>09/08/2016 22:43:00</publishTime>
     </File>
     <File Include="Scripts/app/partials/paciente.html">
-      <publishTime>08/31/2016 20:54:30</publishTime>
+      <publishTime>09/08/2016 22:47:21</publishTime>
     </File>
     <File Include="Scripts/app/partials/requiredField.html">
       <publishTime>08/29/2016 21:19:41</publishTime>
     </File>
     <File Include="Scripts/app/partials/roles.html">
-      <publishTime>08/27/2016 22:12:32</publishTime>
+      <publishTime>09/08/2016 22:43:00</publishTime>
     </File>
     <File Include="Scripts/app/partials/usuarios.html">
-      <publishTime>08/30/2016 19:30:06</publishTime>
+      <publishTime>09/08/2016 22:43:00</publishTime>
     </File>
     <File Include="Scripts/app/services/clinicaService.js">
       <publishTime>08/11/2016 20:02:44</publishTime>
@@ -672,7 +672,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/31/2016 20:56:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>08/29/2016 21:19:41</publishTime>
+      <publishTime>09/08/2016 22:33:45</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>05/31/2016 20:56:29</publishTime>

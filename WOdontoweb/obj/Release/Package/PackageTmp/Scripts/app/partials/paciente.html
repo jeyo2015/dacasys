@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-controller="pacienteController" ng-show="validarPermisoFormulario('frmPacientes')">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-controller="pacienteController" style="overflow-y:auto" ng-show="validarPermisoFormulario('frmPacientes')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-11 ">
             <div class="row">
@@ -49,14 +49,14 @@
                         <label for="ci" class="col-md-3 control-label">
                             <required-field texto="CI:"></required-field>
                         </label>
-                        <div class="input-group col-md-9">
+                        <div class="col-md-9">
 
-                            <input type="text" maxlength="7" ng-model="pacienteParaGuardar.Ci" class="form-control" id="Text1">
-                            <span class="input-group-btn">
-                                <a class="btn btn-primary" ng-click="buscarPaciente()" ng-disabled="pacienteParaGuardar.Ci.length==0">
+                            <input type="text" maxlength="7" ng-model="pacienteParaGuardar.Ci"  class="form-control" id="inputCi">
+                          <!--  <span class="input-group-btn">
+                                <a class="btn btn-primary"  ng-disabled="pacienteParaGuardar.Ci.length==0">
                                   <i class="fa fa-search"></i>
                                 </a>
-                            </span>
+                            </span>-->
                         </div>
 
                     </div>

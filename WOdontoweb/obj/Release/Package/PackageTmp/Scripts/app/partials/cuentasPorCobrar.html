@@ -12,7 +12,7 @@
                 </form>
             </div>
             <div class="row" style="margin-top: 15px;">
-                <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <div class="col-md-11 col-xs-11" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                     <table class="table table-hover tableStyle">
                         <thead>
                             <tr>
@@ -45,8 +45,13 @@
                     </table>
                     <button class="btn btn-raised btn-primary" ng-click="abrirModalNuevaCuenta()">Nuevo</button>
                     <button class="btn btn-raised btn-primary" ng-disabled="cuentaSeleccionada==null" ng-click="abrirModalPagos()">Ver detalle</button>
-                    <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="cuentaSeleccionada==null || cuentaSeleccionada.Estado!=0 ">Eliminar</button>
+                    <button class="btn btn-raised btn-primary" ng-click="mostrarModalPago()" ng-disabled="cuentaSeleccionada==null || cuentaSeleccionada.Estado!=0 ">Nuevo pago</button>
 
+                </div>
+                <div class="col-md-1 col-xs-1 ">
+                    <!--<spakn ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></spakn>-->
+                    <span ng-show="cuentaSeleccionada!= null && cuentaSeleccionada.Estado==0" ng-click="abrirModalEditarCuenta()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                    <span ng-show="cuentaSeleccionada != null && cuentaSeleccionada.Estado==0 " ng-click="openModalConfirmDelele()" style="display: none;"><i class="fa fa-times iconStyle"></i></span>
                 </div>
             </div>
         </div>
@@ -86,6 +91,7 @@
                         <label for="montoInput" class="col-md-3  control-label">Monto:</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-model="cuentaParaGuardar.Monto" id="montoInput">
+                            <span style="color: #D82756; font-size: 11px" ng-show="mostrarErrorMensajeMonto">{{mensajeErrorMonto}}</span>
                         </div>
                     </div>
                     <div class="form-group" ng-hide="cuentaParaGuardar.State==1">
@@ -94,32 +100,7 @@
                             <input type="text" readonly="readonly" class="form-control" ng-model="cuentaParaGuardar.Saldo" id="Text1">
                         </div>
                     </div>
-                    <div class="form-group" ng-hide="cuentaParaGuardar.State==1">
-                        <label class="col-md-3 control-label">Detalle de la cuenta</label>
-                        <div class="col-md-8 col-xs-8">
-                            <table id="pacientes" class="table table-hover tableStyle scroll">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Descripcion</th>
-                                        <th>Monto</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat=" pago in cuentaParaGuardar.Detalle" ng-click="seleccionarPago(pago)">
-                                        <td>{{pago.FechaCreacion}}</td>
-                                        <td>{{pago.Descripcion}}</td>
-                                        <td>{{pago.Monto}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-1 col-xs-1 ">
-                            <span ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                            <span ng-show="pagoSeleccionado!= null" ng-click="mostrarModalEditarPago()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                            <span ng-show="pagoSeleccionado != null " ng-click="openModalConfirmDelelePago()" style="display: none;"><i class="fa fa-trash iconStyle"></i></span>
-                        </div>
-                    </div>
+
 
                 </div>
                 <div class="modal-footer">
@@ -156,7 +137,7 @@
                         </table>
                     </div>
                     <div class="col-md-1 col-xs-1 ">
-                        <span ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                        <!--<span ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>-->
                         <span ng-show="pagoSeleccionado!= null" ng-click="mostrarModalEditarPago()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                         <span ng-show="pagoSeleccionado != null " ng-click="openModalConfirmDelelePago()" style="display: none;"><i class="fa fa-trash iconStyle"></i></span>
                     </div>
@@ -191,7 +172,7 @@
                             <required-field texto="Monto:"></required-field>
                         </label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Monto" id="montoInputp" required validate="number">
+                            <input type="text" class="form-control" ng-model="pagoParaGuardar.Monto" id="montoInputp" validate="number">
                             <span style="color: #D82756; font-size: 11px" ng-show="mostrarLabelMonto">El monto debe ser menor al saldo de la cuenta </span>
                         </div>
                         <!-- <div class="col-md-10">
@@ -211,12 +192,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Eliminar cuenta</h4>
+                    <h4 class="modal-title">Anular cuenta</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
-                            <label>Esta seguro que quiere elimnar la cuenta seleccionada?</label>
+                            <label>Esta seguro que quiere anular la cuenta seleccionada?</label>
                         </div>
                     </div>
                 </div>

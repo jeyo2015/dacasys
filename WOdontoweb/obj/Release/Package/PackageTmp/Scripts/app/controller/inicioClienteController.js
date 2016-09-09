@@ -55,7 +55,7 @@
         });
     };
     $scope.seleccionaCita = function (cita) {
-        debugger;
+  
         if (cita.EsTarde) {
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
             return;
@@ -208,7 +208,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         google.maps.event.addListener(marker, 'click', function () {

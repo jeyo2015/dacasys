@@ -41,6 +41,7 @@
     }
     function prepararNuevoPago() {
         $scope.mostrarLabelMonto = false;
+
         $scope.pagoParaGuardar = {
             Descripcion: "",
             Monto: 0,
@@ -64,6 +65,7 @@
         cuentasService.obtenerCuentasPorCobrarPorConsultorio($rootScope.sessionDto.IDConsultorio).then(function (result) {
 
             $scope.cuentasPorCobrarConsultorio = result.select(function (cuenta) {
+                cuenta.sumaPagos = cuenta.Monto - cuenta.Saldo;
                 cuenta.FechaCreacion = moment(cuenta.FechaCreacion).format('DD/MM/YYYY');
                 cuenta.Detalle = cuenta.Detalle.select(function (detalle) {
                     detalle.FechaCreacion = moment(detalle.FechaCreacion).format('DD/MM/YYYY');
@@ -127,7 +129,7 @@
         $('#nuevo-pago').modal('show');
     };
     $scope.mostrarModalEditarPago = function () {
-
+        $scope.mostrarLabelMonto = false;
         $('#nuevo-pago').modal('show');
     };
 
@@ -170,18 +172,31 @@
                     inicializarDatos();
                     toastr.success(result.Message);
                     $('#nuevo-pago').modal('hide');
+                    $('#detalle-cuenta').modal('hide');
                 } else {
                     toastr.error(result.Message);
                 }
             });
         }
     };
-
+   
     $scope.abrirModalPagos = function () {
-        $('#nueva-cuenta').modal('show');
+        $('#detalle-cuenta').modal('show');
     };
     $scope.guardarCuenta = function () {
-
+        
+        if ($scope.cuentaParaGuardar.Monto <= 0) {
+            $scope.mensajeErrorMonto = "El monto debe ser mayor a 0";
+            $scope.mostrarErrorMensajeMonto = true;
+            $('#montoInput').focus();
+            return;
+        }
+        if ($scope.cuentaParaGuardar.Monto < $scope.cuentaParaGuardar.sumaPagos) {
+            $scope.mensajeErrorMonto = "Monto invalido, debe ser mayor o igual a " + $scope.cuentaParaGuardar.sumaPagos;
+            $scope.mostrarErrorMensajeMonto = true;
+            $('#montoInput').focus();
+            return;
+        }
         $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
         $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
         if ($scope.cuentaParaGuardar.State == 1) {
@@ -207,12 +222,17 @@
             });
         }
     };
+    $scope.abrirModalEditarCuenta = function () {
+        $scope.cuentaSeleccionada.State = 2;
+        $('#nueva-cuenta').modal('show');
+    }
     $scope.eliminarPago = function () {
         cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
             if (result.Data) {
                 inicializarDatos();
                 toastr.success(result.Message);
                 $('#eliminar-pago').modal('hide');
+                $('#detalle-cuenta').modal('hide');
             } else {
                 toastr.error(result.Message);
             }
