@@ -92,7 +92,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);

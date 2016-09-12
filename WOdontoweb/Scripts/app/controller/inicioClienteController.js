@@ -8,7 +8,7 @@
     }
     function init() {
 
-
+       
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -40,7 +40,7 @@
 
         cargar_clinicas();
     };
-    function agendarCita() {
+    $scope.agendarCita = function() {
         consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
@@ -55,7 +55,7 @@
         });
     };
     $scope.seleccionaCita = function (cita) {
-  
+     
         if (cita.EsTarde) {
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
             return;
@@ -77,7 +77,7 @@
 
                 if (result == "true") {
                     $scope.citaSeleted = cita;
-                    agendarCita();
+                    $('#modalconfirmarCita').modal('show');
                 } else {
                     $scope.citaSeleted = null;
                     $("#modal-horarios-consultorio").modal('hide');
@@ -92,15 +92,17 @@
         }
     };
 
+    
     $scope.agendarCita = function () {
         consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 cargarCitasDelDia();
-
+                $('#modalconfirmarCita').modal('hide');
                 $scope.citaSeleted = null;
             } else {
                 toastr.error(result.Message);
+                $('#modalconfirmarCita').modal('hide');
             }
         });
     };
@@ -115,6 +117,11 @@
 
     $scope.abrirModalVerMasClinica = function () {
         $scope.verConsultorio = true;
+        if ($scope.clinicaSeleccionada.Consultorios.length == 1)
+            $scope.mostrarHorarios();
+        else
+            $scope.mostrarConsultorios();
+         
         $("#modal-ver-mas").modal('show');
     };
 
@@ -129,12 +136,15 @@
             $scope.citasDelDia = result;
             $scope.citaSeleted = null;
             $scope.verConsultorio = false;
-            $("#modal-horarios-consultorio").modal('show');
+          
         });
 
     }
 
-
+    $scope.cerraModalConfirmCita = function () {
+        $scope.citaSeleted = null;
+        $('#modalconfirmarCita').modal('hide');
+    }
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
@@ -208,7 +218,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         google.maps.event.addListener(marker, 'click', function () {
@@ -218,7 +228,7 @@
             })[0];
             $scope.$apply();
             openInfoWindow(marker);
-            marker.setIcon('desarrollo/Content/img/markerselect.png');
+            marker.setIcon('Content/img/markerselect.png');
         });
     }
 
@@ -258,7 +268,7 @@
     };
     function closeInfoWindow() {
         infoWindow.close();
-       // marker.setIcon('desarrollo/Content/img/marker.png');
+        // marker.setIcon('desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -307,4 +317,17 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
+    $scope.mostrarContactenos = function () {
+        $scope.mostrarPanel = 2;
+    }
+    $scope.mostrarConsultorios = function () {
+        $scope.mostrarPanel = 1;
+    }
+    $scope.mostrarComentarios = function () {
+        $scope.mostrarPanel = 3;
+    }
+    $scope.mostrarHorarios = function () {
+        $scope.mostrarPanel = 4;
+        $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
+    }
 });
