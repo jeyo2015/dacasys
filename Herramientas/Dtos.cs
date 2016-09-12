@@ -102,6 +102,7 @@
         public List<TelefonoDto> Telefonos { get; set; }
         public List<TrabajosConsultorioDto> Trabajos { get; set; }
         public List<HorarioMapaDto> HorarioParaMapa { get; set; }
+        public string NombreDoctor { get; set; }
     }
 
     public class TelefonoDto

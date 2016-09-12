@@ -497,8 +497,14 @@ namespace NLogin
         {
             return (from e in dataContext.Empresa
                     from tc in dataContext.Tiempo_Consulta
+                    from ue in dataContext.UsuarioEmpleado
+                    from r in dataContext.Rol
                     where e.IDClinica == idClinica
                     && tc.ID == e.IDIntervalo
+                   && ue.IDEmpresa ==e.ID
+                   && r.Nombre == "Administrador Dentista"
+                   && ue.IDRol ==r.ID
+                   && r.IDEmpresa == e.ID
                     select new ConsultorioDto()
                     {
                         Email = e.Email,
@@ -514,7 +520,8 @@ namespace NLogin
                         Telefonos = ObtenerTelefonosConsultorios(e.ID, idClinica),
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),
                         TiempoCita = tc.Value,
-                        HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID)
+                        HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
+                        NombreDoctor = ue.Nombre
                     }).ToList();
         }
         public static List<HorarioMapaDto> ObtenerHorarioParaMostrarMapa(int idConsultorio)
