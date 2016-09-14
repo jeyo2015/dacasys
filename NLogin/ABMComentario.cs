@@ -49,7 +49,7 @@
                                       where comentario.IsVisible == true && comentario.IDClinica == idConsultorio
                                       && cp.id_usuariocliente == comentario.IDUsuarioPaciente
                                       && p.id_paciente == cp.id_paciente && cp.IsPrincipal == true
-                                      orderby comentario.FechaCreacion descending
+                                      //orderby comentario.FechaCreacion descending
                                       select new ComentarioDto()
                                       {
                                           IDEmpresa = comentario.IDClinica,
@@ -64,7 +64,7 @@
                                      where comentario.IsVisible == true && comentario.IDClinica == idConsultorio
                                      && comentario.IDUsuarioPaciente == cp.Login
                                      && cp.IDEmpresa == idConsultorio
-                                     orderby comentario.FechaCreacion descending
+                                    // orderby comentario.FechaCreacion descending
                                      select new ComentarioDto()
                                      {
                                          IDEmpresa = comentario.IDClinica,
@@ -75,7 +75,7 @@
                                          NombrePaciente = cp.Nombre
                                      }).ToList();
             comentariosDoctor.AddRange(comentariosCliente);
-            return comentariosDoctor;
+            return comentariosDoctor.OrderByDescending(o=> o.FechaCreacion).ToList();
         }
 
         #endregion

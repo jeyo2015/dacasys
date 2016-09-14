@@ -40,16 +40,16 @@
 
         cargar_clinicas();
     };
-    $scope.agendarCita = function () {
-        consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
-            if (result.Success) {
-                toastr.success(result.Message);
-                cargarCitasDelDia();
-            } else {
-                toastr.error(result.Message);
-            }
-        });
-    };
+    //$scope.agendarCita = function () {
+    //    consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
+    //        if (result.Success) {
+    //            toastr.success(result.Message);
+    //            cargarCitasDelDia();
+    //        } else {
+    //            toastr.error(result.Message);
+    //        }
+    //    });
+    //};
     $scope.seleccionaCita = function (cita) {
 
         if (cita.EsTarde) {
@@ -198,9 +198,9 @@
 
     }
 
-    $scope.validarCamposComentario = function () {
-        return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
-    };
+    //$scope.validarCamposComentario = function () {
+    //    return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
+    //};
 
     $scope.mostrarModalComentario = function (consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
@@ -299,7 +299,7 @@
         cargarCitasDelDia();
     };
     function prepararNuevoComentario() {
-        $scope.comentarioParaGuardar = {
+        $rootScope.comentarioParaGuardar = {
             LoginCliente: $rootScope.sessionDto.loginUsuario,
             Comentario: '',
             State: 1,
@@ -309,17 +309,23 @@
     }
 
     $scope.guardarComentario = function () {
-        if ($scope.comentarioParaGuardar.State == 1) {
-            comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
-                if (result.Data == 1) {
+        if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
+            $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
+            $scope.loginEmpresa = "";
+            $rootScope.isAdmin = false;
+            $("#modal-login-cliente").modal('show');
+        } else
+            if ($scope.comentarioParaGuardar.State == 1) {
+                comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
+                    if (result.Data == 1) {
 
-                    toastr.success(result.Message);
-                    $("#modal-comentario").modal('hide');
-                } else {
-                    toastr.error(result.Message);
-                }
-            });
-        }
+                        toastr.success(result.Message);
+                        obtenerListaComentarios();
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                });
+            }
     };
     $scope.cerrarModalHorarios = function () {
         $scope.citaSeleted = null;
@@ -331,8 +337,19 @@
     //$scope.mostrarConsultorios = function () {
     //    $scope.mostrarPanel = 1;
     //};
+    function obtenerListaComentarios() {
+        comentarioService.obtenerComentariosPorEmpresa($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
+            $scope.ListaComentario = result;
+            $scope.ListaComentario = result.select(function (comentario) {
+                comentario.FechaCreacion = moment(comentario.FechaCreacion).format('DD/MM/YYYY');
+                return comentario;
+            });
+            prepararNuevoComentario();
+        });
+    }
     $scope.mostrarComentarios = function () {
         $scope.mostrarPanel = 3;
+        obtenerListaComentarios();
     };
     $scope.mostrarHorarios = function () {
         $scope.mostrarPanel = 4;

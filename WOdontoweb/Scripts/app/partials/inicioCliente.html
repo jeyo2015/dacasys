@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent "  min-heigth id="mapa">
+﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " min-heigth id="mapa">
 </div>
 
 <div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
@@ -16,10 +16,10 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-body" style="min-height: 400px">
+            <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4 col-xs-4">
-                        <button class="btn btn-primary"  ng-click="mostrarHorarios()">ver Horarios</button>
+                        <button class="btn btn-primary" ng-click="mostrarHorarios()">ver Horarios</button>
                     </div>
                     <div class="col-md-4 col-xs-4">
                         <button class="btn btn-primary" ng-click="mostrarContactenos()">Contactenos</button>
@@ -28,7 +28,7 @@
                         <button class="btn btn-primary" ng-click="mostrarComentarios()">Comentarios</button>
                     </div>
                 </div>
-                <div class="row" id="panelContactenos" ng-show="mostrarPanel ==2 ">
+                <div class="row" id="panelContactenos" ng-show="mostrarPanel ==2 " style="min-height: 350px; max-height:350px; overflow-y:auto">
                     <div id="direccion" class="form-group">
                         <h5 class="col-md-12 control-label">Direccion </h5>
                         <div class="col-md-1"></div>
@@ -40,22 +40,47 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    <h5 class="col-md-12 control-label">Trabajos </h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-12" ng-repeat="trabajo in clinicaSeleccionada.Trabajos  ">
-                            <div class="col-md-6">
-                                {{trabajo.Descripcion}}
+                        <h5 class="col-md-12 control-label">Trabajos </h5>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
+                            <div class="col-md-12" ng-repeat="trabajo in clinicaSeleccionada.Trabajos  ">
+                                <div class="col-md-6">
+                                    {{trabajo.Descripcion}}
+                                </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
+                <div class="row" id="panelComentarios" ng-show="mostrarPanel ==3 "  style="min-height: 350px; max-height:350px; overflow-y:auto">
+
+                    <div class="row">
+                        <div class="form-group ">
+
+                            <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                                <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control col-md-12" style="width: 100%; max-width: 100%" id="usuarioID" placeholder="Escribe un comentario..."> </textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <span ng-click="guardarComentario()" ng-show="comentarioParaGuardar.Comentario.length >0"><i class="fa fa-paper-plane iconStyle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                            <div class="panel panel-primary" ng-repeat="comentario in ListaComentario">
+                            <div class="panel-heading">
+                                <h3 style="height: 12px" class="panel-title">{{comentario.NombrePaciente}} <span class="pull-right">{{comentario.FechaCreacion}}</span></h3>
+                            </div>
+                            <div class="panel-body">
+                                <label>{{comentario.Comentario}}</label>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </div>
                 </div>
-                <div class="row" id="panelComentarios" ng-show="mostrarPanel ==3 ">
-                </div>
-                <div class="row" id="panelHorario" ng-show="mostrarPanel ==4 ">
+                <div class="row" id="panelHorario" ng-show="mostrarPanel ==4 " style="min-height: 350px; max-height:350px; overflow-y:auto">
                     <form class="form-horizontal">
                         <div class="row">
                             <div class="col-md-12">
@@ -231,7 +256,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Consultorios de la clinica {{clinicaSeleccionada.Nombre}}</h4>
             </div>
             <div class="modal-body">

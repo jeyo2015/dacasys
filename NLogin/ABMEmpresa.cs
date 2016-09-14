@@ -502,7 +502,7 @@ namespace NLogin
                     where e.IDClinica == idClinica
                     && tc.ID == e.IDIntervalo
                    && ue.IDEmpresa ==e.ID
-                   && r.Nombre == "Administrador Dentista"
+                   && (r.Nombre == "Administrador Dentista" || r.Nombre=="Administrador DACASYS")
                    && ue.IDRol ==r.ID
                    && r.IDEmpresa == e.ID
                     select new ConsultorioDto()

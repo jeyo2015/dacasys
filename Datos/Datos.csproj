@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contexto.cs">
+      <DependentUpon>Contexto.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Contexto.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

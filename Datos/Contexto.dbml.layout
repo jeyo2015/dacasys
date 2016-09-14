@@ -38,7 +38,7 @@
         <elementListCompartment Id="3c51b430-70da-4130-af9e-36cc7f7560a1" absoluteBounds="0.765, 1.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="afdfae81-47f5-44ef-ac4f-8578f7be2fe2" absoluteBounds="3.75, 7.75, 2, 1.9631982421874996">
+    <classShape Id="afdfae81-47f5-44ef-ac4f-8578f7be2fe2" absoluteBounds="3.75, 7.75, 2, 1.9631982421875005">
       <DataClassMoniker Name="/ContextoDataContext/ComentariosClinica" />
       <nestedChildShapes>
         <elementListCompartment Id="6bf53cfc-a54c-4843-8d3e-dc570f437ed1" absoluteBounds="3.765, 8.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
