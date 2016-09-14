@@ -2491,6 +2491,7 @@ D:\DACASYS\Clone1506\dacasys\NConsulta\bin\Debug\NLogin.pdb
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.dll
 D:\DACASYS\Clone1506\dacasys\NConsulta\obj\Debug\NConsulta.pdb
+E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\NConsulta.dll
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\NConsulta.pdb
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\DataTableConverter.dll
@@ -2504,6 +2505,5 @@ E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\Herramientas.pdb
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\NAgenda.pdb
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\NEventos.pdb
 E:\DACASYS\Clone3105\dacasys\NConsulta\bin\Debug\NLogin.pdb
-E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Debug\NConsulta.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Debug\NConsulta.dll
 E:\DACASYS\Clone3105\dacasys\NConsulta\obj\Debug\NConsulta.pdb

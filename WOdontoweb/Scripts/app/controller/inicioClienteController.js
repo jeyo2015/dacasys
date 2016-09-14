@@ -283,9 +283,17 @@
         var myOptions = {
             zoom: 15,
             center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.BOTTOM_LEFT
+            },
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
+        var input = document.getElementById('pac-input');
+       // var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         infoWindow = new google.maps.InfoWindow();
         google.maps.event.addListener(map, 'click', function () {
             closeInfoWindow();

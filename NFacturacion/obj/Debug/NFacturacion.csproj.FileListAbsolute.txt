@@ -78,6 +78,7 @@ D:\DACASYS\Clone1506\dacasys\NFacturacion\bin\Debug\NEventos.pdb
 D:\DACASYS\Clone1506\dacasys\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NFacturacion\obj\Debug\NFacturacion.dll
 D:\DACASYS\Clone1506\dacasys\NFacturacion\obj\Debug\NFacturacion.pdb
+E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\NFacturacion.dll
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\NFacturacion.pdb
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\DataTableConverter.dll
@@ -85,6 +86,5 @@ E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\Datos.dll
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\NEventos.dll
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\Datos.pdb
 E:\DACASYS\Clone3105\dacasys\NFacturacion\bin\Debug\NEventos.pdb
-E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Debug\NFacturacion.dll
 E:\DACASYS\Clone3105\dacasys\NFacturacion\obj\Debug\NFacturacion.pdb

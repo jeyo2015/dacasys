@@ -1609,6 +1609,7 @@ D:\DACASYS\Clone1506\dacasys\NLogin\bin\Debug\NEventos.pdb
 D:\DACASYS\Clone1506\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\NLogin\obj\Debug\NLogin.dll
 D:\DACASYS\Clone1506\dacasys\NLogin\obj\Debug\NLogin.pdb
+E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NLogin.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NLogin.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\DataTableConverter.dll
@@ -1618,6 +1619,5 @@ E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NEventos.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Datos.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\Herramientas.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Debug\NEventos.pdb
-E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\obj\Debug\NLogin.pdb
