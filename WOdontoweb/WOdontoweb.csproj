@@ -246,6 +246,7 @@
     <Content Include="Scripts\app\controller\rolesController.js" />
     <Content Include="Scripts\app\controller\miConsultorioController.js" />
     <Content Include="Scripts\app\controller\loginController.js" />
+    <Content Include="Scripts\app\directives\autocompletar.js" />
     <Content Include="Scripts\app\directives\minHeigth.js" />
     <Content Include="Scripts\app\directives\loader.js" />
     <Content Include="Scripts\app\directives\filterList.js" />

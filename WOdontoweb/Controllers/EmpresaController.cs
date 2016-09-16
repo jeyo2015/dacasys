@@ -17,7 +17,13 @@
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-
+        public JsonResult ObtenerConsultorios()
+        {
+            var result = ABMEmpresa.ObtenerConsultorios();
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
         public JsonResult ObtenerConsultorioPorId(int idConsultorio)
         {
             var result = ABMEmpresa.ObtenerConsultorioPorId(idConsultorio);

@@ -20,6 +20,13 @@
         });
         return d.promise;
     };
+    this.obtenerConsultorios = function () {
+        var d = $q.defer();
+        $http.get('Empresa/ObtenerConsultorios').success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.getIntervalosTiempo = function () {
         var d = $q.defer();
         $http.get('Empresa/ObtenerIntervalosDeTiempo').success(function (data) {

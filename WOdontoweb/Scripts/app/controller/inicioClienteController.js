@@ -6,9 +6,19 @@
         var href = window.location.href.split('/');
         return href[0] + '//' + href[2] + '/';
     }
+
+    $("#pac-input").focus(function () {
+        $scope.mostrarConsultorios = true;
+        $scope.$apply();
+    });
+    //$("#pac-input").blur(function () {
+    //    $scope.consultorioBuscar = "";
+    //    $scope.mostrarConsultorios = false;
+    //    $scope.$apply();
+    //});
     function init() {
 
-
+        $scope.mostrarConsultorios = false;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -103,19 +113,23 @@
         });
     };
 
+
     function cargar_clinicas() {
         clinicaService.getAllClinicasHabilitadas().then(function (result) {
 
             $scope.clinicas = result;
             crearTodosLosMarkers();
+            clinicaService.obtenerConsultorios().then(function (result) {
+                $scope.consultoriosBuscador = result;
+            });
         });
+
     }
 
     function mostrarConsultorios() {
         $("#modal-seleccionar-consultorio").modal('show');
     }
     $scope.abrirModalVerMasClinica = function () {
-        debugger;
         $scope.consultorioSeleccionado = null;
         $scope.verConsultorio = true;
         if ($scope.clinicaSeleccionada.Consultorios.length == 1) {
@@ -156,9 +170,12 @@
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
-
+        markers.select(function (item) {
+            if (item.zIndex != marker.zIndex)
+                item.setIcon('Content/img/marker.png');
+        });
         $scope.telefonosClinicaSeleccionada = "";
-        console.log($scope.clinicaSeleccionada);
+    
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
             if (i > 0)
                 $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
@@ -198,9 +215,7 @@
 
     }
 
-    //$scope.validarCamposComentario = function () {
-    //    return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
-    //};
+
 
     $scope.mostrarModalComentario = function (consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
@@ -220,6 +235,21 @@
             CrearMarcador(clinica);
         });
     }
+    $scope.seleccionarConsultorioBuscador = function (consultorio) {
+        var markerSelect = markers.where(function (item) {
+            return consultorio.IDClinica == item.zIndex
+        })[0];
+        $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
+            return item.IDClinica == consultorio.IDClinica
+        })[0];
+        $scope.consultorioBuscar = "";
+        $scope.mostrarConsultorios = false;
+        openInfoWindow(markerSelect);
+        markerSelect.setIcon('Content/img/markerselect.png');
+
+
+    }
+    var markers = [];
     function CrearMarcador(clinica) {
 
         var marker = new google.maps.Marker({
@@ -229,6 +259,7 @@
             icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
+        markers.push(marker);
         google.maps.event.addListener(marker, 'click', function () {
 
             $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
@@ -276,6 +307,10 @@
     };
     function closeInfoWindow() {
         infoWindow.close();
+        markers.select(function (item) {
+
+            item.setIcon('Content/img/marker.png');
+        });
         // marker.setIcon('desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
@@ -291,13 +326,17 @@
             },
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
-        var input = document.getElementById('pac-input');
-       // var searchBox = new google.maps.places.SearchBox(input);
+        var input = document.getElementById('buscadorClinica');
+        //var div = document.getElementById('listClinicas');
+        // var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        //    map.controls[google.maps.ControlPosition.TOP_LEFT].push(div);
         infoWindow = new google.maps.InfoWindow();
         google.maps.event.addListener(map, 'click', function () {
             closeInfoWindow();
-            // Cambiar_Imagenes();
+            $scope.consultorioBuscar = "";
+            $scope.mostrarConsultorios = false;
+            $scope.$apply();
         });
 
     }

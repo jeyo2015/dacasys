@@ -501,9 +501,9 @@ namespace NLogin
                     from r in dataContext.Rol
                     where e.IDClinica == idClinica
                     && tc.ID == e.IDIntervalo
-                   && ue.IDEmpresa ==e.ID
-                   && (r.Nombre == "Administrador Dentista" || r.Nombre=="Administrador DACASYS")
-                   && ue.IDRol ==r.ID
+                   && ue.IDEmpresa == e.ID
+                   && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
+                   && ue.IDRol == r.ID
                    && r.IDEmpresa == e.ID
                     select new ConsultorioDto()
                     {
@@ -518,6 +518,38 @@ namespace NLogin
                         Login = e.Login,
                         NIT = e.NIT,
                         Telefonos = ObtenerTelefonosConsultorios(e.ID, idClinica),
+                        Trabajos = ObtenerTrabajosConsultorio(e.ID),
+                        TiempoCita = tc.Value,
+                        HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
+                        NombreDoctor = ue.Nombre
+                    }).ToList();
+        }
+        public static List<ConsultorioDto> ObtenerConsultorios()
+        {
+            return (from e in dataContext.Empresa
+                    from tc in dataContext.Tiempo_Consulta
+                    from ue in dataContext.UsuarioEmpleado
+                    from r in dataContext.Rol
+                    from cl in dataContext.Clinica
+                    where tc.ID == e.IDIntervalo
+                   && ue.IDEmpresa == e.ID
+                   && cl.ID == e.IDClinica
+                   && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
+                   && ue.IDRol == r.ID
+                   && r.IDEmpresa == e.ID
+                    select new ConsultorioDto()
+                    {
+                        Email = e.Email,
+                        Estado = e.Estado,
+                        FechaCreacion = e.FechaCreacion,
+                        FechaModificacion = e.FechaModificacion,
+                        IDClinica = e.IDClinica,
+                        IDConsultorio = e.ID,
+                        IDIntervalo = e.IDIntervalo,
+                        IDUsuarioCreador = e.IDUsuarioCreador,
+                        Login = e.Login,
+                        NIT = e.NIT,
+                        NombreClinica = cl.Nombre,
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),
                         TiempoCita = tc.Value,
                         HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
@@ -569,10 +601,10 @@ namespace NLogin
                         if (compararHorarios(horarioActual, horariosConsultorio[j]))
                         {
                             horariosConsultorio[j].hasFriend = true;
-                            
-                                dias = dias + "-" + horariosConsultorio[j].NombreCorto;
-                            
-                               
+
+                            dias = dias + "-" + horariosConsultorio[j].NombreCorto;
+
+
                             //dias.Add(new DiaDto
                             //{
                             //    IDDia = horariosConsultorio[j].IdDia,
