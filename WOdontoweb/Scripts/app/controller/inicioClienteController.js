@@ -175,7 +175,7 @@
                 item.setIcon('Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
-    
+        2
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
             if (i > 0)
                 $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
@@ -196,8 +196,19 @@
                                      </div>\
                                 </div>\
                                 <div class="row" >\
-                                     <div class="col-md-12 col-xs-12">\
-                                         <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>\
+                                <div class="col-md-4 col-xs-4">\
+                                         <label  style="color: #3B3B3C;">Direccion: </label>\
+                                     </div>\
+                                     <div class="col-md-8 col-xs-8">\
+                                         <label  class="cortar">{{clinicaSeleccionada.Direccion}}</label>\
+                                     </div>\
+                                </div>\
+                                <div class="row" >\
+                                <div class="col-md-4 col-xs-4">\
+                                         <label  style="color: #3B3B3C;">Telefonos:</label>\
+                                     </div>\
+                                     <div class="col-md-8 col-xs-8">\
+                                         <label  title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>\
                                      </div>\
                                 </div>\
                                 <div class="row" >\

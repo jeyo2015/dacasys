@@ -575,7 +575,14 @@ input:-webkit-autofill
     margin-right: 0px;
     margin-left: 0px;
 }
-
+.divContentMap
+{
+    background-color: #fff;
+     padding-left: 0px;
+    box-shadow: #CED2DB 0 1px 2px 0;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
 .divContent
 {
     background-color: #fff;

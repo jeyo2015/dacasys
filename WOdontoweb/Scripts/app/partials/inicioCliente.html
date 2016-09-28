@@ -1,4 +1,4 @@
-﻿<div id="buscadorClinica">
+﻿g<div id="buscadorClinica">
     <input id="pac-input" type="text"
         placeholder="Buscar consultorio" ng-model="consultorioBuscar">
     <div id="listClinicas" style="max-height: 300px; overflow-y: auto" ng-show="mostrarConsultorios">
@@ -13,7 +13,7 @@
 
 </div>
 
-<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " min-heigth id="mapa">
+<div class="col-md-10 col-xs-12 col-md-offset-1 divContentMap " min-heigth id="mapa">
 </div>
 
 <div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
@@ -62,8 +62,23 @@
 
 
                         </div>
+                         <div id="Div2" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Email de </h5>
 
-                        <div class="form-group">
+                           <input type="text" class="form-control" />
+
+
+
+                        </div>
+                         <div id="Div3" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Mensaje </h5>
+
+                         <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control "  rows="6"></textarea>
+
+
+
+                        </div>
+                       <!-- <div class="form-group">
                             <h5 class="col-md-12 control-label">Trabajos </h5>
                             <div class="col-md-1"></div>
                             <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
@@ -75,7 +90,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 

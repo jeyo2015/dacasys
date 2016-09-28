@@ -3,7 +3,7 @@
 
     $('#fileupload').fileupload({
         dataType: 'json',
-        url: '/Empresa/UploadFiles',
+        url: 'desarrollo/Empresa/UploadFiles',
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 10000000, // 10 MB
         minFileSize: undefined,
