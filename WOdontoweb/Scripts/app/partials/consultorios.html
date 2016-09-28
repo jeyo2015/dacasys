@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="clinica in allClinicas" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
+                        <tr ng-repeat="clinica in allClinicas" style="cursor: pointer;" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
                             <td>{{clinica.Login}}</td>
                             <td>{{clinica.Nombre}}</td>
                         </tr>
@@ -103,7 +103,7 @@
                             <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
                                 <table class="table table-hover tableStyle scroll">
                                     <tbody id="tablaTrabajosClinicaId">
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
                                             <td>{{trabajo.Descripcion}}</td>
                                         </tr>
                                     </tbody>
@@ -153,7 +153,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
+                                        <tr style="cursor: pointer;" ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
                                             <td>{{consultorio.Login}}</td>
                                             <td>{{consultorio.NIT}}</td>
                                         </tr>
@@ -281,7 +281,7 @@
                             <div class="col-md-7">
                                 <table id="Table1" class="table table-hover tableStyle scroll">
                                     <tbody>
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos" style="cursor: pointer;">
                                             <td>
                                                 <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
                                             </td>
@@ -303,7 +303,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
+                                            <tr style="cursor: pointer;" ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
                                                 <td>{{telefono.Nombre}}</td>
                                                 <td>{{telefono.Telefono}}</td>
                                             </tr>

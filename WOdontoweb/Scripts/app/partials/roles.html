@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="rol in allRoles" ng-class="{selectElement:rolSelected.ID==rol.ID}" ng-click="selectRol(rol)">
+                            <tr ng-repeat="rol in allRoles" ng-class="{selectElement:rolSelected.ID==rol.ID}" ng-click="selectRol(rol)" style="cursor: pointer;">
                                 <td>
                                     {{rol.Nombre}}
                                 </td>

@@ -4,7 +4,7 @@
             <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                 <table class="table table-hover tableStyle">
                     <tbody>
-                        <tr ng-class="{selectElement:miCitaSelected.IDCita==cita.IDCita}" ng-repeat="cita in ListaCitas |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarCita(cita)">
+                        <tr ng-class="{selectElement:miCitaSelected.IDCita==cita.IDCita}" ng-repeat="cita in ListaCitas |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarCita(cita)" style="cursor: pointer;">
                             <td>
                                 <b>{{cita.NombreConsultorio}}</b><br />
                                 {{cita.NombrePaciente}}                                

@@ -338,10 +338,7 @@
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
         var input = document.getElementById('buscadorClinica');
-        //var div = document.getElementById('listClinicas');
-        // var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-        //    map.controls[google.maps.ControlPosition.TOP_LEFT].push(div);
         infoWindow = new google.maps.InfoWindow();
         google.maps.event.addListener(map, 'click', function () {
             closeInfoWindow();

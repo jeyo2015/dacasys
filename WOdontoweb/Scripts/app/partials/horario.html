@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
+                            <tr style="cursor: pointer;" ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
                                 <td>{{horario.NombreDia}}</td>
                                 
                                 <td>{{horario.HoraInicio}}</td>

@@ -19,7 +19,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-class="{selectElement:clienteSelected.LoginCliente==cliente.LoginCliente}" ng-repeat="cliente in ListaCliente |filterByWords:subString:'IDPaciente,IDEmpresa,Estado,IsPrincipal,Sexo,TipoSangre,Email,Telefono,Ci,Direccion,Antecedentes,Nombre,Apellido'" ng-click="seleccionarCliente(cliente)">
+                            <tr style="cursor: pointer;" ng-class="{selectElement:clienteSelected.LoginCliente==cliente.LoginCliente}" ng-repeat="cliente in ListaCliente |filterByWords:subString:'IDPaciente,IDEmpresa,Estado,IsPrincipal,Sexo,TipoSangre,Email,Telefono,Ci,Direccion,Antecedentes,Nombre,Apellido'" ng-click="seleccionarCliente(cliente)">
                                 <td>{{cliente.LoginCliente}}</td>
                                 <td>{{cliente.NombrePaciente}}</td>
                             </tr>
@@ -135,7 +135,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="paciente in ListaPaciente" ng-click="seleccionarPaciente(paciente)">
+                                    <tr style="cursor: pointer;"  ng-repeat="paciente in ListaPaciente" ng-click="seleccionarPaciente(paciente)">
                                         <td>{{paciente.NombrePaciente}}</td>
                                         <td>{{paciente.Ci}}</td>
                                     </tr>

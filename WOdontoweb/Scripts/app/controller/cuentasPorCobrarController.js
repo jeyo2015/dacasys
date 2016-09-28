@@ -32,7 +32,7 @@
             Login: "",
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
             State: 1
-        }
+        };
         $scope.cuentaSeleccionada = null;
         $scope.pagoSelecionado = null;
         $scope.trabajoSeleccionado = null;
