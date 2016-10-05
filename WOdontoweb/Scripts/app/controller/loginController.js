@@ -94,6 +94,7 @@
             $rootScope.sessionDto = result;
             $location.path('/inicioCliente');
           
+
             
         });
     };

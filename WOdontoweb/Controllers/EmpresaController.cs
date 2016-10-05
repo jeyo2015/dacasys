@@ -150,6 +150,17 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult EnviarContactenos(string mensaje, string emailPaciente, string asunto)
+        {
+            var insert = ABMEmpresa.EnviarContactenos(mensaje, emailPaciente, asunto);
+            var result = new ResponseModel()
+            {
+                Message = insert == 1 ? "Se envio correctamente el correo" : "No se pudo enviar el correo, intente de nuevo por favor",
+                Data = insert,
+                Success = insert == 1
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult ObtenerConsultoriosPorCliente(string loginCliente)
         {

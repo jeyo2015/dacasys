@@ -1,12 +1,17 @@
-﻿g<div id="buscadorClinica">
+﻿<div id="buscadorClinica">
     <input id="pac-input" type="text"
         placeholder="Buscar consultorio" ng-model="consultorioBuscar">
     <div id="listClinicas" style="max-height: 300px; overflow-y: auto" ng-show="mostrarConsultorios">
-        <div style="width: 280px; height:25px" ng-repeat="clinica in consultoriosBuscador   |filterByWords:consultorioBuscar:'EsConsultorioDefault,IDConsultorio,TiempoCita,NIT,FechaCreacion,FechaModificacion,IDClinica,State,Telefonos,Trabajos,HorarioParaMapa,IDUsuarioCreador,Estado,Email,IDIntervalo'">
-            <div class="col-md-12" style="padding: 8px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
-                {{clinica.Login}} - {{clinica.NombreDoctor}}
+        <div class="divElementSearch" ng-repeat="clinica in consultoriosBuscador   |filterByWords:consultorioBuscar:'EsConsultorioDefault,IDConsultorio,TiempoCita,NIT,FechaCreacion,FechaModificacion,IDClinica,State,Telefonos,Trabajos,HorarioParaMapa,IDUsuarioCreador,Estado,Email,IDIntervalo'">
+            <div class="col-md-12" style="padding: 7px 25px 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-weight: bold">Clinica {{clinica.NombreClinica}}  </span>
             </div>
-
+            <div class="col-md-12" style="padding: 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-size: 11px">Consultorio {{clinica.Login}} - {{clinica.NombreDoctor}}  </span>
+            </div>
+            <div class="col-md-12" style="padding: 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-size: 11px">Direccion  {{clinica.Direccion}} </span>
+            </div>
         </div>
 
     </div>
@@ -31,16 +36,16 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="min-height: 350px;">
                 <div class="row">
                     <div class="col-md-4 col-xs-4">
-                        <button class="btn btn-primary" ng-click="mostrarHorarios()">ver Horarios</button>
+                        <button class="btn btn-primary" ng-class="{'activeButton': mostrarPanel ==4 }" ng-click="mostrarHorarios()">ver Horarios</button>
                     </div>
                     <div class="col-md-4 col-xs-4">
-                        <button class="btn btn-primary" ng-click="mostrarContactenos()">Contactenos</button>
+                        <button class="btn btn-primary" ng-click="mostrarContactenos()" ng-class="{'activeButton': mostrarPanel ==2 }">Contactenos</button>
                     </div>
                     <div class="col-md-4 col-xs-4">
-                        <button class="btn btn-primary" ng-click="mostrarComentarios()">Comentarios</button>
+                        <button class="btn btn-primary" ng-click="mostrarComentarios()" ng-class="{'activeButton': mostrarPanel ==3 }">Comentarios</button>
                     </div>
                 </div>
 
@@ -62,38 +67,34 @@
 
 
                         </div>
-                         <div id="Div2" class="form-group">
+                        <div id="Div2" class="form-group">
                             <h5 style="font-weight: bold" class="col-md-3 control-label">Email de </h5>
 
-                           <input type="text" class="form-control" />
+                            <input type="text" class="form-control" ng-model="emailDe" />
 
 
 
                         </div>
-                         <div id="Div3" class="form-group">
+                        <div id="Div4" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Asunto</h5>
+
+                            <input type="text" class="form-control" ng-model="asunto" />
+
+
+
+                        </div>
+                        <div id="Div3" class="form-group">
                             <h5 style="font-weight: bold" class="col-md-3 control-label">Mensaje </h5>
 
-                         <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control "  rows="6"></textarea>
-
-
+                            <textarea ng-model="mensajeContactenos" class="form-control " rows="5"></textarea>
 
                         </div>
-                       <!-- <div class="form-group">
-                            <h5 class="col-md-12 control-label">Trabajos </h5>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                                <div class="col-md-12" ng-repeat="trabajo in clinicaSeleccionada.Trabajos  ">
-                                    <div class="col-md-6">
-                                        {{trabajo.Descripcion}}
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>-->
+                        <div class="row">
+                           
+                            <button class="btn btn-primary pull-right" ng-disabled="mensajeContactenos.length == 0 || emailDe.length ==0|| asunto.length ==0" ng-click="enviarContactenos()">Enviar correo</button>
+                        </div>
                     </div>
                 </div>
-
                 <div class="row" id="panelComentarios" ng-show="mostrarPanel ==3 " style="min-height: 350px; max-height: 350px; overflow-y: auto">
 
                     <div class="row">
@@ -157,6 +158,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <!--<button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalComentario(clinicaSeleccionada.Consultorios[0])">Dejar comentario</button>-->

@@ -85,6 +85,7 @@
 
     public class ConsultorioDto
     {
+        public string Direccion { get; set; }
         public bool EsConsultorioDefault { get; set; }
         public int IDConsultorio { get; set; }
         public int TiempoCita { get; set; }

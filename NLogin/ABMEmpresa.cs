@@ -524,6 +524,17 @@ namespace NLogin
                         NombreDoctor = ue.Nombre
                     }).ToList();
         }
+        public static int EnviarContactenos( string mensaje, string emailPaciente, string asunto) {
+            SMTP vSMTP = new SMTP();//crear el smt
+            String vMensaje = "";
+
+            vMensaje = mensaje + "\nPor favor responder al correo : " + emailPaciente;//arma el mensaje
+
+
+            vSMTP.Datos_Mensaje(emailPaciente, vMensaje, asunto);//carga los datos()
+
+            return vSMTP.Enviar_Mail();
+        }
         public static List<ConsultorioDto> ObtenerConsultorios()
         {
             return (from e in dataContext.Empresa
@@ -548,6 +559,7 @@ namespace NLogin
                         IDIntervalo = e.IDIntervalo,
                         IDUsuarioCreador = e.IDUsuarioCreador,
                         Login = e.Login,
+                        Direccion=cl.Direccion,
                         NIT = e.NIT,
                         NombreClinica = cl.Nombre,
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),

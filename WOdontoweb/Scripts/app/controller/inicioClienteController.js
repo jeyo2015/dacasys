@@ -279,6 +279,7 @@
             $scope.$apply();
             openInfoWindow(marker);
             marker.setIcon('Content/img/markerselect.png');
+            $scope.mostrarConsultorios = false;
         });
     }
 
@@ -391,7 +392,22 @@
     };
     $scope.mostrarContactenos = function () {
         $scope.mostrarPanel = 2;
+        $scope.emailDe = "";
+        $scope.mensajeContactenos = "";
+        $scope.asunto = "";
     };
+    $scope.enviarContactenos = function () {
+        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function (result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                $scope.emailDe = "";
+                $scope.mensajeContactenos = "";
+                $scope.asunto = "";
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    }
     //$scope.mostrarConsultorios = function () {
     //    $scope.mostrarPanel = 1;
     //};
