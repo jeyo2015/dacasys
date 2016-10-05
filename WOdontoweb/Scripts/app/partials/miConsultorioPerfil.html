@@ -58,7 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="telefono in clinicaParaModificar.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
+                                <tr ng-repeat="telefono in clinicaParaModificar.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)" style="cursor: pointer;">
                                     <td>{{telefono.Nombre}}</td>
                                     <td>{{telefono.Telefono}}</td>
                                 </tr>
@@ -85,7 +85,7 @@
                     <div class="col-md-7 " style="max-height: 150px; overflow-y: auto">
                         <table class="table table-hover tableStyle scroll">
                             <tbody id="tablaTrabajosClinicaId">
-                                <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
                                     <td>{{trabajo.Descripcion}}</td>
                                 </tr>
                             </tbody>
@@ -127,7 +127,7 @@
                         <div class="col-md-6">
                             <table id="Table1" class="table table-hover tableStyle scroll">
                                 <tbody>
-                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos">
+                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos" style="cursor: pointer;">
                                         <td>
                                             <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
                                         </td>
@@ -149,7 +149,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
+                                        <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)" style="cursor: pointer;">
                                             <td>{{telefono.Nombre}}</td>
                                             <td>{{telefono.Telefono}}</td>
                                         </tr>

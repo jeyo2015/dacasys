@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'ID,Descripcion,IDTrabajo,Estado,Detalle,TrabajoDescripcion,Login'  " ng-click="seleccionarCuenta(cuenta)">
+                            <tr ng-class="{selectElement:cuentaSeleccionada.ID==cuenta.ID}" ng-repeat="cuenta in cuentasPorCobrarConsultorio |filterByWords:subString:'ID,Descripcion,IDTrabajo,Estado,Detalle,TrabajoDescripcion,Login'  " style="cursor: pointer;" ng-click="seleccionarCuenta(cuenta)">
                                 <td>{{cuenta.FechaCreacion}}
                                 </td>
                                 <td>{{cuenta.NombreCliente}}</td>
@@ -40,7 +40,7 @@
                                 </td>
                                 <td>{{cuenta.EstadoFull}}
                                 </td>
-                                <td> </td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -83,8 +83,7 @@
                     <div class="form-group">
                         <label for="inputPassword3" class="col-md-3 control-label">Cliente</label>
                         <div class="col-md-9 ">
-                            <select class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-options="cliente.Ci  for cliente in clientesConsultorio" ng-model="clienteSeleccionado"></select>
-
+                            <select class="form-control" ng-disabled="cuentaParaGuardar.Estado!=0" ng-options="cliente as  cliente.Ci+' - ' +  cliente.NombrePaciente  for cliente in clientesConsultorio" ng-model="clienteSeleccionado"></select>
                         </div>
                     </div>
 
@@ -129,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat=" pago in cuentaSeleccionada.Detalle" ng-click="seleccionarPago(pago)">
+                                <tr ng-repeat=" pago in cuentaSeleccionada.Detalle" ng-click="seleccionarPago(pago)" style="cursor: pointer;">
                                     <td>{{pago.FechaCreacion}}</td>
                                     <td>{{pago.Descripcion}}</td>
                                     <td>{{pago.Monto}}</td>
@@ -138,7 +137,6 @@
                         </table>
                     </div>
                     <div class="col-md-1 col-xs-1 ">
-                        <!--<span ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></span>-->
                         <span ng-show="pagoSeleccionado!= null" ng-click="mostrarModalEditarPago()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                         <span ng-show="pagoSeleccionado != null " ng-click="openModalConfirmDelelePago()" style="display: none;"><i class="fa fa-trash iconStyle"></i></span>
                     </div>

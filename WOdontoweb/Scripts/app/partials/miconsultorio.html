@@ -4,7 +4,7 @@
             <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0;">
                 <table class="table table-hover tableStyle">
                     <tbody>
-                        <tr ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
+                        <tr style="cursor: pointer;" ng-class="{selectElement:miConsultorioSelected.IDClinica==consultorio.IDClinica}" ng-repeat="consultorio in ListaConsultorio |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarConsultorio(consultorio)">
                             <td>
                                 <b>{{consultorio.Nombre}}</b><br />
                                 {{consultorio.Direccion}}<br />
@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="comentario" class="col-md-3 control-label">Comentario</label>
                                     <div class="col-md-9">
-                                        <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario"></textarea>
+                                        <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario" maxlength="150"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
+                                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)" style="cursor: pointer;">
                                             <td>
                                                 <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
                                             </td>

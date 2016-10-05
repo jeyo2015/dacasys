@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-class="{selectElement:userSelected.Login==user.Login}" ng-repeat="user in allUsers |filterByWords:subString:'IDRol,IDEmpresa,ConfirmPass,Estado,FechaCreacion,Password,State,changepass'  " ng-click="selectUser(user)">
+                        <tr ng-class="{selectElement:userSelected.Login==user.Login}" ng-repeat="user in allUsers |filterByWords:subString:'IDRol,IDEmpresa,ConfirmPass,Estado,FechaCreacion,Password,State,changepass'  " style="cursor: pointer;" ng-click="selectUser(user)">
                             <td>
                                 {{user.Login}}
                             </td>
