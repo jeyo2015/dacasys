@@ -38,10 +38,24 @@
 
         public JsonResult EliminarPaciente(PacienteDto pacienteDto)
         {
-            var viel = ABMPaciente.Eliminar(pacienteDto.IdPaciente, pacienteDto.IsPrincipal, Session["loginusuario"].ToString());
+            var viel = ABMPaciente.Eliminar(pacienteDto.IdPaciente, pacienteDto.IsPrincipal, Session["loginusuario"].ToString(), pacienteDto.IDEmpresa);
+            var message = "";
+            switch (viel)
+            {
+                case 0:
+                    message = "No se pudo eliminar el paciente, intente de nuevo por favor.";
+                    break;
+                case  1:
+                    message = "Se elimino correctamente el paciente";
+                    break;
+                case 2:
+                    message = "No se pudo eliminar el paciente porque tiene cuentas pendientes por pagar";
+                    break;
+            }
+            
             var result = new ResponseModel()
             {
-                Message = viel == true ? "Se elimino correctamente el paciente" : "No se pudo eliminar el paciente, intente de nuevo por favor.",
+                Message = message,
                 Data = viel
             };
             return Json(result, JsonRequestBehavior.AllowGet);

@@ -77,8 +77,11 @@
 
             return (from c in dataContext.CuentasPorCobrar
                     from t in dataContext.Trabajos
+                    from ec in dataContext.Empresa_Cliente
                     where c.IDConsultorio == pConsultorio
                     && c.IDTrabajo == t.ID
+                    && ec.id_empresa == pConsultorio
+                    && ec.id_usuariocliente== c.Login
                     select new CuentasPorCobrarDto
                     {
                         Descripcion = c.Descripcion,

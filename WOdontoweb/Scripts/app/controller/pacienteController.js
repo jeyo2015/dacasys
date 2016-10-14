@@ -148,7 +148,14 @@
                 toastr.success(result.Message);
                 $scope.closeWarnig();
             } else {
-                toastr.error(result.Message);
+                if(result.Data==0)
+                    toastr.error(result.Message);
+                else {
+                    cargarClientes();
+                    prepararNuevoCliente();
+                    toastr.warning(result.Message);
+                    $scope.closeWarnig();
+                }
             }
         });
     };
@@ -217,7 +224,7 @@
 
         var ciTempo = angular.copy($scope.pacienteParaGuardar.Ci);
         pacienteService.obtenerPacientesPorCi($scope.pacienteParaGuardar.Ci).then(function (result) {
-            debugger;
+          
             if (result.length == 0) {
                 prepararNuevoCliente();
 
