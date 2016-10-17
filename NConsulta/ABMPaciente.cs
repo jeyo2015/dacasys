@@ -43,7 +43,8 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal ?? false
+                        IsPrincipal = clientePaciente.IsPrincipal ?? false,
+                        IDEmpresa = idConsultorio
                     }).ToList();
         }
 
@@ -73,7 +74,8 @@
                         TipoSangre = paciente.tipo_sangre,
                         IdPaciente = paciente.id_paciente,
                         Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal ?? false
+                        IsPrincipal = clientePaciente.IsPrincipal ?? false,
+                        
                     }).ToList();
 
         }
@@ -147,14 +149,15 @@
                                      IdPaciente = paciente.id_paciente,
                                      Sexo = paciente.sexo.ToString()
                                  }).FirstOrDefault();
-            if (pacienteQuery != null) {
+            if (pacienteQuery != null)
+            {
                 var cliente = (from cp in dataContext.Cliente_Paciente
                                where cp.id_paciente == pacienteQuery.IdPaciente
                                && cp.IsPrincipal == true
                                select cp).FirstOrDefault();
                 pacienteQuery.LoginCliente = cliente == null ? "" : cliente.id_usuariocliente;
             }
-           
+
             return pacienteQuery;
 
         }
@@ -340,8 +343,17 @@
             }
         }
 
-        public static bool Eliminar(int idPaciente, bool isPrincipal, string idUsuario)
+        public static int Eliminar(int idPaciente, bool isPrincipal, string idUsuario, int idConsultorio)
         {
+            var cuentasPendientes = from cp in dataContext.Cliente_Paciente
+                                    from c in dataContext.CuentasPorCobrar
+                                    where cp.id_paciente == idPaciente
+                                          && c.IDConsultorio == idConsultorio
+                                          && c.Login == cp.id_usuariocliente
+                                          && c.Estado == 0
+                                    select c;
+            if (cuentasPendientes.Any())
+                return 2;
             var sql = from c in dataContext.Paciente
                       where c.id_paciente == idPaciente
                       select c;
@@ -367,7 +379,7 @@
                 {
                     dataContext.SubmitChanges();
                     ControlBitacora.Insertar("Se elimino el paciente", idUsuario);
-                    return true;
+                    return 1;
                 }
                 catch (Exception ex)
                 {
@@ -378,7 +390,7 @@
             {
                 ControlLogErrores.Insertar("NConsulta", "ABMPaciente", "Eliminar, no se pudo obtener el paciente", null);
             }
-            return false;
+            return 0;
         }
 
         #endregion
