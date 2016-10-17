@@ -12,7 +12,7 @@
                 </form>
             </div>
             <div class="row" style="margin-top: 15px;">
-                <div class="col-md-11 col-xs-11" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                <div class="col-md-12 col-xs-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
                     <table class="table table-hover tableStyle">
                         <thead>
                             <tr>
@@ -23,6 +23,7 @@
                                 <th>Monto</th>
                                 <th>Saldo</th>
                                 <th>Estado</th>
+                                <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +41,9 @@
                                 </td>
                                 <td>{{cuenta.EstadoFull}}
                                 </td>
-                                <td></td>
+                                <td ><span ng-show="cuentaSeleccionada!= null && cuentaSeleccionada.Estado==0 && cuenta.ID== cuentaSeleccionada.ID" title="Editar cuenta" ng-click="abrirModalEditarCuenta()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                    <span ng-show="cuentaSeleccionada != null && cuentaSeleccionada.Estado==0 && cuenta.ID== cuentaSeleccionada.ID" title="Anular cuenta" ng-click="openModalConfirmDelele()" style="display: none;"><i class="fa fa-times iconStyle"></i></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -49,11 +52,7 @@
                     <button class="btn btn-raised btn-primary" ng-click="mostrarModalPago()" ng-disabled="cuentaSeleccionada==null || cuentaSeleccionada.Estado!=0 ">Nuevo pago</button>
 
                 </div>
-                <div class="col-md-1 col-xs-1 ">
-                    <!--<spakn ng-show="cuentaParaGuardar.Estado==0" ng-click="mostrarModalPago()"><i class="fa fa-plus-circle iconStyle"></i></spakn>-->
-                    <span ng-show="cuentaSeleccionada!= null && cuentaSeleccionada.Estado==0" ng-click="abrirModalEditarCuenta()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                    <span ng-show="cuentaSeleccionada != null && cuentaSeleccionada.Estado==0 " ng-click="openModalConfirmDelele()" style="display: none;"><i class="fa fa-times iconStyle"></i></span>
-                </div>
+                
             </div>
         </div>
 
