@@ -75,7 +75,7 @@
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
             $scope.loginEmpresa = "";
-
+            $scope.isAdmin = false;
             $rootScope.isAdmin = false;
             $("#modal-login-cliente").modal('show');
         } else {
@@ -172,7 +172,7 @@
         point = marker.getPosition();
         markers.select(function (item) {
             if (item.zIndex != marker.zIndex)
-                item.setIcon('Content/img/marker.png');
+                item.setIcon('desarrollo/Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
         2
@@ -256,7 +256,7 @@
         $scope.consultorioBuscar = "";
         $scope.mostrarConsultorios = false;
         openInfoWindow(markerSelect);
-        markerSelect.setIcon('Content/img/markerselect.png');
+        markerSelect.setIcon('desarrollo/Content/img/markerselect.png');
 
 
     }
@@ -267,7 +267,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         markers.push(marker);
@@ -278,7 +278,7 @@
             })[0];
             $scope.$apply();
             openInfoWindow(marker);
-            marker.setIcon('Content/img/markerselect.png');
+            marker.setIcon('desarrollo/Content/img/markerselect.png');
             $scope.mostrarConsultorios = false;
         });
     }
@@ -321,9 +321,9 @@
         infoWindow.close();
         markers.select(function (item) {
 
-            item.setIcon('Content/img/marker.png');
+            item.setIcon('desarrollo/Content/img/marker.png');
         });
-        // marker.setIcon('desarrollo/Content/img/marker.png');
+        // marker.setIcon('desarrollo/desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -371,17 +371,29 @@
             $rootScope.isAdmin = false;
             $("#modal-login-cliente").modal('show');
         } else
-            if ($scope.comentarioParaGuardar.State == 1) {
-                comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
-                    if (result.Data == 1) {
 
-                        toastr.success(result.Message);
-                        obtenerListaComentarios();
-                    } else {
-                        toastr.error(result.Message);
+            consultasService.verificarClienteEnConsultorio($scope.consultorioSeleccionado.IDConsultorio, $rootScope.sessionDto.loginUsuario).then(function (result) {
+
+                if (result == "true") {
+                    if ($scope.comentarioParaGuardar.State == 1) {
+                        comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
+                            if (result.Data == 1) {
+
+                                toastr.success(result.Message);
+                                obtenerListaComentarios();
+                            } else {
+                                toastr.error(result.Message);
+                            }
+                        });
                     }
-                });
-            }
+                } else {
+                   
+                    $("#enviar-notificacion").modal('show');
+                    prepararNuevoComentario();
+                }
+
+            });
+
     };
     $scope.cerrarModalHorarios = function () {
         $scope.citaSeleted = null;
