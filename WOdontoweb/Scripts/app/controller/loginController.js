@@ -224,7 +224,7 @@
                         }
                         getNotificaciones();
                     } else {
-                        debugger;
+                      
                         $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');

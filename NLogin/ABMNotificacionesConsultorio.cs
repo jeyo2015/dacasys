@@ -27,6 +27,7 @@ namespace NLogin
                          where no.Estado != 0 &&
                          no.TipoNotificacion == 1
                          && cp.id_usuariocliente == no.LoginUsuario
+                         && no.IDConsultorio==idConsultorio
                          && p.id_paciente == cp.id_paciente
                          && cp.IsPrincipal == true
                          select new NotificacionesConsultorioDto()

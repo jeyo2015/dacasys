@@ -98,7 +98,7 @@ namespace NLogin
                 int newIDClinica = ObtenerCodigo();
 
                 ControlBitacora.Insertar("Se inserto una Clinica", idUsuario);
-                ActivarLicencia(newIDClinica, 12, idUsuario);
+                ActivarLicencia(newIDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
                 InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, newIDClinica);
                 InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, newIDClinica);
                 clinicaDto.Consultorios[0].IDClinica = newIDClinica;
@@ -1090,12 +1090,12 @@ namespace NLogin
         /// <param name="idClinica">ID de la nueva empresa</param>
         /// <param name="mes">Cantidad de meses de la licencia</param>
         /// <param name="idUsuario">Id del usuario que realiza accion</param>
-        private static void ActivarLicencia(int idClinica, int mes, string idUsuario)
+        private static void ActivarLicencia(int idClinica,DateTime fechaInicioLicencia, int mes, string idUsuario)
         {
             Licencia vlicencia = new Licencia();
             vlicencia.IDClinica = idClinica;
-            vlicencia.FechaInicio = DateTime.Now.AddHours(DirefenciaHora());
-            vlicencia.FechaFin = DateTime.Now.AddHours(DirefenciaHora()).AddMonths(mes);
+            vlicencia.FechaInicio = fechaInicioLicencia.AddHours(DirefenciaHora());
+            vlicencia.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(mes*30);
             try
             {
                 dataContext.Licencia.InsertOnSubmit(vlicencia);
