@@ -11,6 +11,8 @@
         $scope.ConfirmPass = "";
         $scope.message = "";
         prepararNuevoCliente();
+        $scope.pass = "";
+        $('#passwordIDLog').attr('autocomplete', 'off');
     };
 
     $scope.cerrarModalRegistrar = function () {
@@ -91,6 +93,9 @@
         loginService.cerrarSesion().then(function (result) {
             $rootScope.sessionDto = result;
             $location.path('/inicioCliente');
+          
+
+            
         });
     };
 
@@ -144,7 +149,7 @@
     };
 
     $rootScope.validarPermisoComponente = function (nombreComponente) {
- 
+
         if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
             var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
                 return componente.NombreComponente == nombreComponente;
@@ -219,6 +224,8 @@
                         }
                         getNotificaciones();
                     } else {
+                      
+                        $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');
                             $scope.showMessage = false;

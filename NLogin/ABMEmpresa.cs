@@ -98,7 +98,7 @@ namespace NLogin
                 int newIDClinica = ObtenerCodigo();
 
                 ControlBitacora.Insertar("Se inserto una Clinica", idUsuario);
-                ActivarLicencia(newIDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+                ActivarLicencia(newIDClinica, DateTime.Now, 12, idUsuario);
                 InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, newIDClinica);
                 InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, newIDClinica);
                 clinicaDto.Consultorios[0].IDClinica = newIDClinica;

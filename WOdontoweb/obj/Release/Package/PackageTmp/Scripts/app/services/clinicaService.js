@@ -20,6 +20,20 @@
         });
         return d.promise;
     };
+    this.obtenerConsultorios = function () {
+        var d = $q.defer();
+        $http.get('Empresa/ObtenerConsultorios').success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
+    this.enviarContactenos = function (mensaje,emailPaciente,asunto) {
+        var d = $q.defer();
+        $http.post('Empresa/enviarContactenos', { mensaje: mensaje, emailPaciente: emailPaciente, asunto: asunto }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.getIntervalosTiempo = function () {
         var d = $q.defer();
         $http.get('Empresa/ObtenerIntervalosDeTiempo').success(function (data) {

@@ -1,4 +1,24 @@
-﻿<div class="col-md-10 col-xs-12 col-md-offset-1 divContent " id="mapa">
+﻿<div id="buscadorClinica">
+    <input id="pac-input" type="text"
+        placeholder="Buscar consultorio" ng-model="consultorioBuscar">
+    <div id="listClinicas" style="max-height: 300px; overflow-y: auto" ng-show="mostrarConsultorios">
+        <div class="divElementSearch" ng-repeat="clinica in consultoriosBuscador   |filterByWords:consultorioBuscar:'EsConsultorioDefault,IDConsultorio,TiempoCita,NIT,FechaCreacion,FechaModificacion,IDClinica,State,Telefonos,Trabajos,HorarioParaMapa,IDUsuarioCreador,Estado,Email,IDIntervalo'">
+            <div class="col-md-12" style="padding: 7px 25px 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-weight: bold">Clinica {{clinica.NombreClinica}}  </span>
+            </div>
+            <div class="col-md-12" style="padding: 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-size: 11px">Consultorio {{clinica.Login}} - {{clinica.NombreDoctor}}  </span>
+            </div>
+            <div class="col-md-12" style="padding: 0px 25px; font-size: 14px" ng-click="seleccionarConsultorioBuscador(clinica)">
+                <span style="font-size: 11px">Direccion  {{clinica.Direccion}} </span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-md-10 col-xs-12 col-md-offset-1 divContentMap " min-heigth id="mapa">
 </div>
 
 <div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
@@ -16,95 +36,154 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
-                <div id="direccion" class="form-group">
-                    <h5 class="col-md-12 control-label">Direccion </h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-10">
-                            {{clinicaSeleccionada.Direccion}}
-                        </div>
-
+            <div class="modal-body" style="min-height: 350px;">
+                <div class="row">
+                    <div class="col-md-3 col-xs-3">
+                        <button class="btn btn-primary" ng-class="{'activeButton': mostrarPanel ==1 }" ng-click="mostrarInformacion()">Informacion</button>
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        <button class="btn btn-primary" ng-class="{'activeButton': mostrarPanel ==4 }" ng-click="mostrarHorarios()">ver Horarios</button>
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        <button class="btn btn-primary" ng-click="mostrarContactenos()" ng-class="{'activeButton': mostrarPanel ==2 }">Contactenos</button>
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        <button class="btn btn-primary" ng-click="mostrarComentarios()" ng-class="{'activeButton': mostrarPanel ==3 }">Comentarios</button>
                     </div>
                 </div>
-                <div id="nit" class="form-group" ng-show="clinicaSeleccionada.Consultorios.length == 1">
-                    <h5 class="col-md-12 control-label">NIT </h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-10">
-                            {{clinicaSeleccionada.Consultorios[0].NIT}}
-                        </div>
+                <div class="row" id="Div5" ng-show="mostrarPanel ==1 " style="min-height: 350px; max-height: 350px; overflow-y: auto">
+                    <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                        <div id="Div6" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Direccion </h5>
 
+                            <h5 class="col-md-9 control-label">{{clinicaSeleccionada.Direccion}}</h5>
+
+
+
+                        </div>
                     </div>
                 </div>
-                <div id="grpLoginClinic" class="form-group" ng-show="telefonosClinicaSeleccionada.length>0">
-                    <h5 class="col-md-12 control-label">Telefonos </h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-10">
-                            {{telefonosClinicaSeleccionada}}
-                        </div>
+                <div class="row" id="panelContactenos" ng-show="mostrarPanel ==2 " style="min-height: 350px; max-height: 350px; overflow-y: auto">
+                    <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                        <div id="direccion" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Direccion </h5>
 
+                            <h5 class="col-md-9 control-label">{{clinicaSeleccionada.Direccion}}</h5>
+
+
+
+                        </div>
+                        <div id="Div1" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Email </h5>
+
+                            <h5 class="col-md-9 control-label">{{consultorioSeleccionado.Email}}</h5>
+
+
+
+                        </div>
+                        <div id="Div2" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Email de </h5>
+
+                            <input type="text" class="form-control" ng-model="emailDe" />
+
+
+
+                        </div>
+                        <div id="Div4" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Asunto</h5>
+
+                            <input type="text" class="form-control" ng-model="asunto" />
+
+
+
+                        </div>
+                        <div id="Div3" class="form-group">
+                            <h5 style="font-weight: bold" class="col-md-3 control-label">Mensaje </h5>
+
+                            <textarea ng-model="mensajeContactenos" class="form-control " rows="5"></textarea>
+
+                        </div>
+                        <div class="row">
+
+                            <button class="btn btn-primary pull-right" ng-disabled="mensajeContactenos.length == 0 || emailDe.length ==0|| asunto.length ==0" ng-click="enviarContactenos()">Enviar correo</button>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <h5 class="col-md-12 control-label">Trabajos </h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-12" ng-repeat="trabajo in clinicaSeleccionada.Trabajos  ">
-                            <div class="col-md-6">
-                                {{trabajo.Descripcion}}
+                <div class="row" id="panelComentarios" ng-show="mostrarPanel ==3 " style="min-height: 350px; max-height: 350px; overflow-y: auto">
+
+                    <div class="row">
+                        <div class="form-group ">
+
+                            <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                                <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control col-md-12" style="width: 100%; max-width: 100%" id="usuarioID" maxlength="150" placeholder="Escribe un comentario..."> </textarea>
                             </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="form-group" ng-show="clinicaSeleccionada.Consultorios.length > 1">
-                    <h5 class="col-md-12 control-label">Consultorios</h5>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="max-height: 65px; overflow-y: auto">
-                        <div class="col-md-12" ng-repeat="consultorio in clinicaSeleccionada.Consultorios ">
-                            <div class="col-md-4">
-                                {{consultorio.Login}}
+                            <div class="col-md-1">
+                                <span ng-click="guardarComentario()" ng-show="comentarioParaGuardar.Comentario.length >0"><i class="fa fa-paper-plane iconStyle"></i></span>
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="form-group" ng-show="clinicaSeleccionada.Consultorios.length == 1">
-
-                    <h5 class="col-md-12 control-label">Horarios</h5>
-                    <div class="col-md-12">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-9" style="max-height: 75px; overflow-y: auto">
-                            <div class="col-md-12" style="margin-bottom: 5px; border-bottom: 1px solid #525866" ng-repeat="horario in clinicaSeleccionada.Consultorios[0].HorarioParaMapa ">
-                                <div class="col-md-4">
-                                    {{horario.Dias}}
+                    <div class="row">
+                        <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                            <div class="panel panel-primary" ng-repeat="comentario in ListaComentario">
+                                <div class="panel-heading">
+                                    <h3 style="height: 12px" class="panel-title">{{comentario.NombrePaciente}} <span class="pull-right">{{comentario.FechaCreacion}}</span></h3>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="col-md-12" ng-repeat="h in horario.Horarios ">
-                                        {{h.HoraInicio}} - {{h.HoraFin}}
+                                <div class="panel-body">
+                                    <label>{{comentario.Comentario}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" id="panelHorario" ng-show="mostrarPanel ==4 " style="min-height: 350px">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="dtpFecha" class="col-md-3 control-label">Fecha</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="dtpFecha">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" style="max-height: 250px; overflow-y: auto; padding-right: 0;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>{{dateSelectedString}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)" style="cursor: pointer;">
+                                            <td>
+                                                <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
+                                            </td>
+                                            <td>{{cita.Paciente.NombrePaciente}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
 
-                    </div>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
             </div>
-
-
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalComentario(clinicaSeleccionada.Consultorios[0])">Dejar comentario</button>
-                <button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalHorarios(clinicaSeleccionada.Consultorios[0])">Agendar cita</button>
-                <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
+                <!--<button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalComentario(clinicaSeleccionada.Consultorios[0])">Dejar comentario</button>-->
+                <!--<button class="btn btn-primary" ng-show="clinicaSeleccionada.Consultorios.length== 1" ng-click="mostrarModalHorarios(clinicaSeleccionada.Consultorios[0])">Agendar cita</button>-->
+                <!-- <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>-->
             </div>
         </div>
+
     </div>
 </div>
+
 
 <div class="modal fade" id="enviar-notificacion" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
@@ -127,195 +206,77 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="ejemplo" data-backdrop="static" role="dialog">
+<div class="modal fade" id="modalconfirmarCita" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Enviar solicitud</h4>
+                <h4 class="modal-title">Confirmar cita</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 col-xs-3">
-                        <img style="height: 48px; width: 66px; border: 1px solid #3B3B3C" data-ng-src="{{clinicaSeleccionada.LogoParaMostrar}}" alt="Logo de la clinica">
-                    </div>
-                    <div class="col-md-8 col-xs-8">
-                        <div class="row">
-                            <h4 style="font-weight: bold; margin-bottom: 0px">{{clinicaSeleccionada.Nombre}} </h4>
-                            <span>{{clinicaSeleccionada.Descripcion}} </span>
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="row" style="margin-top: 5px;">
-                    <div class="col-md-12 col-xs-12">
-                        <i class="fa fa-phone" aria-hidden="true">
-                            <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label></i>
+                    <div class="col-md-12">
+                        <label>Esta seguro que quiere agendar una cita el dia {{dateSelected}} a las {{citaSeleted.HoraInicioString}}</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="enviarNotificacion()">Enviar solicitud</button>
-                <button class="btn btn-danger" ng-click="cerrarSolicitud()">Cancelar</button>
+                <button class="btn btn-primary" ng-click="agendarCita()">Agendar</button>
+                <button class="btn btn-danger" ng-click="cerraModalConfirmCita()">Cancelar</button>
             </div>
         </div>
     </div>
-
-
 </div>
-<div class="modal fade" id="modal-comentario" role="dialog">
+
+
+
+
+<div class="modal fade" id="modal-seleccionar-consultorio" data-backdrop="static" role="dialog">
     <div class="modal-dialog ">
+        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Ingrese su comentario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Consultorios de la clinica {{clinicaSeleccionada.Nombre}}</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="comentario" class="col-md-3 control-label">Comentario</label>
-                                <div class="col-md-9">
-                                    <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control" id="comentario"></textarea>
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label for="buscarPacienteID" class="col-md-2 control-label">Buscar</label>
+                                    <div class="col-md-10">
+                                        <input type="text" ng-model="subString" class="form-control" id="buscarPacienteID">
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-md-10 row" style="max-height: 200px; overflow-y: auto; padding-right: 0px;">
+                                <table class="table table-hover tableStyle">
+                                    <thead>
+                                        <tr>
+                                            <th>Consultorio</th>
+                                            <th>Doctor </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="cursor: pointer" ng-class="{selectElement:consultorio.Login==consultorioSeleccionado.Login}" ng-repeat="consultorio in clinicaSeleccionada.Consultorios " ng-click="seleccionarConsultorioClinica(consultorio)">
+                                            <td>{{consultorio.Login}}
+                                            </td>
+                                            <td>{{consultorio.NombreDoctor}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="guardarComentario()" ng-disabled="validarCamposComentario()">Aceptar</button>
-                <button class="btn btn-primary" ng-click="cerrarModalComentario()">Cancelar</button>
+                <button class="btn btn-primary" ng-disabled="consultorioSeleccionado==null" ng-click="abrirModalVerMasConsultorio()">Ver consultorio</button>
+
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="modal-consultorio-detalle" data-backdrop="static" role="dialog">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-                <div id="Div2" class="form-group">
-                    <label for="inpLoginClinic" class="col-md-3 control-label">Telefonos </label>
-                    <div class="col-md-9">
-                        <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Trabajos </label>
-                    <div class="col-md-8" style="max-height: 150px; overflow-y: auto">
-                        <table class="table table-hover tableStyle scroll">
-                            <tbody id="Tbody3">
-                                <tr ng-repeat="trabajo in consultorioSeleccionado.Trabajos  ">
-                                    <td>{{trabajo.Descripcion}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="form-group" ng-show="clinicaSeleccionada.Consultorios.length > 1">
-                    <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Consultorios</label>
-                    <div class="col-md-8" style="max-height: 150px; overflow-y: auto">
-                        <table class="table table-hover tableStyle scroll">
-                            <tbody id="Tbody4">
-                                <tr ng-repeat="consultorio in clinicaSeleccionada.Consultorios " ng-db-click="mostrarDetalleConsultorio(consultorio)">
-                                    <td>{{consultorio.Login}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group" ng-show="clinicaSeleccionada.Consultorios.length == 1">
-                    <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Horarios</label>
-                    <div class="col-md-8" style="max-height: 150px; overflow-y: auto" ng-repeat="horario in clinicaSeleccionada.Consultorios[0].HorarioParaMapa ">
-                        <div class="col-md-4">
-                            {{horario.Dias}}
-                        </div>
-                        <div class="col-md-8">
-                        </div>
-                        <!-- <table class="table table-hover tableStyle scroll">
-                            <tbody id="Tbody5">
-                                <tr ng-repeat="horario in clinicaSeleccionada.Consultorios[0].HorarioParaMapa ">
-                                    <td>{{horario.Dias}}</td>
-                                    <td>
-                                        <table class="table table-hover tableStyle scroll">
-                                            <tbody id="Tbody6">
-                                                <tr ng-repeat="h in horario.Horarios ">
-                                                    <td>{{h.HoraInicio}}-{{h.HoraFin}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>-->
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <!--  <button class="btn btn-primary" ng-click="agendarCita()" ng-disabled="citaSeleted== null">Agendar</button>-->
-                <button class="btn btn-primary" ng-click="cerrarModalVerMas()">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modal-horarios-consultorio" data-backdrop="static" role="dialog">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Agendar cita</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="dtpFecha" class="col-md-3 control-label">Fecha</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="dtpFecha">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" style="max-height: 340px; overflow-y: auto; padding-right: 0;">
-                            <table class="table table-hover tableStyle">
-                                <thead>
-                                    <tr>
-                                        <th>Hora</th>
-                                        <th>{{dateSelectedString}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="cita in citasDelDia  " ng-click="seleccionaCita(cita)">
-                                        <td>
-                                            <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
-                                        </td>
-                                        <td>{{cita.Paciente.NombrePaciente}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-
-                <button class="btn btn-primary" ng-click="cerrarModalHorarios()">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-
 </div>

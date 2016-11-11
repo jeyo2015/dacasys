@@ -174,10 +174,12 @@ input[type="checkbox"].input-validation-error
 {
     background: #ccc;
 }
+
 .deshabilitadaColor
 {
-    color:#f44336;
+    color: #f44336;
 }
+
 .checkbox label, .radio label, label
 {
     font-size: 12px;
@@ -348,7 +350,7 @@ header
                 color: #fff;
                 padding: 13px 14px;
                 float: left;
-                cursor:pointer
+                cursor: pointer;
             }
 
             .top-bar .get-touch li i
@@ -533,37 +535,117 @@ input:-webkit-autofill
 {
     background-color: #18114F;
 }
-.nav-tabs {
-  background: #ffffff;
+
+.nav-tabs
+{
+    background: #ffffff;
 }
-.nav-tabs > li > a {
-  color: #000000;
-  border: 0;
-  margin: 0;
+
+    .nav-tabs > li > a
+    {
+        color: #000000;
+        border: 0;
+        margin: 0;
+    }
+
+        .nav-tabs > li > a:hover
+        {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .nav-tabs > li > a,
+        .nav-tabs > li > a:hover,
+        .nav-tabs > li > a:focus
+        {
+            background-color: transparent !important;
+            border: 0 !important;
+            color: #000000 !important;
+            font-weight: 500;
+        }
+
+    .nav-tabs > li.disabled > a,
+    .nav-tabs > li.disabled > a:hover
+    {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+.row
+{
+    margin-right: 0px;
+    margin-left: 0px;
 }
-.nav-tabs > li > a:hover {
-  background-color: transparent;
-  border: 0;
+
+.divContentMap
+{
+    background-color: #fff;
+    padding-left: 0px;
+    box-shadow: #CED2DB 0 1px 2px 0;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }
-.nav-tabs > li > a,
-.nav-tabs > li > a:hover,
-.nav-tabs > li > a:focus {
-  background-color: transparent !important;
-  border: 0 !important;
-  color: #000000 !important;
-  font-weight: 500;
+
+.divContent
+{
+    background-color: #fff;
+    padding: 8px;
+    padding-top: 20px;
+    box-shadow: #CED2DB 0 1px 2px 0;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }
-.nav-tabs > li.disabled > a,
-.nav-tabs > li.disabled > a:hover {
-  color: rgba(255, 255, 255, 0.5);
+
+.cortar
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #3B3B3C;
 }
-.row {
-  margin-right: 0px;
-  margin-left: 0px;
+
+#buscadorClinica
+{
+    margin-left: 20px;
+    width: 300px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2),0 -1px 0px rgba(0,0,0,0.02);
 }
-.divContent {
-    background-color: #fff; padding: 8px; padding-top: 20px; box-shadow: #CED2DB 0 1px 2px 0; margin-top: 30px; margin-bottom: 5px;
+
+#pac-input
+{
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 10px 15px;
+    text-overflow: ellipsis;
+    width: 300px;
+    border-top: 0px solid red;
+    border-right: 0px solid red;
+    border-left: 0px solid red;
 }
-.cortar{
-  text-overflow: ellipsis; white-space: nowrap;overflow: hidden;color:#3B3B3C
+
+    #pac-input:focus
+    {
+        border-color: #4d90fe;
+    }
+
+.divElementSearch
+{
+    width: 280px;
+    height: 75px;
+    border-bottom: 1px solid #CED2DB;
+}
+.divElementSearch:hover
+{
+    width: 280px;
+    height: 75px;
+    border-bottom: 1px solid #CED2DB;
+    background-color:#ddd;
+    cursor:pointer;
+}
+.activeButton
+{
+    background-color:#CED2DB;
 }

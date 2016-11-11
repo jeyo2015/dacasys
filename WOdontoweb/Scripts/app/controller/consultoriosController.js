@@ -3,7 +3,7 @@
 
     $('#fileupload').fileupload({
         dataType: 'json',
-        url: 'desarrollo/Empresa/UploadFiles',
+        url: 'odontoweb/Empresa/UploadFiles',
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 10000000, // 10 MB
         minFileSize: undefined,
@@ -66,7 +66,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -192,9 +192,9 @@
             Trabajos: [],
             Telefonos: [],
             Status: 1,
-            NombreArchivo: "",
-            FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
-            CantidadMeses:1
+            NombreArchivo: ""
+          //  FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
+          //  CantidadMeses:1
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
@@ -605,7 +605,7 @@
                 });
             }
         } else if ($scope.clinicToSave.Status == 2) {
-
+            $scope.insertarUbicacionClinica();
             // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {

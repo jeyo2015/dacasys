@@ -106,7 +106,7 @@
         {
             var telefonos = (from t in dataContext.Telefono
                              select t);
-            return telefonos.Max(x => x.ID) + 1;
+            return telefonos.Max(x => x.ID);
         }
 
         #endregion

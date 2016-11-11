@@ -46,16 +46,7 @@
 
         cargar_clinicas();
     };
-    //$scope.agendarCita = function () {
-    //    consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
-    //        if (result.Success) {
-    //            toastr.success(result.Message);
-    //            cargarCitasDelDia();
-    //        } else {
-    //            toastr.error(result.Message);
-    //        }
-    //    });
-    //};
+  
     $scope.seleccionaCita = function (cita) {
 
         if (cita.EsTarde) {
@@ -130,7 +121,7 @@
         $scope.verConsultorio = true;
         if ($scope.clinicaSeleccionada.Consultorios.length == 1) {
             $("#modal-ver-mas").modal('show');
-            $scope.mostrarHorarios();
+            $scope.mostrarInformacion();
         } else
             mostrarConsultorios();
 
@@ -401,8 +392,8 @@
         $scope.mensajeContactenos = "";
         $scope.asunto = "";
     };
-    $scope.enviarContactenos = function () {
-        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function (result) {
+    $scope.enviarContactenos = function() {
+        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function(result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 $scope.emailDe = "";
@@ -412,7 +403,7 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
     //$scope.mostrarConsultorios = function () {
     //    $scope.mostrarPanel = 1;
     //};
@@ -433,5 +424,10 @@
     $scope.mostrarHorarios = function () {
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
+    };
+
+    $scope.mostrarInformacion = function() {
+        $scope.mostrarPanel = 1;
+        console.log($scope.clinicaSeleccionada);
     };
 });

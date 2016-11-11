@@ -6,9 +6,15 @@
         var href = window.location.href.split('/');
         return href[0] + '//' + href[2] + '/';
     }
+
+    $("#pac-input").focus(function () {
+        $scope.mostrarConsultorios = true;
+        $scope.$apply();
+    });
+   
     function init() {
 
-
+        $scope.mostrarConsultorios = false;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -40,22 +46,9 @@
 
         cargar_clinicas();
     };
-    function agendarCita() {
-        consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
-            if (result.Success) {
-                toastr.success(result.Message);
-                //cargarCitasDelDia();
-                //$("#modal-seleccionar-cliente").modal("hide");
-                //$scope.pacienteSeleccionado = null;
-                //$scope.citaSeleccionada = null;
-                cargarCitasDelDia();
-            } else {
-                toastr.error(result.Message);
-            }
-        });
-    };
-    $scope.seleccionaCita = function (cita) {
   
+    $scope.seleccionaCita = function (cita) {
+
         if (cita.EsTarde) {
             toastr.warning("La fecha y hora seleccionada ya no estan diponibles");
             return;
@@ -69,7 +62,7 @@
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
             $scope.loginEmpresa = "";
-
+            $scope.isAdmin = false;
             $rootScope.isAdmin = false;
             $("#modal-login-cliente").modal('show');
         } else {
@@ -77,7 +70,7 @@
 
                 if (result == "true") {
                     $scope.citaSeleted = cita;
-                    agendarCita();
+                    $('#modalconfirmarCita').modal('show');
                 } else {
                     $scope.citaSeleted = null;
                     $("#modal-horarios-consultorio").modal('hide');
@@ -92,55 +85,84 @@
         }
     };
 
+
     $scope.agendarCita = function () {
         consultasService.insertarCitaPaciente($scope.citaSeleted, $scope.dateSelected, $rootScope.sessionDto.loginUsuario).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 cargarCitasDelDia();
-
+                $('#modalconfirmarCita').modal('hide');
                 $scope.citaSeleted = null;
             } else {
                 toastr.error(result.Message);
+                $('#modalconfirmarCita').modal('hide');
             }
         });
     };
+
 
     function cargar_clinicas() {
         clinicaService.getAllClinicasHabilitadas().then(function (result) {
 
             $scope.clinicas = result;
             crearTodosLosMarkers();
+            clinicaService.obtenerConsultorios().then(function (result) {
+                $scope.consultoriosBuscador = result;
+            });
         });
+
     }
 
+    function mostrarConsultorios() {
+        $("#modal-seleccionar-consultorio").modal('show');
+    }
     $scope.abrirModalVerMasClinica = function () {
+        $scope.consultorioSeleccionado = null;
         $scope.verConsultorio = true;
-        $("#modal-ver-mas").modal('show');
+        if ($scope.clinicaSeleccionada.Consultorios.length == 1) {
+            $("#modal-ver-mas").modal('show');
+            $scope.mostrarInformacion();
+        } else
+            mostrarConsultorios();
+
+
     };
 
 
-    $scope.mostrarHorarios = function (consultorio) {
+    $scope.seleccionarConsultorioClinica = function (consultorio) {
         $scope.consultorioSeleccionado = consultorio;
 
-        cargarCitasDelDia();
     };
-    function cargarCitasDelDia() {
+    $scope.abrirModalVerMasConsultorio = function () {
+        $scope.mostrarPanel = 4;
+        $("#modal-seleccionar-consultorio").modal('hide');
+        cargarCitasDelDia("#modal-ver-mas");
+    };
+
+    function cargarCitasDelDia(openModal) {
         consultasService.getCitasDelDia($scope.dateSelected, $scope.consultorioSeleccionado.IDConsultorio, $scope.consultorioSeleccionado.TiempoCita).then(function (result) {
             $scope.citasDelDia = result;
             $scope.citaSeleted = null;
             $scope.verConsultorio = false;
-            $("#modal-horarios-consultorio").modal('show');
+            if (openModal && openModal.length > 0)
+                $(openModal).modal('show');
         });
 
     }
 
-
+    $scope.cerraModalConfirmCita = function () {
+        $scope.citaSeleted = null;
+        $('#modalconfirmarCita').modal('hide');
+    };
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
-
+        markers.select(function (item) {
+            if (item.zIndex != marker.zIndex)
+                item.setIcon('Content/img/marker.png');
+        });
         $scope.telefonosClinicaSeleccionada = "";
-        console.log($scope.clinicaSeleccionada);
+        2
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
             if (i > 0)
                 $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
@@ -161,8 +183,19 @@
                                      </div>\
                                 </div>\
                                 <div class="row" >\
-                                     <div class="col-md-12 col-xs-12">\
-                                         <label title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>\
+                                <div class="col-md-4 col-xs-4">\
+                                         <label  style="color: #3B3B3C;">Direccion: </label>\
+                                     </div>\
+                                     <div class="col-md-8 col-xs-8">\
+                                         <label  class="cortar">{{clinicaSeleccionada.Direccion}}</label>\
+                                     </div>\
+                                </div>\
+                                <div class="row" >\
+                                <div class="col-md-4 col-xs-4">\
+                                         <label  style="color: #3B3B3C;">Telefonos:</label>\
+                                     </div>\
+                                     <div class="col-md-8 col-xs-8">\
+                                         <label  title="{{telefonosClinicaSeleccionada}}" class="cortar">{{telefonosClinicaSeleccionada}}</label>\
                                      </div>\
                                 </div>\
                                 <div class="row" >\
@@ -172,7 +205,7 @@
                                  </div>\
                            </div> ';
 
-        var compiled = $compile(htmlElement)($scope)
+        var compiled = $compile(htmlElement)($scope);
         infoWindow.setContent(compiled[0]);
         $scope.$apply();
         infoWindow.open(map, marker);
@@ -180,9 +213,7 @@
 
     }
 
-    $scope.validarCamposComentario = function () {
-        return $scope.comentarioParaGuardar == null || $scope.comentarioParaGuardar.Comentario.length < 1;
-    };
+
 
     $scope.mostrarModalComentario = function (consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
@@ -202,6 +233,21 @@
             CrearMarcador(clinica);
         });
     }
+    $scope.seleccionarConsultorioBuscador = function (consultorio) {
+        var markerSelect = markers.where(function (item) {
+            return consultorio.IDClinica == item.zIndex
+        })[0];
+        $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
+            return item.IDClinica == consultorio.IDClinica
+        })[0];
+        $scope.consultorioBuscar = "";
+        $scope.mostrarConsultorios = false;
+        openInfoWindow(markerSelect);
+        markerSelect.setIcon('Content/img/markerselect.png');
+
+
+    }
+    var markers = [];
     function CrearMarcador(clinica) {
 
         var marker = new google.maps.Marker({
@@ -211,6 +257,7 @@
             icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
+        markers.push(marker);
         google.maps.event.addListener(marker, 'click', function () {
 
             $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
@@ -218,7 +265,8 @@
             })[0];
             $scope.$apply();
             openInfoWindow(marker);
-            marker.setIcon('desarrollo/Content/img/markerselect.png');
+            marker.setIcon('Content/img/markerselect.png');
+            $scope.mostrarConsultorios = false;
         });
     }
 
@@ -258,20 +306,33 @@
     };
     function closeInfoWindow() {
         infoWindow.close();
-       // marker.setIcon('desarrollo/Content/img/marker.png');
+        markers.select(function (item) {
+
+            item.setIcon('Content/img/marker.png');
+        });
+        // marker.setIcon('desarrollo/desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         var myOptions = {
             zoom: 15,
             center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.BOTTOM_LEFT
+            },
         };
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
+        var input = document.getElementById('buscadorClinica');
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         infoWindow = new google.maps.InfoWindow();
         google.maps.event.addListener(map, 'click', function () {
             closeInfoWindow();
-            // Cambiar_Imagenes();
+            $scope.consultorioBuscar = "";
+            $scope.mostrarConsultorios = false;
+            $scope.$apply();
         });
 
     }
@@ -281,7 +342,7 @@
         cargarCitasDelDia();
     };
     function prepararNuevoComentario() {
-        $scope.comentarioParaGuardar = {
+        $rootScope.comentarioParaGuardar = {
             LoginCliente: $rootScope.sessionDto.loginUsuario,
             Comentario: '',
             State: 1,
@@ -291,20 +352,82 @@
     }
 
     $scope.guardarComentario = function () {
-        if ($scope.comentarioParaGuardar.State == 1) {
-            comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
-                if (result.Data == 1) {
+        if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
+            $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
+            $scope.loginEmpresa = "";
+            $rootScope.isAdmin = false;
+            $("#modal-login-cliente").modal('show');
+        } else
 
-                    toastr.success(result.Message);
-                    $("#modal-comentario").modal('hide');
+            consultasService.verificarClienteEnConsultorio($scope.consultorioSeleccionado.IDConsultorio, $rootScope.sessionDto.loginUsuario).then(function (result) {
+
+                if (result == "true") {
+                    if ($scope.comentarioParaGuardar.State == 1) {
+                        comentarioService.insertarComentario($scope.comentarioParaGuardar).then(function (result) {
+                            if (result.Data == 1) {
+
+                                toastr.success(result.Message);
+                                obtenerListaComentarios();
+                            } else {
+                                toastr.error(result.Message);
+                            }
+                        });
+                    }
                 } else {
-                    toastr.error(result.Message);
+                   
+                    $("#enviar-notificacion").modal('show');
+                    prepararNuevoComentario();
                 }
+
             });
-        }
+
     };
     $scope.cerrarModalHorarios = function () {
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
+    };
+    $scope.mostrarContactenos = function () {
+        $scope.mostrarPanel = 2;
+        $scope.emailDe = "";
+        $scope.mensajeContactenos = "";
+        $scope.asunto = "";
+    };
+    $scope.enviarContactenos = function() {
+        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function(result) {
+            if (result.Success) {
+                toastr.success(result.Message);
+                $scope.emailDe = "";
+                $scope.mensajeContactenos = "";
+                $scope.asunto = "";
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    };
+    //$scope.mostrarConsultorios = function () {
+    //    $scope.mostrarPanel = 1;
+    //};
+    function obtenerListaComentarios() {
+        comentarioService.obtenerComentariosPorEmpresa($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
+            $scope.ListaComentario = result;
+            $scope.ListaComentario = result.select(function (comentario) {
+                comentario.FechaCreacion = moment(comentario.FechaCreacion).format('DD/MM/YYYY');
+                return comentario;
+            });
+            prepararNuevoComentario();
+        });
+    }
+    $scope.mostrarComentarios = function () {
+        $scope.mostrarPanel = 3;
+        obtenerListaComentarios();
+    };
+    $scope.mostrarHorarios = function () {
+        $scope.mostrarPanel = 4;
+        $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
+    };
+
+    $scope.mostrarInformacion = function() {
+        $scope.mostrarPanel = 1;
+        console.log($scope.clinicaSeleccionada);
     };
 });

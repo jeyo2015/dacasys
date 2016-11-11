@@ -172,8 +172,8 @@
         public string Direccion { get; set; }
         public string Nit { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public DateTime FechaInicioLicencia { get; set; }
-        public int CantidadMeses { get; set; }
+     //   public DateTime FechaInicioLicencia { get; set; }
+      //  public int CantidadMeses { get; set; }
         public DateTime FechaModificacion { get; set; }
         public int CantidadConsultorios { get; set; }
         public List<ConsultorioDto> Consultorios { get; set; }

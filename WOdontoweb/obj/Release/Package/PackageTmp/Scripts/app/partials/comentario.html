@@ -5,7 +5,7 @@
                
 
                 <div class="col-md-11">
-                    <textarea ng-model="comentarioParaGuardar.Comentario" class="form-control col-md-12" style="width:100%; max-width:100%" id="usuarioID" placeholder="Escribe un comentario..."> </textarea>
+                    <textarea ng-model="comentarioParaGuardar.Comentario" maxlength="150" class="form-control col-md-12" style="width:100%; max-width:100%" id="usuarioID" placeholder="Escribe un comentario..."> </textarea>
                 </div>
                <div class="col-md-1">
                    <span ng-click="guardarComentario()" ng-show="comentarioParaGuardar.Comentario.length >0" ><i class="fa fa-paper-plane iconStyle"></i></span>

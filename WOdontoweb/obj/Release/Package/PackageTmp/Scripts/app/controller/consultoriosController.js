@@ -3,7 +3,7 @@
 
     $('#fileupload').fileupload({
         dataType: 'json',
-        url: '/Empresa/UploadFiles',
+        url: 'odontoweb/Empresa/UploadFiles',
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 10000000, // 10 MB
         minFileSize: undefined,
@@ -27,14 +27,14 @@
             );
         }
     });
-    
+
     var map;
     function init() {
         $scope.listaMarcadores = [];
         $scope.allClinicas = [];
-        
+
         $scope.clinicaSelected = null;
-       
+
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -46,6 +46,16 @@
 
     };
     function inicializarDatos() {
+      
+        $("#dtpFecha").datepicker({
+            dateFormat: 'dd/mm/yy',
+            onSelect: function () {
+                $scope.clinicToSave.FechaInicioLicencia = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
+                $scope.mostrarInputMeses = true;
+                $scope.$apply();
+            }
+        });
+        $('#dtpFecha').val(moment().format('DD/MM/YYYY'));
         prepararNuevaClinica();
         InicializarMapa();
         cargar_todas_clinicas(false);
@@ -56,7 +66,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -64,7 +74,7 @@
         $scope.listaMarcadores.push(marker);
     }
 
-    $scope.abrirModalDeMapa = function() {
+    $scope.abrirModalDeMapa = function () {
 
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
@@ -115,18 +125,18 @@
         map.setCenter(center);
     }
 
-    $scope.salirModal = function() {
+    $scope.salirModal = function () {
         $("#modal-new-consultorio").modal("hide");
         $scope.consultorioToSave = null;
         $scope.consultorioSeleccionado = null;
     };
 
-    $scope.abrirModaleliminarConsultorio = function() {
+    $scope.abrirModaleliminarConsultorio = function () {
         $("#confirmar-eliminar-consultorio").modal("show");
     };
-    $scope.eliminarConsultorio = function() {
+    $scope.eliminarConsultorio = function () {
         $("#confirmar-eliminar-consultorio").modal("hide");
-        clinicaService.eliminarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function(result) {
+        clinicaService.eliminarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
                 cargar_todas_clinicas(true);
@@ -137,8 +147,8 @@
         });
     };
 
-    $scope.habilitarConsultorio = function() {
-        clinicaService.habilitarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function(result) {
+    $scope.habilitarConsultorio = function () {
+        clinicaService.habilitarConsultorio($scope.consultorioSeleccionado.IDConsultorio).then(function (result) {
             if (result.Data == 1) {
                 toastr.success(result.Message);
                 //cargarConsultoriosClinica();
@@ -150,13 +160,13 @@
             }
         });
     };
-   
+
     $scope.salirModalUbicacion = function () {
 
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $('#modal-mapa-ubicacion').modal('hide');
     };
-    $scope.insertarUbicacionClinica = function() {
+    $scope.insertarUbicacionClinica = function () {
 
         $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
         $scope.clinicToSave.Longitud = angular.copy($scope.latlngActual.lng());
@@ -166,6 +176,7 @@
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
+        $scope.mostrarInputMeses = false;
         $scope.primerTrabajo = "";
         $scope.clinicToSave = {
             IDClinica: -1,
@@ -181,7 +192,9 @@
             Trabajos: [],
             Telefonos: [],
             Status: 1,
-            NombreArchivo:""
+            NombreArchivo: ""
+          //  FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
+          //  CantidadMeses:1
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
@@ -501,7 +514,7 @@
             || $scope.rolSelected == null;
     };
 
-    
+
 
     $scope.openModalConfirmDelele = function () {
         $('#confirm-delete').modal('show');
@@ -529,9 +542,9 @@
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         $scope.consultorioSeleccionado.State = 2;
     }
-    $scope.abrirModalModificarConsultorio = function() {
+    $scope.abrirModalModificarConsultorio = function () {
         $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
-        $scope.intervaloSelected = $scope.intervalos.where(function(intervalo) {
+        $scope.intervaloSelected = $scope.intervalos.where(function (intervalo) {
             return intervalo.ID == $scope.consultorioToSave.IDIntervalo;
         })[0];
         matchearTrabajoConsultorio();
@@ -592,7 +605,7 @@
                 });
             }
         } else if ($scope.clinicToSave.Status == 2) {
-
+            $scope.insertarUbicacionClinica();
             // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {

@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth style="overflow-y:auto"  ng-show="validarPermisoFormulario('frmConsultores')">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth style="overflow-y: auto" ng-show="validarPermisoFormulario('frmConsultores')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-11 ">
             <div class="row">
@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="clinica in allClinicas" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
+                        <tr ng-repeat="clinica in allClinicas" style="cursor: pointer;" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
                             <td>{{clinica.Login}}</td>
                             <td>{{clinica.Nombre}}</td>
                         </tr>
@@ -51,7 +51,6 @@
                         <div class="col-md-3">
 
                             <img style="height: 100px; width: 100px" data-ng-src="{{clinicToSave.LogoParaMostrar}}" alt="Image Thumbnail Gadget ">
-
                         </div>
                         <div class="col-md-5">
                             <div class="fileupload-buttonbar">
@@ -103,7 +102,7 @@
                             <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
                                 <table class="table table-hover tableStyle scroll">
                                     <tbody id="tablaTrabajosClinicaId">
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
                                             <td>{{trabajo.Descripcion}}</td>
                                         </tr>
                                     </tbody>
@@ -153,7 +152,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
+                                        <tr style="cursor: pointer;" ng-class="{selectElement:consultorioSeleccionado.Login==consultorio.Login, deshabilitadaColor: !consultorio.Estado}" ng-repeat="consultorio in clinicToSave.Consultorios  " ng-click="selectConsultorio(consultorio)">
                                             <td>{{consultorio.Login}}</td>
                                             <td>{{consultorio.NIT}}</td>
                                         </tr>
@@ -170,24 +169,45 @@
 
                     </div>
                     <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                        <label for="inputNit" class="col-md-3 control-label"><required-field texto="NIT consultorio:"> </required-field></label>
+                        <label for="inputNit" class="col-md-3 control-label">
+                            <required-field texto="NIT consultorio:"> </required-field>
+                        </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" ng-model="consultorioToSave.NIT" id="inputNit" maxlength="10" validate="number" required>
                         </div>
                     </div>
                     <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                        <label for="inputEmail" class="col-md-3 control-label"><required-field texto="Email consultorio:"> </required-field></label>
+                        <label for="inputEmail" class="col-md-3 control-label">
+                            <required-field texto="Email consultorio:"> </required-field>
+                        </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" ng-model="consultorioToSave.Email" id="inputEmail">
                         </div>
                     </div>
                     <div class="form-group" ng-hide=" clinicToSave.Status==2">
-                        <label for="idIntervalo" class="col-md-3 control-label"><required-field texto="Tiempo consulta:"> </required-field></label>
+                        <label for="idIntervalo" class="col-md-3 control-label">
+                            <required-field texto="Tiempo consulta:"> </required-field>
+                        </label>
                         <div class="col-md-9">
                             <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                         </div>
                     </div>
-
+                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                        <label for="idIntervalo" class="col-md-3 control-label">
+                            <required-field texto="Licencia:"> </required-field>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="dtpFecha">
+                        </div>
+                    </div>
+                     <div class="form-group" ng-show="clinicToSave.Status==1 && mostrarInputMeses" >
+                        <label for="idIntervalo" class="col-md-3 control-label">
+                            <required-field texto="Cantidad de meses:"> </required-field>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="clinicToSave.CantidadMeses" id="inputMeses" maxlength="10" validate="number" required>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
                             <button class="btn btn-raised btn-primary" ng-click="nuevaClinica()" ng-disabled="!validarPermisoComponente('btnNuevaClinica')">Nueva clinica</button>
@@ -199,7 +219,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="confirm-delete"  data-backdrop="static" role="dialog">
+<div class="modal fade" id="confirm-delete" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -281,7 +301,7 @@
                             <div class="col-md-7">
                                 <table id="Table1" class="table table-hover tableStyle scroll">
                                     <tbody>
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos">
+                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos" style="cursor: pointer;">
                                             <td>
                                                 <input type="checkbox" ng-model="trabajo.checked" ng-click="selectTrabajoConsultorio(trabajo, $event)" />
                                             </td>
@@ -303,7 +323,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
+                                            <tr style="cursor: pointer;" ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)">
                                                 <td>{{telefono.Nombre}}</td>
                                                 <td>{{telefono.Telefono}}</td>
                                             </tr>
@@ -332,7 +352,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-mapa-ubicacion"data-backdrop="static"  role="dialog">
+<div class="modal fade" id="modal-mapa-ubicacion" data-backdrop="static" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
