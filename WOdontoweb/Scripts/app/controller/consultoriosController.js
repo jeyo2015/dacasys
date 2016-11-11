@@ -3,7 +3,7 @@
 
     $('#fileupload').fileupload({
         dataType: 'json',
-        url: 'odontoweb/Empresa/UploadFiles',
+        url: 'Empresa/UploadFiles',
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 10000000, // 10 MB
         minFileSize: undefined,
@@ -51,7 +51,7 @@
             dateFormat: 'dd/mm/yy',
             onSelect: function () {
                 $scope.clinicToSave.FechaInicioLicencia = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
-                $scope.mostrarInputMeses = true;
+               
                 $scope.$apply();
             }
         });
@@ -192,9 +192,9 @@
             Trabajos: [],
             Telefonos: [],
             Status: 1,
-            NombreArchivo: ""
-          //  FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
-          //  CantidadMeses:1
+            NombreArchivo: "",
+            FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
+            CantidadMeses:1
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
