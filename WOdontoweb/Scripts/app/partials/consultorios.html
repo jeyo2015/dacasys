@@ -12,8 +12,10 @@
                     </div>
                 </form>
             </div>
-            <div class="row" style="margin-top: 15px;">
-                <table class="table table-hover tableStyle">
+            
+               <div class="row" style="margin-top: 15px;">
+                <div class="col-md-12 col-xs-12" max-heigth-table style="overflow-y: auto; padding-right: 0px;">
+                   <table class="table table-hover tableStyle">
                     <thead>
                         <tr>
                             <th>Login</th>
@@ -21,15 +23,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="clinica in allClinicas" style="cursor: pointer;" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
+                        <tr ng-repeat="clinica in allClinicas | filterByWords:subString:'IDClinica,Latitud,Longitud,logoImagen,LogoParaMostrar,NombreArchivo,Descripcion,Direccion,Nit,FechaCreacion,FechaInicioLicencia,CantidadMeses,FechaModificacion,CantidadConsultorios,Consultorios,Estado,Trabajos,Telefonos,Status' "
+                             style="cursor: pointer;" ng-class="{selectElement:clinicaSelected.Login==clinica.Login,deshabilitadaColor: !clinica.Estado}" ng-click="selectClinica(clinica)">
                             <td>{{clinica.Login}}</td>
                             <td>{{clinica.Nombre}}</td>
                         </tr>
                     </tbody>
                 </table>
+                </div>
+            </div>
+            <div class="row">
                 <button class="btn btn-raised btn-danger" ng-click="openModalConfirmDelele()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && !clinicaSelected.Estado) || !validarPermisoComponente('btnEliminarClinica')">Eliminar </button>
                 <button class="btn btn-raised btn-danger" ng-click="habilitarClinica()" ng-disabled="clinicaSelected==null ||(clinicaSelected !=null && clinicaSelected.Estado)">Habilitar </button>
             </div>
+
+           
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-11">
             <div class="row">
@@ -97,24 +105,31 @@
                         </div>
                     </div>
                     <div class="row" ng-show="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
-                        <div class="col-md-12">
-                            <label for="tablaTrabajosClinicaId" class="col-md-3 control-label">Trabajos</label>
-                            <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
-                                <table class="table table-hover tableStyle scroll">
-                                    <tbody id="tablaTrabajosClinicaId">
-                                        <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
-                                            <td>{{trabajo.Descripcion}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-1">
-                                <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
-                                <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
-                                <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-                            </div>
+
+                        <label class="col-md-3 control-label">
+                            Trabajos
+                        </label>
+
+
+                        <div class="col-md-7" style="max-height: 150px; overflow-y: auto">
+                           <!-- <div ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted">
+                                {{trabajo.Descripcion}}
+                            </div>-->
+                             <table class="table table-hover tableStyle scroll">
+                                         <tbody id="tablaTrabajosClinicaId">
+                                             <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
+                                                 <td>{{trabajo.Descripcion}}</td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
+                        </div>
+                        <div class="col-md-1">
+                            <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                            <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                            <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <label for="tableTelefonosClinicaID" class="col-md-3 control-label">Telefonos</label>
@@ -200,7 +215,7 @@
                             <input type="text" class="form-control" id="dtpFecha">
                         </div>
                     </div>
-                     <div class="form-group" ng-show="clinicToSave.Status==1 " >
+                    <div class="form-group" ng-show="clinicToSave.Status==1 ">
                         <label for="idIntervalo" class="col-md-3 control-label">
                             <required-field texto="Cantidad de meses:"> </required-field>
                         </label>

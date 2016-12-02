@@ -98,7 +98,7 @@ namespace NLogin
                 int newIDClinica = ObtenerCodigo();
 
                 ControlBitacora.Insertar("Se inserto una Clinica", idUsuario);
-                ActivarLicencia(newIDClinica,clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+                ActivarLicencia(newIDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
                 InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, newIDClinica);
                 InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, newIDClinica);
                 clinicaDto.Consultorios[0].IDClinica = newIDClinica;
@@ -449,7 +449,7 @@ namespace NLogin
                         Login = cli.Login,
                         Longitud = cli.Longitud.ToString(),
                         Nombre = cli.Nombre,
-                        LogoParaMostrar = cli.ImagenLogo != null ? ConvertImageToBase64String(cli.ImagenLogo.ToArray()) : null,
+                        //  LogoParaMostrar = cli.ImagenLogo != null ? ConvertImageToBase64String(cli.ImagenLogo.ToArray()) : null,
                         Consultorios = ObtenerConsultorioPorID(idConsultorio),
                         Trabajos = ObtenerTrabajosClinica(cli.ID),
                         Status = 0,
@@ -524,7 +524,8 @@ namespace NLogin
                         NombreDoctor = ue.Nombre
                     }).ToList();
         }
-        public static int EnviarContactenos( string mensaje, string emailPaciente, string asunto) {
+        public static int EnviarContactenos(string mensaje, string emailPaciente, string asunto)
+        {
             SMTP vSMTP = new SMTP();//crear el smt
             String vMensaje = "";
 
@@ -545,7 +546,9 @@ namespace NLogin
                     where tc.ID == e.IDIntervalo
                    && ue.IDEmpresa == e.ID
                    && cl.ID == e.IDClinica
-                   && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
+                &&   !e.Login.ToUpper().Equals("DACASYS")
+                    && !e.Login.ToUpper().Equals("DEFAULT")
+                 //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
                    && ue.IDRol == r.ID
                    && r.IDEmpresa == e.ID
                     select new ConsultorioDto()
@@ -559,7 +562,7 @@ namespace NLogin
                         IDIntervalo = e.IDIntervalo,
                         IDUsuarioCreador = e.IDUsuarioCreador,
                         Login = e.Login,
-                        Direccion=cl.Direccion,
+                        Direccion = cl.Direccion,
                         NIT = e.NIT,
                         NombreClinica = cl.Nombre,
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),
@@ -860,7 +863,7 @@ namespace NLogin
                         Login = x.Login,
                         Longitud = x.Longitud.ToString(),
                         Nombre = x.Nombre,
-                        LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
+                        //LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
@@ -868,11 +871,24 @@ namespace NLogin
                     }).ToList();
         }
 
+        public static ClinicaDto ObtenerLogoParaMostrar(int idClinica)
+        {
+            var sql = dataContext.Clinica.FirstOrDefault(x => x.ID == idClinica);
+            if (sql != null && sql.ImagenLogo != null)
+            {
+                return new ClinicaDto()
+                {
+                    LogoParaMostrar = ConvertImageToBase64String(sql.ImagenLogo.ToArray())
+                }; 
+            }
+            return new ClinicaDto();
+        }
+
         public static List<ClinicaDto> ObtenerClinicasHabilitadas()
         {
             return (from c in dataContext.Clinica
                     where
-                        //  !c.Login.ToUpper().Equals("DACASYS")                     && 
+                         !c.Login.ToUpper().Equals("DACASYS")                     && 
                     !c.Login.ToUpper().Equals("DEFAULT")
                     && c.Estado == true
                     select c).Select(x => new ClinicaDto()
@@ -890,7 +906,7 @@ namespace NLogin
                         Consultorios = ObtenerConsultorios(x.ID),
                         Trabajos = ObtenerTrabajosClinica(x.ID),
                         Status = 0,
-                        LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
+                        // LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
                         Telefonos = ObtenerTelefonosClinica(x.ID)
                     }).ToList();
         }
@@ -1090,12 +1106,12 @@ namespace NLogin
         /// <param name="idClinica">ID de la nueva empresa</param>
         /// <param name="mes">Cantidad de meses de la licencia</param>
         /// <param name="idUsuario">Id del usuario que realiza accion</param>
-        private static void ActivarLicencia(int idClinica,DateTime fechaInicioLicencia, int mes, string idUsuario)
+        private static void ActivarLicencia(int idClinica, DateTime fechaInicioLicencia, int mes, string idUsuario)
         {
             Licencia vlicencia = new Licencia();
             vlicencia.IDClinica = idClinica;
             vlicencia.FechaInicio = fechaInicioLicencia.AddHours(DirefenciaHora());
-            vlicencia.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(mes*30);
+            vlicencia.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(mes * 30);
             try
             {
                 dataContext.Licencia.InsertOnSubmit(vlicencia);

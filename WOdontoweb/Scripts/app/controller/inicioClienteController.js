@@ -11,7 +11,7 @@
         $scope.mostrarConsultorios = true;
         $scope.$apply();
     });
-   
+
     function init() {
 
         $scope.mostrarConsultorios = false;
@@ -46,7 +46,7 @@
 
         cargar_clinicas();
     };
-  
+
     $scope.seleccionaCita = function (cita) {
 
         if (cita.EsTarde) {
@@ -159,16 +159,16 @@
         point = marker.getPosition();
         markers.select(function (item) {
             if (item.zIndex != marker.zIndex)
-                item.setIcon('Content/img/marker.png');
+                item.setIcon('odontoweb/Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
-        2
+        
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
             if (i > 0)
                 $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + " - ";
             $scope.telefonosClinicaSeleccionada = $scope.telefonosClinicaSeleccionada + $scope.clinicaSeleccionada.Telefonos[i].Telefono;
         }
-
+        map.setCenter(point);
 
         var htmlElement = '<div id="contentInfoWindow" class="row " style="height: 130px; width: 250px">\
                                 <div class="row">\
@@ -177,7 +177,7 @@
                                      </div>\
                                      <div class="col-md-8 col-xs-8">\
                                          <div class="row">\
-                                              <h4 title="{{clinicaSeleccionada.Nombre}}" class="cortar" style="font-weight:bold; margin-bottom:0px"> Clinica {{clinicaSeleccionada.Nombre}} </h4>\
+                                              <h4 title="{{clinicaSeleccionada.Nombre}}" class="cortar" style="font-weight:bold; margin-bottom:0px"> {{clinicaSeleccionada.Nombre}} </h4>\
                                               <label title="{{clinicaSeleccionada.Descripcion}}" class="cortar">{{clinicaSeleccionada.Descripcion}}</label>\
                                          </div>\
                                      </div>\
@@ -235,16 +235,26 @@
     }
     $scope.seleccionarConsultorioBuscador = function (consultorio) {
         var markerSelect = markers.where(function (item) {
-            return consultorio.IDClinica == item.zIndex
+            return consultorio.IDClinica == item.zIndex;
         })[0];
         $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
-            return item.IDClinica == consultorio.IDClinica
+            return item.IDClinica == consultorio.IDClinica;
         })[0];
-        $scope.consultorioBuscar = "";
-        $scope.mostrarConsultorios = false;
-        openInfoWindow(markerSelect);
-        markerSelect.setIcon('Content/img/markerselect.png');
+        if ($scope.clinicaSeleccionada.LogoParaMostrar== null)
+        clinicaService.obtenerLogoClinica($scope.clinicaSeleccionada.IDClinica).then(function (result) {
+            $scope.clinicaSeleccionada.LogoParaMostrar = result.LogoParaMostrar;
+            $scope.consultorioBuscar = "";
+            $scope.mostrarConsultorios = false;
+            openInfoWindow(markerSelect);
+            markerSelect.setIcon('odontoweb/Content/img/markerselect.png');
+        });
 
+        else {
+            $scope.consultorioBuscar = "";
+            $scope.mostrarConsultorios = false;
+            openInfoWindow(markerSelect);
+            markerSelect.setIcon('odontoweb/Content/img/markerselect.png');
+        }
 
     }
     var markers = [];
@@ -254,7 +264,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'Content/img/marker.png',
+            icon: 'odontoweb/Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         markers.push(marker);
@@ -264,9 +274,19 @@
                 return item.IDClinica == marker.zIndex;
             })[0];
             $scope.$apply();
-            openInfoWindow(marker);
-            marker.setIcon('Content/img/markerselect.png');
-            $scope.mostrarConsultorios = false;
+            if ($scope.clinicaSeleccionada.LogoParaMostrar == null)
+                clinicaService.obtenerLogoClinica($scope.clinicaSeleccionada.IDClinica).then(function(result) {
+                    $scope.clinicaSeleccionada.LogoParaMostrar = result.LogoParaMostrar;
+                    openInfoWindow(marker);
+                    marker.setIcon('odontoweb/Content/img/markerselect.png');
+                    $scope.mostrarConsultorios = false;
+                });
+
+            else {
+                openInfoWindow(marker);
+                marker.setIcon('odontoweb/Content/img/markerselect.png');
+                $scope.mostrarConsultorios = false;
+            }
         });
     }
 
@@ -308,9 +328,9 @@
         infoWindow.close();
         markers.select(function (item) {
 
-            item.setIcon('Content/img/marker.png');
+            item.setIcon('odontoweb/Content/img/marker.png');
         });
-        // marker.setIcon('desarrollo/desarrollo/Content/img/marker.png');
+        // marker.setIcon('odontoweb/odontoweb/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -374,7 +394,7 @@
                         });
                     }
                 } else {
-                   
+
                     $("#enviar-notificacion").modal('show');
                     prepararNuevoComentario();
                 }
@@ -392,8 +412,8 @@
         $scope.mensajeContactenos = "";
         $scope.asunto = "";
     };
-    $scope.enviarContactenos = function() {
-        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function(result) {
+    $scope.enviarContactenos = function () {
+        clinicaService.enviarContactenos($scope.mensajeContactenos, $scope.emailDe, $scope.asunto).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
                 $scope.emailDe = "";
@@ -426,7 +446,7 @@
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
 
-    $scope.mostrarInformacion = function() {
+    $scope.mostrarInformacion = function () {
         $scope.mostrarPanel = 1;
         console.log($scope.clinicaSeleccionada);
     };

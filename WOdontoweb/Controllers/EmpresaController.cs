@@ -43,7 +43,13 @@
             var result = ABMEmpresa.ObtenerTrabajosClinica(idClinica);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult ObtenerLogoClinica(int idClinica)
+        {
+            var result = ABMEmpresa.ObtenerLogoParaMostrar(idClinica);
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
         public JsonResult ObtenerIntervalosDeTiempo()
         {
             var result = ABMEmpresa.ObtenerIntervalosDeTiempo();
