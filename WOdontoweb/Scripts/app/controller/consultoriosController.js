@@ -66,7 +66,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -276,7 +276,7 @@
     $scope.showNewRowTelefonoClinica = function () {
         $scope.consultorioSeleccionado = null;
         prepararNuevoTelefonoClinica();
-        var template = "<tr id = \"newTelefonoClinicaId\"> <td><input type=\"text\" class=\"form-control\" id=\"nombreClinicaID\" ng-model=\"telefonoClinicaTemp.Nombre\"> </td><td><input type=\"text\" class=\"form-control\" id=\"telefonoClinicaID\" ng-model=\" telefonoClinicaTemp.Telefono\"></td><td><span ng-click=\"addNewTelefonoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<tr id = \"newTelefonoClinicaId\"> <td><input type=\"text\" maxlength=\"100\" class=\"form-control\" id=\"nombreClinicaID\" ng-model=\"telefonoClinicaTemp.Nombre\"> </td><td><input type=\"text\" maxlength=\"10\" class=\"form-control\" id=\"telefonoClinicaID\" ng-model=\" telefonoClinicaTemp.Telefono\"></td><td><span ng-click=\"addNewTelefonoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -393,7 +393,7 @@
         $scope.primerTrabajo = "";
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
-        var template = "<tr id = \"newTrabajoClinicaId\"> <td><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"> </td><td><span  ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<tr id = \"newTrabajoClinicaId\"> <td><input type=\"text\"   class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"> </td><td><span  ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -404,7 +404,7 @@
     $scope.showUpdateRowTrabajoClinica = function () {
         $scope.consultorioSeleccionado = null;
         $scope.clinicToSave.Trabajos.splice($scope.indexTrabajoClinicaSelected, 1);
-        var template = "<tr id = \"updateTrabajoClinicaId\"> <td><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" trabajoClinicaSelected.Descripcion\"> </td><td><span  ng-click=\"updateTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelUpdateTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<tr id = \"updateTrabajoClinicaId\"> <td><input type=\"text\"   class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" trabajoClinicaSelected.Descripcion\"> </td><td><span  ng-click=\"updateTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelUpdateTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -413,7 +413,7 @@
     };
 
     $scope.addRowTable = function () {
-        var template = "<tr id = \"newTelefonoId\"> <td><input type=\"text\" class=\"form-control\" id=\"nombreID\" ng-model=\" telefonoToSave.Nombre\"> </td><td><input type=\"text\" class=\"form-control\" ng-model=\" telefonoToSave.Telefono\"></td><td><span  ng-click=\"addTelefono()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoConsultorio()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<tr id = \"newTelefonoId\"> <td><input type=\"text\" class=\"form-control\" id=\"nombreID\" maxlength=\"100\" ng-model=\" telefonoToSave.Nombre\"> </td><td><input type=\"text\" class=\"form-control\" maxlength=\"10\" ng-model=\" telefonoToSave.Telefono\"></td><td><span  ng-click=\"addTelefono()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoConsultorio()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -422,7 +422,7 @@
     };
 
     $scope.addRowTableFromClinica = function () {
-        var template = "<tr id = \"newTelefonoId\"> <td><input type=\"text\" class=\"form-control\" id=\"nombreID\" ng-model=\" telefonoToSave.Nombre\"> </td><td><input type=\"text\" class=\"form-control\" ng-model=\" telefonoToSave.Telefono\"></td><td><span  ng-click=\"addTelefono()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoConsultorio()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<tr id = \"newTelefonoId\"> <td><input type=\"text\" class=\"form-control\" id=\"nombreID\" maxlength=\"100\" ng-model=\" telefonoToSave.Nombre\"> </td><td><input type=\"text\" class=\"form-control\" maxlength=\"10\" ng-model=\" telefonoToSave.Telefono\"></td><td><span  ng-click=\"addTelefono()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTelefonoConsultorio()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 

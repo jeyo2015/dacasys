@@ -125,4 +125,11 @@
         });
         return d.promise;
     };
+    this.obtenerLogoClinica = function (pIdClinica) {
+        var d = $q.defer();
+        $http.post('Empresa/ObtenerLogoClinica?idClinica=' + pIdClinica).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
 });

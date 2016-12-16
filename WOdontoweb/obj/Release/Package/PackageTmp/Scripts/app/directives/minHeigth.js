@@ -74,7 +74,7 @@ app.directive("maxHeigthTable", function ($window) {
             var newSize = function () {
                 var h = $(window).height();
                 var rest = $("#headerTotal").height();
-                return h - rest - 215;
+                return h - rest - 220;
             };
 
             $(document).on('onResize', function (e, args) {

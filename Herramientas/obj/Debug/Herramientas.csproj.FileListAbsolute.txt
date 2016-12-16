@@ -320,6 +320,6 @@ E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Debug\Herramientas.dll
 E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Debug\Herramientas.pdb
 D:\DACASYS\Clone1506\dacasys\Herramientas\bin\Debug\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\Herramientas\bin\Debug\Herramientas.pdb
+D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.pdb
-D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache
