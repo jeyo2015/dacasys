@@ -1,8 +1,16 @@
-﻿app.controller("misCitasController", function (consultasService, $scope, $compile, $rootScope) {
+﻿app.controller("misCitasController", function (consultasService, $scope, $compile, $rootScope, loginService) {
     init();
 
     function init() {
-        cargarCitasPorCliente();
+        if (!$rootScope.sessionDto) {
+            loginService.getSessionDto().then(function (result) {
+                $rootScope.sessionDto = result;
+                cargarCitasPorCliente();
+            });
+        } else {
+            cargarCitasPorCliente();
+        }
+       
     };
 
     function cargarCitasPorCliente() {

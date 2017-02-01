@@ -9,7 +9,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:20</publishTime>
     </File>
     <File Include="bin/DataTableConverter.dll">
       <publishTime>06/15/2016 09:30:09</publishTime>
@@ -24,25 +24,25 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/29/2016 11:27:02</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.AspNet.dll">
-      <publishTime>12/14/2016 08:07:40</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.Core.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.OAuth.Consumer.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.OAuth.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.OpenId.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.OpenId.RelyingParty.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:17</publishTime>
     </File>
     <File Include="bin/es/EntityFramework.resources.dll">
       <publishTime>06/15/2016 09:30:12</publishTime>
@@ -51,70 +51,70 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/15/2016 09:30:13</publishTime>
     </File>
     <File Include="bin/Herramientas.dll">
-      <publishTime>11/22/2016 16:44:27</publishTime>
+      <publishTime>01/12/2017 13:35:49</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Mvc.FixedDisplayModes.dll">
-      <publishTime>12/14/2016 08:07:42</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.WebPages.OAuth.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/Mono.Math.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/NAgenda.dll">
-      <publishTime>12/02/2016 09:39:56</publishTime>
+      <publishTime>01/12/2017 13:35:50</publishTime>
     </File>
     <File Include="bin/NConsulta.dll">
-      <publishTime>12/02/2016 09:39:56</publishTime>
+      <publishTime>01/12/2017 13:35:50</publishTime>
     </File>
     <File Include="bin/NEventos.dll">
       <publishTime>11/09/2016 08:13:59</publishTime>
     </File>
     <File Include="bin/NLogin.dll">
-      <publishTime>12/02/2016 09:39:56</publishTime>
+      <publishTime>01/12/2017 13:35:49</publishTime>
     </File>
     <File Include="bin/Org.Mentalis.Security.Cryptography.dll">
-      <publishTime>12/14/2016 08:07:41</publishTime>
+      <publishTime>01/12/2017 11:55:16</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
-      <publishTime>12/14/2016 08:07:42</publishTime>
+      <publishTime>01/12/2017 11:55:18</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.Providers.dll">
-      <publishTime>12/14/2016 08:07:42</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
-      <publishTime>12/14/2016 08:07:42</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Deployment.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Razor.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:20</publishTime>
     </File>
     <File Include="bin/WebMatrix.Data.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/WebMatrix.WebData.dll">
-      <publishTime>12/14/2016 08:07:43</publishTime>
+      <publishTime>01/12/2017 11:55:19</publishTime>
     </File>
     <File Include="bin/WOdontoweb.dll">
-      <publishTime>12/16/2016 10:45:38</publishTime>
+      <publishTime>01/12/2017 13:35:51</publishTime>
     </File>
     <File Include="Content/fontAwesome/css/font-awesome.css">
       <publishTime>06/15/2016 09:30:09</publishTime>
@@ -354,7 +354,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/12/2016 12:42:35</publishTime>
     </File>
     <File Include="Scripts/app/controller/consultoriosController.js">
-      <publishTime>12/16/2016 10:44:05</publishTime>
+      <publishTime>01/12/2017 14:01:49</publishTime>
     </File>
     <File Include="Scripts/app/controller/cuentasPorCobrarController.js">
       <publishTime>09/28/2016 11:10:15</publishTime>
@@ -372,7 +372,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/12/2016 12:42:35</publishTime>
     </File>
     <File Include="Scripts/app/controller/inicioClienteController.js">
-      <publishTime>12/16/2016 10:43:45</publishTime>
+      <publishTime>01/12/2017 14:01:49</publishTime>
     </File>
     <File Include="Scripts/app/controller/loginController.js">
       <publishTime>10/18/2016 15:17:28</publishTime>
@@ -381,7 +381,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/14/2016 16:56:25</publishTime>
     </File>
     <File Include="Scripts/app/controller/misCitasController.js">
-      <publishTime>07/28/2016 11:53:44</publishTime>
+      <publishTime>12/29/2016 08:50:19</publishTime>
     </File>
     <File Include="Scripts/app/controller/pacienteController.js">
       <publishTime>10/14/2016 12:00:05</publishTime>
@@ -507,7 +507,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/12/2016 12:42:35</publishTime>
     </File>
     <File Include="Scripts/app/partials/consultorios.html">
-      <publishTime>12/08/2016 11:13:59</publishTime>
+      <publishTime>01/12/2017 12:09:51</publishTime>
     </File>
     <File Include="Scripts/app/partials/cuentasPorCobrar.html">
       <publishTime>10/18/2016 15:05:45</publishTime>
@@ -534,7 +534,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/28/2016 13:09:39</publishTime>
     </File>
     <File Include="Scripts/app/partials/misCitas.html">
-      <publishTime>09/28/2016 13:09:39</publishTime>
+      <publishTime>12/29/2016 09:06:51</publishTime>
     </File>
     <File Include="Scripts/app/partials/paciente.html">
       <publishTime>09/28/2016 13:09:39</publishTime>
@@ -549,7 +549,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/28/2016 13:09:39</publishTime>
     </File>
     <File Include="Scripts/app/services/clinicaService.js">
-      <publishTime>11/22/2016 17:38:47</publishTime>
+      <publishTime>01/12/2017 13:46:28</publishTime>
     </File>
     <File Include="Scripts/app/services/comentarioService.js">
       <publishTime>07/07/2016 09:08:31</publishTime>

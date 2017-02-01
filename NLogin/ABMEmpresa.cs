@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.Cryptography;
 
 namespace NLogin
 {
@@ -116,6 +117,7 @@ namespace NLogin
 
         public static int ModificarClinica(ClinicaDto clinicaDto, string idUsuario)
         {
+          
             var clinicaCurrent = (from c in dataContext.Clinica
                                   where c.ID == clinicaDto.IDClinica
                                   select c).FirstOrDefault();
@@ -139,21 +141,20 @@ namespace NLogin
                 clinicaCurrent.FechaDeModificacion = DateTime.Today;
                 try
                 {
-
-
+                  
+                    ModificarLicencia(clinicaDto.IDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+                  
                     InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
+                  
                     InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
                     foreach (var consultorio in clinicaDto.Consultorios)
                     {
+                      
                         ModificarConsultorio(consultorio, idUsuario);
                     }
                     dataContext.SubmitChanges();
                     ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
-                    //clinicaDto.Consultorios[0].idClinica = clinicaDto.idClinica;
-                    // clinicaDto.Consultorios[0].Login = clinicaDto.Login + "1";
-                    // clinicaDto.Consultorios[0].IDUsuarioCreador = idUsuario;
-                    // clinicaDto.Consultorios[0].NombreClinica = clinicaDto.Nombre;
-                    // return InsertarConsultorio(clinicaDto.Consultorios[0]);
+
                     return 1;
 
                 }
@@ -166,6 +167,30 @@ namespace NLogin
             else
 
                 return 0;
+        }
+
+        private static void ModificarLicencia(int idClinica, DateTime fechaInicioLicencia, int cantidadMeses, string idUsuario)
+        {
+            var lice = (from li in dataContext.Licencia
+                        where li.IDClinica == idClinica
+                        select li).FirstOrDefault();
+            if (lice != null)
+            {
+                try
+                {
+                    
+                    lice.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(cantidadMeses * 30);
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se modifico una licencia", idUsuario);
+                }
+                catch (Exception ex)
+                {
+
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ModificarLicencia", ex);
+                }
+
+            }
+
         }
 
         public static int ModificarConsultorio(ConsultorioDto consultorioDto, string idUsuario)
@@ -546,9 +571,9 @@ namespace NLogin
                     where tc.ID == e.IDIntervalo
                    && ue.IDEmpresa == e.ID
                    && cl.ID == e.IDClinica
-                &&   !e.Login.ToUpper().Equals("DACASYS")
+                && !e.Login.ToUpper().Equals("DACASYS")
                     && !e.Login.ToUpper().Equals("DEFAULT")
-                 //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
+                        //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
                    && ue.IDRol == r.ID
                    && r.IDEmpresa == e.ID
                     select new ConsultorioDto()
@@ -848,27 +873,33 @@ namespace NLogin
 
         public static List<ClinicaDto> ObtenerClinicas()
         {
-            return (from c in dataContext.Clinica
-                    where !c.Login.ToUpper().Equals("DACASYS")
-                    && !c.Login.ToUpper().Equals("DEFAULT")
-                    select c).Select(x => new ClinicaDto()
-                    {
-                        Descripcion = x.Descripcion,
-                        Direccion = x.Direccion,
-                        Estado = x.Estado,
-                        FechaCreacion = x.FechaCreacion,
-                        FechaModificacion = x.FechaDeModificacion,
-                        IDClinica = x.ID,
-                        Latitud = x.Latitud.ToString(),
-                        Login = x.Login,
-                        Longitud = x.Longitud.ToString(),
-                        Nombre = x.Nombre,
-                        //LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
-                        Consultorios = ObtenerConsultorios(x.ID),
-                        Trabajos = ObtenerTrabajosClinica(x.ID),
-                        Status = 0,
-                        Telefonos = ObtenerTelefonosClinica(x.ID)
-                    }).ToList();
+            var list = (from c in dataContext.Clinica
+                        from l in dataContext.Licencia
+                        where !c.Login.ToUpper().Equals("DACASYS")
+                        && !c.Login.ToUpper().Equals("DEFAULT")
+                        && l.IDClinica == c.ID
+                        select new ClinicaDto()
+                        {
+                            Descripcion = c.Descripcion,
+                            Direccion = c.Direccion,
+                            Estado = c.Estado,
+                            FechaCreacion = c.FechaCreacion,
+                            FechaModificacion = c.FechaDeModificacion,
+                            IDClinica = c.ID,
+                            Latitud = c.Latitud.ToString(),
+                            Login = c.Login,
+                            Longitud = c.Longitud.ToString(),
+                            Nombre = c.Nombre,
+                            FechaInicioLicencia = l.FechaInicio,
+                            FechaFinLicencia = l.FechaFin,
+                         //  FechaInicioLicenciaString = l.FechaInicio.ToString(),
+                            Consultorios = ObtenerConsultorios(c.ID),
+                            Trabajos = ObtenerTrabajosClinica(c.ID),
+                            Status = 0,
+                            Telefonos = ObtenerTelefonosClinica(c.ID)
+                        }).ToList();
+            list.ForEach(x => x.CantidadMeses = (int)(x.FechaFinLicencia.Subtract(x.FechaInicioLicencia).Days / 30));
+            return list;
         }
 
         public static ClinicaDto ObtenerLogoParaMostrar(int idClinica)
@@ -879,7 +910,7 @@ namespace NLogin
                 return new ClinicaDto()
                 {
                     LogoParaMostrar = ConvertImageToBase64String(sql.ImagenLogo.ToArray())
-                }; 
+                };
             }
             return new ClinicaDto();
         }
@@ -888,7 +919,7 @@ namespace NLogin
         {
             return (from c in dataContext.Clinica
                     where
-                         !c.Login.ToUpper().Equals("DACASYS")                     && 
+                         !c.Login.ToUpper().Equals("DACASYS") &&
                     !c.Login.ToUpper().Equals("DEFAULT")
                     && c.Estado == true
                     select c).Select(x => new ClinicaDto()

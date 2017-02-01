@@ -173,6 +173,8 @@
         public string Nit { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaInicioLicencia { get; set; }
+        public string FechaInicioLicenciaString { get; set; }
+        public DateTime FechaFinLicencia { get; set; }
         public int CantidadMeses { get; set; }
         public DateTime FechaModificacion { get; set; }
         public int CantidadConsultorios { get; set; }

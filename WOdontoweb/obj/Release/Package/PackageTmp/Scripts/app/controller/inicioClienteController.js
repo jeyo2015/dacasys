@@ -285,7 +285,7 @@
 
             else {
                 openInfoWindow(marker);
-                marker.setIcon('desarrollo/Content/img/markerselect.png');
+                marker.setIcon('Content/img/markerselect.png');
                 $scope.mostrarConsultorios = false;
             }
         });
@@ -331,7 +331,7 @@
 
             item.setIcon('desarrollo/Content/img/marker.png');
         });
-        // marker.setIcon('odontoweb/odontoweb/Content/img/marker.png');
+        // marker.setIcon('odontoweb/desarrollo/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);

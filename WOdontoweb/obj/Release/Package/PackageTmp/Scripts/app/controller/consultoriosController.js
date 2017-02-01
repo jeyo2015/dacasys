@@ -46,16 +46,26 @@
 
     };
     function inicializarDatos() {
-      
+
         $("#dtpFecha").datepicker({
             dateFormat: 'dd/mm/yy',
             onSelect: function () {
                 $scope.clinicToSave.FechaInicioLicencia = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
-               
+                $scope.clinicToSave.FechaInicioLicenciaString = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
                 $scope.$apply();
             }
         });
         $('#dtpFecha').val(moment().format('DD/MM/YYYY'));
+        $("#dtpFecha1").datepicker({
+            dateFormat: 'dd/mm/yy',
+            onSelect: function () {
+                $scope.clinicToSave.FechaInicioLicencia = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
+                $scope.clinicToSave.FechaInicioLicenciaString = $.datepicker.formatDate("dd/mm/yy", $(this).datepicker('getDate'));
+                $scope.$apply();
+            }
+        });
+        $('#dtpFecha1').val(moment().format('DD/MM/YYYY'));
+        
         prepararNuevaClinica();
         InicializarMapa();
         cargar_todas_clinicas(false);
@@ -166,6 +176,10 @@
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $('#modal-mapa-ubicacion').modal('hide');
     };
+    $scope.mostrarCamposModificarLicencia = function () {
+        $scope.mostrarModificarLicencia = true;
+        $('#dtpFecha1').val($scope.clinicToSave.FechaInicioLicencia);
+    };
     $scope.insertarUbicacionClinica = function () {
 
         $scope.clinicToSave.Latitud = angular.copy($scope.latlngActual.lat());
@@ -173,6 +187,7 @@
         $('#modal-mapa-ubicacion').modal('hide');
     };
     function prepararNuevaClinica() {
+        $scope.mostrarModificarLicencia = false;
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
@@ -194,7 +209,7 @@
             Status: 1,
             NombreArchivo: "",
             FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
-            CantidadMeses:1
+            CantidadMeses: 1
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
@@ -390,10 +405,11 @@
     };
 
     $scope.showNewRowTrabajoClinica = function () {
+
         $scope.primerTrabajo = "";
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
-        var template = "<tr id = \"newTrabajoClinicaId\"> <td><input type=\"text\"   class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"> </td><td><span  ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<div id = \"newTrabajoClinicaId\" style=\"padding:0px 8px\"><div style=\" float:left; width:80%\"><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"></div> <div style=\" float:left;    padding: 8px 4px;\" ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></div><div style=\" float:left;    padding: 8px 4px;\" ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></div></div>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -460,18 +476,21 @@
                 toastr.error(result.Message);
             }
         });
-    }
+    };
 
     function cargar_todas_clinicas(seleccionarClinica) {
         clinicaService.getAllClinicas().then(function (result) {
             $scope.allClinicas = result.where(function (r) {
                 r.Longitud = r.Longitud.replace(".", ",");
                 r.Latitud = r.Latitud.replace(".", ",");
+                r.FechaInicioLicenciaString = moment(r.FechaInicioLicencia).format('DD/MM/YYYY');
+                r.FechaInicioLicencia = moment(r.FechaInicioLicencia).format('DD/MM/YYYY');
+                r.FechaFinLicencia = moment(r.FechaFinLicencia).format('DD/MM/YYYY');
                 return r;
             });
             if (seleccionarClinica) {
                 $scope.clinicToSave = $scope.allClinicas.where(function (ele) {
-                    return ele.IDClinica == $scope.clinicaSelected.IDClinica
+                    return ele.IDClinica == $scope.clinicaSelected.IDClinica;
                 })[0];
                 $scope.clinicToSave.Status = 2;
                 $scope.clinicaSelected = $scope.clinicToSave;
@@ -480,7 +499,8 @@
     }
 
     $scope.selectClinica = function (clinica) {
-
+        $scope.mostrarModificarLicencia = false;
+        $("#newTrabajoClinicaId").remove();
         $scope.trabajoClinicaSelected = null;
         $scope.telefonoClinicaSelected = null;
         $scope.consultorioSeleccionado = null;

@@ -1,7 +1,14 @@
 ﻿app.service("clinicaService", function ($http, $q) {
+    function noCache() {
+        return '?nochace=' + new Date().getTime();
+    }
+
+    function noCacheParameter() {
+        return '&nochace=' + new Date().getTime();
+    }
     this.getAllClinicas = function (idEmpresa) {
         var d = $q.defer();
-        $http.get('Empresa/ObtenerClinicas').success(function (data) {
+        $http.get('Empresa/ObtenerClinicas'+noCache()).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

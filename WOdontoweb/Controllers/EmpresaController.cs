@@ -59,6 +59,9 @@
         public JsonResult InsertarNuevaClinica(ClinicaDto clinicaDto)
         {
             var imageByte = Session[clinicaDto.NombreArchivo];
+            var splitFecha = clinicaDto.FechaInicioLicenciaString.Split('/');
+            clinicaDto.FechaInicioLicencia = new DateTime(Convert.ToInt16(splitFecha[2]), Convert.ToInt16(splitFecha[1]),
+                Convert.ToInt16(splitFecha[0]));
             clinicaDto.logoImagen = (byte[])imageByte;
             var insert = ABMEmpresa.InsertarClinica(clinicaDto, Session["loginusuario"].ToString());
             var result = new ResponseModel()
@@ -73,6 +76,9 @@
 
         public JsonResult ModificarClinica(ClinicaDto clinicaDto)
         {
+            var splitFecha = clinicaDto.FechaInicioLicenciaString.Split('/');
+            clinicaDto.FechaInicioLicencia = new DateTime(Convert.ToInt16(splitFecha[2]), Convert.ToInt16(splitFecha[1]),
+                Convert.ToInt16(splitFecha[0]));
             var imageByte = Session[clinicaDto.NombreArchivo];
             clinicaDto.logoImagen = (byte[])imageByte;
             var insert = ABMEmpresa.ModificarClinica(clinicaDto, Session["loginusuario"].ToString());
@@ -82,6 +88,7 @@
                 Data = insert,
                 Success = insert == 1
             };
+
             Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
