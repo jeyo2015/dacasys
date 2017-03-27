@@ -68,6 +68,7 @@
         $rootScope.usuario = "";
         $rootScope.pass = "";
         prepararNuevoCliente();
+        $("#modal-login").modal('hide');
         $("#modal-login-cliente").modal('hide');
         $("#modal-registrarse").modal('show');
     }
@@ -93,9 +94,9 @@
         loginService.cerrarSesion().then(function (result) {
             $rootScope.sessionDto = result;
             $location.path('/inicioCliente');
-          
 
-            
+
+
         });
     };
 
@@ -224,7 +225,7 @@
                         }
                         getNotificaciones();
                     } else {
-                      
+
                         $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');

@@ -76,7 +76,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'odontoweb/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -209,6 +209,7 @@
             Status: 1,
             NombreArchivo: "",
             FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
+            FechaInicioLicenciaString:moment($('#dtpFecha').datepicker("getDate")).format('DD/MM/YYYY')  , 
             CantidadMeses: 1
         };
         $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);

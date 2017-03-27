@@ -1,4 +1,4 @@
-﻿app.controller("empresaController", function (loginService,clinicaService, $scope, $rootScope, $compile) {
+﻿app.controller("empresaController", function (loginService, clinicaService, $scope, $rootScope, $compile) {
     function prepararDtoConsultorio() {
         $scope.consultorioParaGuardar = {
             IDConsultorio: $rootScope.sessionDto.IDConsultorio,
@@ -55,7 +55,7 @@
     init();
     function init() {
         $scope.listaMarcadores = [];
-        
+
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -65,18 +65,19 @@
             inicializarDatos();
         }
 
-       
+
 
     }
 
     function inicializarDatos() {
 
-         clinicaService.getIntervalosTiempo().then(function (resultIntervalo) {
+        clinicaService.getIntervalosTiempo().then(function (resultIntervalo) {
 
             $scope.intervalos = resultIntervalo;
             clinicaService.obtenerConsultorioConClinica($rootScope.sessionDto.IDConsultorio).then(function (result) {
                 $scope.clinicaParaModificar = result;
                 $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
+                $scope.clinicaParaModificar.FechaInicioLicenciaString = moment(result.FechaInicioLicencia).format('DD/MM/YYYY');
                 $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(".", ",");
                 $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicaParaModificar.Latitud.replace(',', '.')), parseFloat($scope.clinicaParaModificar.Longitud.replace(',', '.')));
                 InicializarMapa();
@@ -92,7 +93,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -161,6 +162,8 @@
         $scope.clinicaParaModificar.Longitud = angular.copy($scope.latlngActual.lng());
         $('#modal-mapa-ubicacion').modal('hide');
     };
+    
+   
     $scope.selectTrabajoConsultorio = function (trabajo, event) {
         if (event.currentTarget.checked) {
             if ($scope.consultorioToSave.Trabajos == null)
@@ -396,6 +399,8 @@
     }
 
     $scope.guardarClinica = function () {
+        $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
+        $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(".", ",");
         $scope.clinicaParaModificar.Consultorios[0].IDIntervalo = angular.copy($scope.intervaloSelected.ID);
         clinicaService.modificarClinica($scope.clinicaParaModificar).then(function (result) {
             if (result.Success) {

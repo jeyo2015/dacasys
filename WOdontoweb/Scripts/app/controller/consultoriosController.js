@@ -76,7 +76,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'odontoweb/Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -559,10 +559,10 @@
             }
         });
     };
-    $scope.selectConsultorio = function (consultorio) {
+    $scope.selectConsultorio = function(consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         $scope.consultorioSeleccionado.State = 2;
-    }
+    };
     $scope.abrirModalModificarConsultorio = function () {
         $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
         $scope.intervaloSelected = $scope.intervalos.where(function (intervalo) {
@@ -627,6 +627,8 @@
             }
         } else if ($scope.clinicToSave.Status == 2) {
             $scope.insertarUbicacionClinica();
+            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.replace(".", ",");
+            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.replace(".", ",");
             // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {

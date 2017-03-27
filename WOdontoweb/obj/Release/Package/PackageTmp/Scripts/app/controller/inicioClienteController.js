@@ -121,6 +121,7 @@
         $scope.verConsultorio = true;
         if ($scope.clinicaSeleccionada.Consultorios.length == 1) {
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
+           // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
             $scope.mostrarInformacion();
         } else
@@ -160,7 +161,7 @@
         point = marker.getPosition();
         markers.select(function (item) {
             if (item.zIndex != marker.zIndex)
-                item.setIcon('desarrollo/Content/img/marker.png');
+                item.setIcon('Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
         
@@ -208,7 +209,7 @@
 
         var compiled = $compile(htmlElement)($scope);
         infoWindow.setContent(compiled[0]);
-        $scope.$apply();
+      //  $scope.$apply();
         infoWindow.open(map, marker);
 
 
@@ -247,14 +248,14 @@
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('desarrollo/Content/img/markerselect.png');
+            markerSelect.setIcon('Content/img/markerselect.png');
         });
 
         else {
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('desarrollo/Content/img/markerselect.png');
+            markerSelect.setIcon('Content/img/markerselect.png');
         }
 
     }
@@ -265,7 +266,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         markers.push(marker);
@@ -274,12 +275,12 @@
             $scope.clinicaSeleccionada = $scope.clinicas.where(function (item) {
                 return item.IDClinica == marker.zIndex;
             })[0];
-            $scope.$apply();
+          
             if ($scope.clinicaSeleccionada.LogoParaMostrar == null)
                 clinicaService.obtenerLogoClinica($scope.clinicaSeleccionada.IDClinica).then(function(result) {
                     $scope.clinicaSeleccionada.LogoParaMostrar = result.LogoParaMostrar;
                     openInfoWindow(marker);
-                    marker.setIcon('desarrollo/Content/img/markerselect.png');
+                    marker.setIcon('Content/img/markerselect.png');
                     $scope.mostrarConsultorios = false;
                 });
 
@@ -288,6 +289,7 @@
                 marker.setIcon('Content/img/markerselect.png');
                 $scope.mostrarConsultorios = false;
             }
+            $scope.$apply();
         });
     }
 
@@ -329,9 +331,9 @@
         infoWindow.close();
         markers.select(function (item) {
 
-            item.setIcon('desarrollo/Content/img/marker.png');
+            item.setIcon('Content/img/marker.png');
         });
-        // marker.setIcon('odontoweb/desarrollo/Content/img/marker.png');
+        // marker.setIcon('Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
