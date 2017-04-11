@@ -82,10 +82,13 @@
                 $scope.latlngActual = new google.maps.LatLng(parseFloat($scope.clinicaParaModificar.Latitud.replace(',', '.')), parseFloat($scope.clinicaParaModificar.Longitud.replace(',', '.')));
                 InicializarMapa();
                 seleccionarIntervalo();
+                // cargarTrabajosClinica();
+                console.log($scope.clinicaParaModificar);
 
             });
         });
     }
+
 
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
@@ -162,8 +165,8 @@
         $scope.clinicaParaModificar.Longitud = angular.copy($scope.latlngActual.lng());
         $('#modal-mapa-ubicacion').modal('hide');
     };
-    
-   
+
+
     $scope.selectTrabajoConsultorio = function (trabajo, event) {
         if (event.currentTarget.checked) {
             if ($scope.consultorioToSave.Trabajos == null)
@@ -402,7 +405,7 @@
         $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
         $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(".", ",");
         $scope.clinicaParaModificar.Consultorios[0].IDIntervalo = angular.copy($scope.intervaloSelected.ID);
-        clinicaService.modificarClinica($scope.clinicaParaModificar).then(function (result) {
+        clinicaService.modificarClinicaConsultorio($scope.clinicaParaModificar).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);
 

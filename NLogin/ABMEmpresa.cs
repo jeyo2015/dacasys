@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
+using System.Xml.Schema;
 
 namespace NLogin
 {
@@ -117,7 +118,7 @@ namespace NLogin
 
         public static int ModificarClinica(ClinicaDto clinicaDto, string idUsuario)
         {
-          
+
             var clinicaCurrent = (from c in dataContext.Clinica
                                   where c.ID == clinicaDto.IDClinica
                                   select c).FirstOrDefault();
@@ -141,15 +142,15 @@ namespace NLogin
                 clinicaCurrent.FechaDeModificacion = DateTime.Today;
                 try
                 {
-                  
+
                     ModificarLicencia(clinicaDto.IDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
-                  
+
                     InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
-                  
+
                     InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
                     foreach (var consultorio in clinicaDto.Consultorios)
                     {
-                      
+
                         ModificarConsultorio(consultorio, idUsuario);
                     }
                     dataContext.SubmitChanges();
@@ -168,6 +169,101 @@ namespace NLogin
 
                 return 0;
         }
+        public static int ModificarClinicaConsultorio(ClinicaDto clinicaDto, string idUsuario)
+        {
+
+            var clinicaCurrent = (from c in dataContext.Clinica
+                                  where c.ID == clinicaDto.IDClinica
+                                  select c).FirstOrDefault();
+            if (clinicaCurrent != null)
+            {
+
+
+                clinicaCurrent.Nombre = clinicaDto.Nombre;
+                clinicaCurrent.IDUsuarioCreacion = idUsuario;
+                clinicaCurrent.Login = clinicaDto.Login;
+                if (clinicaDto.logoImagen != null)
+                {
+                    Binary vbi = new Binary(clinicaDto.logoImagen);
+                    clinicaCurrent.ImagenLogo = vbi;
+                }
+                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 8);
+                clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 8);
+                clinicaCurrent.Descripcion = clinicaDto.Descripcion;
+                clinicaCurrent.Direccion = clinicaDto.Direccion;
+                clinicaCurrent.Estado = true;
+                clinicaCurrent.FechaDeModificacion = DateTime.Today;
+                try
+                {
+
+                    ModificarLicencia(clinicaDto.IDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+
+                    InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
+
+                    InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
+                    InsertarTrabajosConsultorio(clinicaDto.Consultorios[0].IDConsultorio, clinicaDto.Trabajos);
+                    //foreach (var consultorio in clinicaDto.Consultorios)
+                    //{
+
+                    ModificarConsultorio(clinicaDto.Consultorios[0], idUsuario);
+                    //  }
+                    dataContext.SubmitChanges();
+                    ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
+
+                    return 1;
+
+                }
+                catch (Exception ex)
+                {
+                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
+                    return 0;
+                }
+            }
+            else
+
+                return 0;
+        }
+
+        private static void InsertarTrabajosConsultorio(int idConsultorio, List<TrabajosClinicaDto> trabajos)
+        {
+            var trabajosToInsert = trabajos.Where(x => x.IsChecked);
+            try
+            {
+                foreach (var trabajosClinicaDto in trabajosToInsert)
+                {
+                    var tel = new TrabajosConsultorio()
+                    {
+                        IDTrabajo = trabajosClinicaDto.ID,
+                        IDConsultorio = idConsultorio
+                    };
+
+
+                    dataContext.TrabajosConsultorio.InsertOnSubmit(tel);
+
+
+                }
+
+                var trabajoTodelete = trabajos.Where(x => !x.IsChecked);
+                foreach (var trabajosClinicaDto in trabajoTodelete)
+                {
+                    TrabajosClinicaDto dto = trabajosClinicaDto;
+                    var temp = (from tc in dataContext.TrabajosConsultorio
+                                where tc.IDConsultorio == idConsultorio && tc.IDTrabajo == dto.ID
+                                select tc).FirstOrDefault();
+                    if (temp != null)
+                    {
+                        dataContext.TrabajosConsultorio.DeleteOnSubmit(temp);
+
+                    }
+
+                }
+                dataContext.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosConsultorio", ex); throw;
+            }
+        }
 
         private static void ModificarLicencia(int idClinica, DateTime fechaInicioLicencia, int cantidadMeses, string idUsuario)
         {
@@ -178,7 +274,7 @@ namespace NLogin
             {
                 try
                 {
-                    
+
                     lice.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(cantidadMeses * 30);
                     dataContext.SubmitChanges();
                     ControlBitacora.Insertar("Se modifico una licencia", idUsuario);
@@ -476,7 +572,7 @@ namespace NLogin
                         Nombre = cli.Nombre,
                         //  LogoParaMostrar = cli.ImagenLogo != null ? ConvertImageToBase64String(cli.ImagenLogo.ToArray()) : null,
                         Consultorios = ObtenerConsultorioPorID(idConsultorio),
-                        Trabajos = ObtenerTrabajosClinica(cli.ID),
+                        Trabajos = ObtenerTrabajosClinica(cli.ID, idConsultorio),
                         Status = 0,
                         Telefonos = ObtenerTelefonosClinica(cli.ID),
                         EsConsultorioDefault = c.Login == cli.Login
@@ -870,7 +966,27 @@ namespace NLogin
             }
             return new List<TrabajosClinicaDto>();
         }
-
+        public static List<TrabajosClinicaDto> ObtenerTrabajosClinica(int idClinica, int idConsultorio)
+        {
+            var trabajosClinica = (from t in dataContext.Trabajos
+                                   where t.IDClinica == idClinica
+                                   select t);
+            if (trabajosClinica.Any())
+            {
+                var trabajosConsul = (from tc in dataContext.TrabajosConsultorio
+                                      where tc.IDConsultorio == idConsultorio
+                                      select tc.IDTrabajo);
+                return trabajosClinica.Select(trabajo => new TrabajosClinicaDto()
+                {
+                    ID = trabajo.ID,
+                    IDClinica = trabajo.IDClinica,
+                    Descripcion = trabajo.Descripcion,
+                    // IDConsultorio = trabajosConsul.Where(tc => tc.IDTrabajo == trabajo.ID).Select(id => id.IDConsultorio).ToList(),
+                    IsChecked = trabajosConsul.Contains(trabajo.ID)
+                }).ToList();
+            }
+            return new List<TrabajosClinicaDto>();
+        }
         public static List<ClinicaDto> ObtenerClinicas()
         {
             var list = (from c in dataContext.Clinica
@@ -892,7 +1008,7 @@ namespace NLogin
                             Nombre = c.Nombre,
                             FechaInicioLicencia = l.FechaInicio,
                             FechaFinLicencia = l.FechaFin,
-                         //  FechaInicioLicenciaString = l.FechaInicio.ToString(),
+                            //  FechaInicioLicenciaString = l.FechaInicio.ToString(),
                             Consultorios = ObtenerConsultorios(c.ID),
                             Trabajos = ObtenerTrabajosClinica(c.ID),
                             Status = 0,

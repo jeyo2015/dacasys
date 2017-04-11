@@ -92,7 +92,24 @@
             Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ModificarClinicaConsultorio(ClinicaDto clinicaDto)
+        {
+            var splitFecha = clinicaDto.FechaInicioLicenciaString.Split('/');
+            clinicaDto.FechaInicioLicencia = new DateTime(Convert.ToInt16(splitFecha[2]), Convert.ToInt16(splitFecha[1]),
+                Convert.ToInt16(splitFecha[0]));
+            var imageByte = Session[clinicaDto.NombreArchivo];
+            clinicaDto.logoImagen = (byte[])imageByte;
+            var insert = ABMEmpresa.ModificarClinicaConsultorio(clinicaDto, Session["loginusuario"].ToString());
+            var result = new ResponseModel()
+            {
+                Message = insert == 1 ? "Se modifico correctamente la clinica" : "No se pudo modificar la clinica, intente de nuevo por favor",
+                Data = insert,
+                Success = insert == 1
+            };
 
+            Session.Remove(clinicaDto.NombreArchivo);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult EliminarClinica(int idClinica)
         {
             var insert = ABMEmpresa.EliminarClinica(idClinica, Session["loginusuario"].ToString());

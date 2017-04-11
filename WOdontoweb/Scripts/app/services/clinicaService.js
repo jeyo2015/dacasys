@@ -104,6 +104,13 @@
         });
         return d.promise;
     };
+    this.modificarClinicaConsultorio = function (clinica) {
+        var d = $q.defer();
+        $http.post('Empresa/ModificarClinicaConsultorio', { clinicaDto: clinica }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
     this.modificarConsultorio = function (consultorio) {
         var d = $q.defer();
         $http.post('Empresa/ModificarConsultorio', { consultorioDto: consultorio }).success(function (data) {

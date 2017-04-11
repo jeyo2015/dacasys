@@ -155,6 +155,7 @@
         public List<int> IDConsultorio { get; set; }
         public string Descripcion { get; set; }
         public int State { get; set; }
+        public bool IsChecked { get; set; }
     }
 
     public class ClinicaDto
