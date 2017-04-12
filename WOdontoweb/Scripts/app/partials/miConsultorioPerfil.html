@@ -127,8 +127,8 @@
                         <div class="col-md-6">
                             <table id="Table1" class="table table-hover tableStyle scroll">
                                 <tbody>
-                                    <tr ng-repeat="trabajo in clinicaParaModificar.Trabajos" style="cursor: pointer;">
-                                        <td>
+                                    <tr ng-hide="trabajo.ID==-1" ng-repeat="trabajo in clinicaParaModificar.Trabajos" style="cursor: pointer;">
+                                        <td >
                                             <input type="checkbox" ng-model="trabajo.IsChecked"  />
                                         </td>
                                         <td>{{trabajo.Descripcion}}</td>

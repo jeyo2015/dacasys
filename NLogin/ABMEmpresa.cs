@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Security.Cryptography;
 using System.Xml.Schema;
 
@@ -187,41 +188,42 @@ namespace NLogin
                     Binary vbi = new Binary(clinicaDto.logoImagen);
                     clinicaCurrent.ImagenLogo = vbi;
                 }
-                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 8);
+                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud, new CultureInfo("en-US")), 8);
                 clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 8);
                 clinicaCurrent.Descripcion = clinicaDto.Descripcion;
                 clinicaCurrent.Direccion = clinicaDto.Direccion;
                 clinicaCurrent.Estado = true;
                 clinicaCurrent.FechaDeModificacion = DateTime.Today;
-                try
-                {
+                //  try
+                //  {
 
-                    ModificarLicencia(clinicaDto.IDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+                //ModificarLicencia(clinicaDto.IDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
 
-                    InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
+                InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, clinicaDto.IDClinica);
 
-                    InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
-                    InsertarTrabajosConsultorio(clinicaDto.Consultorios[0].IDConsultorio, clinicaDto.Trabajos);
-                    //foreach (var consultorio in clinicaDto.Consultorios)
-                    //{
+                InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
+                dataContext.SubmitChanges();
+                InsertarTrabajosConsultorio(clinicaDto.Consultorios[0].IDConsultorio, clinicaDto.Trabajos);
+                //foreach (var consultorio in clinicaDto.Consultorios)
+                //{
 
-                    ModificarConsultorio(clinicaDto.Consultorios[0], idUsuario);
-                    //  }
-                    dataContext.SubmitChanges();
-                    ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
+                ModificarConsultorio(clinicaDto.Consultorios[0], idUsuario);
+                //  }
+                dataContext.SubmitChanges();
+                ControlBitacora.Insertar("Se modifico una Clinica", idUsuario);
 
-                    return 1;
+                return 1;
 
-                }
-                catch (Exception ex)
-                {
-                    ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
-                    return 0;
-                }
-            }
-            else
-
+                //}
+                //  catch (Exception ex)
+                //  {
+                //      ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
                 return 0;
+                // }
+            }
+
+
+            return 0;
         }
 
         private static void InsertarTrabajosConsultorio(int idConsultorio, List<TrabajosClinicaDto> trabajos)
@@ -231,16 +233,18 @@ namespace NLogin
             {
                 foreach (var trabajosClinicaDto in trabajosToInsert)
                 {
-                    var tel = new TrabajosConsultorio()
+                    var temp = (from tc in dataContext.TrabajosConsultorio
+                                where tc.IDConsultorio == idConsultorio && tc.IDTrabajo == trabajosClinicaDto.ID
+                                select tc).FirstOrDefault();
+                    if (temp == null)
                     {
-                        IDTrabajo = trabajosClinicaDto.ID,
-                        IDConsultorio = idConsultorio
-                    };
-
-
-                    dataContext.TrabajosConsultorio.InsertOnSubmit(tel);
-
-
+                        var tel = new TrabajosConsultorio()
+                        {
+                            IDTrabajo = trabajosClinicaDto.ID,
+                            IDConsultorio = idConsultorio
+                        };
+                        dataContext.TrabajosConsultorio.InsertOnSubmit(tel);
+                    }
                 }
 
                 var trabajoTodelete = trabajos.Where(x => !x.IsChecked);

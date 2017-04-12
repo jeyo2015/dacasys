@@ -161,7 +161,7 @@
         point = marker.getPosition();
         markers.select(function (item) {
             if (item.zIndex != marker.zIndex)
-                item.setIcon('desarrollo/Content/img/marker.png');
+                item.setIcon('Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
         
@@ -248,14 +248,14 @@
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('desarrollo/Content/img/markerselect.png');
+            markerSelect.setIcon('Content/img/markerselect.png');
         });
 
         else {
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('desarrollo/Content/img/markerselect.png');
+            markerSelect.setIcon('Content/img/markerselect.png');
         }
 
     }
@@ -266,7 +266,7 @@
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         markers.push(marker);
@@ -280,13 +280,13 @@
                 clinicaService.obtenerLogoClinica($scope.clinicaSeleccionada.IDClinica).then(function(result) {
                     $scope.clinicaSeleccionada.LogoParaMostrar = result.LogoParaMostrar;
                     openInfoWindow(marker);
-                    marker.setIcon('desarrollo/Content/img/markerselect.png');
+                    marker.setIcon('Content/img/markerselect.png');
                     $scope.mostrarConsultorios = false;
                 });
 
             else {
                 openInfoWindow(marker);
-                marker.setIcon('desarrollo/Content/img/markerselect.png');
+                marker.setIcon('Content/img/markerselect.png');
                 $scope.mostrarConsultorios = false;
             }
             $scope.$apply();
@@ -331,7 +331,7 @@
         infoWindow.close();
         markers.select(function (item) {
 
-            item.setIcon('desarrollo/Content/img/marker.png');
+            item.setIcon('Content/img/marker.png');
         });
         // marker.setIcon('Content/img/marker.png');
     }
