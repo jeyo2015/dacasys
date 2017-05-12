@@ -1,4 +1,4 @@
-﻿app.controller("loginController", function (loginService, $scope, $rootScope, $location, usuariosService, notificacionesConsultorioService, pacienteService) {
+﻿app.controller("loginController", function (loginService, $scope, $rootScope, $location, usuariosService, notificacionesConsultorioService, pacienteService, $compile) {
     init();
 
     function init() {
@@ -13,8 +13,27 @@
         prepararNuevoCliente();
         $scope.pass = "";
         $('#passwordIDLog').attr('autocomplete', 'off');
+        cleanInputsf();
     };
 
+    function cleanInputsf() {
+        consultorioElemento = $("#formGroupConsultorio");
+        consultorioElemento.addClass("is-empty");
+        $scope.loginEmpresa = null;
+        consultorioElemento = $("#formGroupUsuario");
+        consultorioElemento.addClass("is-empty");
+        $scope.usuario = null;
+        consultorioElemento = $("#formGroupPass");
+        consultorioElemento.addClass("is-empty");
+        $scope.pass = null;
+        console.log("empresa: " + $scope.loginEmpresa);
+        console.log("empresa: " + $scope.usuario);
+        console.log("empresa: " + $scope.usuario);
+    }
+    $scope.cleanInputs = function () {
+        cleanInputsf();
+        
+    }
     $scope.cerrarModalRegistrar = function () {
         $("#modal-registrarse").modal('hide');
     }
@@ -352,11 +371,11 @@
 
     $scope.validarCampos = function () {
         if ($scope.isAdmin) {
-            return $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
-        } else return $scope.usuario.length == 0 || $scope.pass.length == 0;
+            return $scope.usuario == null || $scope.pass == null || $scope.loginEmpresa == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
+        } else return $scope.usuario==null ||  $scope.pass==null || $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposInicioCliente = function () {
-        return $scope.usuario.length == 0 || $scope.pass.length == 0;
+        return $scope.usuario == null ||  $scope.pass == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposPerfil = function () {
         if ($scope.userToSave) {

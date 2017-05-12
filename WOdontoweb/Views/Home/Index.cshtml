@@ -147,9 +147,9 @@
                             <input type="password" autocomplete="off" style="display: none" class="form-control" value="" id="xxx">
                             <input type="text" autocomplete="off" style="display: none" class="form-control" value="" id="xxx">
 
-                            <div class="row">
+                            <div class="row" id="formLogin">
                                 <div class="col-md-12">
-                                    <div class="form-group label-floating" ng-show="isAdmin">
+                                    <div class="form-group label-floating" ng-show="isAdmin" id="formGroupConsultorio">
                                         <label for="consultorioID" class="col-md-2 control-label">Consultorio</label>
 
                                         <div class="col-md-12">
@@ -159,7 +159,7 @@
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==0 || sessionDto.Verificar==1">{{message}} </span>
                                         </div>
                                     </div>
-                                    <div class="form-group label-floating">
+                                    <div class="form-group label-floating" id="formGroupUsuario">
                                         <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
 
                                         <div class="col-md-12">
@@ -169,7 +169,7 @@
                                             <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==2 ">{{message}} </span>
                                         </div>
                                     </div>
-                                    <div class="form-group label-floating">
+                                    <div class="form-group label-floating" id="formGroupPass">
                                         <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
                                         <div class="col-md-12">
                                             <input type="password" ng-model="pass" autocomplete="off" class="form-control" value="" id="passwordIDLog" ng-keypress="enterLogIn($event)">
@@ -183,7 +183,7 @@
                                     </div>
                                     <div class="checkbox" style="margin-top: 20px">
                                         <label>
-                                            <input ng-model="isAdmin" type="checkbox"><span style="margin-right: 4px" class="check"></span> Soy Clinica
+                                            <input ng-model="isAdmin" ng-click="cleanInputs()" type="checkbox"><span style="margin-right: 4px" class="check"></span> Soy Clinica
                                         </label>
                                     </div>
                                 </div>

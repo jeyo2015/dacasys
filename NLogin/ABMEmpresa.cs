@@ -82,7 +82,8 @@ namespace NLogin
             }
             else
             {
-                Binary vbi = new Binary(clinicaDto.logoImagen);
+                byte[] imagenRedimensionada = RedimencionarImage(clinicaDto.logoImagen);
+                Binary vbi = new Binary(imagenRedimensionada);
                 vClinicaDefault.ImagenLogo = vbi;
             }
             vClinicaDefault.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 6);
@@ -117,6 +118,34 @@ namespace NLogin
             }
         }
 
+        private static byte[] RedimencionarImage(byte[] image)
+        {
+            MemoryStream ms = new MemoryStream(image);
+            int dblAnchoDeseado;
+            int dblAltoDeseado;
+
+            dblAnchoDeseado = 200;
+            dblAltoDeseado = 160;
+
+
+            System.Drawing.Image newImagen;
+            System.Drawing.Graphics g;
+            System.Drawing.Bitmap newbitmap;
+
+            newImagen = System.Drawing.Image.FromStream(ms);
+            newbitmap = new System.Drawing.Bitmap(newImagen, Convert.ToInt32(dblAnchoDeseado), Convert.ToInt32(dblAltoDeseado));
+            newImagen = new System.Drawing.Bitmap(newbitmap);
+           return convertirToArray(newImagen);
+
+        }
+
+        private static byte[] convertirToArray(System.Drawing.Image newImagen)
+        {
+            MemoryStream ms2 = new MemoryStream();
+            newImagen.Save(ms2, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return ms2.ToArray();
+
+        }
         public static int ModificarClinica(ClinicaDto clinicaDto, string idUsuario)
         {
 
@@ -125,13 +154,19 @@ namespace NLogin
                                   select c).FirstOrDefault();
             if (clinicaCurrent != null)
             {
-
+                if (clinicaCurrent.ImagenLogo != null)
+                {
+                    byte[] imageRedimencionar = RedimencionarImage(clinicaCurrent.ImagenLogo.ToArray());
+                    Binary vbi = new Binary(imageRedimencionar);
+                    clinicaCurrent.ImagenLogo = vbi;
+                }
 
                 clinicaCurrent.Nombre = clinicaDto.Nombre;
                 clinicaCurrent.IDUsuarioCreacion = idUsuario;
                 clinicaCurrent.Login = clinicaDto.Login;
                 if (clinicaDto.logoImagen != null)
                 {
+                    byte[] imageRedimencionar = RedimencionarImage(clinicaDto.logoImagen);
                     Binary vbi = new Binary(clinicaDto.logoImagen);
                     clinicaCurrent.ImagenLogo = vbi;
                 }

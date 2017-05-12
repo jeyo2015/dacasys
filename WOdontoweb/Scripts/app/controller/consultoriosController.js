@@ -500,6 +500,16 @@
     }
 
     $scope.selectClinica = function (clinica) {
+        if (clinica.LogoParaMostrar == null)
+            clinicaService.obtenerLogoClinica(clinica.IDClinica).then(function (result) {
+                clinica.LogoParaMostrar = result.LogoParaMostrar;
+                //$scope.consultorioBuscar = "";
+                //$scope.mostrarConsultorios = false;
+                //openInfoWindow(markerSelect);
+                //markerSelect.setIcon('Content/img/markerselect.png');
+            });
+
+
         $scope.mostrarModificarLicencia = false;
         $("#newTrabajoClinicaId").remove();
         $scope.trabajoClinicaSelected = null;
@@ -627,8 +637,8 @@
             }
         } else if ($scope.clinicToSave.Status == 2) {
             $scope.insertarUbicacionClinica();
-            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.replace(".", ",");
-            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.replace(".", ",");
+            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.toString().replace(".", ",");
+            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.toString().replace(".", ",");
             // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {
