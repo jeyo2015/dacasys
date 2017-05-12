@@ -83,7 +83,7 @@
                 InicializarMapa();
                 seleccionarIntervalo();
                 // cargarTrabajosClinica();
-                console.log($scope.clinicaParaModificar);
+           
 
             });
         });
@@ -346,7 +346,8 @@
         $scope.primerTrabajo = "";
         $scope.consultorioSeleccionado = null;
         $scope.trabajoClinicaSelected = null;
-        var template = "<tr id = \"newTrabajoClinicaId\"> <td><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"> </td><td><span  ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
+        var template = "<div id = \"newTrabajoClinicaId\" style=\"padding:0px 8px\"><div style=\" float:left; width:80%\"><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"></div> <div style=\" float:left;    padding: 8px 4px;\" ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></div><div style=\" float:left;    padding: 8px 4px;\" ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></div></div>";
+        //var template = "<tr id = \"newTrabajoClinicaId\"> <td><input type=\"text\"  class=\"form-control\" id=\"tDescripcionClinicaID\" ng-model=\" primerTrabajo\"> </td><td><span  ng-click=\"addTrabajoClinica()\"><i class=\"fa fa-check\"></i></span><span  ng-click=\"cancelAddTrabajoClinica()\"><i class=\"fa fa-times\"></i></span></td></tr>";
         var linkFn = $compile(template);
         var content = linkFn($scope);
 
@@ -405,7 +406,7 @@
         $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(",", ".");
         $scope.clinicaParaModificar.Latitud = $scope.clinicaParaModificar.Latitud.replace(",", ".");
         $scope.clinicaParaModificar.Consultorios[0].IDIntervalo = angular.copy($scope.intervaloSelected.ID);
-        console.log($scope.clinicaParaModificar);
+      
         clinicaService.modificarClinicaConsultorio($scope.clinicaParaModificar).then(function (result) {
             if (result.Success) {
                 toastr.success(result.Message);

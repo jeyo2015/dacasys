@@ -64,6 +64,7 @@ app.factory('injectorDacasys', ['$rootScope', '$q', function ($rootScope, $q) {
             }
 
             config.url = $("#basePath").attr("href") + config.url;
+           
             return config;
         },
         response: function (response) {

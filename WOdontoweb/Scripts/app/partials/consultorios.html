@@ -124,13 +124,7 @@
                             <div ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted" ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer; height: 36px; padding: 8px 8px; border-bottom: 1px solid #ddd">
                                 {{trabajo.Descripcion}}
                             </div>
-                            <!-- <table class="table table-hover tableStyle scroll">
-                                <tbody id="tablaTrabajosClinicaId">
-                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
-                                        <td>{{trabajo.Descripcion}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>-->
+                          
                         </div>
                         <div class="col-md-1">
                             <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
