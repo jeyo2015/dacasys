@@ -349,5 +349,8 @@
         public string HoraFinString { get; set; }
         public string NombreConsultorio { get; set; }
         public string NombrePaciente { get; set; }
+        public bool EstadoCita { get; set; }
+        public bool Atendido { get; set; }
+        public bool NoDisponible { get; set; }
     }
 }

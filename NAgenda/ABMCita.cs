@@ -1,4 +1,6 @@
-﻿namespace NAgenda
+﻿using System.Security.Authentication;
+
+namespace NAgenda
 {
     using System;
     using System.Collections.Generic;
@@ -316,7 +318,10 @@
                          HoraFinString = cita.hora_fin.Hours + ":" + cita.hora_fin.Minutes,
                          IdCita = cita.idcita,
                          IDConsultorio = cita.idempresa,
-                         NombrePaciente = pac.nombre + " " + pac.apellido
+                         NombrePaciente = pac.nombre + " " + pac.apellido,
+                         Atendido = cita.atendido != null && cita.atendido.Value,
+                         EstadoCita = cita.estado,
+                         NoDisponible =  DateTime.Now.Equals(cita.fecha)
                      }).ToList();
 
 

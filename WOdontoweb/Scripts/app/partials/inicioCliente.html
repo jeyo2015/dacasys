@@ -180,7 +180,9 @@
                                             <td>
                                                 <span class="label " ng-class="{'label-info':!cita.EstaOcupada && !cita.EsTarde , 'label-danger':cita.EstaOcupada && !cita.EsTarde , 'label-default':cita.EsTarde}">{{ cita.HoraInicioString}} </span>
                                             </td>
-                                            <td>{{cita.Paciente.NombrePaciente}}
+      
+                                            <td> <span ng-hide=" (sessionDto.IDConsultorio == -1 && sessionDto.loginUsuario.length == 0) || cita.LoginCliente != sessionDto.loginUsuario">{{cita.Paciente.NombrePaciente}} </span>
+                                                 <span ng-show=" (sessionDto.IDConsultorio == -1 && sessionDto.loginUsuario.length == 0 && cita.EstaOcupada) || ( cita.LoginCliente != sessionDto.loginUsuario && cita.EstaOcupada) ">Ocupado</span>
                                             </td>
                                         </tr>
                                     </tbody>
