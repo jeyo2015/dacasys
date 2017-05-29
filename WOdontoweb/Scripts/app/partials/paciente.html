@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-controller="pacienteController" style="overflow-y:auto" ng-show="validarPermisoFormulario('frmPacientes')">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" min-heigth ng-controller="pacienteController" style="overflow-y: auto" ng-show="validarPermisoFormulario('frmPacientes')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-11 ">
             <div class="row">
@@ -38,6 +38,16 @@
             <div class="row">
                 <form class="form-horizontal">
                     <div class="form-group">
+                        <label for="ci" class="col-md-3 control-label">
+                            <required-field texto="CI:"></required-field>
+                        </label>
+                        <div class="col-md-9">
+
+                            <input type="text" maxlength="7" ng-model="pacienteParaGuardar.Ci" class="form-control" id="inputCi">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
                         <label for="login" class="col-md-3 control-label">
                             <required-field texto="Login:"></required-field>
                         </label>
@@ -45,21 +55,7 @@
                             <input type="text" maxlength="20" ng-model="pacienteParaGuardar.LoginCliente" class="form-control" id="login" ng-disabled=" clienteDeotraEmpresa">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="ci" class="col-md-3 control-label">
-                            <required-field texto="CI:"></required-field>
-                        </label>
-                        <div class="col-md-9">
 
-                            <input type="text" maxlength="7" ng-model="pacienteParaGuardar.Ci"  class="form-control" id="inputCi">
-                          <!--  <span class="input-group-btn">
-                                <a class="btn btn-primary"  ng-disabled="pacienteParaGuardar.Ci.length==0">
-                                  <i class="fa fa-search"></i>
-                                </a>
-                            </span>-->
-                        </div>
-
-                    </div>
                     <div class="form-group">
                         <label for="nombre" class="col-md-3 control-label">
                             <required-field texto="Nombre:"></required-field>
@@ -114,7 +110,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="selectTipoSangre" class="col-md-3 control-label"> <required-field texto="Tipo Sangre:"></required-field></label>
+                        <label for="selectTipoSangre" class="col-md-3 control-label">
+                            <required-field texto="Tipo Sangre:"></required-field>
+                        </label>
                         <div class="col-md-9">
                             <select class="form-control" id="selectTipoSangre" ng-model="selectTipoSangre">
                                 <option value="O+" selected="selected">O+</option>
@@ -135,7 +133,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="cursor: pointer;"  ng-repeat="paciente in ListaPaciente" ng-click="seleccionarPaciente(paciente)">
+                                    <tr style="cursor: pointer;" ng-repeat="paciente in ListaPaciente" ng-click="seleccionarPaciente(paciente)">
                                         <td>{{paciente.NombrePaciente}}</td>
                                         <td>{{paciente.Ci}}</td>
                                     </tr>

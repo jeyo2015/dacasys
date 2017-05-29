@@ -134,7 +134,7 @@
     };
     this.obtenerConsultorioConClinica = function (pIdConsultorio) {
         var d = $q.defer();
-        $http.get('Empresa/ObtenerConsultorioConClinica?pIdConsultorio=' + pIdConsultorio).success(function (data) {
+        $http.get('Empresa/ObtenerConsultorioConClinica?pIdConsultorio=' + pIdConsultorio + noCacheParameter()).success(function (data) {
             d.resolve(data);
         });
         return d.promise;

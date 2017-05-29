@@ -10,7 +10,7 @@
         } else {
             cargarCitasPorCliente();
         }
-       
+
     };
 
     function cargarCitasPorCliente() {
@@ -36,8 +36,10 @@
     };
 
     $scope.seleccionarCita = function (cita) {
-       
-        $scope.miCitaSelected = cita;
+        if (!cita.EstadoCita || cita.Atendido)
+            $scope.miCitaSelected = null;
+        else
+            $scope.miCitaSelected = cita;
     };
 
     $scope.cancelarCitaPaciente = function () {

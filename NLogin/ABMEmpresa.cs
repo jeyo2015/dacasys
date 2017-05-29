@@ -78,7 +78,7 @@ namespace NLogin
             vClinicaDefault.Login = clinicaDto.Login;
             if (clinicaDto.logoImagen == null)
             {
-                vClinicaDefault.ImagenLogo = null;
+                vClinicaDefault.ImagenLogo = obtenerLogoDefecto();
             }
             else
             {
@@ -118,6 +118,17 @@ namespace NLogin
             }
         }
 
+        private static Binary obtenerLogoDefecto()
+        {
+            var clinicaDefault = (from c in dataContext.Clinica
+                                  where c.Login == "DEFAULT"
+                                  select c).FirstOrDefault();
+            if (clinicaDefault != null)
+                return clinicaDefault.ImagenLogo;
+            else
+                return null;
+        }
+
         private static byte[] RedimencionarImage(byte[] image)
         {
             MemoryStream ms = new MemoryStream(image);
@@ -135,7 +146,7 @@ namespace NLogin
             newImagen = System.Drawing.Image.FromStream(ms);
             newbitmap = new System.Drawing.Bitmap(newImagen, Convert.ToInt32(dblAnchoDeseado), Convert.ToInt32(dblAltoDeseado));
             newImagen = new System.Drawing.Bitmap(newbitmap);
-           return convertirToArray(newImagen);
+            return convertirToArray(newImagen);
 
         }
 
@@ -160,6 +171,10 @@ namespace NLogin
                     Binary vbi = new Binary(imageRedimencionar);
                     clinicaCurrent.ImagenLogo = vbi;
                 }
+                else {
+                    clinicaCurrent.ImagenLogo = obtenerLogoDefecto();
+                }// poner el por defecto
+
 
                 clinicaCurrent.Nombre = clinicaDto.Nombre;
                 clinicaCurrent.IDUsuarioCreacion = idUsuario;
@@ -170,8 +185,8 @@ namespace NLogin
                     Binary vbi = new Binary(clinicaDto.logoImagen);
                     clinicaCurrent.ImagenLogo = vbi;
                 }
-                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud), 8);
-                clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 8);
+                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud, new CultureInfo("en-US")), 8); 
+                clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud, new CultureInfo("en-US")), 8);
                 clinicaCurrent.Descripcion = clinicaDto.Descripcion;
                 clinicaCurrent.Direccion = clinicaDto.Direccion;
                 clinicaCurrent.Estado = true;
@@ -220,11 +235,12 @@ namespace NLogin
                 clinicaCurrent.Login = clinicaDto.Login;
                 if (clinicaDto.logoImagen != null)
                 {
-                    Binary vbi = new Binary(clinicaDto.logoImagen);
+                   
+                    Binary vbi = new Binary(RedimencionarImage(clinicaDto.logoImagen));
                     clinicaCurrent.ImagenLogo = vbi;
                 }
                 clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud, new CultureInfo("en-US")), 8);
-                clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud), 8);
+                clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud, new CultureInfo("en-US")), 8);
                 clinicaCurrent.Descripcion = clinicaDto.Descripcion;
                 clinicaCurrent.Direccion = clinicaDto.Direccion;
                 clinicaCurrent.Estado = true;
@@ -263,6 +279,7 @@ namespace NLogin
 
         private static void InsertarTrabajosConsultorio(int idConsultorio, List<TrabajosClinicaDto> trabajos)
         {
+            if (trabajos == null) return;
             var trabajosToInsert = trabajos.Where(x => x.IsChecked);
             try
             {
@@ -529,7 +546,9 @@ namespace NLogin
         {
             return (from c in dataContext.Empresa
                     from tc in dataContext.Tiempo_Consulta
+                    from cl in dataContext.Clinica
                     where c.ID == idConsultorio && tc.ID == c.IDIntervalo
+                    && cl.ID == c.IDClinica
                     && c.Estado
                     select new ConsultorioDto()
                     {
@@ -544,6 +563,7 @@ namespace NLogin
                         IDUsuarioCreador = c.IDUsuarioCreador,
                         Login = c.Login,
                         NIT = c.NIT,
+                        NombreClinica = cl.Nombre,
                         Telefonos = ObtenerTelefonosConsultorios(c.ID, c.IDClinica)
                     }).FirstOrDefault();
         }

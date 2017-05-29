@@ -31,6 +31,7 @@
             {
                 dataContext.ComentariosClinica.InsertOnSubmit(comentario);
                 dataContext.SubmitChanges();
+                EnviarNotificacionComentarioNuevo(comentarioDto, idUsuario);
                 ControlBitacora.Insertar("Se Inserto un nuevo comentario", idUsuario);
                 return 1;
             }
@@ -39,6 +40,17 @@
                 ControlLogErrores.Insertar("NLogin", "ABMComentario", "InsertarModulo", ex);
                 return 0;
             }
+        }
+
+        private static void EnviarNotificacionComentarioNuevo(ComentarioDto comentarioDto, string idUsuario)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(comentarioDto.IDEmpresa);
+            PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(idUsuario);
+            if (consultorio == null || user == null) return;
+            SMTP vSMTP = new SMTP();
+            String vMensaje = "Estimado Dr." + " Tiene un nuevo comentario del paciente "+ user.NombrePaciente+":\n"+ "\""+ comentarioDto.Comentario + "\""+ "\nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(consultorio.Email, vMensaje, "Nuevo comentario");
+            vSMTP.Enviar_Mail();
         }
 
         public static List<ComentarioDto> ObtenerComentarios(int idConsultorio)

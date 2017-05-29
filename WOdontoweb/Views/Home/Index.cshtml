@@ -54,7 +54,7 @@
                                                 <li ng-show="NotificacionesConsultorio.Notificaciones.length>0" ng-repeat=" noti in NotificacionesConsultorio.Notificaciones" class="withoutborderNS">
                                                     <a href="#">{{noti.NombreUsuario}}
                                                         <button class="btn btn-raised btn-primary buttonNotificacion" ng-click="confirmarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnAceptarPaciente')">Confirmar</button>
-                                                        <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnCancelar')">Eliminar solicitud</button>
+                                                        <button class="btn btn-raised  btn-default buttonNotificacion" ng-click="cancelarSolicitud(noti, $event)" ng-disabled="!validarPermisoComponente('btnCancelarPaciente')">Eliminar solicitud</button>
                                                     </a>
                                                 </li>
                                             </ul>

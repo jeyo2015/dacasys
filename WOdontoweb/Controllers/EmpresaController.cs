@@ -73,7 +73,7 @@
             Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+       
         public JsonResult ModificarClinica(ClinicaDto clinicaDto)
         {
             var splitFecha = clinicaDto.FechaInicioLicenciaString.Split('/');
@@ -92,6 +92,9 @@
             Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+
         public JsonResult ModificarClinicaConsultorio(ClinicaDto clinicaDto)
         {
             try
@@ -123,7 +126,7 @@
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
         public JsonResult EliminarClinica(int idClinica)
         {

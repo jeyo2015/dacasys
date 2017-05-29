@@ -22,3 +22,15 @@ E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NEventos.dll
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Datos.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\Herramientas.pdb
 E:\DACASYS\Clone3105\dacasys\NLogin\bin\Release\NEventos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NLogin.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NLogin.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\DataTableConverter.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\Datos.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\Herramientas.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NEventos.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\Datos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\Herramientas.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NEventos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.csprojResolveAssemblyReference.cache
+E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.pdb

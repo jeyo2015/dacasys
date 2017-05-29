@@ -637,9 +637,8 @@
             }
         } else if ($scope.clinicToSave.Status == 2) {
             $scope.insertarUbicacionClinica();
-            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.toString().replace(".", ",");
-            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.toString().replace(".", ",");
-            // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
+            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.toString().replace(",", ".");
+            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.toString().replace(",", ".");
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {
                     toastr.success(result.Message);

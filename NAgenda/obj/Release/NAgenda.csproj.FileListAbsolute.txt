@@ -26,3 +26,17 @@ E:\DACASYS\Clone3105\dacasys\NAgenda\bin\Release\Datos.pdb
 E:\DACASYS\Clone3105\dacasys\NAgenda\bin\Release\Herramientas.pdb
 E:\DACASYS\Clone3105\dacasys\NAgenda\bin\Release\NEventos.pdb
 E:\DACASYS\Clone3105\dacasys\NAgenda\bin\Release\NLogin.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NAgenda.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NAgenda.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\DataTableConverter.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\Datos.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\Herramientas.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NEventos.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NLogin.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\Datos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\Herramientas.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NEventos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NLogin.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.csprojResolveAssemblyReference.cache
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.pdb

@@ -90,6 +90,7 @@ namespace NAgenda
                 {
                     cita.estado = false;
                     dataContext.SubmitChanges();
+                    EnviarNotificacionCancelacionCita(cita, idUsuario);
                     ControlBitacora.Insertar("Se cancelo la cita", idUsuario);
                     return 1;
                 }
@@ -101,6 +102,18 @@ namespace NAgenda
             }
             else
                 return 2;
+        }
+
+        private static void EnviarNotificacionCancelacionCita(Cita cita, string idUsuario)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(cita.idempresa);
+            PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(idUsuario);
+            if (consultorio == null || user == null) return;
+            SMTP vSMTP = new SMTP();
+            String vMensaje = "Estimado Dr." + "\nLa cita del paciente " + user.NombrePaciente + " programada para la fecha " +
+                              cita.fecha.ToShortDateString() + " a hrs. " + cita.hora_inicio.ToString() + " ha sido cancelada.\nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(consultorio.Email, vMensaje, "Cita cancelada");
+            vSMTP.Enviar_Mail();
         }
 
         /// <summary>
@@ -153,6 +166,7 @@ namespace NAgenda
             {
                 dataContext.Cita.InsertOnSubmit(cita);
                 dataContext.SubmitChanges();
+                EnviarNotificacionCitaCliente(cita, loginCliente);
                 ControlBitacora.Insertar("Se inserto una nueva cita correctamente", idUsuario);
                 return true;
             }
@@ -161,6 +175,18 @@ namespace NAgenda
                 ControlLogErrores.Insertar("NAgenda", "ABMCita", "ActualizarAtendido", ex);
                 return false;
             }
+        }
+
+        private static void EnviarNotificacionCitaCliente(Cita cita, string loginCliente)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(cita.idempresa);
+            PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(loginCliente);
+            if (consultorio == null || user == null) return;
+            SMTP vSMTP = new SMTP();
+            String vMensaje = "Estimado Dr." + "\nSe acaba de agendar una cita para el paciente "+ user.NombrePaciente + ".\nProgramada para la fecha "+
+                              cita.fecha.ToShortDateString() + " a hrs. " +cita.hora_inicio.ToString()  +".\nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(consultorio.Email, vMensaje, "Nueva cita agendada");
+            vSMTP.Enviar_Mail();
         }
 
         public static List<AgendaDto> ObtenerAgendaDelDia(DateTime fechaCita, int idConsultorio, int tiempoConsulta)

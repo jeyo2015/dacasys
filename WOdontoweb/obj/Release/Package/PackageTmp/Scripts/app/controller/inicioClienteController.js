@@ -2,6 +2,7 @@
     init();
     var map;
     var infoWindow;
+    var baseURL = "";
     function baseUrl() {
         var href = window.location.href.split('/');
         return href[0] + '//' + href[2] + '/';
@@ -13,7 +14,8 @@
     });
 
     function init() {
-
+       $scope.baseURL = $("#basePath").attr("href");
+     
         $scope.mostrarConsultorios = false;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
@@ -144,6 +146,7 @@
     function cargarCitasDelDia(openModal) {
         consultasService.getCitasDelDia($scope.dateSelected, $scope.consultorioSeleccionado.IDConsultorio, $scope.consultorioSeleccionado.TiempoCita).then(function (result) {
             $scope.citasDelDia = result;
+          
             $scope.citaSeleted = null;
             $scope.verConsultorio = false;
             if (openModal && openModal.length > 0)
@@ -161,7 +164,7 @@
         point = marker.getPosition();
         markers.select(function (item) {
             if (item.zIndex != marker.zIndex)
-                item.setIcon('Content/img/marker.png');
+                item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
         $scope.telefonosClinicaSeleccionada = "";
         
@@ -248,25 +251,25 @@
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('Content/img/markerselect.png');
+            markerSelect.setIcon($scope.baseURL + 'Content/img/markerselect.png');
         });
 
         else {
             $scope.consultorioBuscar = "";
             $scope.mostrarConsultorios = false;
             openInfoWindow(markerSelect);
-            markerSelect.setIcon('Content/img/markerselect.png');
+            markerSelect.setIcon($scope.baseURL + 'Content/img/markerselect.png');
         }
 
     }
     var markers = [];
     function CrearMarcador(clinica) {
-
+       
         var marker = new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(clinica.Latitud, clinica.Longitud),
             title: 'Click -- Ver Detalle -- ',
-            icon: 'Content/img/marker.png',
+            icon: $scope.baseURL + 'Content/img/marker.png',
             zIndex: clinica.IDClinica
         });
         markers.push(marker);
@@ -280,13 +283,13 @@
                 clinicaService.obtenerLogoClinica($scope.clinicaSeleccionada.IDClinica).then(function(result) {
                     $scope.clinicaSeleccionada.LogoParaMostrar = result.LogoParaMostrar;
                     openInfoWindow(marker);
-                    marker.setIcon('Content/img/markerselect.png');
+                    marker.setIcon($scope.baseURL + 'Content/img/markerselect.png');
                     $scope.mostrarConsultorios = false;
                 });
 
             else {
                 openInfoWindow(marker);
-                marker.setIcon('Content/img/markerselect.png');
+                marker.setIcon($scope.baseURL + 'Content/img/markerselect.png');
                 $scope.mostrarConsultorios = false;
             }
             $scope.$apply();
@@ -331,9 +334,9 @@
         infoWindow.close();
         markers.select(function (item) {
 
-            item.setIcon('Content/img/marker.png');
+            item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
-        // marker.setIcon('Content/img/marker.png');
+        // marker.setIcon('odontoweb/Content/img/marker.png');
     }
     function InicializarMapa() {
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
@@ -377,7 +380,15 @@
     $scope.guardarComentario = function () {
         if ($rootScope.sessionDto.IDConsultorio == -1 && $rootScope.sessionDto.loginUsuario.length == 0) {
             $rootScope.IDConsultorioDesdeMapa = $scope.consultorioSeleccionado.IDConsultorio;
-            $scope.loginEmpresa = "";
+            consultorioElemento = $("#formGroupConsultorio");
+            consultorioElemento.addClass("is-empty");
+            $scope.loginEmpresa = null;
+            consultorioElemento = $("#formGroupUsuario");
+            consultorioElemento.addClass("is-empty");
+            $scope.usuario = null;
+            consultorioElemento = $("#formGroupPass");
+            consultorioElemento.addClass("is-empty");
+            $scope.pass = null;
             $rootScope.isAdmin = false;
             $("#modal-login-cliente").modal('show');
         } else
@@ -451,6 +462,6 @@
 
     $scope.mostrarInformacion = function () {
         $scope.mostrarPanel = 1;
-        console.log($scope.clinicaSeleccionada);
+      
     };
 });

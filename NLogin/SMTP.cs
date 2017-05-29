@@ -3,7 +3,7 @@
     using System;
     using System.Net.Mail;
     using NEventos;
-
+    using System.Configuration;
     public class SMTP
     {
         string From;
@@ -22,7 +22,7 @@
             To = para;
             Message = mensaje;
             Subject = asunto;
-            Host = "64.79.170.155";
+            Host = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
             Puerto = 25;
         }
 
@@ -47,7 +47,9 @@
             smtpMail.Port = Puerto;
             smtpMail.Host = Host;
           //  smtpMail.Credentials = new System.Net.NetworkCredential("mediweb@dacasys.com", "D4c4sys20161!");
-            smtpMail.Credentials = new System.Net.NetworkCredential("odontoweb@dacasys.com", "Dacasys123");
+            string mail = System.Configuration.ConfigurationManager.AppSettings["CorreoInfo"];
+            string pass = System.Configuration.ConfigurationManager.AppSettings["PassCorreo"];
+            smtpMail.Credentials = new System.Net.NetworkCredential(mail, pass);
             try
             {
                 smtpMail.Send(Email);
@@ -67,9 +69,9 @@
             To = para;
             Message = mensaje;
             Subject = asunto;
-            Host = "64.79.170.155";
+            Host = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
             Puerto = 25;
-            From = "odontoweb@dacasys.com";
+            From = System.Configuration.ConfigurationManager.AppSettings["CorreoInfo"];
         }
 
         #endregion

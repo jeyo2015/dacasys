@@ -104,7 +104,7 @@
                                 from pc in dataContext.Cliente_Paciente
                                 where p.id_paciente == pc.id_paciente
                                 && pc.id_usuariocliente == cliente.Login
-                                && pc.IsPrincipal== true
+                                && pc.IsPrincipal == true
                                 select p).FirstOrDefault();
                 String vPassEncriptada = Encriptador.Encriptar(password);
                 if (cliente.Password == vPassEncriptada)
@@ -195,6 +195,44 @@
             }
         }
 
+        public static UsuarioDto ObtenerDatosClientePaciente(string loginUsuario)
+        {
+            return (from c_p in dataContext.Cliente_Paciente
+                    from pac in dataContext.Paciente
+                    where c_p.id_usuariocliente == loginUsuario
+                        && pac.id_paciente == c_p.id_paciente
+                    select new UsuarioDto()
+                    {
+                        Login = loginUsuario,
+                        Nombre = pac.nombre +" " + pac.apellido
+
+                    }).FirstOrDefault();
+        }
+        public static PacienteDto ObtenerDatoPaciente(string loginUsuario)
+        {
+            return (from c_p in dataContext.Cliente_Paciente
+                    from pac in dataContext.Paciente
+                    where c_p.id_usuariocliente == loginUsuario
+                        && pac.id_paciente == c_p.id_paciente
+                    select new PacienteDto()
+                    {
+                       Email = pac.email,
+                       NombrePaciente = pac.nombre + " " + pac.apellido
+
+                    }).FirstOrDefault();
+        }
+
+        public static PacienteDto ObtenerDatoPaciente(int idPaciente)
+        {
+            return (from pac in dataContext.Paciente
+                    where  pac.id_paciente == idPaciente
+                    select new PacienteDto()
+                    {
+                        Email = pac.email,
+                        NombrePaciente = pac.nombre + " " + pac.apellido
+
+                    }).FirstOrDefault();
+        }
         public static void EnviarCorreoDeBienvenida(int idEmpresa, string email, string password, string idCliente)
         {
             var em = (from e in dataContext.Empresa
@@ -206,8 +244,8 @@
             SMTP vSMTP = new SMTP();
             if (em != null)
             {
-              
-               
+
+
                 if (password.Equals(""))
                 {//Solo se asigna nueva empresa
                     vMensaje = "Estimado Cliente ha sido suscrito a " + em.Nombre.ToUpper() + ". \nIngrese a la pagina " +
@@ -224,7 +262,8 @@
                 }
                 vSMTP.Enviar_Mail();
             }
-            else {
+            else
+            {
                 vMensaje = "Bienvenido a Odontoweb.\n Sus datos para ingresar al sistema son: \n" + "Usuario: " + idCliente +
                           "\nContraseña: " + password + "\nSaludos,\nOdontoweb.";
                 vSMTP.Datos_Mensaje(email, vMensaje, "Bienvenido a Odontoweb");

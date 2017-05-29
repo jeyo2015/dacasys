@@ -26,13 +26,11 @@
         consultorioElemento = $("#formGroupPass");
         consultorioElemento.addClass("is-empty");
         $scope.pass = null;
-        console.log("empresa: " + $scope.loginEmpresa);
-        console.log("empresa: " + $scope.usuario);
-        console.log("empresa: " + $scope.usuario);
+
     }
     $scope.cleanInputs = function () {
         cleanInputsf();
-        
+
     }
     $scope.cerrarModalRegistrar = function () {
         $("#modal-registrarse").modal('hide');
@@ -84,8 +82,8 @@
 
     };
     $scope.openModalregistrarCliente = function () {
-        $rootScope.usuario = "";
-        $rootScope.pass = "";
+        $scope.usuario = "";
+        $scope.pass = "";
         prepararNuevoCliente();
         $("#modal-login").modal('hide');
         $("#modal-login-cliente").modal('hide');
@@ -213,30 +211,31 @@
                 case 1:
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
-                    $rootScope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
 
                     break;
                 case 0:
                     $("#consultorioID").focus();
                     $scope.loginEmpresa = "";
-                    $rootScope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
                     break;
                 case 2:
                     $("#usuarioID").focus();
-                    $rootScope.usuario = "";
-                    $rootScope.pass = "";
+                    $scope.usuario = "";
+                    $scope.pass = "";
                     break;
                 case 4:
                     $("#passwordID").focus();
 
-                    $rootScope.pass = "";
+                    $scope.pass = "";
                     break;
                 case 3:
 
                     $('#modal-login-cliente').modal('hide');
                     $('#modal-login').modal('hide');
+
                     if ($scope.isAdmin) {
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');
@@ -244,8 +243,8 @@
                         }
                         getNotificaciones();
                     } else {
-
-                        $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
+                        if ($rootScope.comentarioParaGuardar)
+                            $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');
                             $scope.showMessage = false;
@@ -371,11 +370,11 @@
 
     $scope.validarCampos = function () {
         if ($scope.isAdmin) {
-            return $scope.usuario == null || $scope.pass == null || $scope.loginEmpresa == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
-        } else return $scope.usuario==null ||  $scope.pass==null || $scope.usuario.length == 0 || $scope.pass.length == 0;
+            return $scope.usuario == null || $scope.pass == null || $scope.loginEmpresa == null || $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
+        } else return $scope.usuario == null || $scope.pass == null || $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposInicioCliente = function () {
-        return $scope.usuario == null ||  $scope.pass == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0;
+        return $scope.usuario == null || $scope.pass == null || $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposPerfil = function () {
         if ($scope.userToSave) {

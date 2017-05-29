@@ -8,7 +8,7 @@
     using System.Data;
     using NEventos;
     using Herramientas;
-
+    using System.Data.Linq;
     public class ABMUsuarioEmpleado
     {
         #region VariablesGlogales
@@ -290,6 +290,7 @@
             var empresa = (from e in dataContext.Empresa
                            where e.Login == idEmpresa
                            select e).FirstOrDefault();
+            dataContext.Refresh(RefreshMode.OverwriteCurrentValues, empresa);
             if (empresa != null)
             {
                 var usuario = (from u in dataContext.UsuarioEmpleado

@@ -53,7 +53,7 @@ namespace WOdontoweb.Controllers
         {
             var message = "";
             var userRenewPass = -1;
-            if (loginEmpresa != "")//Si es admin?
+            if (!String.IsNullOrEmpty(loginEmpresa))//Si es admin?
             {
 
                 userRenewPass = ABMUsuarioEmpleado.ResetearContrasena(loginUsuario, loginEmpresa);
@@ -104,7 +104,7 @@ namespace WOdontoweb.Controllers
         {
             var message = "";
             var sessionDto = new Herramientas.SessionDto();
-            if (nameEmpresa != "")//Si es admin?
+            if (!String.IsNullOrEmpty(nameEmpresa))//Si es admin?
             {
                 sessionDto = ABMUsuarioEmpleado.VerificarEmpleado(usuario.Trim(), pass.Trim(), nameEmpresa.Trim().ToUpper());//verifica al empleado
                 switch (sessionDto.Verificar)

@@ -10,3 +10,9 @@ E:\DACASYS\Clone3105\dacasys\Datos\obj\Release\Datos.dll
 E:\DACASYS\Clone3105\dacasys\Datos\obj\Release\Datos.pdb
 D:\DACASYS\Clone1506\dacasys\Datos\obj\Release\Datos.csprojResolveAssemblyReference.cache
 E:\DACASYS\Clone3105\dacasys\Datos\obj\Release\Datos.csprojResolveAssemblyReference.cache
+E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\Datos.dll.config
+E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\Datos.dll
+E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\Datos.pdb
+E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.csprojResolveAssemblyReference.cache
+E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.dll
+E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.pdb

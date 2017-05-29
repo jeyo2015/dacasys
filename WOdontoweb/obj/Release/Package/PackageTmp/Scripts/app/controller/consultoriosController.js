@@ -76,7 +76,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'odontoweb/Content/img/marker.png',
+            icon: 'desarrollo/Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -500,6 +500,16 @@
     }
 
     $scope.selectClinica = function (clinica) {
+        if (clinica.LogoParaMostrar == null)
+            clinicaService.obtenerLogoClinica(clinica.IDClinica).then(function (result) {
+                clinica.LogoParaMostrar = result.LogoParaMostrar;
+                //$scope.consultorioBuscar = "";
+                //$scope.mostrarConsultorios = false;
+                //openInfoWindow(markerSelect);
+                //markerSelect.setIcon('Content/img/markerselect.png');
+            });
+
+
         $scope.mostrarModificarLicencia = false;
         $("#newTrabajoClinicaId").remove();
         $scope.trabajoClinicaSelected = null;
@@ -559,10 +569,10 @@
             }
         });
     };
-    $scope.selectConsultorio = function (consultorio) {
+    $scope.selectConsultorio = function(consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         $scope.consultorioSeleccionado.State = 2;
-    }
+    };
     $scope.abrirModalModificarConsultorio = function () {
         $scope.consultorioToSave = angular.copy($scope.consultorioSeleccionado);
         $scope.intervaloSelected = $scope.intervalos.where(function (intervalo) {
@@ -627,7 +637,8 @@
             }
         } else if ($scope.clinicToSave.Status == 2) {
             $scope.insertarUbicacionClinica();
-            // $scope.consultorioToSave.IDIntervalo = $scope.intervaloSelected == null ? $scope.consultorioToSave.IDIntervalo : angular.copy($scope.intervaloSelected.ID);
+            $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.toString().replace(",", ".");
+            $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.toString().replace(",", ".");
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {
                     toastr.success(result.Message);

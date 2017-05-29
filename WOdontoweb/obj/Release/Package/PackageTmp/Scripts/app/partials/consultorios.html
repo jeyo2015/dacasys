@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <div class="col-md-3">
 
-                            <img style="height: 100px; width: 100px" data-ng-src="{{clinicToSave.LogoParaMostrar}}" alt="Image Thumbnail Gadget ">
+                            <img style="height: 100px; width: 100px" data-ng-src="{{clinicaSeleccionada.LogoParaMostrar}}" alt="Logo consultorio ">
                         </div>
                         <div class="col-md-5">
                             <div class="fileupload-buttonbar">
@@ -124,13 +124,7 @@
                             <div ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted" ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer; height: 36px; padding: 8px 8px; border-bottom: 1px solid #ddd">
                                 {{trabajo.Descripcion}}
                             </div>
-                            <!-- <table class="table table-hover tableStyle scroll">
-                                <tbody id="tablaTrabajosClinicaId">
-                                    <tr ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted " ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer;">
-                                        <td>{{trabajo.Descripcion}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>-->
+                          
                         </div>
                         <div class="col-md-1">
                             <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>

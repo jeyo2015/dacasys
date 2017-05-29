@@ -27,7 +27,7 @@ namespace NLogin
                          where no.Estado != 0 &&
                          no.TipoNotificacion == 1
                          && cp.id_usuariocliente == no.LoginUsuario
-                         && no.IDConsultorio==idConsultorio
+                         && no.IDConsultorio == idConsultorio
                          && p.id_paciente == cp.id_paciente
                          && cp.IsPrincipal == true
                          select new NotificacionesConsultorioDto()
@@ -94,7 +94,7 @@ namespace NLogin
             try
             {
                 dataContext.SubmitChanges();
-                EnviarCorreoAceptacion(notificacionesConsultorioDto.LoginUsuario, notificacionesConsultorioDto.IDConsultorio);
+                EnviarNotificacionAceptarSolicitud(notificacionesConsultorioDto.IDConsultorio, notificacionesConsultorioDto.LoginUsuario);
                 return true;
             }
             catch (Exception ex)
@@ -104,34 +104,7 @@ namespace NLogin
             }
         }
 
-        private static void EnviarCorreoAceptacion(string pLogin, int pIdConsultorio)
-        {
-            var paciente = (from p in dataContext.Paciente
-                from pc in dataContext.Cliente_Paciente
-                where pc.id_usuariocliente == pLogin
-                      && pc.IsPrincipal == true
-                      && p.id_paciente == pc.id_paciente
-                select p).FirstOrDefault();
-            var consultorio = (from c in dataContext.Empresa
-                from cc in dataContext.Clinica
-                where c.ID == pIdConsultorio
-                      && cc.ID == c.IDClinica
-                select new ConsultorioDto()
-                {
-                    NombreClinica = cc.Nombre,
-                    Login = c.Login
-                }).FirstOrDefault();
-            if (paciente != null && consultorio != null)
-            {
-                var mensajeConfirmacion = "Su solicitud al consultorio " + consultorio.Login + " de la clinica " +
-                                          consultorio.NombreClinica + " ha sido aceptada. "+
-                                           "\nSaludos,\nOdontoweb";
-                var vSMTP = new SMTP();
-                vSMTP.Datos_Mensaje(paciente.email, mensajeConfirmacion, "Solicitud aceptada -  ODONTOWEB");
-                vSMTP.Enviar_Mail();
-            }
-
-        }
+      
 
         public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto notificacionesConsultorioDto)
         {
@@ -145,6 +118,8 @@ namespace NLogin
             try
             {
                 dataContext.SubmitChanges();
+                
+                EnviarNotificacionRechazoSolicitud(notificacion.IDConsultorio, notificacion.LoginUsuario);
                 return true;
             }
             catch (Exception ex)
@@ -154,6 +129,28 @@ namespace NLogin
             }
         }
 
+        private static void EnviarNotificacionRechazoSolicitud(int idConsultorio, string loginUsuario)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(idConsultorio);
+            PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(loginUsuario);
+            if (consultorio == null || user == null) return;
+            SMTP vSMTP = new SMTP();
+            String vMensaje ="Su solicitud enviada al consultorio "+  consultorio.NombreClinica + " fue rechazada. \nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(user.Email, vMensaje, "Solicitud rechazada");
+            vSMTP.Enviar_Mail();
+        }
+        private static void EnviarNotificacionAceptarSolicitud(int idConsultorio, string loginUsuario)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(idConsultorio);
+            PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(loginUsuario);
+            if (consultorio == null || user == null) return;
+            SMTP vSMTP = new SMTP();
+           
+            String vMensaje = "Su solicitud al consultorio " + consultorio.NombreClinica + " ha sido aceptada. " +
+                                           "\nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(user.Email, vMensaje, "Solicitud aceptada");
+            vSMTP.Enviar_Mail();
+        }
         public static bool EnviarSolicitudConsultorio(NotificacionesConsultorioDto notificacionesConsultorioDto)
         {
             var notificacion = new NotificacionConsultorio();
@@ -166,6 +163,8 @@ namespace NLogin
             {
                 dataContext.NotificacionConsultorio.InsertOnSubmit(notificacion);
                 dataContext.SubmitChanges();
+                //enviar notificacion
+                EnviarNotificacion(notificacionesConsultorioDto.IDConsultorio, notificacionesConsultorioDto.LoginUsuario);
                 ControlBitacora.Insertar("Se envio una notificacion", notificacionesConsultorioDto.LoginUsuario);
                 return true;
             }
@@ -174,6 +173,17 @@ namespace NLogin
                 ControlLogErrores.Insertar("NLogin", "ABMNotificaciones", "EnviarSolicitudConsultorio", ex);
                 return false;
             }
+        }
+
+        private static void EnviarNotificacion(int idConsultorio, string loginUsuario)
+        {
+            ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(idConsultorio);
+            UsuarioDto user = ABMUsuarioCliente.ObtenerDatosClientePaciente(loginUsuario);
+            if(consultorio == null || user == null) return; 
+            SMTP vSMTP = new SMTP();
+            String vMensaje = "El paciente " + user.Nombre+ " quiere pertener a su consultorio." + "\nSaludos,\nOdontoweb";
+            vSMTP.Datos_Mensaje(consultorio.Email, vMensaje, "Solicitud de nuevo paciente");
+            vSMTP.Enviar_Mail();
         }
         #endregion
     }
