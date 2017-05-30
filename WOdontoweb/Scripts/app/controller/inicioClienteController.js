@@ -17,7 +17,7 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            alert("no soporta");
         }
     }
 
@@ -147,7 +147,7 @@
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
             // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
-            $scope.mostrarInformacion();
+            mostrarInfo();
         } else
             mostrarConsultorios();
 
@@ -443,7 +443,8 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
-    $scope.mostrarContactenos = function () {
+    $scope.mostrarContactenos = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 2;
         $scope.emailDe = "";
         $scope.mensajeContactenos = "";
@@ -474,17 +475,23 @@
             prepararNuevoComentario();
         });
     }
-    $scope.mostrarComentarios = function () {
+    $scope.mostrarComentarios = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 3;
         obtenerListaComentarios();
     };
-    $scope.mostrarHorarios = function () {
+    $scope.mostrarHorarios = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
 
-    $scope.mostrarInformacion = function () {
+    $scope.mostrarInformacion = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 1;
 
     };
+    function mostrarInfo() {
+        $scope.mostrarPanel = 1;
+    }
 });
