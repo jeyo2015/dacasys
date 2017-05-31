@@ -36,7 +36,17 @@ namespace WOdontoweb.Controllers
             Session["changePass"] = renew == 0;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult EnviarNotificacionCitas()
+        {
+            ABMNotificacionesConsultorio.EnviarCitasDelDia();
+            var result = new ResponseModel()
+            {
+                Message = "Todo Ok",
+                Data = null
+            };
+          
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult CerrarSesion()
         {
             Session["loginusuario"] = null;

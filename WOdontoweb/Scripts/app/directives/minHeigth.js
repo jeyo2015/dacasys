@@ -96,3 +96,35 @@ app.directive("maxHeigthTable", function ($window) {
     };
 
 });
+app.directive("maxHeigthModal", function ($window) {
+
+    return {
+        restrict: 'A',
+
+        link: function (scope, element, attrs) {
+
+            var newSize = function () {
+                var h = $(window).height();
+                var rest = $("#headerTotal").height();
+                return h - rest - 80;
+            };
+
+            $(document).on('onResize', function (e, args) {
+                executeResizeWithTime(300);
+            });
+
+            angular.element($window).bind('resize', function () {
+                executeResizeWithTime(300);
+            });
+
+            executeResizeWithTime(300);
+
+            function executeResizeWithTime(time) {
+
+                setTimeout(function () { $(element).css({ 'max-height': newSize() + 'px' }) }, time);
+            }
+
+        }
+    };
+
+});

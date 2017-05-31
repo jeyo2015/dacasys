@@ -212,6 +212,19 @@
         public int CantidadNuevasNotificaciones { get; set; }
     }
 
+    public class NotificacionCitas {
+        public int IDConsultorio { get; set; }
+        public string Email { get; set; }
+        public string IDCita { get; set; }
+        public DateTime FechaCita { get; set; }
+        public TimeSpan HoraInicio { get; set; }
+        public string FechaString { get; set; }
+        public string HoraInicioStrig { get; set; }
+        public string NombrePaciente { get; set; }
+        public string loginCliente { get; set; }
+        public string NombreConsultorio { get; set; }
+        public string EmailPaciente { get; set; }
+    }
     public class RolDto
     {
         public int ID { get; set; }

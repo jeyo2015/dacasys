@@ -19,6 +19,12 @@
             d.resolve(data);
         });
         return d.promise;
+    }; this.enviarNotificacionesDia = function () {
+        var d = $q.defer();
+        $http.get('Login/EnviarNotificacionCitas').success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
     };
     this.getSessionDto = function () {
         var d = $q.defer();
