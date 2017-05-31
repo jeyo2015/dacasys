@@ -8,6 +8,7 @@ namespace NLogin
     using Datos;
     using NEventos;
     using Herramientas;
+    using System.Collections.Generic;
 
     public class ABMNotificacionesConsultorio
     {
@@ -18,6 +19,123 @@ namespace NLogin
         #endregion
 
         #region Metodos Publicos
+
+        public static void EnviarCitasDelDia()
+        {
+            try
+            {
+                var envio = (from e in dataContext.Envio
+                             where e.Fecha == DateTime.Now
+                             select e).FirstOrDefault();
+                if (envio != null) return;
+
+
+                var citasActuales = (from c in dataContext.Empresa
+                                     from citas in dataContext.Cita
+                                     from cp in dataContext.Cliente_Paciente
+                                     from pac in dataContext.Paciente
+                                     from clinica in dataContext.Clinica
+                                     where c.Estado == true
+                                    && citas.idempresa == c.ID
+                                    && citas.fecha == DateTime.Now
+                                    && cp.id_usuariocliente == citas.id_cliente
+                                    && cp.IsPrincipal == true
+                                    && pac.id_paciente == cp.id_paciente
+                                    && clinica.ID == c.IDClinica
+                                     select new NotificacionCitas()
+                                     {
+                                         Email = c.Email,
+                                         FechaCita = citas.fecha,
+                                         FechaString = citas.fecha.ToShortDateString(),
+                                         HoraInicio = citas.hora_inicio,
+                                         HoraInicioStrig = citas.hora_inicio.ToString(),
+                                         IDCita = citas.idcita,
+                                         IDConsultorio = citas.idempresa,
+                                         NombrePaciente = pac.nombre + " " + pac.apellido,
+                                         loginCliente = citas.id_cliente,
+                                         NombreConsultorio = clinica.Nombre,
+                                         EmailPaciente = pac.email
+                                     }).ToList();
+                var citasConsultorio = citasActuales.GroupBy(x => x.IDConsultorio).ToList();
+                var citasCliente = citasActuales.GroupBy(x => x.loginCliente).ToList();
+                foreach (var consultorio in citasConsultorio)
+                {
+                    armarMensajeDeCitas(consultorio.Select(s => new NotificacionCitas()
+                    {
+                        Email = s.Email,
+                        FechaCita = s.FechaCita,
+                        FechaString = s.FechaString,
+                        HoraInicio = s.HoraInicio,
+                        HoraInicioStrig = s.HoraInicioStrig,
+                        IDCita = s.IDCita,
+                        IDConsultorio = s.IDConsultorio,
+                        NombrePaciente = s.NombrePaciente
+                    }).OrderBy(o => o.HoraInicio).ToList());
+                }
+                foreach (var consultorio in citasCliente)
+                {
+                    armarMensajeDeCitasCliente(consultorio.Select(s => new NotificacionCitas()
+                    {
+                        Email = s.Email,
+                        FechaCita = s.FechaCita,
+                        FechaString = s.FechaString,
+                        HoraInicio = s.HoraInicio,
+                        HoraInicioStrig = s.HoraInicioStrig,
+                        IDCita = s.IDCita,
+                        IDConsultorio = s.IDConsultorio,
+                        NombrePaciente = s.NombrePaciente,
+                        NombreConsultorio = s.NombreConsultorio,
+                        EmailPaciente = s.EmailPaciente
+                    }).OrderBy(o => o.HoraInicio).ToList());
+                }
+
+                Envio envioEntity = new Envio()
+                {
+                    Fecha = DateTime.Now
+                };
+
+                dataContext.Envio.InsertOnSubmit(envioEntity);
+                dataContext.SubmitChanges();
+            }
+            catch (Exception ex) { 
+            
+                
+            }
+
+        }
+        private static void armarMensajeDeCitasCliente(List<NotificacionCitas> citas)
+        {
+            if (citas.Count == 0) return;
+            string mensaje = "Estimado " + citas[0].NombrePaciente + " sus citas del dia de hoy: \n\n";
+            foreach (NotificacionCitas not in citas)
+            {
+                mensaje = mensaje + "* " + not.HoraInicio + " " + not.NombreConsultorio + "\n";
+            }
+            mensaje = mensaje + "\nSaludos \nOdontoweb";
+            SMTP vSMTP = new SMTP();
+
+            vSMTP.Datos_Mensaje(citas[0].EmailPaciente, mensaje, "Citas " + citas[0].FechaString);
+            vSMTP.Enviar_Mail();
+
+
+        }
+
+        private static void armarMensajeDeCitas(List<NotificacionCitas> citas)
+        {
+            if (citas.Count == 0) return;
+            string mensaje = "Estimado Dr. sus citas del dia de hoy: \n\n";
+            foreach (NotificacionCitas not in citas)
+            {
+                mensaje = mensaje + "* " + not.HoraInicio + " " + not.NombrePaciente + "\n";
+            }
+            mensaje = mensaje + "\nSaludos \nOdontoweb";
+            SMTP vSMTP = new SMTP();
+
+            vSMTP.Datos_Mensaje(citas[0].Email, mensaje, "Citas " + citas[0].FechaString);
+            vSMTP.Enviar_Mail();
+
+
+        }
 
         public static NotificacionesConsultorioNewDto ObtenerNotificacionesPendientes(int idConsultorio, int idTipoNotificacion)
         {
@@ -104,7 +222,7 @@ namespace NLogin
             }
         }
 
-      
+
 
         public static bool CancelarSolicitudPaciente(NotificacionesConsultorioDto notificacionesConsultorioDto)
         {
@@ -118,7 +236,7 @@ namespace NLogin
             try
             {
                 dataContext.SubmitChanges();
-                
+
                 EnviarNotificacionRechazoSolicitud(notificacion.IDConsultorio, notificacion.LoginUsuario);
                 return true;
             }
@@ -135,7 +253,7 @@ namespace NLogin
             PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(loginUsuario);
             if (consultorio == null || user == null) return;
             SMTP vSMTP = new SMTP();
-            String vMensaje ="Su solicitud enviada al consultorio "+  consultorio.NombreClinica + " fue rechazada. \nSaludos,\nOdontoweb";
+            String vMensaje = "Su solicitud enviada al consultorio " + consultorio.NombreClinica + " fue rechazada. \nSaludos,\nOdontoweb";
             vSMTP.Datos_Mensaje(user.Email, vMensaje, "Solicitud rechazada");
             vSMTP.Enviar_Mail();
         }
@@ -145,7 +263,7 @@ namespace NLogin
             PacienteDto user = ABMUsuarioCliente.ObtenerDatoPaciente(loginUsuario);
             if (consultorio == null || user == null) return;
             SMTP vSMTP = new SMTP();
-           
+
             String vMensaje = "Su solicitud al consultorio " + consultorio.NombreClinica + " ha sido aceptada. " +
                                            "\nSaludos,\nOdontoweb";
             vSMTP.Datos_Mensaje(user.Email, vMensaje, "Solicitud aceptada");
@@ -179,9 +297,9 @@ namespace NLogin
         {
             ConsultorioDto consultorio = ABMEmpresa.ObtenerConsultorioPorId(idConsultorio);
             UsuarioDto user = ABMUsuarioCliente.ObtenerDatosClientePaciente(loginUsuario);
-            if(consultorio == null || user == null) return; 
+            if (consultorio == null || user == null) return;
             SMTP vSMTP = new SMTP();
-            String vMensaje = "El paciente " + user.Nombre+ " quiere pertener a su consultorio." + "\nSaludos,\nOdontoweb";
+            String vMensaje = "El paciente " + user.Nombre + " quiere pertener a su consultorio." + "\nSaludos,\nOdontoweb";
             vSMTP.Datos_Mensaje(consultorio.Email, vMensaje, "Solicitud de nuevo paciente");
             vSMTP.Enviar_Mail();
         }

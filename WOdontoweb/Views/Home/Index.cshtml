@@ -191,7 +191,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                         <button class="btn btn-primary" ng-click="openModalregistrarCliente()">Registrarse</button>
+                        <button class="btn btn-primary" ng-click="openModalregistrarCliente()">Registrarse</button>
                         <button class="btn btn-primary" ng-click="ingresar()" ng-disabled="validarCampos()">Ingresar</button>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Registrarse a Odontoweb</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" max-heigth-modal style="overflow-y: auto">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label for="login" class="col-md-3 control-label">Login:</label>
@@ -521,7 +521,7 @@
     </div>
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
-    <script src="@Url.Content("//code.jquery.com/ui/1.11.4/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Content/jquery-ui.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/ripples.js")"></script>
     <script src="@Url.Content("~/Scripts/app/libs/Bootstrap/js/material.js")"></script>
@@ -564,6 +564,7 @@
     <script src="@Url.Content("~/Scripts/app/services/comentarioService.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/empresaController.js")"></script>
     <script src="@Url.Content("~/Scripts/app/controller/editarPacienteController.js")"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=True"></script>*@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpF7a6BJqUGAf7OogV-fFxcb7wqfqIDPA"
         type="text/javascript"></script>
     <script>
