@@ -1,8 +1,11 @@
 ﻿app.controller("inicioClienteController", function (clinicaService, comentarioService, $scope, $compile, $rootScope, consultasService, loginService, notificacionesConsultorioService) {
     init();
     var map;
+    var directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
     var infoWindow;
     var baseURL = "";
+    var markerCurrent;
     function baseUrl() {
         var href = window.location.href.split('/');
         return href[0] + '//' + href[2] + '/';
@@ -17,26 +20,69 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            alert("no soporta");
         }
     }
 
     function showPosition(position) {
-        var marker = new google.maps.Marker({
+        markerCurrent = new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
             title: 'Tu posicion actual',
             icon: $scope.baseURL + 'Content/img/ubicacion.png',
             zIndex: -10000
         });
-        markers.push(marker);
-        map.setCenter(marker.getPosition());
+        markers.push(markerCurrent);
+        map.setCenter(markerCurrent.getPosition());
+    }
+    function calcRoute() {
+        var start = new google.maps.LatLng(-17.8075281, -63.166777000000025);
+        var end = new google.maps.LatLng(-17.604113, -63.13777300000004);
+
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(start);
+        bounds.extend(end);
+        map.fitBounds(bounds);
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                directionsDisplay.setMap(map);
+            } else {
+                alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+            }
+        });
     }
 
+    function calculateDistance(destino) {
+        if (!destino) return;
+        var request = {
+            origin: markerCurrent.getPosition(),
+            destination: destino,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                directionsDisplay.setMap(map);
+                directionsDisplay.setOptions({ suppressMarkers: true });
+            } else {
+                alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+            }
+        });
+
+    }
+    function enviarNotificacionCitas() {
+        loginService.enviarNotificacionesDia();
+    }
 
     function init() {
         $scope.baseURL = $("#basePath").attr("href");
-
+        enviarNotificacionCitas();
         $scope.mostrarConsultorios = false;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
@@ -65,10 +111,10 @@
             $("#mapa").height(h - rest - 105);
             InicializarMapa();
             getLocation();
-
+            cargar_clinicas();
         });
 
-        cargar_clinicas();
+
     };
 
     $scope.seleccionaCita = function (cita) {
@@ -153,7 +199,11 @@
 
 
     };
-
+    $scope.comoLlegar = function () {
+        console.log($scope.clinicaSeleccionada);
+        var end = new google.maps.LatLng($scope.clinicaSeleccionada.Latitud, $scope.clinicaSeleccionada.Longitud);
+        calculateDistance(end);
+    }
 
     $scope.seleccionarConsultorioClinica = function (consultorio) {
         $scope.consultorioSeleccionado = consultorio;
@@ -226,8 +276,11 @@
                                      </div>\
                                 </div>\
                                 <div class="row" >\
-                                     <div class="col-md-4 col-xs-12">\
+                                     <div class="col-md-4 col-xs-6">\
                                          <a id="test"  ng-click="abrirModalVerMasClinica()" >Ver mas </a>\
+                                     </div>\
+                                     <div class="col-md-6 col-xs-6">\
+                                         <a id="route"  ng-click="comoLlegar()" >Como llegar </a>\
                                      </div>\
                                  </div>\
                            </div> ';
@@ -259,6 +312,7 @@
         angular.forEach($scope.clinicas, function (clinica, index) {
             CrearMarcador(clinica);
         });
+
     }
     $scope.seleccionarConsultorioBuscador = function (consultorio) {
         var markerSelect = markers.where(function (item) {
@@ -274,6 +328,8 @@
                 $scope.mostrarConsultorios = false;
                 openInfoWindow(markerSelect);
                 markerSelect.setIcon($scope.baseURL + 'Content/img/markerselect.png');
+                // calculateDistance(markerSelect);
+
             });
 
         else {
@@ -355,17 +411,17 @@
     function closeInfoWindow() {
         infoWindow.close();
         markesTemp = markers.where(function (item) {
-            return item.zIndex != - 10000
+            return item.zIndex != -10000
         });
         markesTemp.select(function (item) {
             item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
     }
     function InicializarMapa() {
+        directionsDisplay = new google.maps.DirectionsRenderer();
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         var myOptions = {
             zoom: 15,
-            // center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: true,
             mapTypeControlOptions: {
@@ -373,7 +429,9 @@
                 position: google.maps.ControlPosition.BOTTOM_LEFT
             },
         };
+
         map = new google.maps.Map(document.getElementById("mapa"), myOptions);
+        directionsDisplay.setMap(map);
         var input = document.getElementById('buscadorClinica');
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         infoWindow = new google.maps.InfoWindow();
