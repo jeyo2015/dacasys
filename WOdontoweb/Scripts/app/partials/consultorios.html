@@ -185,7 +185,7 @@
                             <input type="text" class="form-control" ng-model="clinicToSave.CantidadMeses" id="Text2" maxlength="10" validate="number" required>
                         </div>
                     </div>
-                    <div class="row" ng-show=" clinicToSave.Status==2">
+                  <!--  <div class="row" ng-show=" clinicToSave.Status==2">
                         <div class="col-md-12">
                             <div class="col-md-10 ">
                                 <table class="table table-hover tableStyle">
@@ -211,8 +211,8 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                    </div>-->
+                    <div class="form-group" >
                         <label for="inputNit" class="col-md-3 control-label">
                             <required-field texto="NIT consultorio:"> </required-field>
                         </label>
@@ -220,7 +220,7 @@
                             <input type="text" class="form-control" ng-model="consultorioToSave.NIT" id="inputNit" maxlength="10" validate="number" required>
                         </div>
                     </div>
-                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                    <div class="form-group" >
                         <label for="inputEmail" class="col-md-3 control-label">
                             <required-field texto="Email consultorio:"> </required-field>
                         </label>
@@ -228,7 +228,7 @@
                             <input type="email" class="form-control" ng-model="consultorioToSave.Email" id="inputEmail">
                         </div>
                     </div>
-                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                    <div class="form-group" >
                         <label for="idIntervalo" class="col-md-3 control-label">
                             <required-field texto="Tiempo consulta:"> </required-field>
                         </label>
@@ -236,7 +236,7 @@
                             <select class="form-control" id="Select1" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
                         </div>
                     </div>
-                    <div class="form-group" ng-hide=" clinicToSave.Status==2">
+                    <div class="form-group" ng-hide="clinicToSave.Status==2">
                         <label for="idIntervalo" class="col-md-3 control-label">
                             <required-field texto="Licencia:"> </required-field>
                         </label>
@@ -244,7 +244,7 @@
                             <input type="text" class="form-control" id="dtpFecha">
                         </div>
                     </div>
-                    <div class="form-group" ng-show="clinicToSave.Status==1 ">
+                    <div class="form-group" ng-hide="clinicToSave.Status==2">
                         <label for="idIntervalo" class="col-md-3 control-label">
                             <required-field texto="Cantidad de meses:"> </required-field>
                         </label>

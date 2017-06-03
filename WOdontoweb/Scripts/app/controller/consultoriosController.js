@@ -76,7 +76,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'desarrollo/Content/img/marker.png',
+            icon: 'Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -500,13 +500,13 @@
     }
 
     $scope.selectClinica = function (clinica) {
+        $scope.consultorioToSave = clinica.Consultorios[0];
+        console.log(  $scope.intervalos);
+        $scope.intervaloSelected = $scope.intervalos.where(function (item) { return item.ID == $scope.consultorioToSave.IDIntervalo; })[0];//$scope.consultorioToSave.IDIntervalo;
         if (clinica.LogoParaMostrar == null)
             clinicaService.obtenerLogoClinica(clinica.IDClinica).then(function (result) {
                 clinica.LogoParaMostrar = result.LogoParaMostrar;
-                //$scope.consultorioBuscar = "";
-                //$scope.mostrarConsultorios = false;
-                //openInfoWindow(markerSelect);
-                //markerSelect.setIcon('Content/img/markerselect.png');
+               
             });
 
 
@@ -639,6 +639,8 @@
             $scope.insertarUbicacionClinica();
             $scope.clinicToSave.Longitud = $scope.clinicToSave.Longitud.toString().replace(",", ".");
             $scope.clinicToSave.Latitud = $scope.clinicToSave.Latitud.toString().replace(",", ".");
+            $scope.consultorioToSave.IDIntervalo = angular.copy($scope.intervaloSelected.ID);
+            $scope.clinicToSave.Consultorios[0] = $scope.consultorioToSave;
             clinicaService.modificarClinica($scope.clinicToSave).then(function (result) {
                 if (result.Success) {
                     toastr.success(result.Message);

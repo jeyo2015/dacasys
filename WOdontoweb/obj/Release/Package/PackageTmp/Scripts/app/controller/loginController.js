@@ -26,11 +26,11 @@
         consultorioElemento = $("#formGroupPass");
         consultorioElemento.addClass("is-empty");
         $scope.pass = null;
-        
+
     }
     $scope.cleanInputs = function () {
         cleanInputsf();
-        
+
     }
     $scope.cerrarModalRegistrar = function () {
         $("#modal-registrarse").modal('hide');
@@ -57,7 +57,7 @@
 
         if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
-        || $scope.pacienteParaGuardar.LoginCliente.length < 4 || $scope.pacienteParaGuardar.Ci.length < 7
+          
         || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0 || $scope.pacienteParaGuardar.Email.length <= 0;
         } else {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
@@ -235,7 +235,7 @@
 
                     $('#modal-login-cliente').modal('hide');
                     $('#modal-login').modal('hide');
-                   
+
                     if ($scope.isAdmin) {
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');
@@ -243,8 +243,8 @@
                         }
                         getNotificaciones();
                     } else {
-
-                        $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
+                        if ($rootScope.comentarioParaGuardar)
+                            $rootScope.comentarioParaGuardar.LoginCliente = $rootScope.sessionDto.loginUsuario;
                         if ($rootScope.sessionDto.ChangePass) {
                             $('#modal-renovar').modal('show');
                             $scope.showMessage = false;
@@ -370,11 +370,11 @@
 
     $scope.validarCampos = function () {
         if ($scope.isAdmin) {
-            return $scope.usuario == null || $scope.pass == null || $scope.loginEmpresa == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
-        } else return $scope.usuario==null ||  $scope.pass==null || $scope.usuario.length == 0 || $scope.pass.length == 0;
+            return $scope.usuario == null || $scope.pass == null || $scope.loginEmpresa == null || $scope.usuario.length == 0 || $scope.pass.length == 0 || $scope.loginEmpresa.length == 0;
+        } else return $scope.usuario == null || $scope.pass == null || $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposInicioCliente = function () {
-        return $scope.usuario == null ||  $scope.pass == null ||  $scope.usuario.length == 0 || $scope.pass.length == 0;
+        return $scope.usuario == null || $scope.pass == null || $scope.usuario.length == 0 || $scope.pass.length == 0;
     };
     $scope.validarCamposPerfil = function () {
         if ($scope.userToSave) {

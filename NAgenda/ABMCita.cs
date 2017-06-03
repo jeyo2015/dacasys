@@ -330,7 +330,7 @@ namespace NAgenda
                          from cl in dataContext.Clinica
                          from pac in dataContext.Paciente
                          where cita.id_cliente == loginCliente
-                         && cita.atendido == false
+                        // && cita.atendido == false
                         && cp.IsPrincipal == true && cp.id_usuariocliente == loginCliente
                         && e.ID == cita.idempresa
                         && cl.ID == e.IDClinica
@@ -347,7 +347,8 @@ namespace NAgenda
                          NombrePaciente = pac.nombre + " " + pac.apellido,
                          Atendido = cita.atendido != null && cita.atendido.Value,
                          EstadoCita = cita.estado,
-                         NoDisponible =  DateTime.Now.Equals(cita.fecha)
+                         EstadoMostrar = cita.atendido != null && cita.atendido.Value ? "Atendida" : !cita.estado ? "Cancelada" : cita.fecha.CompareTo(DateTime.Now) < 0 ? "No disponible" : "",
+                         NoDisponible =  cita.fecha.CompareTo(DateTime.Now)<0
                      }).ToList();
 
 

@@ -171,6 +171,7 @@
     <Content Include="Content\img\logo-01.png" />
     <Content Include="Content\img\marker.png" />
     <Content Include="Content\img\markerselect.png" />
+    <Content Include="Content\img\ubicacion.png" />
     <Content Include="Content\jquery-ui.js" />
     <Content Include="Content\jquery.fileupload-noscript.css" />
     <Content Include="Content\jquery.fileupload-ui-noscript.css" />

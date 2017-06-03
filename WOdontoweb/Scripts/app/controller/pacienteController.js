@@ -120,7 +120,7 @@
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
-        || $scope.pacienteParaGuardar.LoginCliente.length < 4 || $scope.pacienteParaGuardar.Ci.length < 7
+       
         || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
                 || $scope.pacienteParaGuardar.Email.length <= 0 || !$rootScope.validarPermisoComponente('btnModificarCliente');
         } else {

@@ -165,7 +165,7 @@
         {
             var sessionReturn = new SessionDto();
             var empresa = (from emp in dataContext.Empresa
-                           where emp.Login == idEmpresa && emp.Estado == true
+                           where emp.Login.ToUpper() == idEmpresa.ToUpper() && emp.Estado == true
                            select emp).FirstOrDefault();
             if (empresa != null)
             {

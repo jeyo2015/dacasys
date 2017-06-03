@@ -234,10 +234,14 @@
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
-        markers.select(function (item) {
+         var markersTemp = markers.where(function (item) {
+            return item.zIndex != -10000;
+        });
+        markersTemp.select(function (item) {
             if (item.zIndex != marker.zIndex)
                 item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
+        
         $scope.telefonosClinicaSeleccionada = "";
 
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {

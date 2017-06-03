@@ -56,4 +56,15 @@
             });
         }
     };
+    $scope.elimnarComentario = function (comentario) {
+        comentarioService.eliminarComentario(comentario).then(function (result) {
+            if (result.Data == 1) {
+                cargarComentarios();
+                toastr.success(result.Message);
+                prepararNuevoComentario();
+            } else {
+                toastr.error(result.Message);
+            }
+        });
+    }
 });
