@@ -649,3 +649,11 @@ input:-webkit-autofill
 {
     background-color:#CED2DB;
 }
+.colorRed
+{
+    color:red;
+}
+.colorGreen
+{
+    color:green;
+}

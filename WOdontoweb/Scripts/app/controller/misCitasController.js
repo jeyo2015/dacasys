@@ -17,6 +17,7 @@
         var listaCitas = [];
         consultasService.obtenerCitasPorCliente($rootScope.sessionDto.loginUsuario).then(function (result) {
             $.each(result, function (i, item) {
+                
                 var hinicio = item.HoraInicioString.split(":");
                 var hfinal = item.HoraFinString.split(":");
                 item.HoraInicioString = (hinicio[0] < 10 ? '0' + hinicio[0] : hinicio[0]) + ':' + (hinicio[1] < 10 ? '0' + hinicio[1] : hinicio[1]);
@@ -24,6 +25,7 @@
                 listaCitas.push(item);
             });
             $scope.ListaCitas = listaCitas;
+            console.log(listaCitas);
         });
     }
 
@@ -36,10 +38,10 @@
     };
 
     $scope.seleccionarCita = function (cita) {
-        if (!cita.EstadoCita || cita.Atendido)
-            $scope.miCitaSelected = null;
-        else
+        if (cita.EstadoMostrar=="")
             $scope.miCitaSelected = cita;
+        else
+            $scope.miCitaSelected = null;
     };
 
     $scope.cancelarCitaPaciente = function () {

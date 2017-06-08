@@ -20,7 +20,7 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-            alert("no soporta");
+            x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
@@ -193,7 +193,7 @@
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
             // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
-            mostrarInfo();
+            $scope.mostrarInformacion();
         } else
             mostrarConsultorios();
 
@@ -234,10 +234,14 @@
     function openInfoWindow(marker) {
 
         point = marker.getPosition();
-        markers.select(function (item) {
+         var markersTemp = markers.where(function (item) {
+            return item.zIndex != -10000;
+        });
+        markersTemp.select(function (item) {
             if (item.zIndex != marker.zIndex)
                 item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
+        
         $scope.telefonosClinicaSeleccionada = "";
 
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
@@ -501,8 +505,7 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
-    $scope.mostrarContactenos = function (e) {
-        e.preventDefault();
+    $scope.mostrarContactenos = function () {
         $scope.mostrarPanel = 2;
         $scope.emailDe = "";
         $scope.mensajeContactenos = "";
@@ -533,23 +536,17 @@
             prepararNuevoComentario();
         });
     }
-    $scope.mostrarComentarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarComentarios = function () {
         $scope.mostrarPanel = 3;
         obtenerListaComentarios();
     };
-    $scope.mostrarHorarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarHorarios = function () {
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
 
-    $scope.mostrarInformacion = function (e) {
-        e.preventDefault();
+    $scope.mostrarInformacion = function () {
         $scope.mostrarPanel = 1;
 
     };
-    function mostrarInfo() {
-        $scope.mostrarPanel = 1;
-    }
 });

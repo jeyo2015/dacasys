@@ -2,9 +2,10 @@
     init();
 
     function init() {
+
         $scope.message = "";
         $scope.userSelected = null;
-          if (!$rootScope.sessionDto) {
+        if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
                 inicializarDatos();
@@ -13,10 +14,10 @@
             inicializarDatos();
         }
 
-       
+
     };
     function inicializarDatos() {
-        prepararNuevoHorario();
+
         cargarHorarios();
         cargarDias();
     }
@@ -30,9 +31,13 @@
             IDEmpresa: $rootScope.sessionDto.IDConsultorio
         };
 
+        $scope.ListaDias.forEach(function (item) {
+            item.IsDisabled = false;
+            item.IsChecked = false;
+        });
         $scope.diaSelected = null;
         $scope.numeroSelected = null;
-        
+
         obtenerHoraActual('horaInicio');
         obtenerHoraActual('horaFin');
         $scope.horarioParaGuardar.HoraInicio = $('#horaInicio').val();
@@ -53,9 +58,27 @@
         $scope.ListaHorario = listaHorario;
     }
 
+    $scope.selectTodo = function (dia) {
+        if (dia.IDDia == -1) {
+            $scope.ListaDias.forEach(function (item) {
+                item.IsChecked = dia.IsChecked;
+            });
+
+        } else {
+            $scope.ListaDias = $scope.ListaDias.where(function (item) {
+                if (item.IDDia == -1) {
+                    item.IsChecked = false;
+                }
+                return item;
+            })
+        }
+    }
     function cargarDias() {
         horarioService.obtenerDias().then(function (result) {
+            // console.log(result);
             $scope.ListaDias = result;
+            $scope.ListaDias.insert(0, { IDDia: -1, IsChecked: false, NombreCorto: "Todos", NombreDia: "Todos" });
+            prepararNuevoHorario();
         });
     }
 
@@ -66,7 +89,7 @@
     $scope.openModalConfirmDelele = function () {
         $('#confirm-delete').modal('show');
     };
-    
+
     function obtenerHoraActual(element) {
         var fecha = new Date();
         var hora = fecha.getHours().toString();
@@ -86,14 +109,22 @@
     };
 
     function seleccionarDia() {
-        var selected = $scope.ListaDias.where(function (item) {
-            return item.IDDia == $scope.horarioParaGuardar.IDDia;
+        //var selected = $scope.ListaDias.where(function (item) {
+        //    return item.IDDia == $scope.horarioParaGuardar.IDDia;
+        //});
+        //$scope.diaSelected = selected[0];el
+        $scope.ListaDias.forEach(function (item) {
+            item.IsChecked = (item.IDDia == $scope.horarioParaGuardar.IDDia)
+            item.IsDisabled = true;
+            //if (item.IDDia == $scope.horarioParaGuardar.IDDia)
+            //    item.IsChecked = true;
+            //else
+            //    item.IsChecked = false;
         });
-        $scope.diaSelected = selected[0];
     }
 
     $scope.validarCamposHorario = function () {
-        return $scope.horarioParaGuardar == null || $scope.diaSelected == null 
+        return $scope.horarioParaGuardar == null || $scope.diaSelected == null
             || $scope.horarioParaGuardar.HoraInicio.length != 5 || $scope.horarioParaGuardar.HoraFin.length != 5;
     };
 
@@ -119,25 +150,28 @@
         });
     };
 
-    $scope.guardarHorario = function() {
-        $scope.horarioParaGuardar.IDDia = $scope.diaSelected.IDDia;
-        $scope.horarioParaGuardar.NombreDia = $scope.diaSelected.NombreCorto;
-        $scope.horarioParaGuardar.NumHorario = $scope.numeroSelected;
+    $scope.guardarHorario = function () {
+        // $scope.horarioParaGuardar.IDDia = $scope.diaSelected.IDDia;
+        //$scope.horarioParaGuardar.NombreDia = $scope.diaSelected.NombreCorto;
+        //$scope.horarioParaGuardar.NumHorario = $scope.numeroSelected;
         $scope.horarioParaGuardar.HoraInicio = $('#horaInicio').val();
         $scope.horarioParaGuardar.HoraFin = $('#horaFin').val();
+        var diasSeleccionados = $scope.ListaDias.where(function (item) {
+            return item.IsChecked && item.IDDia != -1;
+        });
         if ($scope.horarioParaGuardar.State == 1) {
-            horarioService.insertarHorario($scope.horarioParaGuardar).then(function(result) {
+            horarioService.insertarHorario($scope.horarioParaGuardar, diasSeleccionados).then(function (result) {
                 if (result.Data == 1) {
                     cargarHorarios();
                     toastr.success(result.Message);
                     prepararNuevoHorario();
-                  
+
                 } else {
                     toastr.error(result.Message);
                 }
             });
         } else {
-            horarioService.modificarHorario($scope.horarioParaGuardar).then(function(result) {
+            horarioService.modificarHorario($scope.horarioParaGuardar).then(function (result) {
                 if (result.Data == 1) {
                     cargarHorarios();
                     toastr.success(result.Message);

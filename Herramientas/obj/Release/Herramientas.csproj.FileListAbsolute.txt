@@ -20,6 +20,5 @@ E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Release\Herramientas.dll
 E:\DACASYS\Clone3105\dacasys\Herramientas\obj\Release\Herramientas.pdb
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Release\Herramientas.dll
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Release\Herramientas.pdb
-E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Release\Herramientas.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Release\Herramientas.dll
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Release\Herramientas.pdb

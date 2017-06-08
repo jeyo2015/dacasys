@@ -13,4 +13,11 @@
         });
         return d.promise;
     };
+    this.eliminarComentario = function (comentario) {
+        var d = $q.defer();
+        $http.post('Paciente/EliminarComentario', { comentarioDto: comentario }).success(function (data) {
+            d.resolve(data);
+        });
+        return d.promise;
+    };
 });

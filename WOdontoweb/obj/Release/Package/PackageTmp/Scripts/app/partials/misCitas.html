@@ -11,7 +11,7 @@
                             </td>
                             <td>
                                 {{cita.FechaString}}<br />
-                                De {{cita.HoraInicioString}} a {{cita.HoraFinString}} hrs.
+                                De {{cita.HoraInicioString}} a {{cita.HoraFinString}} hrs. <span ng-class="{'colorRed':!cita.Atendido,'colorGreen':cita.Atendido}">{{cita.EstadoMostrar}} </span>
                             </td>
                         </tr>
                     </tbody>

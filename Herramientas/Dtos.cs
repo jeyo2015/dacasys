@@ -365,5 +365,6 @@
         public bool EstadoCita { get; set; }
         public bool Atendido { get; set; }
         public bool NoDisponible { get; set; }
+        public string EstadoMostrar { get; set; }
     }
 }

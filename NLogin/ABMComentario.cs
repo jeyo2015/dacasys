@@ -17,6 +17,25 @@
 
         #region Metodos Publicos
 
+        public static int Eliminar(ComentarioDto comentarioDto, string idUsuario) {
+
+            var comen = (from c in dataContext.ComentariosClinica
+                        where c.ID == comentarioDto.IDComentario
+                        select c).FirstOrDefault();
+            if (comen == null) return 0;
+            try {
+                dataContext.ComentariosClinica.DeleteOnSubmit(comen);
+                dataContext.SubmitChanges();
+                return 1;
+            }catch(Exception ex){
+
+                ControlLogErrores.Insertar("NLogin", "ABMComentario", "Eliminar Comentario", ex);
+                return 0;
+            }
+
+            return 0;
+        }
+
         public static int Insertar(ComentarioDto comentarioDto, string idUsuario)
         {
             var comentario = new ComentariosClinica
@@ -37,7 +56,7 @@
             }
             catch (Exception ex)
             {
-                ControlLogErrores.Insertar("NLogin", "ABMComentario", "InsertarModulo", ex);
+                ControlLogErrores.Insertar("NLogin", "ABMComentario", "Insertar Comentario", ex);
                 return 0;
             }
         }
@@ -69,7 +88,8 @@
                                           Comentario = comentario.Comentario,
                                           IsVisible = comentario.IsVisible,
                                           FechaCreacion = comentario.FechaCreacion,
-                                          NombrePaciente = p.nombre + " " + p.apellido
+                                          NombrePaciente = p.nombre + " " + p.apellido,
+                                          IDComentario = comentario.ID
                                       }).ToList();
             var comentariosDoctor = (from comentario in dataContext.ComentariosClinica
                                      from cp in dataContext.UsuarioEmpleado

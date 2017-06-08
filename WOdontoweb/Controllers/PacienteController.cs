@@ -258,7 +258,18 @@
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult EliminarComentario(ComentarioDto comentarioDto)
+        {
+            var eliminar = ABMComentario.Eliminar(comentarioDto, Session["loginusuario"].ToString());
+            var message = string.Empty;
+          
+            var result = new ResponseModel()
+            {
+                Message = eliminar == 0 ? "No se pudo eliminar correctamete el comentario" : "Se elimino correctamente el comentario",
+                Data = eliminar
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ObtenerComentariosPorEmpresa(int idConsultorio)
         {
             var result = ABMComentario.ObtenerComentarios(idConsultorio);
