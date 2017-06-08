@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>Dia</th>
-                                
+
                                 <th>Hora Inicio</th>
                                 <th>Hora Final</th>
                             </tr>
@@ -23,7 +23,7 @@
                         <tbody>
                             <tr style="cursor: pointer;" ng-class="{selectElement:horarioSelected.IDHorario==horario.IDHorario}" ng-repeat="horario in ListaHorario |filterByWords:subString:'IDHorario,IDEmpresa,IDDia,Estado,IsChecked'" ng-click="seleccionarHorario(horario)">
                                 <td>{{horario.NombreDia}}</td>
-                                
+
                                 <td>{{horario.HoraInicio}}</td>
                                 <td>{{horario.HoraFin}}</td>
                             </tr>
@@ -44,7 +44,15 @@
                     <div class="form-group">
                         <label for="selectNumero" class="col-md-3  control-label">Día:</label>
                         <div class="col-md-9 ">
-                            <select class="form-control" id="selectDia" ng-options="dia.NombreDia for dia in ListaDias" ng-model="diaSelected"></select>
+                            <ul style="list-style: none; padding-left: 0px; padding-top:20px">
+                                <li ng-repeat="dia in ListaDias">
+                                    <label style="font-size: 12px">
+                                        <input ng-model="dia.IsChecked" ng-click="selectTodo(dia)" ng-disabled="dia.IsDisabled" type="checkbox"><span class="check"></span> {{dia.NombreDia}}
+                                    </label>
+                                </li>
+                            </ul>
+
+                            <!--<select class="form-control" id="selectDia" ng-options="dia.NombreDia for dia in ListaDias" ng-model="diaSelected"></select>-->
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,7 +70,7 @@
                     <div class="form-group">
                         <div class="col-md-8 col-xs-12 col-md-offset-4 ">
                             <button class="btn btn-raised btn-primary " ng-click="nuevoHorario()" ng-disabled="!validarPermisoComponente('btnNuevoHorario')">Nuevo</button>
-                            <button class="btn btn-raised btn-primary " ng-click="guardarHorario()" ng-disabled="validarCamposHorario() || !validarPermisoComponente('btnModificarHorario')">Guardar</button>
+                            <button class="btn btn-raised btn-primary " ng-click="guardarHorario()" ng-disabled=" !validarPermisoComponente('btnModificarHorario')">Guardar</button>
                         </div>
                     </div>
                 </form>

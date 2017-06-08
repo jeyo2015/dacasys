@@ -4,7 +4,7 @@
     using Herramientas;
     using NAgenda;
     using Models;
-
+    using System.Collections.Generic;
     public class HorarioController : Controller
     {
         public JsonResult ObtenerDias()
@@ -30,9 +30,9 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult InsertarNuevoHorario(HorarioDto horarioDto)
+        public JsonResult InsertarNuevoHorario(HorarioDto horarioDto, List<DiaDto> diasSeleccionados)
         {
-            var insert = ABMHorario.Insertar(horarioDto, Session["loginusuario"].ToString());
+            var insert = ABMHorario.Insertar(horarioDto, Session["loginusuario"].ToString(), diasSeleccionados);
             var result = new ResponseModel()
             {
                 Message = insert == true ? "Se inserto correctamente el horario" : "No se pudo insertar el horario, intente de nuevo por favor",

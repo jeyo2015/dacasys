@@ -30,6 +30,7 @@
 
     var map;
     function init() {
+        $scope.baseURL = $("#basePath").attr("href");
         $scope.listaMarcadores = [];
         $scope.allClinicas = [];
 
@@ -69,6 +70,7 @@
         prepararNuevaClinica();
         InicializarMapa();
         cargar_todas_clinicas(false);
+      //  getLocation();
     }
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
@@ -76,7 +78,7 @@
             map: map,
             position: latLong,
             title: '',
-            icon: 'Content/img/marker.png',
+            icon: $scope.baseURL + 'Content/img/marker.png',
             zIndex: id
         });
         // map.setCenter(latlng);
@@ -91,6 +93,24 @@
         CrearMarcador(0, $scope.latlngActual);
         map.setCenter($scope.latlngActual);
     };
+    function showPosition(position) {
+        markerCurrent = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+            title: 'Tu posicion actual',
+            icon: $scope.baseURL + 'Content/img/marker.png',
+            zIndex: -10000
+        });
+        markers.push(markerCurrent);
+        map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
     function removerMarcador() {
         if ($scope.listaMarcadores) {
             for (var i = 0 ; i < $scope.listaMarcadores.length; i++) {
@@ -100,6 +120,7 @@
         }
     }
     function InicializarMapa() {
+       
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         var myOptions = {
             zoom: 15,
@@ -173,7 +194,7 @@
 
     $scope.salirModalUbicacion = function () {
 
-        $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
+        $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud.toString().replace(',', '.'), $scope.clinicToSave.Longitud.toString().replace(',', '.'));
         $('#modal-mapa-ubicacion').modal('hide');
     };
     $scope.mostrarCamposModificarLicencia = function () {
@@ -534,6 +555,7 @@
         if (exits.length > 0) {
             $("#grpLoginClinic").addClass("has-error");
             $("#inpLoginClinic").focus();
+            toastr.error("El login no se encuentra disponible");
             return false;
         }
         return true;

@@ -22,27 +22,30 @@
         /// </summary>
         /// <param name="horarioDto"></param>
         /// <param name="idUsuario"></param>
-        public static bool Insertar(HorarioDto horarioDto, string idUsuario)
+        public static bool Insertar(HorarioDto horarioDto, string idUsuario, List<DiaDto> diasSeleccionados)
         {
             try
             {
-                var xxx = (from h in dataContext.Horario
-                           where h.idempresa == horarioDto.IDEmpresa
-                           && h.iddia == horarioDto.IDDia
-                           && h.estado
-                           select h).ToList();
+                foreach(var dia in diasSeleccionados){
+                    var xxx = (from h in dataContext.Horario
+                               where h.idempresa == horarioDto.IDEmpresa
+                               && h.iddia == dia.IDDia
+                               && h.estado
+                               select h).ToList();
 
-                var vHorario = new Horario
-                {
-                    hora_fin = TimeSpan.Parse(horarioDto.HoraFin),
-                    hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio),
-                    iddia = horarioDto.IDDia,
-                    idempresa = horarioDto.IDEmpresa,
-                    num_horario = xxx.Count() + 1,
-                    estado = true
-                };
+                    var vHorario = new Horario
+                    {
+                        hora_fin = TimeSpan.Parse(horarioDto.HoraFin),
+                        hora_inicio = TimeSpan.Parse(horarioDto.HoraInicio),
+                        iddia = dia.IDDia,
+                        idempresa = horarioDto.IDEmpresa,
+                        num_horario = xxx.Count() + 1,
+                        estado = true
+                    };
 
-                dataContext.Horario.InsertOnSubmit(vHorario);
+                    dataContext.Horario.InsertOnSubmit(vHorario);
+                
+                }
                 dataContext.SubmitChanges();
                 ControlBitacora.Insertar("Se inserto un horario", idUsuario);
                 return true;

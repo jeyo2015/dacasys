@@ -15,7 +15,7 @@
         <div class="row">
             <div class="panel panel-primary" ng-repeat="comentario in ListaComentario">
                 <div class="panel-heading" >
-                    <h3 style="height:12px" class="panel-title">{{comentario.NombrePaciente}} <span class="pull-right">{{comentario.FechaCreacion}}</span></h3>
+                    <h3 style="height:12px" class="panel-title">{{comentario.NombrePaciente}} <span class="pull-right">{{comentario.FechaCreacion}}<i ng-show="validarPermisoComponente('btnEliminarComentario')" id="btnEliminarComentario" class="fa fa-trash" style="padding-left:8px; cursor: pointer" ng-click="elimnarComentario(comentario)"></i></span></h3>
                 </div>
                 <div class="panel-body">
                     <label>{{comentario.Comentario}}</label>
