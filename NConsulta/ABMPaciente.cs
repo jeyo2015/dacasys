@@ -489,15 +489,15 @@
                     return 9;
             }
 
-            if (pacienteDto.Email.Length < 3)
-            {
-                return 4;
-            }
-            else
-            {
-                if (!pacienteDto.Email.Contains('@'))
-                    return 4;
-            }
+            //if (pacienteDto.Email.Length < 3)
+            //{
+            //    return 4;
+            //}
+            //else
+            //{
+            //    if (!pacienteDto.Email.Contains('@'))
+            //        return 4;
+            //}
             return 0;
         }
 

@@ -134,12 +134,6 @@
         <elementListCompartment Id="df2c98a1-ec81-40b0-9759-c7e0d2eb9642" absoluteBounds="15.765, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="967563e0-c976-4ede-b0cc-bbba5f39d0a0" absoluteBounds="15.75, 3.75, 2, 2.9247054036458326">
-      <DataClassMoniker Name="/ContextoDataContext/Paciente" />
-      <nestedChildShapes>
-        <elementListCompartment Id="a52bff85-aa95-45f1-9afd-f548b634ae59" absoluteBounds="15.765, 4.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="be8ac257-fd96-4aea-b2ca-928150d23ead" absoluteBounds="15.75, 7.75, 2, 1.7708968098958335">
       <DataClassMoniker Name="/ContextoDataContext/Pago" />
       <nestedChildShapes>
@@ -247,6 +241,12 @@
       <DataClassMoniker Name="/ContextoDataContext/CuentasPorCobrar" />
       <nestedChildShapes>
         <elementListCompartment Id="84f5c5cd-e70b-4133-8afb-9879d46d2655" absoluteBounds="5.14, 3.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7da232e7-375b-4405-a40d-bbea5470a151" absoluteBounds="15.625, 5.125, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/ContextoDataContext/Paciente" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bd69a424-4eff-4707-b3ef-6dc04e073dac" absoluteBounds="15.64, 5.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

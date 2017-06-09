@@ -25,6 +25,7 @@
         $scope.userSelected = null;
         $scope.clienteDeotraEmpresa = false;
         $scope.pacienteDeotraEmpresa = false;
+        $scope.agregarPaciente = false;
         $scope.pacienteParaGuardar = {
             LoginCliente: '',
             Nombre: '',
@@ -87,6 +88,8 @@
     };
 
     function prepararNuevoPaciente() {
+        console.log($scope.clienteSelected);
+        $scope.agregarPaciente = true;
         $scope.pacienteParaGuardar = {
             LoginCliente: $rootScope.LoginCliente,
             Nombre: '',
@@ -118,7 +121,7 @@
     };
 
     $scope.validarCamposPaciente = function () {
-        if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal) {
+        if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal && !$scope.agregarPaciente) {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
        
         || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
@@ -126,7 +129,7 @@
         } else {
             return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
             || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
-                || $scope.pacienteParaGuardar.Email.length <= 0 || !$rootScope.validarPermisoComponente('btnModificarPaciente');
+                || !$rootScope.validarPermisoComponente('btnModificarPaciente');
         }
     };
 

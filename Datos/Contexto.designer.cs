@@ -96,9 +96,6 @@ namespace Datos
     partial void InsertNotificacionConsultorio(NotificacionConsultorio instance);
     partial void UpdateNotificacionConsultorio(NotificacionConsultorio instance);
     partial void DeleteNotificacionConsultorio(NotificacionConsultorio instance);
-    partial void InsertPaciente(Paciente instance);
-    partial void UpdatePaciente(Paciente instance);
-    partial void DeletePaciente(Paciente instance);
     partial void InsertPago(Pago instance);
     partial void UpdatePago(Pago instance);
     partial void DeletePago(Pago instance);
@@ -150,6 +147,9 @@ namespace Datos
     partial void InsertCuentasPorCobrar(CuentasPorCobrar instance);
     partial void UpdateCuentasPorCobrar(CuentasPorCobrar instance);
     partial void DeleteCuentasPorCobrar(CuentasPorCobrar instance);
+    partial void InsertPaciente(Paciente instance);
+    partial void UpdatePaciente(Paciente instance);
+    partial void DeletePaciente(Paciente instance);
     #endregion
 		
 		public ContextoDataContext() : 
@@ -358,14 +358,6 @@ namespace Datos
 			}
 		}
 		
-		public System.Data.Linq.Table<Paciente> Paciente
-		{
-			get
-			{
-				return this.GetTable<Paciente>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Pago> Pago
 		{
 			get
@@ -499,6 +491,14 @@ namespace Datos
 			get
 			{
 				return this.GetTable<CuentasPorCobrar>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Paciente> Paciente
+		{
+			get
+			{
+				return this.GetTable<Paciente>();
 			}
 		}
 	}
@@ -4484,308 +4484,6 @@ namespace Datos
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Paciente")]
-	public partial class Paciente : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id_paciente;
-		
-		private string _nombre;
-		
-		private string _apellido;
-		
-		private string _ci;
-		
-		private string _nro_telefono;
-		
-		private string _direccion;
-		
-		private string _email;
-		
-		private string _tipo_sangre;
-		
-		private char _sexo;
-		
-		private bool _estado;
-		
-		private string _antecedente;
-		
-    #region Definiciones de métodos de extensibilidad
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onid_pacienteChanging(int value);
-    partial void Onid_pacienteChanged();
-    partial void OnnombreChanging(string value);
-    partial void OnnombreChanged();
-    partial void OnapellidoChanging(string value);
-    partial void OnapellidoChanged();
-    partial void OnciChanging(string value);
-    partial void OnciChanged();
-    partial void Onnro_telefonoChanging(string value);
-    partial void Onnro_telefonoChanged();
-    partial void OndireccionChanging(string value);
-    partial void OndireccionChanged();
-    partial void OnemailChanging(string value);
-    partial void OnemailChanged();
-    partial void Ontipo_sangreChanging(string value);
-    partial void Ontipo_sangreChanged();
-    partial void OnsexoChanging(char value);
-    partial void OnsexoChanged();
-    partial void OnestadoChanging(bool value);
-    partial void OnestadoChanged();
-    partial void OnantecedenteChanging(string value);
-    partial void OnantecedenteChanged();
-    #endregion
-		
-		public Paciente()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_paciente", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id_paciente
-		{
-			get
-			{
-				return this._id_paciente;
-			}
-			set
-			{
-				if ((this._id_paciente != value))
-				{
-					this.Onid_pacienteChanging(value);
-					this.SendPropertyChanging();
-					this._id_paciente = value;
-					this.SendPropertyChanged("id_paciente");
-					this.Onid_pacienteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nombre", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string nombre
-		{
-			get
-			{
-				return this._nombre;
-			}
-			set
-			{
-				if ((this._nombre != value))
-				{
-					this.OnnombreChanging(value);
-					this.SendPropertyChanging();
-					this._nombre = value;
-					this.SendPropertyChanged("nombre");
-					this.OnnombreChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_apellido", DbType="VarChar(80) NOT NULL", CanBeNull=false)]
-		public string apellido
-		{
-			get
-			{
-				return this._apellido;
-			}
-			set
-			{
-				if ((this._apellido != value))
-				{
-					this.OnapellidoChanging(value);
-					this.SendPropertyChanging();
-					this._apellido = value;
-					this.SendPropertyChanged("apellido");
-					this.OnapellidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ci", DbType="VarChar(10)")]
-		public string ci
-		{
-			get
-			{
-				return this._ci;
-			}
-			set
-			{
-				if ((this._ci != value))
-				{
-					this.OnciChanging(value);
-					this.SendPropertyChanging();
-					this._ci = value;
-					this.SendPropertyChanged("ci");
-					this.OnciChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nro_telefono", DbType="VarChar(10)")]
-		public string nro_telefono
-		{
-			get
-			{
-				return this._nro_telefono;
-			}
-			set
-			{
-				if ((this._nro_telefono != value))
-				{
-					this.Onnro_telefonoChanging(value);
-					this.SendPropertyChanging();
-					this._nro_telefono = value;
-					this.SendPropertyChanged("nro_telefono");
-					this.Onnro_telefonoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_direccion", DbType="VarChar(100)")]
-		public string direccion
-		{
-			get
-			{
-				return this._direccion;
-			}
-			set
-			{
-				if ((this._direccion != value))
-				{
-					this.OndireccionChanging(value);
-					this.SendPropertyChanging();
-					this._direccion = value;
-					this.SendPropertyChanged("direccion");
-					this.OndireccionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string email
-		{
-			get
-			{
-				return this._email;
-			}
-			set
-			{
-				if ((this._email != value))
-				{
-					this.OnemailChanging(value);
-					this.SendPropertyChanging();
-					this._email = value;
-					this.SendPropertyChanged("email");
-					this.OnemailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo_sangre", DbType="VarChar(4)")]
-		public string tipo_sangre
-		{
-			get
-			{
-				return this._tipo_sangre;
-			}
-			set
-			{
-				if ((this._tipo_sangre != value))
-				{
-					this.Ontipo_sangreChanging(value);
-					this.SendPropertyChanging();
-					this._tipo_sangre = value;
-					this.SendPropertyChanged("tipo_sangre");
-					this.Ontipo_sangreChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sexo", DbType="Char(1) NOT NULL")]
-		public char sexo
-		{
-			get
-			{
-				return this._sexo;
-			}
-			set
-			{
-				if ((this._sexo != value))
-				{
-					this.OnsexoChanging(value);
-					this.SendPropertyChanging();
-					this._sexo = value;
-					this.SendPropertyChanged("sexo");
-					this.OnsexoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="Bit NOT NULL")]
-		public bool estado
-		{
-			get
-			{
-				return this._estado;
-			}
-			set
-			{
-				if ((this._estado != value))
-				{
-					this.OnestadoChanging(value);
-					this.SendPropertyChanging();
-					this._estado = value;
-					this.SendPropertyChanged("estado");
-					this.OnestadoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_antecedente", DbType="NVarChar(1000)")]
-		public string antecedente
-		{
-			get
-			{
-				return this._antecedente;
-			}
-			set
-			{
-				if ((this._antecedente != value))
-				{
-					this.OnantecedenteChanging(value);
-					this.SendPropertyChanging();
-					this._antecedente = value;
-					this.SendPropertyChanged("antecedente");
-					this.OnantecedenteChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pago")]
 	public partial class Pago : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -6967,6 +6665,308 @@ namespace Datos
 					this._ID = value;
 					this.SendPropertyChanged("ID");
 					this.OnIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Paciente")]
+	public partial class Paciente : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id_paciente;
+		
+		private string _nombre;
+		
+		private string _apellido;
+		
+		private string _ci;
+		
+		private string _nro_telefono;
+		
+		private string _direccion;
+		
+		private string _email;
+		
+		private string _tipo_sangre;
+		
+		private char _sexo;
+		
+		private bool _estado;
+		
+		private string _antecedente;
+		
+    #region Definiciones de métodos de extensibilidad
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onid_pacienteChanging(int value);
+    partial void Onid_pacienteChanged();
+    partial void OnnombreChanging(string value);
+    partial void OnnombreChanged();
+    partial void OnapellidoChanging(string value);
+    partial void OnapellidoChanged();
+    partial void OnciChanging(string value);
+    partial void OnciChanged();
+    partial void Onnro_telefonoChanging(string value);
+    partial void Onnro_telefonoChanged();
+    partial void OndireccionChanging(string value);
+    partial void OndireccionChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    partial void Ontipo_sangreChanging(string value);
+    partial void Ontipo_sangreChanged();
+    partial void OnsexoChanging(char value);
+    partial void OnsexoChanged();
+    partial void OnestadoChanging(bool value);
+    partial void OnestadoChanged();
+    partial void OnantecedenteChanging(string value);
+    partial void OnantecedenteChanged();
+    #endregion
+		
+		public Paciente()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_paciente", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id_paciente
+		{
+			get
+			{
+				return this._id_paciente;
+			}
+			set
+			{
+				if ((this._id_paciente != value))
+				{
+					this.Onid_pacienteChanging(value);
+					this.SendPropertyChanging();
+					this._id_paciente = value;
+					this.SendPropertyChanged("id_paciente");
+					this.Onid_pacienteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nombre", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nombre
+		{
+			get
+			{
+				return this._nombre;
+			}
+			set
+			{
+				if ((this._nombre != value))
+				{
+					this.OnnombreChanging(value);
+					this.SendPropertyChanging();
+					this._nombre = value;
+					this.SendPropertyChanged("nombre");
+					this.OnnombreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_apellido", DbType="VarChar(80) NOT NULL", CanBeNull=false)]
+		public string apellido
+		{
+			get
+			{
+				return this._apellido;
+			}
+			set
+			{
+				if ((this._apellido != value))
+				{
+					this.OnapellidoChanging(value);
+					this.SendPropertyChanging();
+					this._apellido = value;
+					this.SendPropertyChanged("apellido");
+					this.OnapellidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ci", DbType="VarChar(10)")]
+		public string ci
+		{
+			get
+			{
+				return this._ci;
+			}
+			set
+			{
+				if ((this._ci != value))
+				{
+					this.OnciChanging(value);
+					this.SendPropertyChanging();
+					this._ci = value;
+					this.SendPropertyChanged("ci");
+					this.OnciChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nro_telefono", DbType="VarChar(10)")]
+		public string nro_telefono
+		{
+			get
+			{
+				return this._nro_telefono;
+			}
+			set
+			{
+				if ((this._nro_telefono != value))
+				{
+					this.Onnro_telefonoChanging(value);
+					this.SendPropertyChanging();
+					this._nro_telefono = value;
+					this.SendPropertyChanged("nro_telefono");
+					this.Onnro_telefonoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_direccion", DbType="VarChar(100)")]
+		public string direccion
+		{
+			get
+			{
+				return this._direccion;
+			}
+			set
+			{
+				if ((this._direccion != value))
+				{
+					this.OndireccionChanging(value);
+					this.SendPropertyChanging();
+					this._direccion = value;
+					this.SendPropertyChanged("direccion");
+					this.OndireccionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo_sangre", DbType="VarChar(4)")]
+		public string tipo_sangre
+		{
+			get
+			{
+				return this._tipo_sangre;
+			}
+			set
+			{
+				if ((this._tipo_sangre != value))
+				{
+					this.Ontipo_sangreChanging(value);
+					this.SendPropertyChanging();
+					this._tipo_sangre = value;
+					this.SendPropertyChanged("tipo_sangre");
+					this.Ontipo_sangreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sexo", DbType="Char(1) NOT NULL")]
+		public char sexo
+		{
+			get
+			{
+				return this._sexo;
+			}
+			set
+			{
+				if ((this._sexo != value))
+				{
+					this.OnsexoChanging(value);
+					this.SendPropertyChanging();
+					this._sexo = value;
+					this.SendPropertyChanged("sexo");
+					this.OnsexoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="Bit NOT NULL")]
+		public bool estado
+		{
+			get
+			{
+				return this._estado;
+			}
+			set
+			{
+				if ((this._estado != value))
+				{
+					this.OnestadoChanging(value);
+					this.SendPropertyChanging();
+					this._estado = value;
+					this.SendPropertyChanged("estado");
+					this.OnestadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_antecedente", DbType="NVarChar(1000)")]
+		public string antecedente
+		{
+			get
+			{
+				return this._antecedente;
+			}
+			set
+			{
+				if ((this._antecedente != value))
+				{
+					this.OnantecedenteChanging(value);
+					this.SendPropertyChanging();
+					this._antecedente = value;
+					this.SendPropertyChanged("antecedente");
+					this.OnantecedenteChanged();
 				}
 			}
 		}
