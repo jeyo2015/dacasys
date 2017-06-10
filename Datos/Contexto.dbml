@@ -218,21 +218,6 @@
       <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.Paciente" Member="Paciente">
-    <Type Name="Paciente">
-      <Column Name="id_paciente" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="nombre" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="apellido" Type="System.String" DbType="VarChar(80) NOT NULL" CanBeNull="false" />
-      <Column Name="ci" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-      <Column Name="nro_telefono" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-      <Column Name="direccion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
-      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="tipo_sangre" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
-      <Column Name="sexo" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
-      <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="antecedente" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Pago" Member="Pago">
     <Type Name="Pago">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -364,6 +349,21 @@
       <Column Name="IDConsultorio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Paciente" Member="Paciente">
+    <Type Name="Paciente">
+      <Column Name="id_paciente" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="apellido" Type="System.String" DbType="VarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="ci" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="nro_telefono" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="direccion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="tipo_sangre" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="sexo" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="antecedente" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
