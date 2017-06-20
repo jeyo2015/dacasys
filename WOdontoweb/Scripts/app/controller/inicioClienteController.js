@@ -18,12 +18,30 @@
 
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(showPosition, onError);
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
+    function onError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert('ERROR: User denied access to track physical position!');
+                break;
 
+            case error.POSITION_UNAVAILABLE:
+                alert("ERROR: There is a problem getting the position of the device!");
+                break;
+
+            case error.TIMEOUT:
+                alert("ERROR: The application timed out trying to get the position of the device!");
+                break;
+
+            default:
+                alert("ERROR: Unknown problem!");
+                break;
+        }
+    }
     function showPosition(position) {
         markerCurrent = new google.maps.Marker({
             map: map,

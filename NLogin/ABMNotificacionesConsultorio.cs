@@ -25,11 +25,8 @@ namespace NLogin
             try
             {
                 var envio = (from e in dataContext.Envio
-                             where e.Fecha == DateTime.Now
                              select e).FirstOrDefault();
-                if (envio != null) return;
-
-
+                if (envio != null && envio.Fecha == DateTime.Now) return;
                 var citasActuales = (from c in dataContext.Empresa
                                      from citas in dataContext.Cita
                                      from cp in dataContext.Cliente_Paciente
@@ -88,18 +85,26 @@ namespace NLogin
                         EmailPaciente = s.EmailPaciente
                     }).OrderBy(o => o.HoraInicio).ToList());
                 }
+                if (envio == null) {
+                    Envio envioEntity = new Envio()
+                    {
+                        Fecha = DateTime.Now
+                    };
 
-                Envio envioEntity = new Envio()
-                {
-                    Fecha = DateTime.Now
-                };
+                    dataContext.Envio.InsertOnSubmit(envioEntity);
+                }
+                else {
+                    envio.Fecha = DateTime.Now;
 
-                dataContext.Envio.InsertOnSubmit(envioEntity);
+                }
+               
                 dataContext.SubmitChanges();
             }
-            catch (Exception ex) { 
-            
-                
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "EnviarCitasDelDia", ex);
+
+
             }
 
         }
