@@ -18,11 +18,36 @@
 
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(showPosition, onError);
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
+    function onError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert('No ha dado permiso a ODONTOWEB para ver su ubicacion');
+                var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+                break;
+
+            case error.POSITION_UNAVAILABLE:
+                alert("Ha ocurrido un problema al obtener su ubicacion");
+                InicializarMapa(true);
+
+                break;
+
+            case error.TIMEOUT:
+                alert("Tiempo agotado para obtener su ubicacion");
+                break;
+
+            default:
+                alert("ERROR: Unknown problem!");
+                break;
+        }
+        map.setCenter(latlng);
+
+    }
+
 
     function showPosition(position) {
         markerCurrent = new google.maps.Marker({
@@ -109,7 +134,7 @@
             var h = $(window).height();
             var rest = $("#headerTotal").height();
             $("#mapa").height(h - rest - 105);
-            InicializarMapa();
+            InicializarMapa(false);
             getLocation();
             cargar_clinicas();
         });
@@ -421,9 +446,10 @@
             item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
     }
-    function InicializarMapa() {
+    function InicializarMapa(center) {
         directionsDisplay = new google.maps.DirectionsRenderer();
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+
         var myOptions = {
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -445,7 +471,7 @@
             $scope.mostrarConsultorios = false;
             $scope.$apply();
         });
-
+        if (center) map.setCenter(latlng);
     }
 
     $scope.mostrarModalHorarios = function (consultorio) {
