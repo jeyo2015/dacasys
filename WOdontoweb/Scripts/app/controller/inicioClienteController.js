@@ -26,7 +26,7 @@
     function onError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                alert('No ha dado permiso a ODONTOWEB para ver su ubicacion');
+                alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
                 var latlng = new google.maps.LatLng(-17.783198, -63.182046);
                 break;
 
