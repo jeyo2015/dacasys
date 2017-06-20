@@ -26,22 +26,28 @@
     function onError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                alert('ERROR: User denied access to track physical position!');
+                alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
+                var latlng = new google.maps.LatLng(-17.783198, -63.182046);
                 break;
 
             case error.POSITION_UNAVAILABLE:
-                alert("ERROR: There is a problem getting the position of the device!");
+                alert("Ha ocurrido un problema al obtener su ubicacion");
+                InicializarMapa(true);
+
                 break;
 
             case error.TIMEOUT:
-                alert("ERROR: The application timed out trying to get the position of the device!");
+                alert("Tiempo agotado para obtener su ubicacion");
                 break;
 
             default:
                 alert("ERROR: Unknown problem!");
                 break;
         }
+        map.setCenter(latlng);
+
     }
+
     function showPosition(position) {
         markerCurrent = new google.maps.Marker({
             map: map,
