@@ -48,6 +48,7 @@
 
     }
 
+
     function showPosition(position) {
         markerCurrent = new google.maps.Marker({
             map: map,
@@ -133,7 +134,7 @@
             var h = $(window).height();
             var rest = $("#headerTotal").height();
             $("#mapa").height(h - rest - 105);
-            InicializarMapa();
+            InicializarMapa(false);
             getLocation();
             cargar_clinicas();
         });
@@ -445,9 +446,10 @@
             item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
     }
-    function InicializarMapa() {
+    function InicializarMapa(center) {
         directionsDisplay = new google.maps.DirectionsRenderer();
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+
         var myOptions = {
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -469,7 +471,7 @@
             $scope.mostrarConsultorios = false;
             $scope.$apply();
         });
-
+        if (center) map.setCenter(latlng);
     }
 
     $scope.mostrarModalHorarios = function (consultorio) {

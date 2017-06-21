@@ -85,7 +85,8 @@ namespace NLogin
                         EmailPaciente = s.EmailPaciente
                     }).OrderBy(o => o.HoraInicio).ToList());
                 }
-                if (envio == null) {
+                if (envio == null)
+                {
                     Envio envioEntity = new Envio()
                     {
                         Fecha = DateTime.Now
@@ -93,18 +94,17 @@ namespace NLogin
 
                     dataContext.Envio.InsertOnSubmit(envioEntity);
                 }
-                else {
+                else
+                {
                     envio.Fecha = DateTime.Now;
 
                 }
-               
+
                 dataContext.SubmitChanges();
             }
             catch (Exception ex)
             {
                 ControlLogErrores.Insertar("NLogin", "ABMNotificacionesConsultorio", "EnviarCitasDelDia", ex);
-
-
             }
 
         }
