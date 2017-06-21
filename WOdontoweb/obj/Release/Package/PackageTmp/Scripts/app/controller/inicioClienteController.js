@@ -24,10 +24,11 @@
         }
     }
     function onError(error) {
+        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
-                var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+               
                 break;
 
             case error.POSITION_UNAVAILABLE:
@@ -218,7 +219,7 @@
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
             // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
-            $scope.mostrarInformacion();
+            mostrarInformacionInit();
         } else
             mostrarConsultorios();
 
@@ -531,7 +532,8 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
-    $scope.mostrarContactenos = function () {
+    $scope.mostrarContactenos = function (e) {
+         e.preventDefault();
         $scope.mostrarPanel = 2;
         $scope.emailDe = "";
         $scope.mensajeContactenos = "";
@@ -562,17 +564,23 @@
             prepararNuevoComentario();
         });
     }
-    $scope.mostrarComentarios = function () {
+    $scope.mostrarComentarios = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 3;
         obtenerListaComentarios();
     };
-    $scope.mostrarHorarios = function () {
+    $scope.mostrarHorarios = function (e) {
+        e.preventDefault();
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
 
-    $scope.mostrarInformacion = function () {
+    function mostrarInformacionInit() {
         $scope.mostrarPanel = 1;
+    }
+    $scope.mostrarInformacion = function (e) {
+        e.preventDefault();
+        mostrarInformacionInit();
 
     };
 });
