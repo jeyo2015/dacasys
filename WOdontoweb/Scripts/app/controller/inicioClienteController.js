@@ -24,11 +24,11 @@
         }
     }
     function onError(error) {
-        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         switch (error.code) {
+
             case error.PERMISSION_DENIED:
                 alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
-               
+                
                 break;
 
             case error.POSITION_UNAVAILABLE:
@@ -45,6 +45,7 @@
                 alert("ERROR: Unknown problem!");
                 break;
         }
+        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         map.setCenter(latlng);
 
     }
@@ -219,7 +220,7 @@
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
             // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
-            mostrarInformacionInit();
+            $scope.mostrarInformacion();
         } else
             mostrarConsultorios();
 
@@ -532,8 +533,7 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
-    $scope.mostrarContactenos = function (e) {
-         e.preventDefault();
+    $scope.mostrarContactenos = function () {
         $scope.mostrarPanel = 2;
         $scope.emailDe = "";
         $scope.mensajeContactenos = "";
@@ -564,23 +564,17 @@
             prepararNuevoComentario();
         });
     }
-    $scope.mostrarComentarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarComentarios = function () {
         $scope.mostrarPanel = 3;
         obtenerListaComentarios();
     };
-    $scope.mostrarHorarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarHorarios = function () {
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
 
-    function mostrarInformacionInit() {
+    $scope.mostrarInformacion = function () {
         $scope.mostrarPanel = 1;
-    }
-    $scope.mostrarInformacion = function (e) {
-        e.preventDefault();
-        mostrarInformacionInit();
 
     };
 });

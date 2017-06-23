@@ -66,11 +66,11 @@
             }
         });
         $('#dtpFecha1').val(moment().format('DD/MM/YYYY'));
-        
+
         prepararNuevaClinica();
         InicializarMapa();
         cargar_todas_clinicas(false);
-      //  getLocation();
+        //  getLocation();
     }
     function CrearMarcador(id, latLong) {
         // $scope.latlngActual = new google.maps.LatLng(latitud, longitud);
@@ -90,23 +90,58 @@
 
         $("#modal-mapa-ubicacion").modal('show');
         removerMarcador();
-        CrearMarcador(0, $scope.latlngActual);
-        map.setCenter($scope.latlngActual);
+        if ($scope.clinicaSelected == null) {
+            getLocation();
+        } else {
+            CrearMarcador(0, $scope.latlngActual);
+            map.setCenter($scope.latlngActual);
+        }
+
     };
     function showPosition(position) {
-        markerCurrent = new google.maps.Marker({
-            map: map,
-            position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-            title: 'Tu posicion actual',
-            icon: $scope.baseURL + 'Content/img/marker.png',
-            zIndex: -10000
-        });
-        markers.push(markerCurrent);
-        map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+        //markerCurrent = new google.maps.Marker({
+        //    map: map,
+        //    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+        //    title: 'Tu posicion actual',
+        //    icon: $scope.baseURL + 'Content/img/marker.png',
+        //    zIndex: -10000
+        //});
+        //markers.push(markerCurrent);
+        //map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+        $scope.latlngActual = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        CrearMarcador(0, $scope.latlngActual);
+        map.setCenter($scope.latlngActual);
+
     }
+    function onError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
+
+                break;
+
+            case error.POSITION_UNAVAILABLE:
+                alert("Ha ocurrido un problema al obtener su ubicacion");
+                InicializarMapa(true);
+
+                break;
+
+            case error.TIMEOUT:
+                alert("Tiempo agotado para obtener su ubicacion");
+                break;
+
+            default:
+                alert("ERROR: Unknown problem!");
+                break;
+        }
+        $scope.latlngActual = new google.maps.LatLng(-17.783198, -63.182046);
+        CrearMarcador(0, $scope.latlngActual);
+        map.setCenter($scope.latlngActual);
+    }
+
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(showPosition, onError);
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
@@ -120,7 +155,7 @@
         }
     }
     function InicializarMapa() {
-       
+
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         var myOptions = {
             zoom: 15,
@@ -230,10 +265,11 @@
             Status: 1,
             NombreArchivo: "",
             FechaInicioLicencia: $('#dtpFecha').datepicker("getDate"),
-            FechaInicioLicenciaString:moment($('#dtpFecha').datepicker("getDate")).format('DD/MM/YYYY')  , 
+            FechaInicioLicenciaString: moment($('#dtpFecha').datepicker("getDate")).format('DD/MM/YYYY'),
             CantidadMeses: 1
         };
-        $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
+        //getLocation();
+        // $scope.latlngActual = new google.maps.LatLng($scope.clinicToSave.Latitud, $scope.clinicToSave.Longitud);
         $scope.clinicaSelected = null;
         prepararNuevoTelefonoClinica();
         prepararNuevoConsultorio();
@@ -522,12 +558,12 @@
 
     $scope.selectClinica = function (clinica) {
         $scope.consultorioToSave = clinica.Consultorios[0];
-        console.log(  $scope.intervalos);
+        console.log($scope.intervalos);
         $scope.intervaloSelected = $scope.intervalos.where(function (item) { return item.ID == $scope.consultorioToSave.IDIntervalo; })[0];//$scope.consultorioToSave.IDIntervalo;
         if (clinica.LogoParaMostrar == null)
             clinicaService.obtenerLogoClinica(clinica.IDClinica).then(function (result) {
                 clinica.LogoParaMostrar = result.LogoParaMostrar;
-               
+
             });
 
 
@@ -591,7 +627,7 @@
             }
         });
     };
-    $scope.selectConsultorio = function(consultorio) {
+    $scope.selectConsultorio = function (consultorio) {
         $scope.consultorioSeleccionado = angular.copy(consultorio);
         $scope.consultorioSeleccionado.State = 2;
     };

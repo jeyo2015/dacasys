@@ -215,6 +215,7 @@ namespace NAgenda
                          });
             // dataContext.Refresh(RefreshMode.OverwriteCurrentValues, query);
             var dateValue = DateTime.Parse(fechaCita.ToString("yyyy-MM-dd"), CultureInfo.InvariantCulture);
+
             var nombreDia = dateValue.ToString("dddd", new CultureInfo("es-ES"));
             var timeOfDay = DateTime.Now.TimeOfDay.Add(new TimeSpan(diferenciaDeHoras, 0, 0));
             var horarioConsultorio = (from h in dataContext.Horario
