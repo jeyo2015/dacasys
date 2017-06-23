@@ -25,9 +25,10 @@
     }
     function onError(error) {
         switch (error.code) {
+
             case error.PERMISSION_DENIED:
                 alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
-                var latlng = new google.maps.LatLng(-17.783198, -63.182046);
+                
                 break;
 
             case error.POSITION_UNAVAILABLE:
@@ -44,6 +45,7 @@
                 alert("ERROR: Unknown problem!");
                 break;
         }
+        var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         map.setCenter(latlng);
 
     }
