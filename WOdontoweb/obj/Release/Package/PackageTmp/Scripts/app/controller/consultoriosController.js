@@ -114,26 +114,6 @@
 
     }
     function onError(error) {
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
-
-                break;
-
-            case error.POSITION_UNAVAILABLE:
-                alert("Ha ocurrido un problema al obtener su ubicacion");
-                InicializarMapa(true);
-
-                break;
-
-            case error.TIMEOUT:
-                alert("Tiempo agotado para obtener su ubicacion");
-                break;
-
-            default:
-                alert("ERROR: Unknown problem!");
-                break;
-        }
         $scope.latlngActual = new google.maps.LatLng(-17.783198, -63.182046);
         CrearMarcador(0, $scope.latlngActual);
         map.setCenter($scope.latlngActual);
