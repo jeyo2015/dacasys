@@ -1,49 +1,51 @@
-﻿<div class="col-md-10 col-md-offset-1 divContent"   ng-controller="misCitasController" style="overflow-y:auto">
-    <div class="col-md-12 col-md-offset-1">
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-                <table class="table table-hover tableStyle">
-                    <tbody>
-                        <tr ng-class="{selectElement:miCitaSelected.IdCita==cita.IdCita}" ng-repeat="cita in ListaCitas |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarCita(cita)" style="cursor: pointer;">
-                            <td>
-                                <b>{{cita.NombreConsultorio}}</b><br />
-                                {{cita.NombrePaciente}}                                
-                            </td>
-                            <td>
-                                {{cita.FechaString}}<br />
-                                De {{cita.HoraInicioString}} a {{cita.HoraFinString}} hrs. <span ng-class="{'colorRed':!cita.Atendido,'colorGreen':cita.Atendido}">{{cita.EstadoMostrar}} </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" style="overflow-y: auto" min-heigth ng-controller="misCitasController">
+    <div class="col-md-10 col-xs-12 col-md-offset-1">
+        <div class="col-md-12 col-xs-12 ">
+
+            <div class="row">
+                <div class="col-md-12" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
+                    <button class="btn btn-raised btn-danger pull-right" ng-click="abrirModalCancelarCita()" ng-disabled="miCitaSelected==null">Cancelar cita</button>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12" max-heigth-table style="overflow-y: auto; padding-right: 0px;">
+                    <table class="table table-hover tableStyle">
+                        <tbody>
+                            <tr ng-class="{selectElement:miCitaSelected.IdCita==cita.IdCita}" ng-repeat="cita in ListaCitas |filterByWords:subString:'IDEmpresa'" ng-click="seleccionarCita(cita)" style="cursor: pointer;">
+                                <td>
+                                    <b>{{cita.NombhreConsultorio}}</b><br />
+                                    {{cita.NombrePaciente}}                                
+                                </td>
+                                <td>{{cita.FechaString}}<br />
+                                    De {{cita.HoraInicioString}} a {{cita.HoraFinString}} hrs. <span ng-class="{'colorRed':!cita.Atendido,'colorGreen':cita.Atendido}">{{cita.EstadoMostrar}} </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-10" style="max-height: 440px; overflow-y: auto; padding-right: 0px;">
-            <button class="btn btn-raised btn-danger pull-right" ng-click="abrirModalCancelarCita()" ng-disabled="miCitaSelected==null">Cancelar cita</button>        
-    </div>
-    <div class="modal fade" id="modal-cancelar-cita" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Cancelar cita</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>¿Esta seguro de cancelar su cita?</label>
+
+        <div class="modal fade" id="modal-cancelar-cita" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Cancelar cita</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>¿Esta seguro de cancelar su cita?</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="cancelarCitaPaciente()">Si</button>
-                    <button class="btn btn-danger" ng-click="cerrarModalCancelarCita()">No</button>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="cancelarCitaPaciente()">Si</button>
+                        <button class="btn btn-danger" ng-click="cerrarModalCancelarCita()">No</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-

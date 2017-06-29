@@ -171,7 +171,8 @@ namespace NLogin
                     Binary vbi = new Binary(imageRedimencionar);
                     clinicaCurrent.ImagenLogo = vbi;
                 }
-                else {
+                else
+                {
                     clinicaCurrent.ImagenLogo = obtenerLogoDefecto();
                 }// poner el por defecto
 
@@ -185,7 +186,7 @@ namespace NLogin
                     Binary vbi = new Binary(clinicaDto.logoImagen);
                     clinicaCurrent.ImagenLogo = vbi;
                 }
-                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud, new CultureInfo("en-US")), 8); 
+                clinicaCurrent.Latitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Latitud, new CultureInfo("en-US")), 8);
                 clinicaCurrent.Longitud = Decimal.Round(Convert.ToDecimal(clinicaDto.Longitud, new CultureInfo("en-US")), 8);
                 clinicaCurrent.Descripcion = clinicaDto.Descripcion;
                 clinicaCurrent.Direccion = clinicaDto.Direccion;
@@ -235,7 +236,7 @@ namespace NLogin
                 clinicaCurrent.Login = clinicaDto.Login;
                 if (clinicaDto.logoImagen != null)
                 {
-                   
+
                     Binary vbi = new Binary(RedimencionarImage(clinicaDto.logoImagen));
                     clinicaCurrent.ImagenLogo = vbi;
                 }
@@ -718,103 +719,116 @@ namespace NLogin
         }
         public static List<ConsultorioDto> ObtenerConsultorios()
         {
-            return (from e in dataContext.Empresa
-                    from tc in dataContext.Tiempo_Consulta
-                    from ue in dataContext.UsuarioEmpleado
-                    from r in dataContext.Rol
-                    from cl in dataContext.Clinica
-                    where tc.ID == e.IDIntervalo
-                   && ue.IDEmpresa == e.ID
-                   && cl.ID == e.IDClinica
-                && !e.Login.ToUpper().Equals("DACASYS")
-                    && !e.Login.ToUpper().Equals("DEFAULT")
-                        //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
-                   && ue.IDRol == r.ID
-                   && r.IDEmpresa == e.ID
-                    select new ConsultorioDto()
-                    {
-                        Email = e.Email,
-                        Estado = e.Estado,
-                        FechaCreacion = e.FechaCreacion,
-                        FechaModificacion = e.FechaModificacion,
-                        IDClinica = e.IDClinica,
-                        IDConsultorio = e.ID,
-                        IDIntervalo = e.IDIntervalo,
-                        IDUsuarioCreador = e.IDUsuarioCreador,
-                        Login = e.Login,
-                        Direccion = cl.Direccion,
-                        NIT = e.NIT,
-                        NombreClinica = cl.Nombre,
-                        Trabajos = ObtenerTrabajosConsultorio(e.ID),
-                        TiempoCita = tc.Value,
-                        HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
-                        NombreDoctor = ue.Nombre
-                    }).ToList();
+            try
+            {
+                return (from e in dataContext.Empresa
+                        from tc in dataContext.Tiempo_Consulta
+                        from ue in dataContext.UsuarioEmpleado
+                        from r in dataContext.Rol
+                        from cl in dataContext.Clinica
+                        where tc.ID == e.IDIntervalo
+                        && e.Estado
+                       && ue.IDEmpresa == e.ID
+                       && cl.ID == e.IDClinica
+                    && !e.Login.ToUpper().Equals("DACASYS")
+                        && !e.Login.ToUpper().Equals("DEFAULT")
+                            //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
+                       && ue.IDRol == r.ID
+                       && r.IDEmpresa == e.ID
+                        select new ConsultorioDto()
+                        {
+                            Email = e.Email,
+                            Estado = e.Estado,
+                            FechaCreacion = e.FechaCreacion,
+                            FechaModificacion = e.FechaModificacion,
+                            IDClinica = e.IDClinica,
+                            IDConsultorio = e.ID,
+                            IDIntervalo = e.IDIntervalo,
+                            IDUsuarioCreador = e.IDUsuarioCreador,
+                            Login = e.Login,
+                            Direccion = cl.Direccion,
+                            NIT = e.NIT,
+                            NombreClinica = cl.Nombre,
+                            Trabajos = ObtenerTrabajosConsultorio(e.ID),
+                            TiempoCita = tc.Value,
+                            HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
+                            NombreDoctor = ue.Nombre
+                        }).ToList();
+            } catch(Exception ex){
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerConsultorios", ex);
+                return new List<ConsultorioDto>();
+            }
         }
         public static List<HorarioMapaDto> ObtenerHorarioParaMostrarMapa(int idConsultorio)
         {
-            var horariosConsultorio = (from h in dataContext.Horario
-                                       from d in dataContext.Dia
-                                       where d.iddia == h.iddia
-                                       && h.idempresa == idConsultorio
-                                       && h.estado
-                                       select new HorarioDto
-                                       {
-                                           Estado = h.estado,
-                                           HoraFinSpan = h.hora_fin,
-                                           HoraInicioSpan = h.hora_inicio,
-                                           IDDia = h.iddia,
-                                           HoraInicio = h.hora_inicio.Hours + ":" + h.hora_inicio.Minutes,
-                                           HoraFin = h.hora_fin.Hours + ":" + h.hora_fin.Minutes,
-                                           NombreDia = d.nombre_corto,
-                                           IDEmpresa = idConsultorio
-                                       }).OrderBy(o => o.IDDia).GroupBy(g => new { g.IDDia, g.NombreDia }).Select(
-                                           gr => new HorarioMapa
-                                           {
-                                               IdDia = gr.Key.IDDia,
-                                               NombreCorto = gr.Key.NombreDia,
-                                               Horarios = gr.ToList()
-                                           }).ToList();
-
-            var xxx = horariosConsultorio.Count();
-            List<HorarioMapaDto> listaRetornar = new List<HorarioMapaDto>();
-            for (int i = 0; i < xxx; i++)
+            try
             {
-                var horarioActual = horariosConsultorio[i];
-                if (!horariosConsultorio[i].hasFriend)
+                var horariosConsultorio = (from h in dataContext.Horario
+                                           from d in dataContext.Dia
+                                           where d.iddia == h.iddia
+                                           && h.idempresa == idConsultorio
+                                           && h.estado
+                                           select new HorarioDto
+                                           {
+                                               Estado = h.estado,
+                                               HoraFinSpan = h.hora_fin,
+                                               HoraInicioSpan = h.hora_inicio,
+                                               IDDia = h.iddia,
+                                               HoraInicio = h.hora_inicio.Hours + ":" + h.hora_inicio.Minutes,
+                                               HoraFin = h.hora_fin.Hours + ":" + h.hora_fin.Minutes,
+                                               NombreDia = d.nombre_corto,
+                                               IDEmpresa = idConsultorio
+                                           }).OrderBy(o => o.IDDia).GroupBy(g => new { g.IDDia, g.NombreDia }).Select(
+                                               gr => new HorarioMapa
+                                               {
+                                                   IdDia = gr.Key.IDDia,
+                                                   NombreCorto = gr.Key.NombreDia,
+                                                   Horarios = gr.ToList()
+                                               }).ToList();
+
+                var xxx = horariosConsultorio.Count();
+                List<HorarioMapaDto> listaRetornar = new List<HorarioMapaDto>();
+                for (int i = 0; i < xxx; i++)
                 {
-                    //List<DiaDto> dias = new List<DiaDto>(){ 
-                    //     new DiaDto(){
-                    //         IDDia=horarioActual.IdDia,
-                    //     NombreCorto = horarioActual.NombreCorto                        
-                    //     }
-                    //    };
-                    string dias = horarioActual.NombreCorto;
-                    for (int j = i + 1; j < xxx; j++)
+                    var horarioActual = horariosConsultorio[i];
+                    if (!horariosConsultorio[i].hasFriend)
                     {
-
-                        if (compararHorarios(horarioActual, horariosConsultorio[j]))
+                        //List<DiaDto> dias = new List<DiaDto>(){ 
+                        //     new DiaDto(){
+                        //         IDDia=horarioActual.IdDia,
+                        //     NombreCorto = horarioActual.NombreCorto                        
+                        //     }
+                        //    };
+                        string dias = horarioActual.NombreCorto;
+                        for (int j = i + 1; j < xxx; j++)
                         {
-                            horariosConsultorio[j].hasFriend = true;
 
-                            dias = dias + "-" + horariosConsultorio[j].NombreCorto;
+                            if (compararHorarios(horarioActual, horariosConsultorio[j]))
+                            {
+                                horariosConsultorio[j].hasFriend = true;
+
+                                dias = dias + "-" + horariosConsultorio[j].NombreCorto;
 
 
-                            //dias.Add(new DiaDto
-                            //{
-                            //    IDDia = horariosConsultorio[j].IdDia,
-                            //    NombreCorto = horariosConsultorio[j].NombreCorto
-                            //});
+                                //dias.Add(new DiaDto
+                                //{
+                                //    IDDia = horariosConsultorio[j].IdDia,
+                                //    NombreCorto = horariosConsultorio[j].NombreCorto
+                                //});
+                            }
                         }
+                        listaRetornar.Add(new HorarioMapaDto()
+                        {
+                            Dias = dias,
+                            Horarios = horarioActual.Horarios
+                        });
                     }
-                    listaRetornar.Add(new HorarioMapaDto()
-                    {
-                        Dias = dias,
-                        Horarios = horarioActual.Horarios
-                    });
                 }
+                return listaRetornar;
+            }catch(Exception ex){
+             ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
+             return new List<HorarioMapaDto>();
             }
-            return listaRetornar;
         }
 
         private static bool compararHorarios(HorarioMapa horarioActual, HorarioMapa horarioSiguiente)
@@ -833,29 +847,41 @@ namespace NLogin
         }
         private static List<TrabajosConsultorioDto> ObtenerTrabajosConsultorio(int idConsultorio)
         {
-            return (from tc in dataContext.TrabajosConsultorio
-                    where tc.IDConsultorio == idConsultorio
-                    select tc).Select(x => new TrabajosConsultorioDto()
-                    {
-                        ID = x.IDTrabajo,
-                        IDConsultorio = x.IDConsultorio,
-                        State = 0
-                    }).ToList();
+            try
+            {
+                return (from tc in dataContext.TrabajosConsultorio
+                        where tc.IDConsultorio == idConsultorio
+                        select tc).Select(x => new TrabajosConsultorioDto()
+                        {
+                            ID = x.IDTrabajo,
+                            IDConsultorio = x.IDConsultorio,
+                            State = 0
+                        }).ToList();
+            }catch(Exception ex){
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerTrabajosConsultorio", ex);
+                return new List<TrabajosConsultorioDto>();
+            }
         }
 
         public static List<TelefonoDto> ObtenerTelefonosConsultorios(int idEmpresa, int idClinica)
         {
-            return (from t in dataContext.Telefono
-                    join tc in dataContext.TelefonoConsultorio on t.ID equals tc.IDTelefono
-                    where t.Estado == true
-                    select t).Select(x => new TelefonoDto()
-                    {
-                        IDClinica = idClinica,
-                        IDConsultorio = idEmpresa,
-                        Nombre = x.Nombre,
-                        Telefono = x.Telefono1,
-                        ID = x.ID
-                    }).ToList();
+            try
+            {
+                return (from t in dataContext.Telefono
+                        join tc in dataContext.TelefonoConsultorio on t.ID equals tc.IDTelefono
+                        where t.Estado == true
+                        select t).Select(x => new TelefonoDto()
+                        {
+                            IDClinica = idClinica,
+                            IDConsultorio = idEmpresa,
+                            Nombre = x.Nombre,
+                            Telefono = x.Telefono1,
+                            ID = x.ID
+                        }).ToList();
+            }catch(Exception ex){
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerTelefonosConsultorios", ex);
+                return new List<TelefonoDto>();
+            }
         }
 
         public static List<TelefonoDto> ObtenerTelefonosClinica(int idClinica)
@@ -1092,29 +1118,36 @@ namespace NLogin
 
         public static List<ClinicaDto> ObtenerClinicasHabilitadas()
         {
-            return (from c in dataContext.Clinica
-                    where
-                         !c.Login.ToUpper().Equals("DACASYS") &&
-                    !c.Login.ToUpper().Equals("DEFAULT")
-                    && c.Estado == true
-                    select c).Select(x => new ClinicaDto()
-                    {
-                        Descripcion = x.Descripcion,
-                        Direccion = x.Direccion,
-                        Estado = x.Estado,
-                        FechaCreacion = x.FechaCreacion,
-                        FechaModificacion = x.FechaDeModificacion,
-                        IDClinica = x.ID,
-                        Latitud = x.Latitud.ToString(),
-                        Login = x.Login,
-                        Longitud = x.Longitud.ToString(),
-                        Nombre = x.Nombre,
-                        Consultorios = ObtenerConsultorios(x.ID),
-                        Trabajos = ObtenerTrabajosClinica(x.ID),
-                        Status = 0,
-                        // LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
-                        Telefonos = ObtenerTelefonosClinica(x.ID)
-                    }).ToList();
+            try
+            {
+                return (from c in dataContext.Clinica
+                        where
+                             !c.Login.ToUpper().Equals("DACASYS") &&
+                        !c.Login.ToUpper().Equals("DEFAULT")
+                        && c.Estado == true
+                        select c).Select(x => new ClinicaDto()
+                        {
+                            Descripcion = x.Descripcion,
+                            Direccion = x.Direccion,
+                            Estado = x.Estado,
+                            FechaCreacion = x.FechaCreacion,
+                            FechaModificacion = x.FechaDeModificacion,
+                            IDClinica = x.ID,
+                            Latitud = x.Latitud.ToString(),
+                            Login = x.Login,
+                            Longitud = x.Longitud.ToString(),
+                            Nombre = x.Nombre,
+                            Consultorios = ObtenerConsultorios(x.ID),
+                            Trabajos = ObtenerTrabajosClinica(x.ID),
+                            Status = 0,
+                            // LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
+                            Telefonos = ObtenerTelefonosClinica(x.ID)
+                        }).ToList();
+            }
+            catch (Exception ex) {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerClinicasHabilitadas", ex);
+                return new List<ClinicaDto>();
+            }
         }
 
         /// <summary>

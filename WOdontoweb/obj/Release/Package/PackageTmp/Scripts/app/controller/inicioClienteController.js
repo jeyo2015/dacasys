@@ -24,6 +24,27 @@
         }
     }
     function onError(error) {
+        switch (error.code) {
+
+            case error.PERMISSION_DENIED:
+                alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
+
+                break;
+
+            case error.POSITION_UNAVAILABLE:
+                alert("Ha ocurrido un problema al obtener su ubicacion");
+                InicializarMapa(true);
+
+                break;
+
+            case error.TIMEOUT:
+                alert("Tiempo agotado para obtener su ubicacion");
+                break;
+
+            default:
+                alert("ERROR: Unknown problem!");
+                break;
+        }
         var latlng = new google.maps.LatLng(-17.783198, -63.182046);
         map.setCenter(latlng);
 
@@ -80,8 +101,8 @@
                 alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
             }
         });
-
     }
+
     function enviarNotificacionCitas() {
         loginService.enviarNotificacionesDia();
     }
@@ -199,14 +220,14 @@
             $scope.consultorioSeleccionado = $scope.clinicaSeleccionada.Consultorios[0];
             // $compile("#modal-ver-mas")($scope);
             $("#modal-ver-mas").modal('show');
-            mostrarInfo2();
+            $scope.mostrarInformacion();
         } else
             mostrarConsultorios();
 
 
     };
     $scope.comoLlegar = function () {
-        console.log($scope.clinicaSeleccionada);
+        window.open('https://maps.google.com/maps?saddr='+ markerCurrent.getPosition().lat() + ',' + markerCurrent.getPosition().lng()+ '&daddr='  + $scope.clinicaSeleccionada.Latitud + ',' + $scope.clinicaSeleccionada.Longitud , '_blank');
         var end = new google.maps.LatLng($scope.clinicaSeleccionada.Latitud, $scope.clinicaSeleccionada.Longitud);
         calculateDistance(end);
     }
@@ -238,7 +259,7 @@
         $('#modalconfirmarCita').modal('hide');
     };
     function openInfoWindow(marker) {
-
+        directionsDisplay.setMap(null);
         point = marker.getPosition();
         var markersTemp = markers.where(function (item) {
             return item.zIndex != -10000;
@@ -512,8 +533,7 @@
         $scope.citaSeleted = null;
         $("#modal-horarios-consultorio").modal('hide');
     };
-    $scope.mostrarContactenos = function (e) {
-         e.preventDefault();
+    $scope.mostrarContactenos = function () {
         $scope.mostrarPanel = 2;
         $scope.emailDe = "";
         $scope.mensajeContactenos = "";
@@ -544,22 +564,17 @@
             prepararNuevoComentario();
         });
     }
-    $scope.mostrarComentarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarComentarios = function () {
         $scope.mostrarPanel = 3;
         obtenerListaComentarios();
     };
-    $scope.mostrarHorarios = function (e) {
-        e.preventDefault();
+    $scope.mostrarHorarios = function () {
         $scope.mostrarPanel = 4;
         $scope.mostrarModalHorarios($scope.clinicaSeleccionada.Consultorios[0]);
     };
-    function mostrarInfo2() {
+
+    $scope.mostrarInformacion = function () {
         $scope.mostrarPanel = 1;
-    }
-    $scope.mostrarInformacion = function (e) {
-        
-        e.preventDefault();
-        mostrarInfo2();
+
     };
 });

@@ -364,7 +364,9 @@
         public string NombrePaciente { get; set; }
         public bool EstadoCita { get; set; }
         public bool Atendido { get; set; }
+        public TimeSpan HoraInicioCita { get; set; }
         public bool NoDisponible { get; set; }
         public string EstadoMostrar { get; set; }
+        public DateTime FechaCita { get; set; }
     }
 }
