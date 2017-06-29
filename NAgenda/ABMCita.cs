@@ -11,7 +11,7 @@ namespace NAgenda
     using Herramientas;
     using Datos;
     using System.Data.Linq;
-
+    using System.Threading;
     public class ABMCita
     {
         #region VariableGlobales
@@ -324,7 +324,7 @@ namespace NAgenda
 
         public static List<CitasDelClienteDto> ObtenerCitasPorCliente(string loginCliente)
         {
-
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
            return (from cita in dataContext.Cita
                          from cp in dataContext.Cliente_Paciente
                          from e in dataContext.Empresa
@@ -349,8 +349,10 @@ namespace NAgenda
                          Atendido = cita.atendido != null && cita.atendido.Value,
                          EstadoCita = cita.estado,
                          EstadoMostrar = cita.atendido != null && cita.atendido.Value ? "Atendida" : !cita.estado ? "Cancelada" : cita.fecha.CompareTo(DateTime.Now) < 0 ? "No disponible" : "",
-                         NoDisponible =  cita.fecha.CompareTo(DateTime.Now)<0
-                     }).ToList();
+                         NoDisponible =  cita.fecha.CompareTo(DateTime.Now)<0,
+                        FechaCita=cita.fecha,
+                        HoraInicioCita=cita.hora_inicio
+                     }).OrderByDescending(o=> o.FechaCita).ThenByDescending(d=> d.HoraInicioCita).ToList();
 
 
             //return (from cita in dataContext.Cita

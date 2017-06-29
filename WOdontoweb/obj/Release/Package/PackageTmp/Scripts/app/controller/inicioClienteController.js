@@ -28,7 +28,7 @@
 
             case error.PERMISSION_DENIED:
                 alert('No se ha podido mostrar su ubicacion, por permisos o por GPS desactivado');
-                
+
                 break;
 
             case error.POSITION_UNAVAILABLE:
@@ -101,8 +101,8 @@
                 alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
             }
         });
-
     }
+
     function enviarNotificacionCitas() {
         loginService.enviarNotificacionesDia();
     }
@@ -227,7 +227,7 @@
 
     };
     $scope.comoLlegar = function () {
-        console.log($scope.clinicaSeleccionada);
+        window.open('https://maps.google.com/maps?saddr='+ markerCurrent.getPosition().lat() + ',' + markerCurrent.getPosition().lng()+ '&daddr='  + $scope.clinicaSeleccionada.Latitud + ',' + $scope.clinicaSeleccionada.Longitud , '_blank');
         var end = new google.maps.LatLng($scope.clinicaSeleccionada.Latitud, $scope.clinicaSeleccionada.Longitud);
         calculateDistance(end);
     }
@@ -259,16 +259,16 @@
         $('#modalconfirmarCita').modal('hide');
     };
     function openInfoWindow(marker) {
-
+        directionsDisplay.setMap(null);
         point = marker.getPosition();
-         var markersTemp = markers.where(function (item) {
+        var markersTemp = markers.where(function (item) {
             return item.zIndex != -10000;
         });
         markersTemp.select(function (item) {
             if (item.zIndex != marker.zIndex)
                 item.setIcon($scope.baseURL + 'Content/img/marker.png');
         });
-        
+
         $scope.telefonosClinicaSeleccionada = "";
 
         for (var i = 0; i < $scope.clinicaSeleccionada.Telefonos.length; i++) {
