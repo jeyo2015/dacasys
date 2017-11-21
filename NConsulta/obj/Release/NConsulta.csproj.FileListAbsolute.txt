@@ -46,3 +46,5 @@ E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Release\NLogin.pdb
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\obj\Release\NConsulta.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\obj\Release\NConsulta.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\obj\Release\NConsulta.pdb
+E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Release\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Release\NuGet.Core.dll

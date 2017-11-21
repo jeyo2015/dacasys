@@ -63,17 +63,18 @@
             clinicaDto.FechaInicioLicencia = new DateTime(Convert.ToInt16(splitFecha[2]), Convert.ToInt16(splitFecha[1]),
                 Convert.ToInt16(splitFecha[0]));
             clinicaDto.logoImagen = (byte[])imageByte;
-            var insert = ABMEmpresa.InsertarClinica(clinicaDto, Session["loginusuario"].ToString());
+            var usuario = Session["loginusuario"] == null ? "cliente" : Session["loginusuario"].ToString();
+            var insert = ABMEmpresa.InsertarClinica(clinicaDto, usuario);
             var result = new ResponseModel()
             {
                 Message = insert == 1 ? "Se inserto correctamente la clinica" : "No se pudo insertar la clinica, intente de nuevo por favor",
                 Data = insert,
-                Success = insert == 1
+                Success = insert > 0
             };
             Session.Remove(clinicaDto.NombreArchivo);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-       
+
         public JsonResult ModificarClinica(ClinicaDto clinicaDto)
         {
             var splitFecha = clinicaDto.FechaInicioLicenciaString.Split('/');

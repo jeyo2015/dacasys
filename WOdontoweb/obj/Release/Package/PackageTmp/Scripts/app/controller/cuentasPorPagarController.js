@@ -2,7 +2,7 @@
     init();
 
     function init() {
-
+        $rootScope.mostrarMenu = true;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;

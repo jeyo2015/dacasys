@@ -62,8 +62,6 @@
       <Column Name="FechaDeModificacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="CantidadConsultorios" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Clinica_Clinica" Member="Clinica2" ThisKey="ID" OtherKey="ID" Type="Clinica" Cardinality="One" />
-      <Association Name="Clinica_Clinica" Member="Clinica1" ThisKey="ID" OtherKey="ID" Type="Clinica" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ComentariosClinica" Member="ComentariosClinica">
@@ -108,20 +106,6 @@
       <Column Name="fecha_inicio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="fecha_limite" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Empresa" Member="Empresa">
-    <Type Name="Empresa">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Login" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="NIT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
-      <Column Name="FechaCreacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="FechaModificacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="IDUsuarioCreador" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="IDClinica" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="IDIntervalo" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Empresa_Cliente" Member="Empresa_Cliente">
@@ -184,13 +168,6 @@
       <Column Name="iddia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="idempresa" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Licencia" Member="Licencia">
-    <Type Name="Licencia">
-      <Column Name="IDClinica" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="FechaInicio" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="FechaFin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.LogErrores" Member="LogErrores">
@@ -338,17 +315,36 @@
       <Column Name="dacasys" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.HistoricoFichaDet" Member="HistoricoFichaDet">
+    <Type Name="HistoricoFichaDet">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDHistoricoFichaCab" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Pieza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TrabajoRealizado" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HistoricoFichaTrabajo" Member="HistoricoFichaTrabajo">
+    <Type Name="HistoricoFichaTrabajo">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDHistoricoFichaCab" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Pieza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Costo" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.CuentasPorCobrar" Member="CuentasPorCobrar">
     <Type Name="CuentasPorCobrar">
       <Column Name="Descripcion" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Monto" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
       <Column Name="FechaRegistro" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="Login" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="IDTrabajo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDTrabajo" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Saldo" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
       <Column Name="IDConsultorio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDHistoricoFichaCab" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Paciente" Member="Paciente">
@@ -364,6 +360,136 @@
       <Column Name="sexo" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
       <Column Name="estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="antecedente" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Licencia" Member="Licencia">
+    <Type Name="Licencia">
+      <Column Name="IDClinica" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FechaInicio" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FechaFin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="TipoLicencia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empresa" Member="Empresa">
+    <Type Name="Empresa">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Login" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NIT" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="FechaModificacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="IDUsuarioCreador" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IDClinica" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IDIntervalo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HistoricoPaciente" Member="HistoricoPaciente">
+    <Type Name="HistoricoPaciente">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdHistoricoFichaCab" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ApellidoPaterno" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ApellidoMaterno" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Edad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sexo" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LugarNacimiento" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="FechaNacimiento" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Ocupacion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Direccion" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Telefono" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="GradoInstruccion" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="EstadoCivil" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NacionesOriginarias" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Idioma" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PersonaInformacion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ApellidoPaternoPI" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ApellidoMaternoPI" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NombresPI" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DireccionPI" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TelefonoPI" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AntPatFam" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Anemia" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Cardiopatias" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="EnfGastricas" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Hepatitis" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Tuberculosis" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Asma" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DiabetesMel" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Epilepsia" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Hipertension" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VIH" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OtrosAntP" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Alergias" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Embarazo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TratamientoMedico" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Medicamento" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="HemorragiaExtDent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ATM" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="GangliosLinf" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Respirador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OtrosExtOral" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Labios" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Lengua" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Paladar" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="PisoBoca" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MucosaYugal" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Encias" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="isProtesisDental" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FecUltVisita" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="isFuma" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isBebe" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OtroHabitos" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="isCepilloDental" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isHiloDental" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isEnjuagueBucal" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FrecCepDent" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="isSangreEncias" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HigieneBucal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Observaciones" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="Sext17_16" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Sext11" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Sext26_27" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Sext46_47" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Sext31" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Sext37_36" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cminuscula" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="E" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ominuscula" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalCEO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Cmayuscula" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="P" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ei" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Omayuscula" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalCPO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalPiezasSanas" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalPiezasDent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HistoricoFichaCab" Member="HistoricoFichaCab">
+    <Type Name="HistoricoFichaCab">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDPaciente" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdConsultorio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Titulo" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Odontograma" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Estado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ValoresOdontograma" Member="ValoresOdontograma">
+    <Type Name="ValoresOdontograma">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="T" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="P" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="Criterio" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ValoresPeriodontal" Member="ValoresPeriodontal">
+    <Type Name="ValoresPeriodontal">
+      <Column Name="ID" Type="System.String" DbType="VarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

@@ -34,3 +34,5 @@ E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NEventos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.dll
 E:\DACASYS\Odontoweb905\dacasys\NLogin\obj\Release\NLogin.pdb
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Release\NuGet.Core.dll

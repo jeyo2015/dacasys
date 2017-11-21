@@ -1626,7 +1626,9 @@ E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\NLogin.pdb
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\DataTableConverter.dll
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\Datos.dll
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\Herramientas.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\Microsoft.Web.XmlTransform.dll
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\NEventos.dll
+E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\NuGet.Core.dll
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\Herramientas.pdb
 E:\DACASYS\Odontoweb905\dacasys\NLogin\bin\Debug\NEventos.pdb

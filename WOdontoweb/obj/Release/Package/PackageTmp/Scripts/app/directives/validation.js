@@ -25,6 +25,10 @@
                         message = "No es un número válido";
                         validateRE = /^[0-9]*$/;
                         break;
+                    case 'periodontal':
+                        message = "Solo se permite valores: 0, 1, 2, 3, 4 o X";
+                        validateRE = /^[01234Xx]$/;
+                        break;
                     case 'telephone-number':
                         message = "No es un número telefono válido";
                         validateRE = /^[-\s0-9]*$/;

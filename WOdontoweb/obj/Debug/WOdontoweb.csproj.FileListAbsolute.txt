@@ -199,9 +199,12 @@ E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Herramientas.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.Infrastructure.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.WebPages.OAuth.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.XmlTransform.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\NAgenda.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\NConsulta.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Newtonsoft.Json.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\NLogin.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\NuGet.Core.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Helpers.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Mvc.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Optimization.dll
@@ -229,6 +232,7 @@ E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\DotNetOpenAuth.OAuth.Consumer.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\DotNetOpenAuth.OpenId.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.WebPages.OAuth.xml
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Newtonsoft.Json.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Helpers.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Mvc.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\System.Web.Razor.xml

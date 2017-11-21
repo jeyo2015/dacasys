@@ -19,3 +19,5 @@ E:\DACASYS\Odontoweb905\dacasys\NEventos\bin\Release\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NEventos\obj\Release\NEventos.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\NEventos\obj\Release\NEventos.dll
 E:\DACASYS\Odontoweb905\dacasys\NEventos\obj\Release\NEventos.pdb
+E:\DACASYS\Odontoweb905\dacasys\NEventos\bin\Release\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\NEventos\bin\Release\NuGet.Core.dll

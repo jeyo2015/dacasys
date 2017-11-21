@@ -184,3 +184,7 @@ E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Mono.Math.xml
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\es\EntityFramework.resources.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\es\System.Web.Providers.resources.dll
 E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\obj\Release\WOdontoweb.pdb
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Newtonsoft.Json.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\NuGet.Core.dll
+E:\DACASYS\Odontoweb905\dacasys\WOdontoweb\bin\Newtonsoft.Json.xml

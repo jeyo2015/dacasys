@@ -41,8 +41,8 @@
         ///           6 - No coincidepass
         ///           7 - Nombre Vacio
         /// </returns>
-        public static int Insertar(string nombre, string login, int iDEmpresa, int iDRol, 
-            string password, string passwordConfirma, bool? nuevoPassword,string idUsuario)
+        public static int Insertar(string nombre, string login, int iDEmpresa, int iDRol,
+            string password, string passwordConfirma, bool? nuevoPassword, string idUsuario)
         {
             //int v = ValidarCampos(nombre, login,idEmpresa,iDRol, password,passwordConfirma,nuevoPassword);
             //if (v != 0)
@@ -93,7 +93,7 @@
         ///           8 - No se pudo Modificar
         ///          
         /// </returns>
-        public static int Modificar(string nombre, string login, int idEmpresa, int idRol, 
+        public static int Modificar(string nombre, string login, int idEmpresa, int idRol,
             string password, string passwordConfirma, bool? nuevoPassword, string idUsuario)
         {
             //int v = ValidarCampos(nombre, login, idEmpresa, iDRol, password, passwordConfirma, nuevoPassword);
@@ -179,7 +179,7 @@
                 if (empleado != null)
                 {
                     if (empleado.Password == vPassEncriptada)
-                        if (lic == 1)
+                        if (lic == 1 || lic==-1)
                         {
 
                             sessionReturn.Verificar = 3;
@@ -190,6 +190,7 @@
                             sessionReturn.IDClinica = empresa.IDClinica;
                             sessionReturn.IDRol = empleado.IDRol;
                             sessionReturn.IsDacasys = idEmpresa.ToUpper().Equals("DACASYS");
+                            sessionReturn.Licencia = lic;
                             return sessionReturn;
                         }
                         else
@@ -338,25 +339,35 @@
         private static int VerificarLicencia(int idClinica)
         {
 
-            var lic = from l in dataContext.Licencia
-                      where l.IDClinica == idClinica
-                      orderby l.FechaInicio descending
-                      select l;
+            var lic = (from l in dataContext.Licencia
+                       where l.IDClinica == idClinica
+                       orderby l.FechaInicio descending
+                       select l).FirstOrDefault();
 
-            if (lic.Any())
+            if (lic != null)
             {
-                TimeSpan diff = lic.First().FechaFin.Subtract(DateTime.Now.AddHours(3));
-                int dias = diff.Days + 1;
-                if (dias > -3 && dias <= 0)
-                    return 0;
+                if (lic.TipoLicencia == 0)
+                {
+
+                    TimeSpan diff = lic.FechaFin.Subtract(DateTime.Now.AddHours(3));
+                    int dias = diff.Days + 1;
+                    if (dias > -3 && dias <= 0)
+                        return 0;
+                    else
+                        return 1;
+                }
                 else
-                    return 1;
+                {
+                    if (lic.TipoLicencia == 1)
+                        return -1;
+                }
+
             }
 
-            return -1;
+            return -2;
 
         }
-        
+
         #endregion
     }
 }

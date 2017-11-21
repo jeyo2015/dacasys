@@ -92,7 +92,9 @@ E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\NFacturacion.dll
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\NFacturacion.pdb
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\DataTableConverter.dll
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\Datos.dll
+E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\Microsoft.Web.XmlTransform.dll
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\NEventos.dll
+E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\NuGet.Core.dll
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\bin\Debug\NEventos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NFacturacion\obj\Debug\NFacturacion.csprojResolveAssemblyReference.cache

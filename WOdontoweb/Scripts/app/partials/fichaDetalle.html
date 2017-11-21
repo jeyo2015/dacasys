@@ -1,0 +1,1040 @@
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" style="overflow-y: auto" ng-controller="fichaDetalleController">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+            <span ng-click="volverAHistorico()"><i class="fa fa-chevron-left iconStyle">Volver</i> </span>
+            <h3 style="text-align: center">Ficha {{historicoFichaCab.Titulo}} </h3>
+        </div>
+        <form class="form-horizontal">
+            <a href="#datosPaciente" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Datos del paciente</a>
+            <div class="row collapse" id="datosPaciente">
+                <div class="row">
+
+
+                    <div class="form-group col-md-12">
+                        <label for="apellidoP" class="col-md-2 control-label">
+                            <required-field texto="Apellido Paterno:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.ApellidoPaterno" class="form-control" id="apellidoP" required>
+                        </div>
+                        <label for="apellidoM" class="col-md-2 control-label">
+                            <required-field texto="Apellido Materno:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.ApellidoMaterno" class="form-control" id="apellidoM" required>
+                        </div>
+                        <label for="titutoHistoricoID" class="col-md-2 control-label">
+                            <required-field texto="Nombres:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Nombre" class="form-control" id="titutoHistoricoID" validate="text-number" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="fechanac" class="col-md-2 control-label">
+                            <required-field texto="Edad:"> </required-field>
+                        </label>
+
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Edad" class="form-control" id="Text7" required>
+                        </div>
+                        <label for="selectSexo" class="col-md-2 control-label">
+                            Sexo
+                        </label>
+                        <div class="col-md-2">
+                            <select class="form-control" id="selectSexo" ng-model="historicoNuevo.Sexo">
+                                <option value="F" selected="selected">Femenino</option>
+                                <option value="M">Masculino</option>
+                            </select>
+                        </div>
+                        <label for="fechanac" class="col-md-2 control-label">
+                            <required-field texto="Fecha nacimiento:"> </required-field>
+                        </label>
+
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.FechaNacimiento" class="form-control" id="fechanac" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="lugarnac" class="col-md-2 control-label">
+                            <required-field texto="Lugar nacimiento:"> </required-field>
+                        </label>
+
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.LugarNacimiento" class="form-control" id="lugarnac" required>
+                        </div>
+                        <label for="ocupacion" class="col-md-2 control-label">
+                            Ocupacion:
+                        </label>
+
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Ocupacion" class="form-control" id="ocupacion" required>
+                        </div>
+                        <label for="direccion" class="col-md-2 control-label">Direccion:</label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Direccion" class="form-control" id="direccion">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group col-md-12">
+
+                        <label for="telefono" class="col-md-2 control-label">
+                            Telefono
+                        </label>
+
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Telefono" class="form-control" id="telefono" validate="number">
+                        </div>
+                        <label for="grado" class="col-md-2 control-label">
+                            Grado de Instruccion
+                        </label>
+
+                        <div class="col-md-2">
+                            <select class="form-control" id="grado" ng-model="historicoNuevo.GradoInstruccion">
+                                <option value="I" selected="selected">Inicial</option>
+                                <option value="P">Primaria</option>
+                                <option value="S">Secundaria</option>
+                                <option value="U">Universitario</option>
+                                <option value="T">Tecnico</option>
+                                <option value="L">Profesional</option>
+                            </select>
+                        </div>
+                        <label for="estadocivil" class="col-md-2 control-label">
+                            Estado civil
+                        </label>
+
+                        <div class="col-md-2">
+                            <select class="form-control" id="estadocivil" ng-model="historicoNuevo.EstadoCivil">
+                                <option value="S" selected="selected">Soltero</option>
+                                <option value="C">Casado</option>
+                                <option value="D">Divorciado</option>
+                                <option value="V">Viudo</option>
+                                <option value="U">Union libre</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="naciones" class="col-md-2 control-label">
+                            Naciones Originarias
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.NacionesOriginarias" class="form-control" id="Text4" required>
+                        </div>
+                        <label for="idioma" class="col-md-2 control-label">
+                            Idioma
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.Idioma" class="form-control" id="idioma" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="apellidoPI" class="col-md-3 control-label">
+                            Persona que brinda la informacion
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" ng-model="historicoNuevo.PersonaInformacion" class="form-control" id="Text6" required>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="apellidoPI" class="col-md-2 control-label">
+                            <required-field texto="Apellido Paterno:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.ApellidoPaternoPI" class="form-control" id="apellidoPI" required>
+                        </div>
+                        <label for="apellidoM" class="col-md-2 control-label">
+                            <required-field texto="Apellido Materno:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.ApellidoMaternoPI" class="form-control" id="Text8" required>
+                        </div>
+                        <label for="titutoHistoricoID" class="col-md-2 control-label">
+                            <required-field texto="Nombres:"> </required-field>
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.NombresPI" class="form-control" id="Text9" validate="text-number" required>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="direccionPI" class="col-md-2 control-label">
+                            Direccion
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.DireccionPI" class="form-control" id="direccionPI" required>
+                        </div>
+
+                        <label for="telefonoPI" class="col-md-2 control-label">
+                            Telefono
+                        </label>
+                        <div class="col-md-2">
+                            <input type="text" ng-model="historicoNuevo.TelefonoPI" class="form-control" id="telefonoPI" required>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <a href="#antecedentesDiv" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Antecedentes</a>
+            </div>
+            <div class="row collapse" id="antecedentesDiv">
+                <div class="form-group col-md-12">
+                    <h5 class="col-md-4 ">Antecedentes Patologicos Familiares
+                    </h5>
+                    <div class="col-md-8">
+                        <input type="text" ng-model="historicoNuevo.AntPatFam" class="form-control col-md-10" id="Text10" validate="text-number" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <h5 class="col-md-4 ">Antecedentes Patologicos Personales</h5>
+                </div>
+                <div class="row">
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Anemia" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Anemia
+                        </label>
+
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Cardiopatias" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Cardiopatias
+                        </label>
+
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.EnfGastricas" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> EnfGastricas
+                        </label>
+
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Hepatitis" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Hepatitis
+                        </label>
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Tuberculosis" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Tuberculosis
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Asma" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Asma
+                        </label>
+
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.DiabetesMel" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Diabetes Mel.
+                        </label>
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Epilepsia" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Epilepsia
+                        </label>
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.Hipertension" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Hipertension
+                        </label>
+                    </div>
+                    <div class="checkbox col-md-2">
+                        <label>
+                            <input ng-model="historicoNuevo.VIH" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> VIH
+                        </label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="otrae" class="col-md-1 control-label">
+                            Otros
+                        </label>
+                        <div class="col-md-3">
+                            <input type="text" ng-model="historicoNuevo.OtrosAntP" class="form-control" id="otrae">
+                        </div>
+
+                        <div class="btn-group col-md-3" style="margin: 0px 0px" data-toggle="buttons">
+                            <label class=" control-label">
+                                Alergias
+                            </label>
+                            <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="ale1" ng-model="historicoNuevo.Alergias" value="true" style="margin-top: 0px">Si</label>
+                            <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="ale2" ng-model="historicoNuevo.Alergias" value="false" style="margin-top: 0px">No</label>
+                        </div>
+
+                        <div class="btn-group col-md-4" data-toggle="buttons" style="margin: 0px 0px">
+                            <label class=" control-label ">
+                                Embarazo
+                            </label>
+                            <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="optradio1" ng-model="siEmbarazo" value="1" style="margin-top: 0px">Si</label>
+                            <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; height: 55px; padding-top: 0px; padding-left: 0px">
+                                <input type="text" ng-model="historicoNuevo.Embarazo" class="form-control " style="width: 20px" ng-show="siEmbarazo==1" /></label>
+                            <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="optradio2" ng-model="siEmbarazo" value="0" style="margin-top: 0px">No</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="tratamiento" class="col-md-3 control-label " style="text-align: left">
+                            Esta en tratamiento medico?
+                        </label>
+                        <div class="col-md-3">
+                            <input type="text" ng-model="historicoNuevo.TratamientoMedico" class="form-control" id="tratamiento">
+                        </div>
+                        <label for="medicamento" class="col-md-3 control-label " style="text-align: left">
+                            Actualmente recibe algun medicamento?
+                        </label>
+                        <div class="col-md-3">
+                            <input type="text" ng-model="historicoNuevo.Medicamento" class="form-control" id="medicamento">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="btn-group col-md-12" data-toggle="buttons" style="margin: 0px 0px">
+                        <label class=" control-label ">
+                            Tuvo hemorragia despues de una extraccion dental?
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="hemo1" ng-model="siExtraccion" value="1" style="margin-top: 0px">Si</label>
+                        <label ng-show="siExtraccion==1" class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; height: 55px; padding-top: 0px; padding-left: 0px">
+                            <select class="form-control" id="select1" ng-model="historicoNuevo.HemorragiaExtDent">
+                                <option value="1" selected="selected">Inmediata</option>
+                                <option value="2">Mediana</option>
+                            </select></label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="hemo2" ng-model="siExtraccion" value="0" style="margin-top: 0px">No</label>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <a href="#ExameExOraldiv" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Examen Extra Oral</a>
+            </div>
+            <div class="row collapse" id="ExameExOraldiv">
+                <div class="row">
+                    <label for="atm" class="col-md-2 control-label">
+                        ATM
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.ATM" class="form-control" id="atm">
+                    </div>
+                    <label for="linfaticos" class="col-md-2 control-label">
+                        Ganglios Linfaticos
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.GangliosLinf" class="form-control" id="linfaticos">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="respirador" class="col-md-2 control-label">
+                        Respirador
+                    </label>
+                    <div class="col-md-4">
+                        <select class="form-control" id="respirador" ng-model="historicoNuevo.Respirador">
+                            <option value="1" selected="selected">Nasal</option>
+                            <option value="2">Bucal</option>
+                            <option value="3">Buconasal</option>
+                        </select>
+                    </div>
+                    <label for="linfaticos" class="col-md-2 control-label">
+                        Otros
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.OtrosExtOral" class="form-control" id="Text12">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a href="#ExameInOraldiv" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Examen Intra Oral</a>
+            </div>
+            <div class="row collapse" id="ExameInOraldiv">
+                <div class="row">
+                    <label for="labios" class="col-md-2 control-label">
+                        Labios
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.Labios" class="form-control" id="labios">
+                    </div>
+                    <label for="lengua" class="col-md-2 control-label">
+                        Lengua
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.Lengua" class="form-control" id="lengua">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="paladar" class="col-md-2 control-label">
+                        Paladar
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.Paladar" class="form-control" id="paladar">
+                    </div>
+                    <label for="pisoboca" class="col-md-2 control-label">
+                        Piso de la boca
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.PisoBoca" class="form-control" id="pisoboca">
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="mucosa" class="col-md-2 control-label">
+                        Mucosa Yugal
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.MucosaYugal" class="form-control" id="mucosa">
+                    </div>
+                    <label for="encias" class="col-md-2 control-label">
+                        Encias
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.Encias" class="form-control" id="encias">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group col-md-6" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Utiliza protesis dental?
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="isProtesisDental1" ng-model="historicoNuevo.isProtesisDental" value="true" style="margin-top: 0px">Si</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="isProtesisDental2" ng-model="historicoNuevo.isProtesisDental" value="false" style="margin-top: 0px">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a href="#AntecBucoDiv" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Antecedentes Bucodentales</a>
+            </div>
+            <div class="row collapse" id="AntecBucoDiv">
+                <div class="row">
+                    <label for="ultimafecha" class="col-md-4 control-label">
+                        Fecha de la ultima visita odontologica
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.FecUltVisita" class="form-control" id="ultimafecha">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="btn-group col-md-6" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label col-md-2">
+                            Habitos
+                        </label>
+                        <div class="checkbox col-md-4">
+                            <label>
+                                <input ng-model="historicoNuevo.isFuma" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Fuma
+                            </label>
+
+                        </div>
+                        <div class="checkbox col-md-4">
+                            <label>
+                                <input ng-model="historicoNuevo.isBebe" type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Bebe
+                            </label>
+
+                        </div>
+                    </div>
+                    <label for="otroh" class="col-md-2 control-label">
+                        Otros
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="historicoNuevo.OtroHabitos" class="form-control" id="otroh">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a href="#AntecHigiDiv" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Antecedentes Higiene Bucal</a>
+            </div>
+            <div class="row collapse" id="AntecHigiDiv">
+                <div class="row">
+                    <div class="btn-group col-md-4" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Utiliza cepillo dental
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="cepillo1" ng-model="historicoNuevo.isCepilloDental" value="true" style="margin-top: 0px">Si</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="cepillo2" ng-model="historicoNuevo.isCepilloDental" value="false" style="margin-top: 0px">No</label>
+                    </div>
+                    <div class="btn-group col-md-4" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Utiliza hilo dental
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="hilo1" ng-model="historicoNuevo.isHiloDental" value="true" style="margin-top: 0px">Si</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="hilo2" ng-model="historicoNuevo.isHiloDental" value="false" style="margin-top: 0px">No</label>
+                    </div>
+                    <div class="btn-group col-md-4" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Utiliza enjuague bucal
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="enjuagu1" ng-model="historicoNuevo.isEnjuagueBucal" value="true" style="margin-top: 0px">Si</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="enjuagu2" ng-model="historicoNuevo.isEnjuagueBucal" value="false" style="margin-top: 0px">No</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <label for="frec" class="col-md-3 control-label">
+                        Frecuencia del cepillo dental
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" ng-model="historicoNuevo.FrecCepDent" class="form-control" id="frec">
+                    </div>
+                    <div class="btn-group col-md-6" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Durante el cepillado dental le sangra las encias?
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="sangre1" ng-model="historicoNuevo.isSangreEncias" value="true" style="margin-top: 0px">Si</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="sangre2" ng-model="historicoNuevo.isSangreEncias" value="false" style="margin-top: 0px">No</label>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="btn-group col-md-6" style="margin: 0px 0px" data-toggle="buttons">
+                        <label class=" control-label">
+                            Higiene bucal
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="bucal1" ng-model="historicoNuevo.HigieneBucal" value="1" style="margin-top: 0px">Buena</label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="bucal2" ng-model="historicoNuevo.HigieneBucal" value="2" style="margin-top: 0px">Regular
+                        </label>
+                        <label class="radio-inline control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                            <input type="radio" name="bucal3" ng-model="historicoNuevo.HigieneBucal" value="3" style="margin-top: 0px">Mala</label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a href="#periodontal" data-toggle="collapse" style="color: black; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 300; font-size: 18px">Estado periodontal</a>
+            </div>
+            <div class="row collapse" id="periodontal">
+                <div class="row">
+                    <div class="col-md-5">
+                        <table id="tbcriterios" class="table table-hover tableStyle">
+                            <thead>
+                                <tr>
+                                    <th>T.</th>
+                                    <th>P.</th>
+                                    <th>Criterio de diagnostico</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="criterio in criterios"
+                                    style="cursor: pointer;">
+                                    <td>{{criterio.T}}</td>
+                                    <td>{{criterio.P}}</td>
+                                    <td>{{criterio.Criterio}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table id="Table1" class="table table-hover tableStyle">
+
+                                    <tbody>
+                                        <tr ng-repeat="valor in valores"
+                                            style="cursor: pointer;">
+                                            <td>{{valor.ID}}</td>
+                                            <td>{{valor.Descripcion}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="Table2" class="table table-hover tableStyle">
+
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label for="perio1" class="col-md-3 control-label">
+                                                    17/16
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext17_16" class="form-control" id="perio1" validate="periodontal" maxlength="1">
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <label for="perio2" class="col-md-3 control-label">
+                                                    11
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext11" class="form-control" id="perio2" validate="periodontal" maxlength="1">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label for="perio3" class="col-md-3 control-label">
+                                                    26/27
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext26_27" class="form-control" id="perio3" validate="periodontal" maxlength="1">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="perio4" class="col-md-3 control-label">
+                                                    46/47
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext46_47" class="form-control" id="perio4" validate="periodontal" maxlength="1">
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <label for="perio5" class="col-md-3 control-label">
+                                                    31
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext31" class="form-control" id="perio5" validate="periodontal" maxlength="1">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <label for="perio6" class="col-md-3 control-label">
+                                                    37/36
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" ng-model="historicoNuevo.Sext37_36" class="form-control" id="perio6" validate="periodontal" maxlength="1">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <table id="tbconclusion" class="table table-hover tableStyle">
+                            <thead>
+                                <tr>
+                                    <th>c </th>
+                                    <th>e </th>
+                                    <th>o </th>
+                                    <th>Total ceo  </th>
+                                    <th>C</th>
+                                    <th>P</th>
+                                    <th>Ei</th>
+                                    <th>O</th>
+                                    <th>Total CPO</th>
+                                    <th>Total piezas sanas</th>
+                                    <th>Total piezas dentarias</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.Cminuscula" class="form-control" id="Text11">
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.E" class="form-control" id="Text13">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.Ominuscula" class="form-control" id="Text14">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.TotalCEO" class="form-control" id="Text15">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.Cmayuscula" class="form-control" id="Text16">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.P" class="form-control" id="Text17">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.Ei" class="form-control" id="Text18">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.Omayuscula" class="form-control" id="Text19">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.TotalCPO" class="form-control" id="Text20">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.TotalPiezasSanas" class="form-control" id="Text21">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="historicoNuevo.TotalPiezasDent" class="form-control" id="Text22">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="row pull-right">
+
+
+            <button class="btn btn-raised btn-primary" ng-click="limpiar()">Limpiar </button>
+            <button class="btn btn-raised btn-primary" ng-click="guardarHistorico()" ng-disabled="validarCamposHistoricos()">Guardar</button>
+
+
+        </div>
+
+
+        <div class="row col-md-12 col-xs-12" style="margin-top: 50px; overflow-x: auto" id="canvasdiv">
+            <h4>Odontograma</h4>
+            <canvas id="myCanvas" style="border: 1px solid #d3d3d3; display: block;">
+        </div>
+        <div class="row">
+            <h6>Seleccione trabajo</h6>
+            <!--<div class=" col-md-11 col-md-offset-1 row">-->
+            <div id="line1" class="btn-group" data-toggle="buttons">
+                <label class="radio-inline control-label" style="margin-top: 0px">
+                    <input type="radio" name="optradio1" ng-model="EstadoDefecto" value="1">Caries</label>
+                <label class="radio-inline control-label">
+                    <input type="radio" name="optradio2" ng-model="EstadoDefecto" value="2">Corona Temporal</label>
+                <label class="radio-inline control-label">
+                    <input type="radio" name="optradio2" ng-model="EstadoDefecto" value="4">Corona Fija</label>
+                <label class="radio-inline control-label">
+                    <input type="radio" name="optradio3" ng-model="EstadoDefecto" value="3">Diente ausente</label>
+                <label class="radio-inline control-label">
+                    <input type="radio" name="optradio4" ng-model="EstadoDefecto" value="5">Limpiar pieza</label>
+
+            </div>
+            <!--</div>-->
+        </div>
+        <div class="row pull-right">
+            <button class="btn btn-raised btn-primary" ng-disabled="!historicoFichaCab.Estado" ng-click="limpiarOdontograma()">Limpiar </button>
+            <button class="btn btn-raised btn-primary" ng-disabled="!historicoFichaCab.Estado" ng-click="guardarCambiosFicha()">Guardar </button>
+            <!--<button class="btn btn-raised btn-primary" ng-click="ingresarFicha()" ng-disabled="fichaPacienteSelected==null">Limpiar </button>-->
+        </div>
+        <div class="row">
+            <h4>Tratamiento</h4>
+            <div class="col-md-11 col-xs-11" max-heigth-table style="overflow-y: auto; padding-right: 0px; min-height: 100px">
+                `
+                <table id="tbtratamiento" class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Pieza</th>
+                            <th>Descripcion</th>
+                            <th>Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="fichaTrabajo in historicoFichaCab.FichaTrabajo| filterDeletedBool"
+                            style="cursor: pointer;" ng-class="{selectElement:fichaTrabajo.ID==fichaTrabajoSeleccionada.ID}" ng-click="selectFichaTrabajo(fichaTrabajo)">
+                            <td>{{fichaTrabajo.Pieza}}</td>
+                            <td>{{fichaTrabajo.Descripcion}}</td>
+                            <td>{{fichaTrabajo.Costo}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1 col-xs-1">
+
+                <span ng-click="openModalCrearFichaTrabajo()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                <span ng-show="fichaTrabajoSeleccionada!= null" ng-click="openModalConfirmacionEliminarT()"><i class="fa fa-trash iconStyle"></i></span>
+
+            </div>
+
+        </div>
+        <div class="row pull-right">
+            <button class="btn btn-raised btn-primary" ng-click="guardarTratamiento()" ng-disabled="!historicoFichaCab.Estado">Guardar  </button>
+            <!--<button class="btn btn-raised btn-primary" ng-click="ingresarFicha()" ng-disabled="fichaPacienteSelected==null">Limpiar </button>-->
+        </div>
+        <div class="row">
+            <h4>Trabajos realizados</h4>
+            <div class="col-md-11 col-xs-11" max-heigth-table style="overflow-y: auto; padding-right: 0px; min-height: 100px">
+                <table class="table table-hover tableStyle">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Pieza</th>
+                            <th>Trabajo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="fichaDetalle in historicoFichaCab.FichaDetalle| filterDeletedBool"
+                            style="cursor: pointer;" ng-class="{selectElement:fichaDetalleSeleccionada.ID==fichaDetalle.ID}" ng-click="selectFichaDetalle(fichaDetalle)">
+                            <td>{{fichaDetalle.Fecha}}</td>
+                            <td>{{fichaDetalle.Pieza}}</td>
+                            <td>{{fichaDetalle.TrabajoRealizado}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1 col-xs-1">
+
+                <span ng-click="openModalCrearFichaDetalle()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                <span ng-show="fichaDetalleSeleccionada!= null" ng-click="openModalConfirmacionEliminarD()"><i class="fa fa-trash iconStyle"></i></span>
+
+            </div>
+
+        </div>
+        <div class="row pull-right">
+            <button class="btn btn-raised btn-primary" ng-click="confirmarCitaAtendida()" ng-disabled="!historicoFichaCab.Estado">Guardar  </button>
+            <button class="btn btn-raised btn-primary" ng-click="openModalCerrarFicha()" ng-disabled="!historicoFichaCab.Estado">Cerrar </button>
+            <button class="btn btn-raised btn-primary" ng-click="openModalSeleccionar()" ng-disabled="!historicoFichaCab.Estado">Imprimir </button>
+
+            <!--<button class="btn btn-raised btn-primary" ng-click="ingresarFicha()" ng-disabled="fichaPacienteSelected==null">Limpiar </button>-->
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-confirmar-elimiar-tr" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar un tratamiento</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Esta seguro que quiere eliminar el tratamiento seleccionado?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarTrabajo()">Si</button>
+                    <button class="btn btn-danger" ng-click="cerrarModalTr()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-licencia-free" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Licencia gratuita</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>
+                                Lo sentimos mucho la licencia que tiene actualmente no le permite crear fichas de pacientes. Comuniquese al numero 79043252.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="closeModalLicencia()">Aceptar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-confirmar-eliminar-det" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Eliminar un trabajo realizado</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Esta seguro que quiere eliminar el trabajo seleccionado?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="eliminarDetalle()">Si</button>
+                    <button class="btn btn-danger" ng-click="cerrarModalDet()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="cita-atendida" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Cita atendida</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Desea marcar la cita como atendida?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="marcarAtendidaCerrarOTrabajo(true)">Si</button>
+                    <button class="btn btn-danger" ng-click="marcarAtendidaCerrarOTrabajo(false)">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-seleccionar-pdf" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Imprimir ficha</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="btn-group col-md-12" style="margin: 0px 0px" data-toggle="buttons">
+                            <label class=" control-label">
+                                Que desea imprimir :
+                            </label>
+                            <label class="control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="pdfall" ng-model="imprimirPdf" value="0" style="margin-top: 0px">Toda la ficha</label>
+                            <label class="control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="pdftt" ng-model="imprimirPdf" value="1" style="margin-top: 0px">Tratamientos y trabajos realizados</label>
+                            <label class=" control-label" style="margin-top: 0px; margin-left: 5px; padding-top: 0px">
+                                <input type="radio" name="pdft" ng-model="imprimirPdf" value="2" style="margin-top: 0px">Solo tratamientos</label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-disabled="validarOpcionesImprimir()" ng-click="exportarFicha()">Aceptar</button>
+                    <button class="btn btn-danger" ng-click="cerrarModalPS()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-nueva-ficha" data-backdrop="static" role="dialog">
+        <<div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Nuevo trabajo para la ficha</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="desInput" class="col-md-4  control-label">
+                                <required-field texto="Pieza:"></required-field>
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="fichaHistoricoTrabajoNueva.Pieza" required validate="number" id="desInput">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desInput" class="col-md-4  control-label">
+                                <required-field texto="Descripion:"></required-field>
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="fichaHistoricoTrabajoNueva.Descripcion" required validate="text-number" id="Text1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desInput" class="col-md-4  control-label">
+                                <required-field texto="Costo:"></required-field>
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="fichaHistoricoTrabajoNueva.Costo" required validate="number" id="Text2">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="agregarTrabajo()">Aceptar</button>
+                    <button class="btn btn-danger" ng-click="salirModalTrabajo()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-nuevo-detalle" data-backdrop="static" role="dialog">
+        <<div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Nuevo detalle para la ficha</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="desInput" class="col-md-4  control-label">
+                                <required-field texto="Pieza:"></required-field>
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="fichaHistoricoDetalleNuevo.Pieza" required validate="number" id="Text3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desInput" class="col-md-4  control-label">
+                                <required-field texto="Trabajo realizado:"></required-field>
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="fichaHistoricoDetalleNuevo.TrabajoRealizado" required validate="text-number" id="Text5">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="agregarDetalle()">Aceptar</button>
+                    <button class="btn btn-danger" ng-click="salirModaDetalle()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

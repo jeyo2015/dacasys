@@ -72,10 +72,15 @@ namespace NLogin
         ///          </returns>
         public static int InsertarClinica(ClinicaDto clinicaDto, string idUsuario)
         {
+            var clinicaDB = (from c in dataContext.Clinica
+                             where c.Login == clinicaDto.Login
+                             select c).FirstOrDefault();
+            if (clinicaDB != null) return -10;
             Clinica vClinicaDefault = new Clinica();
             vClinicaDefault.Nombre = clinicaDto.Nombre;
             vClinicaDefault.IDUsuarioCreacion = idUsuario;
             vClinicaDefault.Login = clinicaDto.Login;
+
             if (clinicaDto.logoImagen == null)
             {
                 vClinicaDefault.ImagenLogo = obtenerLogoDefecto();
@@ -102,14 +107,14 @@ namespace NLogin
                 int newIDClinica = ObtenerCodigo();
 
                 ControlBitacora.Insertar("Se inserto una Clinica", idUsuario);
-                ActivarLicencia(newIDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario);
+                ActivarLicencia(newIDClinica, clinicaDto.FechaInicioLicencia, clinicaDto.CantidadMeses, idUsuario, clinicaDto.TipoLicencia);
                 InsertarTelefonosClinica(clinicaDto.Telefonos, idUsuario, newIDClinica);
                 InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, newIDClinica);
                 clinicaDto.Consultorios[0].IDClinica = newIDClinica;
                 clinicaDto.Consultorios[0].Login = clinicaDto.Login;
                 clinicaDto.Consultorios[0].IDUsuarioCreador = idUsuario;
                 clinicaDto.Consultorios[0].NombreClinica = clinicaDto.Nombre;
-                return InsertarConsultorio(clinicaDto.Consultorios[0]);
+                return InsertarConsultorioDefault(clinicaDto);
             }
             catch (Exception ex)
             {
@@ -129,6 +134,78 @@ namespace NLogin
                 return null;
         }
 
+        private static int InsertarConsultorioDefault(ClinicaDto clinica)
+        {
+
+            var idEmpresa = (from e in dataContext.Empresa
+                             select e);
+            int newID = idEmpresa == null ? 1 : idEmpresa.Max(x => x.ID) + 1;
+            var consultorioDto = clinica.Consultorios[0];
+            var consultorioToSave = new Empresa()
+            {
+                Email = consultorioDto.Email,
+                Estado = true,
+                FechaCreacion = DateTime.Today,
+                FechaModificacion = DateTime.Today,
+                ID = newID,
+                IDClinica = consultorioDto.IDClinica,
+                IDIntervalo = consultorioDto.IDIntervalo,
+                IDUsuarioCreador = consultorioDto.IDUsuarioCreador,
+                Login = consultorioDto.Login,
+                NIT = consultorioDto.NIT
+            };
+            try
+            {
+                dataContext.Empresa.InsertOnSubmit(consultorioToSave);
+
+                dataContext.SubmitChanges();
+
+                ControlBitacora.Insertar("Se inserto un Consultorio", consultorioDto.IDUsuarioCreador);
+
+                //ActivarLicencia(consultorioDto.idClinica, 12, consultorioDto.IDUsuarioCreador);
+                // int vRD = Crear_Roles_default(sql.First().ID, idUsuario);
+                var IDrol = from r in dataContext.Rol
+                            where r.Nombre == "Administrador Dentista"
+                            && r.IDEmpresa == newID
+                            select r;
+                InsertarTelefonosConsultorio((from t in dataContext.Telefono
+                                              from tc in dataContext.TefonosClinica
+                                              where tc.IDClinica == consultorioDto.IDClinica
+                                              && t.ID == tc.IDTelefono
+                                              select new TelefonoDto
+                                              {
+                                                  ID = t.ID,
+                                                  IDClinica = tc.IDClinica,
+                                                  IDConsultorio = newID,
+                                                  Nombre = t.Nombre,
+                                                  State = 1
+                                              }).ToList(), consultorioDto.IDUsuarioCreador);
+                InsertarTrabajos(ObtenerTrabajosClinica(consultorioDto.IDClinica).Select(s => new TrabajosConsultorioDto
+                {
+                    ID = s.ID,
+                    IDConsultorio = newID,
+                    State = 1,
+                }).ToList(), newID, consultorioDto.IDUsuarioCreador);
+                SMTP vSMTP = new SMTP();
+                string vPass = Encriptador.GenerarAleatoriamente();
+
+                ABMUsuarioEmpleado.Insertar("Administrador", "admin", newID, IDrol.First().ID, vPass, vPass, true, consultorioDto.IDUsuarioCreador);
+                dataContext.SubmitChanges();
+
+                String vMensaje = "Bienvenido a Odontoweb, usted pertenece a la clinica" + consultorioDto.NombreClinica + " sus datos para ingresar\nal" +
+                                    " sistema son:\nConsultorio : " + consultorioDto.Login + " \nUsuario:admin \nPassword: " + vPass + "." +
+                                    "\nAl momento de ingresar se le pedira que actualice su contraseña."
+                                    + "\nSaludos,\nOdontoweb";
+                vSMTP.Datos_Mensaje(consultorioDto.Email, vMensaje, "Bienvenido a Odontoweb");
+                vSMTP.Enviar_Mail();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
+                return 0;
+            }
+        }
         private static byte[] RedimencionarImage(byte[] image)
         {
             MemoryStream ms = new MemoryStream(image);
@@ -256,6 +333,7 @@ namespace NLogin
                 InsertarTrabajosClinica(clinicaDto.Trabajos, idUsuario, clinicaDto.IDClinica);
                 dataContext.SubmitChanges();
                 InsertarTrabajosConsultorio(clinicaDto.Consultorios[0].IDConsultorio, clinicaDto.Trabajos);
+                InsertarTelefonosConsultorioMod(clinicaDto.Consultorios[0].IDConsultorio, clinicaDto.Telefonos);
                 //foreach (var consultorio in clinicaDto.Consultorios)
                 //{
 
@@ -270,12 +348,56 @@ namespace NLogin
                 //  catch (Exception ex)
                 //  {
                 //      ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "Modificar", ex);
-                return 0;
+                //return 0;
                 // }
             }
 
 
             return 0;
+        }
+        private static void InsertarTelefonosConsultorioMod(int idConsultorio, List<TelefonoDto> telefonos)
+        {
+            if (telefonos == null) return;
+            var telefonosInsertar = telefonos.Where(x => x.IsChecked);
+            try
+            {
+                foreach (var telefonoClinicaDto in telefonosInsertar)
+                {
+                    var temp = (from tc in dataContext.TelefonoConsultorio
+                                where tc.IDConsultorio == idConsultorio && tc.IDTelefono == telefonoClinicaDto.ID
+                                select tc).FirstOrDefault();
+                    if (temp == null)
+                    {
+                        var tel = new TelefonoConsultorio()
+                        {
+                            IDTelefono = telefonoClinicaDto.ID,
+                            IDConsultorio = idConsultorio
+                        };
+                        dataContext.TelefonoConsultorio.InsertOnSubmit(tel);
+                    }
+                }
+
+                var telefonosTodelete = telefonos.Where(x => !x.IsChecked);
+                foreach (var telefonoClinicaDto in telefonosTodelete)
+                {
+                    TelefonoDto dto = telefonoClinicaDto;
+                    var temp = (from tc in dataContext.TelefonoConsultorio
+                                where tc.IDConsultorio == idConsultorio && tc.IDTelefono == dto.ID
+                                select tc).FirstOrDefault();
+                    if (temp != null)
+                    {
+                        dataContext.TelefonoConsultorio.DeleteOnSubmit(temp);
+
+                    }
+
+                }
+                dataContext.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarTrabajosConsultorio", ex);
+            }
+
         }
 
         private static void InsertarTrabajosConsultorio(int idConsultorio, List<TrabajosClinicaDto> trabajos)
@@ -634,7 +756,7 @@ namespace NLogin
                         Consultorios = ObtenerConsultorioPorID(idConsultorio),
                         Trabajos = ObtenerTrabajosClinica(cli.ID, idConsultorio),
                         Status = 0,
-                        Telefonos = ObtenerTelefonosClinica(cli.ID),
+                        Telefonos = ObtenerTelefonosClinica(cli.ID, idConsultorio),
                         EsConsultorioDefault = c.Login == cli.Login
                     }).FirstOrDefault();
         }
@@ -680,15 +802,18 @@ namespace NLogin
                     from tc in dataContext.Tiempo_Consulta
                     from ue in dataContext.UsuarioEmpleado
                     from r in dataContext.Rol
+                    from l in dataContext.Licencia
                     where e.IDClinica == idClinica
                     && tc.ID == e.IDIntervalo
                    && ue.IDEmpresa == e.ID
                    && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
                    && ue.IDRol == r.ID
                    && r.IDEmpresa == e.ID
+                   && l.IDClinica==idClinica
                     select new ConsultorioDto()
                     {
                         Email = e.Email,
+                        TipoLicencia=l.TipoLicencia== null?-1:l.TipoLicencia.Value,
                         Estado = e.Estado,
                         FechaCreacion = e.FechaCreacion,
                         FechaModificacion = e.FechaModificacion,
@@ -698,7 +823,7 @@ namespace NLogin
                         IDUsuarioCreador = e.IDUsuarioCreador,
                         Login = e.Login,
                         NIT = e.NIT,
-                        Telefonos = ObtenerTelefonosConsultorios(e.ID, idClinica),
+                        Telefonos = ObtenerTelefonosClinica(idClinica, e.ID),
                         Trabajos = ObtenerTrabajosConsultorio(e.ID),
                         TiempoCita = tc.Value,
                         HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
@@ -723,18 +848,15 @@ namespace NLogin
             {
                 return (from e in dataContext.Empresa
                         from tc in dataContext.Tiempo_Consulta
-                        from ue in dataContext.UsuarioEmpleado
-                        from r in dataContext.Rol
                         from cl in dataContext.Clinica
+                        from tl in dataContext.Licencia
                         where tc.ID == e.IDIntervalo
                         && e.Estado
-                       && ue.IDEmpresa == e.ID
+                        && cl.ID==tl.IDClinica
                        && cl.ID == e.IDClinica
                     && !e.Login.ToUpper().Equals("DACASYS")
                         && !e.Login.ToUpper().Equals("DEFAULT")
-                            //  && (r.Nombre == "Administrador Dentista" || r.Nombre == "Administrador DACASYS")
-                       && ue.IDRol == r.ID
-                       && r.IDEmpresa == e.ID
+
                         select new ConsultorioDto()
                         {
                             Email = e.Email,
@@ -752,11 +874,33 @@ namespace NLogin
                             Trabajos = ObtenerTrabajosConsultorio(e.ID),
                             TiempoCita = tc.Value,
                             HorarioParaMapa = ObtenerHorarioParaMostrarMapa(e.ID),
-                            NombreDoctor = ue.Nombre
+                            TipoLicencia = tl.TipoLicencia == null ? -1 : tl.TipoLicencia.Value,
+                            NombreDoctor = getNombreDoctor(cl.ID)
                         }).ToList();
-            } catch(Exception ex){
+            }
+            catch (Exception ex)
+            {
                 ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerConsultorios", ex);
                 return new List<ConsultorioDto>();
+            }
+        }
+
+        private static string getNombreDoctor(int idEmpresa)
+        {
+            try
+            {
+
+                var consulta = (from tc in dataContext.TefonosClinica
+                                from t in dataContext.Telefono
+                                where tc.IDClinica == idEmpresa
+                                && t.ID == tc.IDTelefono
+                                select t.Nombre).FirstOrDefault();
+                return (consulta == null) ? "Sin nombre" : consulta;
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "getNombreDoctor", ex);
+                return "";
             }
         }
         public static List<HorarioMapaDto> ObtenerHorarioParaMostrarMapa(int idConsultorio)
@@ -825,9 +969,11 @@ namespace NLogin
                     }
                 }
                 return listaRetornar;
-            }catch(Exception ex){
-             ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
-             return new List<HorarioMapaDto>();
+            }
+            catch (Exception ex)
+            {
+                ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "InsertarConsultorio", ex);
+                return new List<HorarioMapaDto>();
             }
         }
 
@@ -857,7 +1003,9 @@ namespace NLogin
                             IDConsultorio = x.IDConsultorio,
                             State = 0
                         }).ToList();
-            }catch(Exception ex){
+            }
+            catch (Exception ex)
+            {
                 ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerTrabajosConsultorio", ex);
                 return new List<TrabajosConsultorioDto>();
             }
@@ -878,27 +1026,55 @@ namespace NLogin
                             Telefono = x.Telefono1,
                             ID = x.ID
                         }).ToList();
-            }catch(Exception ex){
+            }
+            catch (Exception ex)
+            {
                 ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerTelefonosConsultorios", ex);
                 return new List<TelefonoDto>();
             }
         }
 
-        public static List<TelefonoDto> ObtenerTelefonosClinica(int idClinica)
+        public static List<TelefonoDto> ObtenerTelefonosClinica(int idClinica, int idConsultorio)
         {
-            return (from t in dataContext.Telefono
-                    join tc in dataContext.TefonosClinica on t.ID equals tc.IDTelefono
-                    where t.Estado == true
-                    && tc.IDClinica == idClinica
-                    select t).Select(x => new TelefonoDto()
+            var TelefonosClinica = (from t in dataContext.Telefono
+                                    from tc in dataContext.TefonosClinica
+                                    where tc.IDClinica == idClinica
+                                    && t.ID == tc.IDTelefono
+                                    select t);
+            if (TelefonosClinica.Any())
+            {
+                var telefonosConsul = (from tc in dataContext.TelefonoConsultorio
+                                       where tc.IDConsultorio == idConsultorio
+                                       select tc.IDTelefono);
+                return TelefonosClinica.Select(x => new TelefonoDto()
                     {
                         IDClinica = idClinica,
-                        IDConsultorio = -1,
+                        IDConsultorio = idConsultorio,
                         Nombre = x.Nombre,
                         Telefono = x.Telefono1,
                         ID = x.ID,
-                        State = 0
+                        State = 0,
+                        IsChecked = telefonosConsul.Contains(x.ID)
                     }).ToList();
+            }
+            else
+            {
+                return new List<TelefonoDto>();
+            }
+
+            //var telefonoClinica = (from t in dataContext.Telefono
+            //                       join tc in dataContext.TefonosClinica on t.ID equals tc.IDTelefono
+            //                       where t.Estado == true
+            //                     && tc.IDClinica == idClinica
+            //                       select t).Select(x => new TelefonoDto()
+            //        {
+            //            IDClinica = idClinica,
+            //            IDConsultorio = -1,
+            //            Nombre = x.Nombre,
+            //            Telefono = x.Telefono1,
+            //            ID = x.ID,
+            //            State = 0
+            //        }).ToList();
         }
 
         public static int InsertarConsultorio(ConsultorioDto consultorioDto)
@@ -1097,7 +1273,7 @@ namespace NLogin
                             Consultorios = ObtenerConsultorios(c.ID),
                             Trabajos = ObtenerTrabajosClinica(c.ID),
                             Status = 0,
-                            Telefonos = ObtenerTelefonosClinica(c.ID)
+                            Telefonos = ObtenerTelefonosClinica(c.ID, 0)
                         }).ToList();
             list.ForEach(x => x.CantidadMeses = (int)(x.FechaFinLicencia.Subtract(x.FechaInicioLicencia).Days / 30));
             return list;
@@ -1140,14 +1316,24 @@ namespace NLogin
                             Consultorios = ObtenerConsultorios(x.ID),
                             Trabajos = ObtenerTrabajosClinica(x.ID),
                             Status = 0,
+                            TipoLicencia=obtenerTipoLicencia(x.ID),
                             // LogoParaMostrar = x.ImagenLogo != null ? ConvertImageToBase64String(x.ImagenLogo.ToArray()) : null,
-                            Telefonos = ObtenerTelefonosClinica(x.ID)
+                            Telefonos = ObtenerTelefonosClinica(x.ID, 0)
                         }).ToList();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 ControlLogErrores.Insertar("NLogin", "ABMEmpresa", "ObtenerClinicasHabilitadas", ex);
                 return new List<ClinicaDto>();
             }
+        }
+
+        public static int obtenerTipoLicencia(int idClinica) {
+            var lic = (from tl in dataContext.Licencia
+                       where tl.IDClinica == idClinica
+                       select tl).FirstOrDefault();
+            return (lic == null) ? -1 : lic.TipoLicencia.Value;
+        
         }
 
         /// <summary>
@@ -1345,10 +1531,11 @@ namespace NLogin
         /// <param name="idClinica">ID de la nueva empresa</param>
         /// <param name="mes">Cantidad de meses de la licencia</param>
         /// <param name="idUsuario">Id del usuario que realiza accion</param>
-        private static void ActivarLicencia(int idClinica, DateTime fechaInicioLicencia, int mes, string idUsuario)
+        private static void ActivarLicencia(int idClinica, DateTime fechaInicioLicencia, int mes, string idUsuario, int tipoLicencia)
         {
             Licencia vlicencia = new Licencia();
             vlicencia.IDClinica = idClinica;
+            vlicencia.TipoLicencia = tipoLicencia;
             vlicencia.FechaInicio = fechaInicioLicencia.AddHours(DirefenciaHora());
             vlicencia.FechaFin = fechaInicioLicencia.AddHours(DirefenciaHora()).AddDays(mes * 30);
             try

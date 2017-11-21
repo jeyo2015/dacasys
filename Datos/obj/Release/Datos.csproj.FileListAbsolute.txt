@@ -16,3 +16,5 @@ E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.dll
 E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\Datos\obj\Release\Datos.csprojResolveAssemblyReference.cache
+E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\Datos\bin\Release\NuGet.Core.dll

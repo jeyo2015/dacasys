@@ -2512,9 +2512,11 @@ E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NConsulta.pdb
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\DataTableConverter.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\Datos.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\Herramientas.dll
+E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\Microsoft.Web.XmlTransform.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NAgenda.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NEventos.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NLogin.dll
+E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NuGet.Core.dll
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\Datos.pdb
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\Herramientas.pdb
 E:\DACASYS\Odontoweb905\dacasys\NConsulta\bin\Debug\NAgenda.pdb

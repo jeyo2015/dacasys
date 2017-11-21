@@ -1,8 +1,8 @@
-﻿app.controller("cuentasPorCobrarController", function (cuentasService, pacienteService, $scope, $rootScope, loginService) {
+﻿app.controller("cuentasPorCobrarController", function (cuentasService, pacienteService, $scope, $rootScope, loginService, consultasService) {
     init();
 
     function init() {
-
+        $rootScope.mostrarMenu = true;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -88,7 +88,7 @@
         });
     }
     $scope.seleccionarCuenta = function (cuenta) {
-
+        console.log(cuenta);
         $scope.cuentaSeleccionada = cuenta;
         $scope.cuentaParaGuardar = angular.copy($scope.cuentaSeleccionada);
         $scope.cuentaParaGuardar.State = 2;
@@ -148,78 +148,93 @@
     };
 
     $scope.guardarNuevoPago = function () {
-        if ($scope.pagoParaGuardar.Monto > $scope.cuentaSeleccionada.Saldo) {
-            $scope.mostrarLabelMonto = true;
-            $('#montoInputp').focus();
-            return;
-        }
-        if ($scope.pagoParaGuardar.State == 1) {
-            cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
-                if (result.Data) {
-                    inicializarDatos();
-                    toastr.success(result.Message);
-                    prepararNuevaCuenta();
-                    $('#nuevo-pago').modal('hide');
-                    $('#detalle-cuenta').modal('hide');
-                    $scope.cuentaSeleccionada = null;
-                } else {
-                    toastr.error(result.Message);
-                }
-            });
+        if ($rootScope.sessionDto.Licencia == -1 || $rootScope.sessionDto.Licencia == 0) {
+            $('#modal-licencia-free').modal("show");
         } else {
-            cuentasService.modificarPago($scope.pagoParaGuardar).then(function (result) {
-                if (result.Data) {
-                    inicializarDatos();
-                    toastr.success(result.Message);
-                    $('#nuevo-pago').modal('hide');
-                    $('#detalle-cuenta').modal('hide');
-                } else {
-                    toastr.error(result.Message);
-                }
-            });
+            if ($scope.pagoParaGuardar.Monto > $scope.cuentaSeleccionada.Saldo) {
+                $scope.mostrarLabelMonto = true;
+                $('#montoInputp').focus();
+                return;
+            }
+            if ($scope.pagoParaGuardar.State == 1) {
+                cuentasService.insertarNuevoPago($scope.pagoParaGuardar).then(function (result) {
+                    if (result.Data) {
+                        inicializarDatos();
+                        toastr.success(result.Message);
+                        prepararNuevaCuenta();
+                        $('#nuevo-pago').modal('hide');
+                        $('#detalle-cuenta').modal('hide');
+                        $scope.cuentaSeleccionada = null;
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                });
+            } else {
+                cuentasService.modificarPago($scope.pagoParaGuardar).then(function (result) {
+                    if (result.Data) {
+                        inicializarDatos();
+                        toastr.success(result.Message);
+                        $('#nuevo-pago').modal('hide');
+                        $('#detalle-cuenta').modal('hide');
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                });
+            }
         }
     };
-   
+
     $scope.abrirModalPagos = function () {
         $('#detalle-cuenta').modal('show');
     };
+    $scope.abrirModalTratamiento = function () {
+        consultasService.obtenerHistoricoFichaCab($scope.cuentaSeleccionada.IDHistoricoFichaCab).then(function (result) {
+            $scope.listaTratamiento = result.FichaTrabajo;
+            $('#detalle-ficha').modal("show");
+
+        })
+
+    }
     $scope.guardarCuenta = function () {
-        
-        if ($scope.cuentaParaGuardar.Monto <= 0) {
-            $scope.mensajeErrorMonto = "El monto debe ser mayor a 0";
-            $scope.mostrarErrorMensajeMonto = true;
-            $('#montoInput').focus();
-            return;
-        }
-        if ($scope.cuentaParaGuardar.Monto < $scope.cuentaParaGuardar.sumaPagos) {
-            $scope.mensajeErrorMonto = "Monto invalido, debe ser mayor o igual a " + $scope.cuentaParaGuardar.sumaPagos;
-            $scope.mostrarErrorMensajeMonto = true;
-            $('#montoInput').focus();
-            return;
-        }
-        $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
-        $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
-        if ($scope.cuentaParaGuardar.State == 1) {
-            cuentasService.insertarNuevaCuenta($scope.cuentaParaGuardar).then(function (result) {
-                if (result.Data) {
-                    inicializarDatos();
-                    toastr.success(result.Message);
-                    $('#nueva-cuenta').modal('hide');
-                } else {
-                    toastr.error(result.Message);
-                }
-            });
+        if ($rootScope.sessionDto.Licencia == -1 || $rootScope.sessionDto.Licencia == 0) {
+            $('#modal-licencia-free').modal("show");
         } else {
-            cuentasService.modificarCuenta($scope.cuentaParaGuardar).then(function (result) {
-                if (result.Data) {
-                    inicializarDatos();
-                    toastr.success(result.Message);
-                    prepararNuevaCuenta();
-                    $('#nueva-cuenta').modal('hide');
-                } else {
-                    toastr.error(result.Message);
-                }
-            });
+            if ($scope.cuentaParaGuardar.Monto <= 0) {
+                $scope.mensajeErrorMonto = "El monto debe ser mayor a 0";
+                $scope.mostrarErrorMensajeMonto = true;
+                $('#montoInput').focus();
+                return;
+            }
+            if ($scope.cuentaParaGuardar.Monto < $scope.cuentaParaGuardar.sumaPagos) {
+                $scope.mensajeErrorMonto = "Monto invalido, debe ser mayor o igual a " + $scope.cuentaParaGuardar.sumaPagos;
+                $scope.mostrarErrorMensajeMonto = true;
+                $('#montoInput').focus();
+                return;
+            }
+            $scope.cuentaParaGuardar.IDTrabajo = $scope.trabajoSeleccionado.ID;
+            $scope.cuentaParaGuardar.Login = $scope.clienteSeleccionado.LoginCliente;
+            if ($scope.cuentaParaGuardar.State == 1) {
+                cuentasService.insertarNuevaCuenta($scope.cuentaParaGuardar).then(function (result) {
+                    if (result.Data) {
+                        inicializarDatos();
+                        toastr.success(result.Message);
+                        $('#nueva-cuenta').modal('hide');
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                });
+            } else {
+                cuentasService.modificarCuenta($scope.cuentaParaGuardar).then(function (result) {
+                    if (result.Data) {
+                        inicializarDatos();
+                        toastr.success(result.Message);
+                        prepararNuevaCuenta();
+                        $('#nueva-cuenta').modal('hide');
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                });
+            }
         }
     };
     $scope.abrirModalEditarCuenta = function () {
@@ -227,16 +242,20 @@
         $('#nueva-cuenta').modal('show');
     }
     $scope.eliminarPago = function () {
-        cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
-            if (result.Data) {
-                inicializarDatos();
-                toastr.success(result.Message);
-                $('#eliminar-pago').modal('hide');
-                $('#detalle-cuenta').modal('hide');
-            } else {
-                toastr.error(result.Message);
-            }
-        });
+        if ($rootScope.sessionDto.Licencia == -1 || $rootScope.sessionDto.Licencia == 0) {
+            $('#modal-licencia-free').modal("show");
+        } else {
+            cuentasService.eliminarPago($scope.pagoSeleccionado.ID).then(function (result) {
+                if (result.Data) {
+                    inicializarDatos();
+                    toastr.success(result.Message);
+                    $('#eliminar-pago').modal('hide');
+                    $('#detalle-cuenta').modal('hide');
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+        }
     };
     $scope.validarGuardarCuenta = function () {
         if ($scope.cuentaParaGuardar == undefined) return true;
@@ -244,16 +263,24 @@
             $scope.clienteSeleccionado == null || $scope.trabajoSeleccionado == null || $scope.cuentaParaGuardar.Estado != 0;
     };
     $scope.eliminarCuenta = function () {
-        cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function (result) {
-            if (result.Data) {
-                inicializarDatos();
-                toastr.success(result.Message);
-                $('#eliminar-cuenta').modal('hide');
-            } else {
-                toastr.error(result.Message);
-            }
-        });
+        if ($rootScope.sessionDto.Licencia == -1 || $rootScope.sessionDto.Licencia == 0) {
+            $('#modal-licencia-free').modal("show");
+        } else {
+            cuentasService.eliminarCuenta($scope.cuentaSeleccionada.ID).then(function (result) {
+                if (result.Data) {
+                    inicializarDatos();
+                    toastr.success(result.Message);
+                    $('#eliminar-cuenta').modal('hide');
+                } else {
+                    toastr.error(result.Message);
+                }
+            });
+        }
     };
+
+    $scope.closeModalLicencia = function () {
+
+    }
     //$scope.seleccionarPago = function (pago) {
     //    $scope.pagoSeleccionado = pago;
     //};

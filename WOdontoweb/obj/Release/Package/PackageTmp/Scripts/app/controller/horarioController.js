@@ -2,7 +2,7 @@
     init();
 
     function init() {
-
+        $rootScope.mostrarMenu = true;
         $scope.message = "";
         $scope.userSelected = null;
         if (!$rootScope.sessionDto) {

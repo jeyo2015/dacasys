@@ -21,29 +21,30 @@
         #region Metodos Publicos
         public static String ObtenerDatosCliente(String pLogin)
         {
-            return (from clientePaciente in dataContext.Cliente_Paciente
-                    from paciente in dataContext.Paciente
-                    where clientePaciente.id_usuariocliente == pLogin
-                    && clientePaciente.id_paciente == paciente.id_paciente
-                    && clientePaciente.IsPrincipal == true
-                    && paciente.estado
-                    select new PacienteDto()
-                    {
-                        Antecedentes = paciente.antecedente,
-                        Ci = paciente.ci,
-                        Direccion = paciente.direccion,
-                        Email = paciente.email,
-                        Estado = paciente.estado,
-                        LoginCliente = pLogin,
-                        NombrePaciente = paciente.nombre + " " + paciente.apellido,
-                        Nombre = paciente.nombre,
-                        Apellido = paciente.apellido,
-                        Telefono = paciente.nro_telefono,
-                        TipoSangre = paciente.tipo_sangre,
-                        IdPaciente = paciente.id_paciente,
-                        Sexo = paciente.sexo.ToString(),
-                        IsPrincipal = clientePaciente.IsPrincipal ?? false
-                    }).FirstOrDefault().NombrePaciente;
+            var pacienteBD = (from clientePaciente in dataContext.Cliente_Paciente
+                            from paciente in dataContext.Paciente
+                            where clientePaciente.id_usuariocliente == pLogin
+                            && clientePaciente.id_paciente == paciente.id_paciente
+                            && clientePaciente.IsPrincipal == true
+                            && paciente.estado
+                            select new PacienteDto()
+                            {
+                                Antecedentes = paciente.antecedente,
+                                Ci = paciente.ci,
+                                Direccion = paciente.direccion,
+                                Email = paciente.email,
+                                Estado = paciente.estado,
+                                LoginCliente = pLogin,
+                                NombrePaciente = paciente.nombre + " " + paciente.apellido,
+                                Nombre = paciente.nombre,
+                                Apellido = paciente.apellido,
+                                Telefono = paciente.nro_telefono,
+                                TipoSangre = paciente.tipo_sangre,
+                                IdPaciente = paciente.id_paciente,
+                                Sexo = paciente.sexo.ToString(),
+                                IsPrincipal = clientePaciente.IsPrincipal ?? false
+                            }).FirstOrDefault();
+            return pacienteBD==null?"":pacienteBD.NombrePaciente;
         }
         public static List<CuentasPorCobrarDetalleDto> ObtenerDetalles(int pIDCuenta)
         {
@@ -76,12 +77,13 @@
 
 
             return (from c in dataContext.CuentasPorCobrar
-                    from t in dataContext.Trabajos
-                    from ec in dataContext.Empresa_Cliente
+                    join t in dataContext.Trabajos on c.IDTrabajo equals t.ID into cuen
+                    from c2 in cuen.DefaultIfEmpty()
+                  //  from ec in dataContext.Empresa_Cliente
                     where c.IDConsultorio == pConsultorio
-                    && c.IDTrabajo == t.ID
-                    && ec.id_empresa == pConsultorio
-                    && ec.id_usuariocliente== c.Login
+                   // && c.IDTrabajo == t.ID
+                    //&& ec.id_empresa == pConsultorio
+                    //&& ec.id_usuariocliente== c.Login
                     select new CuentasPorCobrarDto
                     {
                         Descripcion = c.Descripcion,
@@ -91,13 +93,14 @@
                         FechaCreacion = c.FechaRegistro,
                         ID = c.ID,
                         IDConsultorio = c.IDConsultorio,
-                        IDTrabajo = c.IDTrabajo,
+                        IDTrabajo = c2 == null? -1 : c2.ID,
                         NombreCliente = ObtenerDatosCliente(c.Login),
                         Monto = c.Monto,
                         Saldo = c.Saldo,
                         Detalle = ObtenerDetalles(c.ID),
                         Login = c.Login,
-                        TrabajoDescripcion = t.Descripcion
+                        TrabajoDescripcion = c2== null? "Ficha de historico":c2.Descripcion,
+                        IDHistoricoFichaCab = c.IDHistoricoFichaCab
                     }).OrderByDescending(o => o.FechaCreacion).ToList();
         }
 

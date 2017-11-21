@@ -191,3 +191,15 @@ app.filter('filterDeleted', function () {
         return listFiltered;
     };
 });
+app.filter('filterDeletedBool', function () {
+    return function (items, expression) {
+        var listFiltered = [];
+
+        angular.forEach(items, function (value) {
+            if (!value.Eliminar) {
+                listFiltered.push(value);
+            }
+        });
+        return listFiltered;
+    };
+});

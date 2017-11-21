@@ -42,7 +42,10 @@
                         IDConsultorio = telefonoDto.IDConsultorio
                     });
                 }
+
+                dataContext.SubmitChanges();
             }
+
             catch (Exception) { }
         }
 

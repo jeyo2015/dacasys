@@ -40,3 +40,5 @@ E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NLogin.pdb
 E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.dll
 E:\DACASYS\Odontoweb905\dacasys\NAgenda\obj\Release\NAgenda.pdb
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\NAgenda\bin\Release\NuGet.Core.dll

@@ -325,6 +325,8 @@ D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.dll
 D:\DACASYS\Clone1506\dacasys\Herramientas\obj\Debug\Herramientas.pdb
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Debug\Herramientas.dll
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Debug\Herramientas.pdb
+E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Debug\Microsoft.Web.XmlTransform.dll
+E:\DACASYS\Odontoweb905\dacasys\Herramientas\bin\Debug\NuGet.Core.dll
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Debug\Herramientas.csprojResolveAssemblyReference.cache
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Debug\Herramientas.dll
 E:\DACASYS\Odontoweb905\dacasys\Herramientas\obj\Debug\Herramientas.pdb

@@ -55,7 +55,7 @@
     init();
     function init() {
         $scope.listaMarcadores = [];
-
+        $rootScope.mostrarMenu = true;
         if (!$rootScope.sessionDto) {
             loginService.getSessionDto().then(function (result) {
                 $rootScope.sessionDto = result;
@@ -68,6 +68,9 @@
 
 
     }
+    $scope.newTelefono = function () {
+
+    }
 
     function inicializarDatos() {
 
@@ -75,6 +78,7 @@
 
             $scope.intervalos = resultIntervalo;
             clinicaService.obtenerConsultorioConClinica($rootScope.sessionDto.IDConsultorio).then(function (result) {
+                console.log(result);
                 $scope.clinicaParaModificar = result;
                 $scope.clinicaParaModificar.Longitud = $scope.clinicaParaModificar.Longitud.replace(".", ",");
                 $scope.clinicaParaModificar.FechaInicioLicenciaString = moment(result.FechaInicioLicencia).format('DD/MM/YYYY');

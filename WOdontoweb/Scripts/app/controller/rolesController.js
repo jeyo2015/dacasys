@@ -2,6 +2,7 @@
     init();
 
     function init() {
+        $rootScope.mostrarMenu = true;
         $scope.allRoles = [];
         $scope.subString = "";
       

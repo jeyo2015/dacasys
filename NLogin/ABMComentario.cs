@@ -104,7 +104,8 @@
                                          Comentario = comentario.Comentario,
                                          IsVisible = comentario.IsVisible,
                                          FechaCreacion = comentario.FechaCreacion,
-                                         NombrePaciente = cp.Nombre
+                                         NombrePaciente = cp.Nombre,
+                                         IDComentario=comentario.ID
                                      }).ToList();
             comentariosDoctor.AddRange(comentariosCliente);
             return comentariosDoctor.OrderByDescending(o=> o.FechaCreacion).ToList();

@@ -1,0 +1,525 @@
+﻿  <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" style="overflow-y: auto" min-heigth ng-controller="loginController">
+    
+
+    <div  id="divcanvas" class="col-md-10 col-xs-12 col-md-offset-1">
+    <canvas id="canvas" >su navegador no soporta canvas :( </canvas>
+
+            <!--<div class="col-md-12 col-xs-12 ">
+
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-raised btn-primary col-md-12 col-xs-12 " ng-click="showModalIngresar(true)">
+                        Inicio consultorio</button>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-raised btn-primary col-md-12  col-xs-12 " ng-click="showModalIngresar(false)">Inicio usuario</button>
+                </div>
+
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-raised btn-primary col-md-12  col-xs-12 " ng-click="openModalregistrarCliente()">Registra tu usuario</button>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-raised btn-primary col-md-12  col-xs-12 " ng-click="openModalregistrarClinica()">Registra tu consultorio</button>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-raised btn-primary col-md-12  col-xs-12 " ng-click="abrirMapaInicio()">Busca tu consultorio</button>
+                </div>
+            </div>
+
+        </div>-->
+
+
+    </div>
+    <div>
+
+        <div class="modal fade" id="modal-registrarse" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Registrarse a Odontoweb</h4>
+                    </div>
+                    <div class="modal-body" max-heigth-modal style="overflow-y: auto">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="login" class="col-md-3 control-label">
+                                    <required-field texto="Email:"> </required-field>
+                                </label>
+
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="20" ng-model="pacienteParaGuardar.LoginCliente" class="form-control" id="login" ng-disabled="validarCliente()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ci" class="col-md-3 control-label">
+                                    <required-field texto="CI:"> </required-field>
+                                </label>
+
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="10" ng-model="pacienteParaGuardar.Ci" class="form-control" id="ci">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre" class="col-md-3 control-label">
+                                    <required-field texto="Nombre:"> </required-field>
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="30" ng-model="pacienteParaGuardar.Nombre" class="form-control" id="nombre">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido" class="col-md-3 control-label">
+                                    <required-field texto="Apellido:"> </required-field>
+                                </label>
+
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="30" ng-model="pacienteParaGuardar.Apellido" class="form-control" id="apellido">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion" class="col-md-3 control-label">Direccion:</label>
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="30" ng-model="pacienteParaGuardar.Direccion" class="form-control" id="direccion">
+                                </div>
+                            </div>
+                            <!--<div class="form-group">
+                                <label for="email" class="col-md-3 control-label">Email:</label>
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="30" ng-model="pacienteParaGuardar.Email" class="form-control" id="email">
+                                </div>
+                            </div>-->
+
+                            <div class="form-group">
+                                <label for="telefono" class="col-md-3 control-label">Telefono:</label>
+                                <div class="col-md-9">
+                                    <input type="text" maxlength="10" ng-model="pacienteParaGuardar.Telefono" class="form-control" id="telefono">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectSexo" class="col-md-3 control-label">
+                                    <required-field texto="Genero:"> </required-field>
+                                </label>
+
+                                <div class="col-md-9">
+                                    <select class="form-control" id="selectSexo" ng-model="selectSexo">
+                                        <option value="F" selected="selected">Femenino</option>
+                                        <option value="M">Masculino</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="registrarCliente()" ng-disabled="validarCamposPaciente()">Aceptar</button>
+
+                        <button class="btn btn-primary" ng-click="cerrarModalRegistrar()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-login-cliente" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Inicie sesion para continuar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input style="display: none">
+                            <input type="password" autocomplete="off" style="display: none" class="form-control" value="" id="xxx5">
+                            <input type="text" autocomplete="off" style="display: none" class="form-control" value="" id="xxx3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating">
+                                        <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
+
+                                        <div class="col-md-12">
+                                            <input type="text" ng-model="usuario" class="form-control" id="Text2" autocomplete="off">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==2 ">{{message}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
+                                        <div class="col-md-12">
+                                            <input type="password" ng-model="pass" class="form-control" id="passwordID" ng-keypress="enterLogIn($event)">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==4">{{message}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 linkForgotPass">
+                                        <a ng-click=" renovarContrasena()" style="color: #D82756; font-size: 11px">Olvidaste tu constraseña?</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="openModalregistrarCliente()">Registrarse</button>
+
+                        <button class="btn btn-primary" ng-click="ingresar()" ng-disabled="validarCamposInicioCliente()">Ingresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-renovar" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Renovar contrasena</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
+                                        <div class="col-md-12">
+                                            <input type="text" ng-disabled="true" ng-model="usuario" class="form-control" id="loginID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label for="newPasswordID" class="col-md-2 control-label">Contrasena</label>
+                                        <div class="col-md-12">
+                                            <input type="password" ng-model="newPass" class="form-control" id="newPasswordID">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <span style="color: #D82756; font-size: 11px" ng-show="showMessage">{{message}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label for="confirmPasswordID" style="text-align: left;" class="col-md-8 control-label">Repita Contrasena</label>
+                                        <div class="col-md-12">
+                                            <input type="password" ng-model="ConfirmPass" class="form-control" id="confirmPasswordID">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="changePassUser()" ng-disabled="validarCampos()">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-mi-perfil" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Mi perfil</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label for="loginuserID" class="col-md-3 control-label">Login</label>
+                                        <div class="col-md-9">
+                                            <input type="text" ng-disabled="true" ng-model="sessionDto.loginUsuario" class="form-control col-md-11" id="loginuserID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="nombreUserID" class="col-md-3 control-label">Nombre</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" ng-model="userToSave.Nombre" class="form-control" id="nombreUserID">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="newPasswordPerfilID" class="col-md-3 control-label">Contrasena</label>
+
+                                        <div class="col-md-9">
+                                            <input type="password" ng-model="userToSave.Password" class="form-control" id="newPasswordPerfilID">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span style="color: #D82756; font-size: 11px" ng-show="showMessage">{{message}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="confirmPasswordPerfilID" class="col-md-3 control-label">Repita Contrasena</label>
+
+                                        <div class="col-md-9">
+                                            <input type="password" ng-model="userToSave.ConfirmPass" class="form-control col-md-12" id="confirmPasswordPerfilID">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="updateUser()" ng-disabled="validarCamposPerfil()">Aceptar</button>
+                        <button class="btn btn-primary" ng-click="closeModal('#modal-mi-perfil')">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registrar-consultorio" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registra tu consultorio</h4>
+                </div>
+                <div class="modal-body" max-heigth-modal style="overflow-y: auto">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inpNombreClinicaid" class="col-md-4 control-label" title="Nombre Comercial de tu consultorio, ejemplo: Clinica Odontoweb.">
+                                Nombre del consultorio
+                            </label>
+
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="inpNombreClinicaid" ng-model="clinicToSave.Nombre" maxlength="100" required>
+                            </div>
+                        </div>
+
+                        <div id="grpLoginClinic" class="form-group">
+                            <label for="inpLoginClinic" class="col-md-4 control-label" title="Nombre para acceder de tu consultorio al sistema que debe ser único, sin espacios ni caracteres especiales, ejemplo: micliente123">
+                                Nombre de acceso
+                            </label>
+
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="inpLoginClinic" ng-model="clinicToSave.Login" required maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-md-4 control-label" title="Correo Electronico del Consultorio. En el siguiente correo electronico se enviará la contraseña de acceso al sistema, ejemplo: miemail@dacasys.com">
+                                Email
+                            </label>
+                            <div class="col-md-8">
+                                <input type="email" class="form-control" ng-model="consultorioToSave.Email" id="inputEmail">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+
+                                <img style="height: 100px; width: 100px" alt="Logo consultorio ">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="fileupload-buttonbar">
+                                    <span class="btn btn-primary fileinput-button">
+                                        <i class="fa fa-plus-circle" style="display: initial !important"></i>
+                                        <span style="display: initial !important">Seleccione logo del consultorio...</span>
+                                        <input id="fileupload" type="file" name="files[]">
+                                    </span>
+                                    <br />
+                                    <div id="progress" class="progress">
+                                        <div class="progress-bar progress-bar-success"></div>
+                                    </div>
+                                    <div id="files" class="files"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inpdireccion" class="col-md-4 control-label" title="Dirección literal de tu Consultorio, ejemplo: 3er anillo externo Comercial Neval local #61.">
+                                Direccion
+                            </label>
+
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="clinicToSave.Direccion" id="inpdireccion" maxlength="100" required>
+                            </div>
+                        </div>
+                        <div class=" form-group">
+                            <label for="lnkMapa" class="col-md-4 control-label ">Ubicacion </label>
+                            <label for="lnkMapa" class="col-md-2 control-label " title="Selecciona la ubicación de tu consultorio en el mapa. ">Longitud: {{clinicToSave.Longitud}} </label>
+                            <label for="lnkMapa" class="col-md-2 control-label " title="Selecciona la ubicación de tu consultorio en el mapa. ">Latitud: {{clinicToSave.Latitud}}</label>
+
+                            <a id="lnkMapa" href="#mapadiv" data-toggle="collapse" class="btn-link col-md-4" title="Selecciona la ubicación de tu consultorio en el mapa.">Ver mapa</a>
+
+                        </div>
+                        <div class="form-group collapse" id="mapadiv">
+                            <div id="mapaConsultorio"  class="col-md-offset-1 col-md-11 col-xs-12" style ="background-color: #fff; box-shadow: #CED2DB 0 1px 2px 0; margin-bottom: 5px; height: 300px">
+                            </div>
+
+                        </div>
+                        <div class="form-group" ng-hide="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
+                            <label for="inputTrabajo" class="col-md-4 control-label" title="Listado de los trabajos que se realizan en tu consultorio, ejemplo: Blanqueamiento, Ortodoncia, Endodoncia, etc.">Trabajos</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="inputTrabajo" ng-model="primerTrabajo">
+                            </div>
+
+                            <div class="col-md-1" ng-show="primerTrabajo.length>0" title="Agregar trabajo">
+                                <span ng-click="addTrabajo()"><i class="fa fa-check iconStyle"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="row " ng-show="clinicToSave.Trabajos.length>0 || trabajoClinicaSelected!= null">
+
+                            <label class="col-md-4 control-label" title="Listado de los trabajos que se realizan en tu consultorio, ejemplo: Blanqueamiento, Ortodoncia, Endodoncia, etc.">
+                                Trabajos
+                            </label>
+
+
+                            <div id="tablaTrabajosClinicaId" class="col-md-6" style="max-height: 112px; overflow-y: auto; border: 2px solid #ddd; margin-bottom: 20px; padding-right: 0px; padding-left: 0px">
+                                <div ng-repeat="trabajo in clinicToSave.Trabajos | filterDeleted" ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer; height: 36px; padding: 8px 8px; border-bottom: 1px solid #ddd">
+                                    {{trabajo.Descripcion}}
+                                </div>
+
+                            </div>
+                            <div class="col-md-1">
+                                <span ng-click="showNewRowTrabajoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                                <span ng-show="trabajoClinicaSelected!= null" ng-click="showUpdateRowTrabajoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                <span ng-show="trabajoClinicaSelected!= null" ng-click="deleteTrabajoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <label for="tableTelefonosClinicaID" class="col-md-4 control-label" title=" Listado de los Profesionales de la Odontología y sus respectivos teléfonos, ejemplo: Dr. Juan Perez - 7XXXXXXX ; Maria Vargas - 3XXXXXX">Telefonos</label>
+                            <div class="col-md-6" style="max-height: 150px; overflow-y: auto">
+                                <table id="tableTelefonosClinicaID" class="table table-hover tableStyleTelefono " id="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Telefono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="telefono in clinicToSave.Telefonos" ng-click="selectTelefonoClinica(telefono,$index)">
+                                            <td>{{telefono.Nombre}}</td>
+                                            <td>{{telefono.Telefono}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-1">
+                                <span ng-click="showNewRowTelefonoClinica()"><i class="fa fa-plus-circle iconStyle"></i></span>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
+                                <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="idIntervalo" class="col-md-4 control-label" title="Tiempo estimado de duracción de la consulta.">
+                                Tiempo consulta
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="idIntervalo" ng-options="intervalo.Descripcion for intervalo in intervalos" ng-model="intervaloSelected"></select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-disabled="validarCamposClinica()" ng-click="crearNuevaClinicaGratis()">Aceptar</button>
+
+                    <button class="btn btn-primary" ng-click="cerrarModalNuevoConsultorio()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-login" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Ingresar a Odontoweb</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" autocomplete="off">
+                        <input style="display: none">
+                        <input type="password" autocomplete="off" style="display: none" class="form-control" value="" id="xxx">
+                        <input type="text" autocomplete="off" style="display: none" class="form-control" value="" id="Text1">
+
+                        <div class="row" id="formLogin">
+                            <div class="col-md-12">
+                                <div class="form-group label-floating" ng-show="isAdmin" id="formGroupConsultorio">
+                                    <label for="consultorioID" class="col-md-2 control-label">Consultorio</label>
+
+                                    <div class="col-md-12">
+                                        <input type="text" ng-model="loginEmpresa" class="form-control" id="consultorioID" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==0 || sessionDto.Verificar==1">{{message}}{{sessionDto}} </span>
+                                    </div>
+                                </div>
+                                <div class="form-group label-floating" id="formGroupUsuario">
+                                    <label for="consultorioID" class="col-md-2 control-label">Usuario</label>
+
+                                    <div class="col-md-12">
+                                        <input type="text" ng-model="usuario" class="form-control" id="usuarioID" autocomplete="false">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==2 ">{{message}} </span>
+                                    </div>
+                                </div>
+                                <div class="form-group label-floating" id="formGroupPass">
+                                    <label for="consultorioID" class="col-md-2 control-label">Contrasena</label>
+                                    <div class="col-md-12">
+                                        <input type="password" ng-model="pass" autocomplete="off" class="form-control" value="" id="passwordIDLog" ng-keypress="enterLogIn($event)">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <span style="color: #D82756; font-size: 11px" ng-show="sessionDto.Verificar==4">{{message}} </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 linkForgotPass">
+                                    <a ng-click=" renovarContrasena()" style="color: #D82756; font-size: 11px">Olvidaste tu constraseña?</a>
+                                </div>
+                                <!--<div class="checkbox" style="margin-top: 20px">
+                                        <label>
+                                            <input ng-model="isAdmin" ng-click="cleanInputs()" type="checkbox"><span style="margin-right: 4px" class="check"></span> Soy Clinica
+                                        </label>
+                                    </div>-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--<button class="btn btn-primary" ng-click="openModalregistrarCliente()">Registrarse</button>-->
+                    <button class="btn btn-primary" ng-click="ingresar()" ng-disabled="validarCampos()">Ingresar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script type="text/javascript">
+    function inicializarCanvas() {
+        var canvas = document.getElementById("#canvas");
+        var X, Y, W, H, r;
+        canvas.height = 250;
+
+        if (canvas && canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            if (ctx) {
+                var s = getComputedStyle(canvas);
+                var w = s.width;
+                var h = s.height;
+
+                W = canvas.width = w.split("px")[0];
+                H = canvas.height = h.split("px")[0];
+
+                X = Math.floor(W / 2);
+                Y = Math.floor(H / 2);
+                r = Math.floor(W / 3);
+
+                dibujarEnElCanvas(ctx);
+            }
+        }
+    }
+
+    function dibujarEnElCanvas(ctx) {
+        ctx.strokeStyle = "#006400";
+        ctx.fillStyle = "#6ab155";
+        ctx.lineWidth = 5;
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            inicializarCanvas();
+            addEventListener("resize", inicializarCanvas);
+        }, 15);
+    });
+
+</script>-->

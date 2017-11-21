@@ -2,6 +2,7 @@
     init();
     var map;
     function init() {
+        $rootScope.mostrarMenu = true;
         $scope.listaMarcadores = [];
         cargarConsultorioPorCliente();
         $scope.dateSelected = moment().format('DD/MM/YYYY');

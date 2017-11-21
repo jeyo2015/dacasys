@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent"  style="overflow-y:auto"  ng-show="validarPermisoFormulario('frmConsultas')">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" style="overflow-y: auto" ng-show="validarPermisoFormulario('frmConsultas')">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-12 ">
             <div class="row">
@@ -10,7 +10,7 @@
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde " class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientes()" ng-disabled="!validarPermisoComponente('btnAgendarCita')">Agendar cita</button>
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && !citaSeleccionada.EstaEliminada" class="btn col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1  btn-raised btn-primary " ng-click="showModalCancelarCita()" ng-disabled="!validarPermisoComponente('btnCancelarCita')">Cancelar cita</button>
                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && !citaSeleccionada.EstaEliminada" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="showModalPacientesCliente()" ng-disabled="!validarPermisoComponente('btnAtenderCita')">Atender cita</button>
-                 <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && citaSeleccionada.EstaEliminada" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="habilitarHora()" ng-disabled="!validarPermisoComponente('btnAtenderCita')">Habilitar hora</button>
+                <button ng-show="citaSeleccionada!= null && !citaSeleccionada.EstaAtendida  && citaSeleccionada.EstaOcupada && !citaSeleccionada.EsTarde && citaSeleccionada.EstaEliminada" class="btn btn-raised btn-primary col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1" ng-click="habilitarHora()" ng-disabled="!validarPermisoComponente('btnAtenderCita')">Habilitar hora</button>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-1 col-xs-12">
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-disabled="pacienteSeleccionado==null" ng-click="agendarCita()">Agendar</button>
-                <button class="btn btn-danger" ng-click="closeModal('modal-seleccionar-cliente')" >Cancelar</button>
+                <button class="btn btn-danger" ng-click="closeModal('modal-seleccionar-cliente')">Cancelar</button>
             </div>
         </div>
     </div>
@@ -186,7 +186,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="mostrarModalNuevoHistorico()">Crear nuevo historico</button>
-                 <button class="btn btn-primary" ng-disabled="historicoPacienteSeleccionado==null" ng-click="mostrarDetalleHistorico()">Ver historico</button>
+                <button class="btn btn-primary" ng-disabled="historicoPacienteSeleccionado==null" ng-click="mostrarDetalleHistorico()">Ver historico</button>
                 <button class="btn btn-danger" ng-click="closeModal('modal-historico-paciente')" ng-disabled="validarCampos()">Cancelar</button>
             </div>
         </div>
@@ -204,10 +204,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                  <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
+                                <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
                                     <label for="buscarPacienteID" class="col-md-3 col-xs-3 control-label">Citas estimadas</label>
                                     <div class="col-md-9 col-xs-9">
-                                        <input ng-model="historicoPacienteSeleccionado.EstimacionCitas" ng-disabled="true" class="form-control" id="Textarea1"  /> 
+                                        <input ng-model="historicoPacienteSeleccionado.EstimacionCitas" ng-disabled="true" class="form-control" id="Textarea1" />
                                     </div>
                                 </div>
                                 <div class="form-group " ng-show="historicoPacienteSeleccionado.Estado">
@@ -274,27 +274,148 @@
 
                 <h4 class="modal-title">Nuevo historico para el paciente {{pacienteParaAtender.NombrePaciente}}</h4>
             </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                            <label for="titutoHistoricoID" class="col-md-2 control-label">Titulo historico</label>
-                            <div class="col-md-10">
-                                <input type="text" ng-model="historicoNuevo.TituloHistorico" class="form-control" id="titutoHistoricoID" validate="text-number" required>
+            <div class="modal-body" max-heigth-modal style="overflow-y: auto">
+                <div class="row">
+                    <form class="form-horizontal">
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <label for="titutoHistoricoID" class="col-md-2 control-label">Nombre: </label>
+                                <div class="col-md-10">
+                                    <input type="text" ng-model="historicoNuevo.Nombre" class="form-control" id="titutoHistoricoID" validate="text-number" required>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="citasEstimadasID" class="col-md-2 control-label">Apellidos:</label>
+                                <div class="col-md-10">
+                                    <input type="text" ng-model="historicoNuevo.Apellido" class="form-control" id="citasEstimadasID" validate="number" required>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="fechanac" class="col-md-2 control-label">Fecha nacimiento: </label>
+                                <div class="col-md-4">
+                                    <input type="text" ng-model="historicoNuevo.NumeroDocumento" class="form-control" id="fechanac" validate="number" required>
+                                </div>
+                                <label for="tipodoc" class="col-md-2 control-label">Lugar nacimiento:</label>
+                                <div class="col-md-4">
+                                    <input type="text" ng-model="historicoNuevo.TipoDocumento" class="form-control" id="Text4" validate="number" required>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="citasEstimadasID" class="col-md-2 control-label">Nacionalidad:</label>
+                                <div class="col-md-10">
+                                    <input type="text" ng-model="historicoNuevo.Apellidos" class="form-control" id="Text3" validate="number" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group ">
+                                <label for="nrodoc" class="col-md-2 control-label">Nro Documento:</label>
+                                <div class="col-md-4">
+                                    <input type="text" ng-model="historicoNuevo.NumeroDocumento" class="form-control" id="nrodoc" validate="number" required>
+                                </div>
+                                <label for="tipodoc" class="col-md-2 control-label">Tipo:</label>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="selectTipo" ng-model="selectTipo">
+                                        <option value="1" selected="selected">C.I.</option>
+                                        <option value="2">Pasaporte</option>
+                                        <option value="2">Carnet extranjero</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="citasEstimadasID" class="col-md-2 control-label">Direccion:</label>
+                                <div class="col-md-10">
+                                    <input type="text" ng-model="historicoNuevo.Direccion" class="form-control" id="Text6" validate="number" required>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="row">
+                                    <label for="citasEstimadasID" class="col-md-12 control-label" style="text-align: left">
+                                        ¿Esta el/la paciente bajo algún tratamiento o tomando 
+                                    algún medicamento?
+                                    </label>
+                                </div>
+                                <div class=" col-md-11 col-md-offset-1 row">
+                                    <label class="radio-inline control-label">
+                                        <input type="radio" name="optradio">a. No</label>
+                                    <label class="radio-inline control-label">
+                                        <input type="radio" name="optradio">b. Si(Especificar)</label>
+                                    <label class="radio-inline control-label">
+                                        <input type="radio" name="optradio">c. No se sabe</label>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <div class="row">
+                                    <label for="citasEstimadasID" class="col-md-12 control-label" style="text-align: left">
+                                        ¿Presenta alguna de las siguientes enfermedades o alteraciones?
+                                    </label>
+                                </div>
+                                <div class=" col-md-12 row">
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">a. Diabetes</label>
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">b. Enf. Cardiovascular</label>
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">c. Enf. Congenitas</label>
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">d. Otra(Especificar)</label>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <div class="row">
+                                    <label for="citasEstimadasID" class="col-md-12 control-label" style="text-align: left">
+                                        ¿Es alergico o ha reaccionado de forma adversa a algunos de los siguientes medicamentos?
+                                    </label>
+                                </div>
+                                <div class=" col-md-12 row">
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">a. Anestecico local</label>
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">b. Penicilina o derivados</label>
+                                    <label class="checkbox-inline control-label">
+                                        <input type="checkbox" name="optradio">d. Otra(Especificar)</label>
+
+                                </div>
+
                             </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="citasEstimadasID" class="col-md-2 control-label">Citas estimadas</label>
-                            <div class="col-md-10">
-                                <input type="text" ng-model="historicoNuevo.EstimacionCitas" class="form-control" id="citasEstimadasID" validate="number" required>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="row" style="float: left; width: 500px; overflow: auto;">
+                    <canvas id="myCanvas" height="150" width="600" style="border: 1px solid #d3d3d3;">
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="crearNuevoHistorico()">Aceptar</button>
                 <button class="btn btn-danger" ng-click="closeModal('modal-nuevo-historico')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-licencia-free-con" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Licencia gratuita</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>
+                            Lo sentimos mucho la licencia que tiene actualmente no le permite crear citas para su consultorio. Comuniquese al numero 79043252.
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="closeModalLicenciaCon()">Aceptar</button>
+
             </div>
         </div>
     </div>
@@ -337,4 +458,5 @@
             </div>
         </div>
     </div>
+
 </div>

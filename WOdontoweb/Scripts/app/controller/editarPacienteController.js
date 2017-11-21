@@ -1,4 +1,54 @@
 ﻿app.controller("editarPacienteController", function (pacienteService, $scope, $rootScope) {
+
+    $rootScope.mostrarMenu = true;
+    $rootScope.validarPermisoModulo = function (nombreModulo) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+                return modulo.NombreModulo == nombreModulo;
+            });
+            return listModulo.length <= 0 ? false : listModulo[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoFormulario = function (nombreFormulario) {
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listFormulario = $rootScope.sessionDto.Permisos.Formularios.where(function (formulario) {
+                return formulario.NombreFormulario == nombreFormulario;
+            });
+            return listFormulario.length <= 0 ? false : listFormulario[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+
+    $rootScope.validarPermisoComponente = function (nombreComponente) {
+
+        if ($rootScope.sessionDto && $rootScope.sessionDto.Permisos) {
+            var listComponente = $rootScope.sessionDto.Permisos.Componentes.where(function (componente) {
+                return componente.NombreComponente == nombreComponente;
+            });
+            return listComponente.length <= 0 ? false : listComponente[0].TienePermiso;
+        } else {
+            return false;
+        }
+    };
+    $rootScope.primerModulo = function () {
+        var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+            return modulo.TienePermiso === true;
+        });
+        return listModulo.length <= 0 ? 'inicioBotonera' : listModulo[0].NombreModulo;
+    };
+
+
+    $rootScope.primerModulo = function () {
+        var listModulo = $rootScope.sessionDto.Permisos.Modulos.where(function (modulo) {
+            return modulo.TienePermiso === true;
+        });
+        return listModulo.length <= 0 ? 'inicioBotonera' : listModulo[0].NombreModulo;
+    };
+
     function prepararDtoPaciente() {
         $scope.editarPacienteParaGuardar = {
             IDEmpresa: $rootScope.sessionDto.IDConsultorio

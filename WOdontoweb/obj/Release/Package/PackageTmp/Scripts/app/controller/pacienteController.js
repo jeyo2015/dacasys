@@ -1,7 +1,8 @@
-﻿app.controller("pacienteController", function (pacienteService, $scope, $rootScope, loginService) {
+﻿app.controller("pacienteController", function (pacienteService, $scope, $rootScope, loginService,$location) {
     init();
 
     function init() {
+        $rootScope.mostrarMenu = true;
         $scope.message = "";
         $scope.userSelected = null;
         if (!$rootScope.sessionDto) {
@@ -122,12 +123,12 @@
 
     $scope.validarCamposPaciente = function () {
         if ($scope.pacienteParaGuardar && $scope.pacienteParaGuardar.IsPrincipal && !$scope.agregarPaciente) {
-            return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
+            return $scope.pacienteParaGuardar == null || $scope.selectSexo == null 
        
         || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
-                || $scope.pacienteParaGuardar.Email.length <= 0 || !$rootScope.validarPermisoComponente('btnModificarCliente');
+                || !$rootScope.validarPermisoComponente('btnModificarCliente');
         } else {
-            return $scope.pacienteParaGuardar == null || $scope.selectSexo == null || $scope.selectTipoSangre == null
+            return $scope.pacienteParaGuardar == null || $scope.selectSexo == null 
             || $scope.pacienteParaGuardar.Nombre.length <= 0 || $scope.pacienteParaGuardar.Apellido.length <= 0
                 || !$rootScope.validarPermisoComponente('btnModificarPaciente');
         }
@@ -166,6 +167,7 @@
     $scope.guardarPaciente = function () {
         $scope.pacienteParaGuardar.Sexo = $scope.selectSexo;
         $scope.pacienteParaGuardar.TipoSangre = $scope.selectTipoSangre;
+        $scope.pacienteParaGuardar.Email = $scope.pacienteParaGuardar.LoginCliente;
         //$scope.clienteDeotraEmpresa = result.LoginCliente == "" ? false : true;
         //$scope.pacienteDeotraEmpresa = true;
         if ($scope.clienteDeotraEmpresa) {
@@ -222,7 +224,31 @@
         buscarPaciente();
         $scope.$apply();
     });
+    $scope.openModalPaciente = function () {
+       
+        pacienteService.obtenerPacientesPorClienteCita($scope.clienteSelected.LoginCliente).then(function (result) {
+            $scope.PacientesHistoricos = result;
+            $("#modal-seleccionar-paciente").modal("show");
+        }); 
+    }
+    $scope.seleccionarPacienteParaAtender = function (paciente) {
+        $scope.pacienteParaAtender = paciente;
+    };
+    $scope.closeModalPaciente = function () {
+        $scope.pacienteParaAtender = null;
+        $("#modal-seleccionar-paciente").modal("hide");
+    }
+    $scope.openHistorico = function () {
+        //$scope.pacienteParaAtender =$scope.pacienteSeleccionado;
+        $rootScope.pacienteSeleccionado = $scope.pacienteParaAtender;
 
+        $rootScope.sessionDto.IDPacienteSeleccionado = $scope.pacienteParaAtender.IdPaciente;
+        $rootScope.sessionDto.IDCitaSeleccionada = "";
+        $("#modal-seleccionar-paciente").modal("hide");
+        $('.modal-backdrop').remove();
+        $('body').removeClass("modal-open");
+        $location.path('/historicos');
+    };
     function buscarPaciente() {
 
         var ciTempo = angular.copy($scope.pacienteParaGuardar.Ci);

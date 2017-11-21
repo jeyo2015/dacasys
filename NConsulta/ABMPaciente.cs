@@ -97,8 +97,10 @@
                         Direccion = paciente.direccion,
                         Ci = paciente.ci,
                         Antecedentes = paciente.antecedente,
-                        IdPaciente = paciente.id_paciente
-                    }).ToList();
+                        IdPaciente = paciente.id_paciente,
+                        Nombre= paciente.nombre,
+                        Apellido = paciente.apellido
+                        }).ToList();
 
         }
 
@@ -190,8 +192,8 @@
                 apellido = pacienteDto.Apellido,
                 nro_telefono = pacienteDto.Telefono,
                 sexo = char.Parse(pacienteDto.Sexo),
-                tipo_sangre = pacienteDto.TipoSangre,
-                antecedente = pacienteDto.Antecedentes,
+                tipo_sangre = "O+",
+                antecedente = pacienteDto.Antecedentes ,
                 estado = true
             };
             try

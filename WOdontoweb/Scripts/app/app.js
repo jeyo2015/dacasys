@@ -28,6 +28,9 @@ app.config(['$routeProvider',
         }).when('/inicioCliente', {
             templateUrl: 'Scripts/app/partials/inicioCliente.html',
             controller: 'inicioClienteController'
+        }).when('/inicioBotonera', {
+            templateUrl: 'Scripts/app/partials/inicioBotonera.html',
+
         }).when('/usuarios', {
             templateUrl: 'Scripts/app/partials/usuarios.html',
             controller: 'usuariosController'
@@ -40,6 +43,10 @@ app.config(['$routeProvider',
             templateUrl: 'Scripts/app/partials/paciente.html'
         }).when('/comentario', {
             templateUrl: 'Scripts/app/partials/comentario.html'
+        }).when('/historicos', {
+            templateUrl: 'Scripts/app/partials/historicos.html'
+        }).when('/fichaDetalle', {
+            templateUrl: 'Scripts/app/partials/fichaDetalle.html'
         }).when('/miConsultorio', {
             templateUrl: 'Scripts/app/partials/miConsultorio.html'
         }).when('/misCitas', {
@@ -48,7 +55,7 @@ app.config(['$routeProvider',
             templateUrl: 'Scripts/app/partials/consultas.html',
             controller: 'consultasController'
         }).otherwise({
-            redirectTo: 'inicioCliente'
+            redirectTo: 'inicioBotonera'
         });
   }]);
 
@@ -59,6 +66,7 @@ app.factory('injectorDacasys', ['$rootScope', '$q', function ($rootScope, $q) {
 
             var urlRequest = config.url.split('/');
             if (urlRequest[urlRequest.length - 1] != 'DeshabilitarNuevasNotificaciones') {
+                
                 $("#divLoaderfull").show();
                 numLoadings++;
             }

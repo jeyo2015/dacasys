@@ -1,4 +1,4 @@
-﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent"  style="overflow-y: auto">
+﻿<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 divContent" style="overflow-y: auto">
     <div class="col-md-10 col-xs-12 col-md-offset-1">
         <div class="col-md-5 col-xs-11 ">
             <form class="form-horizontal">
@@ -132,45 +132,39 @@
                         <label for="Table1" class="col-md-4 control-label">Seleccione trabajo</label>
 
                         <div id="Div1" class="col-md-6 " style="max-height: 112px; overflow-y: auto; border: 2px solid #ddd; margin-bottom: 20px; padding-right: 0px; padding-left: 0px">
-                            <div class="col-md-12 " ng-repeat="trabajo in clinicaParaModificar.Trabajos" ng-click="selectTrabajoClinica(trabajo, $index)" style="cursor: pointer; height: 36px; padding: 8px 8px; border-bottom: 1px solid #ddd">
+                            <div class="col-md-12 " ng-repeat="trabajo in clinicaParaModificar.Trabajos" style="cursor: pointer; height: 36px; padding: 8px 8px; border-bottom: 1px solid #ddd">
                                 <div class="col-md-1">
                                     <input type="checkbox" ng-model="trabajo.IsChecked" />
                                 </div>
                                 <div class="col-md-10">{{trabajo.Descripcion}}</div>
                             </div>
                         </div>
-                        <!-- <table id="Table1" class="table table-hover tableStyle scroll">
-                                <tbody>
-                                    <tr ng-hide="trabajo.ID==-1" ng-repeat="trabajo in clinicaParaModificar.Trabajos" style="cursor: pointer;">
-                                        <td>
-                                            <input type="checkbox" ng-model="trabajo.IsChecked" />
-                                        </td>
-                                        <td>{{trabajo.Descripcion}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>-->
 
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <label for="tableTelefonosID" class="col-md-4 control-label">Telefonos</label>
-                            <div class="col-md-6 col-xs-11" style="max-height: 150px; overflow-y: auto">
+                            <div class="col-md-7 col-xs-11" style="max-height: 150px; overflow-y: auto">
                                 <table id="tableTelefonosID" class="table table-hover tableStyleTelefono " id="table2">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Nombre</th>
                                             <th>Telefono</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="telefono in consultorioToSave.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)" style="cursor: pointer;">
+                                        <tr ng-repeat="telefono in clinicaParaModificar.Telefonos" ng-click="selectTelefonoConsultorio(telefono,$index)" style="cursor: pointer;">
+                                            <td>
+                                                <input type="checkbox" ng-model="telefono.IsChecked" />
+                                            </td>
                                             <td>{{telefono.Nombre}}</td>
                                             <td>{{telefono.Telefono}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-1 col-xs-1">
+                            <!-- <div class="col-md-1 col-xs-1">
                                 <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-circle iconStyle"></i></span>
                                 <ul class="dropdown-menu">
                                     <li ng-click="addRowTable()"><a>Nuevo</a></li>
@@ -178,7 +172,7 @@
                                 </ul>
                                 <span ng-show="telefonoClinicaSelected!= null" ng-click="showUpdateTelefonoClinica()"><i class="fa fa-pencil-square-o iconStyle"></i></span>
                                 <span ng-show="telefonoClinicaSelected!= null" ng-click="deleteTelefonoClinica()"><i class="fa fa-trash iconStyle"></i></span>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="form-group">

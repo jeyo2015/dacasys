@@ -14,6 +14,10 @@
         public bool ChangePass { get; set; }
         public int IDRol { get; set; }
         public SessionPermisosDto Permisos { get; set; }
+        public int IDHistorico { get; set; }
+        public int IDPacienteSeleccionado { get; set; }
+        public string IDCitaSeleccionada { get; set; }
+        public int Licencia { get; set; }
     }
 
     public class CuentasPorCobrarDto
@@ -21,7 +25,7 @@
         public int ID { get; set; }
         public string Descripcion { get; set; }
         public decimal Monto { get; set; }
-        public int IDTrabajo { get; set; }
+        public int? IDTrabajo { get; set; }
         public string TrabajoDescripcion { get; set; }
         public string NombreConsultorio { get; set; }
         public decimal Saldo { get; set; }
@@ -32,6 +36,7 @@
         public DateTime FechaCreacion { get; set; }
         public string EstadoShort { get; set; }
         public string EstadoFull { get; set; }
+        public int? IDHistoricoFichaCab { get; set; }
         // public PacienteDto Cliente { get; set; }
         public List<CuentasPorCobrarDetalleDto> Detalle { get; set; }
     }
@@ -82,9 +87,20 @@
         public string ConfirmPass { get; set; }
         public bool Estado { get; set; }
     }
+    public class ValoresOdontogramaDto
+    {
+        public string T { get; set; }
+        public string P { get; set; }
+        public string Criterio { get; set; }
+    }
 
+    public class ValoresPeriodontalDto {
+        public string ID { get; set; }
+        public string Descripcion { get; set; }
+    }
     public class ConsultorioDto
     {
+        public int TipoLicencia { get; set; }
         public string Direccion { get; set; }
         public bool EsConsultorioDefault { get; set; }
         public int IDConsultorio { get; set; }
@@ -113,6 +129,7 @@
         public int IDClinica { get; set; }
         public string Telefono { get; set; }
         public string Nombre { get; set; }
+        public bool IsChecked { get; set; }
         public int State { get; set; }
     }
 
@@ -184,6 +201,7 @@
         public List<TrabajosClinicaDto> Trabajos { get; set; }
         public List<TelefonoDto> Telefonos { get; set; }
         public int Status { get; set; }
+        public int TipoLicencia { get; set; }
     }
 
     public class ModulosTree
@@ -212,7 +230,8 @@
         public int CantidadNuevasNotificaciones { get; set; }
     }
 
-    public class NotificacionCitas {
+    public class NotificacionCitas
+    {
         public int IDConsultorio { get; set; }
         public string Email { get; set; }
         public string IDCita { get; set; }
@@ -272,8 +291,218 @@
         public int EstadoABM { get; set; }
         public string EstadoString { get; set; }
         public List<HistoricoDetallePacienteDto> DetalleHistorico { get; set; }
+
     }
 
+    public class HistoricoFichaTrabajoDto
+    {
+        public int ID;
+
+        public int IDHistoricoFichaCab;
+
+        public int Pieza;
+
+        public string Descripcion;
+
+        public decimal Costo;
+        public bool Eliminar { get; set; }
+    }
+
+    public class HistoricoFichaDetalleDto
+    {
+        public int ID { get; set; }
+
+        public int IDHistoricoFichaCab { get; set; }
+
+        public System.DateTime Fecha { get; set; }
+
+        public int Pieza { get; set; }
+
+        public string TrabajoRealizado { get; set; }
+        public bool Eliminar { get; set; }
+    }
+    public class HistoricoFichaCabDto
+    {
+
+        public List<HistoricoFichaTrabajoDto> FichaTrabajo { get; set; }
+        public List<HistoricoFichaDetalleDto> FichaDetalle { get; set; }
+        public int ID { get; set; }
+
+        public int IDPaciente { get; set; }
+        public int IDConsultorio { get; set; }
+        public string Titulo { get; set; }
+
+        public DateTime? Fecha { get; set; }
+
+        public string Odontograma { get; set; }
+
+        public bool? Estado { get; set; }
+        public string EstadoString { get; set; }
+        public HistoricoPacienteOdontogramaDto HistoricoPaciente { get; set; }
+    }
+
+    public class HistoricoPacienteOdontogramaDto
+    {
+        public int ID { get; set; }
+
+        public int IdHistoricoFichaCab { get; set; }
+
+        public System.Nullable<System.DateTime> FechaCreacion { get; set; }
+
+        public string ApellidoPaterno { get; set; }
+
+        public string ApellidoMaterno { get; set; }
+
+        public string Nombre { get; set; }
+
+        public int Edad { get; set; }
+
+        public string Sexo { get; set; }
+
+        public string LugarNacimiento { get; set; }
+
+        public System.DateTime FechaNacimiento { get; set; }
+
+        public string Ocupacion { get; set; }
+
+        public string Direccion { get; set; }
+
+        public string Telefono { get; set; }
+
+        public string GradoInstruccion { get; set; }
+
+        public string EstadoCivil { get; set; }
+
+        public string NacionesOriginarias { get; set; }
+
+        public string Idioma { get; set; }
+
+        public string PersonaInformacion { get; set; }
+
+        public string ApellidoPaternoPI { get; set; }
+
+        public string ApellidoMaternoPI { get; set; }
+
+        public string NombresPI { get; set; }
+
+        public string DireccionPI { get; set; }
+
+        public string TelefonoPI { get; set; }
+
+        public string AntPatFam { get; set; }
+
+        public System.Nullable<bool> Anemia { get; set; }
+
+        public System.Nullable<bool> Cardiopatias { get; set; }
+
+        public System.Nullable<bool> EnfGastricas { get; set; }
+
+        public System.Nullable<bool> Hepatitis { get; set; }
+
+        public System.Nullable<bool> Tuberculosis { get; set; }
+
+        public System.Nullable<bool> Asma { get; set; }
+
+        public System.Nullable<bool> DiabetesMel { get; set; }
+
+        public System.Nullable<bool> Epilepsia { get; set; }
+
+        public System.Nullable<bool> Hipertension { get; set; }
+
+        public System.Nullable<bool> VIH { get; set; }
+
+        public string OtrosAntP { get; set; }
+
+        public System.Nullable<bool> Alergias { get; set; }
+
+        public System.Nullable<int> Embarazo { get; set; }
+
+        public string TratamientoMedico { get; set; }
+
+        public string Medicamento { get; set; }
+
+        public System.Nullable<int> HemorragiaExtDent { get; set; }
+
+        public string ATM { get; set; }
+
+        public string GangliosLinf { get; set; }
+
+        public System.Nullable<int> Respirador { get; set; }
+
+        public string OtrosExtOral { get; set; }
+
+        public string Labios { get; set; }
+
+        public string Lengua { get; set; }
+
+        public string Paladar { get; set; }
+
+        public string PisoBoca { get; set; }
+
+        public string MucosaYugal { get; set; }
+
+        public string Encias { get; set; }
+
+        public System.Nullable<bool> isProtesisDental { get; set; }
+
+        public System.Nullable<System.DateTime> FecUltVisita { get; set; }
+
+        public System.Nullable<bool> isFuma { get; set; }
+
+        public System.Nullable<bool> isBebe { get; set; }
+
+        public string OtroHabitos { get; set; }
+
+        public System.Nullable<bool> isCepilloDental { get; set; }
+
+        public System.Nullable<bool> isHiloDental { get; set; }
+
+        public System.Nullable<bool> isEnjuagueBucal { get; set; }
+
+        public string FrecCepDent { get; set; }
+
+        public System.Nullable<bool> isSangreEncias { get; set; }
+
+        public System.Nullable<int> HigieneBucal { get; set; }
+
+        public string Observaciones { get; set; }
+
+        public string Sext17_16 { get; set; }
+
+        public string Sext11 { get; set; }
+
+        public string Sext26_27 { get; set; }
+
+        public string Sext46_47 { get; set; }
+
+        public string Sext31 { get; set; }
+
+        public string Sext37_36 { get; set; }
+
+        public System.Nullable<int> Cminuscula { get; set; }
+
+        public System.Nullable<int> E { get; set; }
+
+        public System.Nullable<int> Ominuscula { get; set; }
+
+        public System.Nullable<int> TotalCEO { get; set; }
+
+        public System.Nullable<int> Cmayuscula { get; set; }
+
+        public System.Nullable<int> P { get; set; }
+
+        public System.Nullable<int> Ei { get; set; }
+
+        public System.Nullable<int> Omayuscula { get; set; }
+
+        public System.Nullable<int> TotalCPO { get; set; }
+
+        public System.Nullable<int> TotalPiezasSanas { get; set; }
+
+        public System.Nullable<int> TotalPiezasDent { get; set; }
+        public string FechaNacimientoString { get; set; }
+        public string UltimaVisitaString { get; set; }
+    }
     public class HistoricoDetallePacienteDto
     {
         public int IdConsultorio { get; set; }

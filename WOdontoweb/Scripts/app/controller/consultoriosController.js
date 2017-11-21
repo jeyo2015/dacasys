@@ -30,6 +30,7 @@
 
     var map;
     function init() {
+        $rootScope.mostrarMenu = true;
         $scope.baseURL = $("#basePath").attr("href");
         $scope.listaMarcadores = [];
         $scope.allClinicas = [];
@@ -108,7 +109,8 @@
         //});
         //markers.push(markerCurrent);
         //map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-        $scope.latlngActual = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        //$scope.latlngActual = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        $scope.latlngActual = position;//new google.maps.LatLng(-17.783198, -63.182046);
         CrearMarcador(0, $scope.latlngActual);
         map.setCenter($scope.latlngActual);
 
@@ -120,11 +122,12 @@
     }
 
     function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, onError);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
+        showPosition(new google.maps.LatLng(-17.783198, -63.182046));
+        //if (navigator.geolocation) {
+        //    navigator.geolocation.getCurrentPosition(showPosition, onError);
+        //} else {
+        //    x.innerHTML = "Geolocation is not supported by this browser.";
+        //}
     }
     function removerMarcador() {
         if ($scope.listaMarcadores) {
@@ -336,7 +339,7 @@
         $("#tableTelefonosClinicaID").append(content);
         $("#nombreClinicaID").focus();
     };
-
+    
     $scope.showUpdateTelefonoClinica = function () {
         $scope.consultorioSeleccionado = null;
         $scope.clinicToSave.Telefonos.splice($scope.indexTelefonoClinicaSelected, 1);

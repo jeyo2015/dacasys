@@ -14,12 +14,17 @@ namespace WOdontoweb.Controllers
             var sessionDto = new Herramientas.SessionDto
             {
                 loginUsuario = Session["loginusuario"] == null ? "" : Session["loginusuario"].ToString(),
+                IDCitaSeleccionada = Session["IDCitaSeleccionada"] == null ? "" : Session["IDCitaSeleccionada"].ToString(),
                 IDConsultorio = Session["IDConsultorio"] == null ? -1 : Convert.ToInt32(Session["IDConsultorio"].ToString()),
                 IDClinica = Session["IDClinica"] == null ? -1 : Convert.ToInt32(Session["IDClinica"].ToString()),
                 Nombre = Session["NombreUser"] == null ? "" : Session["NombreUser"].ToString(),
                 IDRol = Session["IDRol"] == null ? -1 : Convert.ToInt32(Session["IDRol"].ToString()),
                 IsDacasys = Session["IsDacasys"] != null && Convert.ToBoolean(Session["IsDacasys"].ToString()),
                 ChangePass = Session["changePass"] != null && Convert.ToBoolean(Session["changePass"].ToString()),
+                Verificar = Session["Verificar"] == null ? -1 : Convert.ToInt32(Session["Verificar"].ToString()),
+                Licencia = Session["Licencia"]== null?-2:Convert.ToInt32(Session["Licencia"].ToString()),
+                IDHistorico = Session["IDHistorico"] == null ? 0 : Convert.ToInt32(Session["IDHistorico"].ToString()),
+                IDPacienteSeleccionado = Session["IDPacienteSeleccionado"] == null ? 0 : Convert.ToInt32(Session["IDPacienteSeleccionado"].ToString())
             };
             sessionDto.Permisos = Seguridad.ObtenerPermisos(sessionDto.IDRol);
             return Json(sessionDto, JsonRequestBehavior.AllowGet);
@@ -50,12 +55,17 @@ namespace WOdontoweb.Controllers
         public JsonResult CerrarSesion()
         {
             Session["loginusuario"] = null;
+            Session["IDCitaSeleccionada"] = null;
             Session["IDConsultorio"] = null;
             Session["IDClinica"] = null;
             Session["NombreUser"] = null;
             Session["IsDacasys"] = null;
             Session["changePass"] = null;
             Session["IDRol"] = null;
+            Session["Verificar"] = null;
+            Session["IDPacienteSeleccionado"] = null;
+            Session["IDHistorico"] = null;
+            Session["Licencia"] = null;  
             return GetSessionDto();
         }
 
@@ -146,6 +156,7 @@ namespace WOdontoweb.Controllers
                         Session["IsDacasys"] = sessionDto.IsDacasys.ToString();
                         Session["changePass"] = sessionDto.ChangePass;
                         Session["IDRol"] = sessionDto.IDRol;
+                        Session["Licencia"] = sessionDto.Licencia;
                         sessionDto.Permisos = Seguridad.ObtenerPermisos(sessionDto.IDRol);
                         Session["Permisos"] = sessionDto.Permisos;
                         break;

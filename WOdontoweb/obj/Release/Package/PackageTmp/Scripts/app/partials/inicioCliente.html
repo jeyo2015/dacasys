@@ -17,10 +17,32 @@
     </div>
 
 </div>
-
-<div class="col-md-10 col-xs-12 col-md-offset-1 divContentMap " min-heigth id="mapa">
+<div class="row " ng-show="!mostrarMenu" style="padding-top:10px;padding-bottom:10px">
+    <div class="col-md-10 col-xs-12 col-md-offset-1"><span ng-click="atras()"><i class="fa fa-chevron-left iconStyle">Atras</i> </span></div>
+    
+</div>
+<div class="col-md-10 col-xs-12 col-md-offset-1 divContentMap "  style="margin-top:10px" min-heigth id="mapa">
 </div>
 
+
+<div class="modal fade" id="modal-canvas-test" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Enviar solicitud</h4>
+            </div>
+            <div class="modal-body">
+                  <canvas id="myCanvas" width="1000" height="150" style="border:1px solid #d3d3d3;">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="enviarNotificacion()">Enviar solicitud</button>
+                <button class="btn btn-danger" ng-click="cerrarSolicitud()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modal-ver-mas" data-backdrop="static" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
@@ -50,7 +72,7 @@
                             <div class="navbar-collapse collapse navbar-responsive-collapse">
                                 <ul class="nav navbar-nav">
                                     <li ng-class="{'activeButton': mostrarPanel ==1 }" style="cursor: pointer"><a href="#" ng-click="mostrarInformacion($event)"><i class="fa fa-info iconMenu "></i>Informacion</a></li>
-                                    <li ng-class="{'activeButton': mostrarPanel ==4 }" style="cursor: pointer"><a href="#" ng-click="mostrarHorarios($event)"><i class="fa fa-calendar iconMenu "></i>Horarios</a></li>
+                                    <li ng-class="{'activeButton': mostrarPanel ==4 }" style="cursor: pointer"><a href="#" ng-click="mostrarHorarios($event)"><i class="fa fa-calendar iconMenu "></i>Agendar</a></li>
                                     <li ng-class="{'activeButton': mostrarPanel ==3 }" style="cursor: pointer"><a href="#" ng-click="mostrarComentarios($event)"><i class="fa fa-align-justify  iconMenu "></i>Comentarios</a></li>
                                     <li ng-class="{'activeButton': mostrarPanel ==2 }" style="cursor: pointer"><a href="#" ng-click="mostrarContactenos($event)"><i class="fa fa-phone iconMenu "></i>Contactenos</a></li>
                                 </ul>
@@ -216,7 +238,29 @@
         </div>
     </div>
 
+<div class="modal fade" id="modal-licencia-free-cl" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Opcion deshabilitada</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>
+                                Lo sentimos mucho pero el consultorio no tiene habilitada esta opcion. 
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="closeModalLicencia()">Aceptar</button>
 
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="modal fade" id="enviar-notificacion" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
